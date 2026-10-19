@@ -1,0 +1,10 @@
+pandas
+nba_api
+pulp
+# Future Steps / Scraping
+beautifulsoup4
+tweepy
+requests
+scipy
+# Later Steps (L4)
+scikit-learn

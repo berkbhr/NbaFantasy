@@ -1,0 +1,23 @@
+# Yahoo OAuth credentials & secrets
+config/yahoo_oauth.json
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Task logs & transcripts
+*.log
+.system_generated/

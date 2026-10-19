@@ -1,0 +1,9 @@
+{
+  "client_id": "YAHOO_DEVELOPER_CLIENT_ID_BURAYA",
+  "client_secret": "YAHOO_DEVELOPER_CLIENT_SECRET_BURAYA",
+  "refresh_token": "YAHOO_OAUTH2_REFRESH_TOKEN_BURAYA",
+  "access_token": "",
+  "token_expiry": 0,
+  "league_key": "454.l.LIG_ID_BURAYA",
+  "team_key": "454.l.LIG_ID_BURAYA.t.8"
+}
