@@ -1,25 +1,25 @@
-# 14 Takımlı Yahoo NBA Fantasy Ligi: Draft Özeti, Kadrolar ve Model Projeksiyonları
+# 14-Team Yahoo NBA Fantasy League: Draft Summary, Rosters & Model Projections
 
-> **Doküman Niteliği:** Bu belge, 18 Ekim 2026 tarihinde gerçekleştirilen 14 takımlı canlı Yahoo Fantasy draftının seçim sıralamasını, oluşan kadroları, Poisson-Binomial simülasyon modelinin çıktılarını ve Yahoo resmi sıralama verisini **tamamen tarafsız, nesnel ve yorumsuz** olarak sunmak amacıyla hazırlanmıştır.
-
----
-
-## 1. Temel Lig Bilgileri ve Format
-
-- **Format:** 9-Kategori Head-to-Head (H2H)
-- **Kategoriler:** Points (PTS), Rebounds (REB), Assists (AST), Steals (STL), Blocks (BLK), 3-Pointers Made (FG3M), Turnovers (TOV), Field Goal Percentage (FG%), Free Throw Percentage (FT%)
-- **Takım Sayısı:** 14
-- **Kadro Boyutu:** 13 Oyuncu (10 Aktif Kadro Yuvası + 3 Yedek Yuvası)
-- **Draft Türü:** Yılan Tipi (Snake Draft) — 13 Tur, Toplam 182 Seçim
-- **İncelenen Takım:** Berk's Best Team (Slot #8)
-- **Draft Tarihi:** 18 Ekim 2026
+> **Document Scope:** This report provides a comprehensive, objective, and empirical overview of the 14-team live Yahoo Fantasy draft conducted on October 18, 2026. It presents the complete draft selection order, final team rosters, Poisson-Binomial simulation model outputs, and official Yahoo draft projection comparisons.
 
 ---
 
-## 2. 14 Takımın Draft Sırası (Slot) ve Tam Kadroları
+## 1. League Structure and Format
+
+- **Format:** 9-Category Head-to-Head (H2H)
+- **Categories:** Points (PTS), Rebounds (REB), Assists (AST), Steals (STL), Blocks (BLK), 3-Pointers Made (FG3M), Turnovers (TOV), Field Goal Percentage (FG%), Free Throw Percentage (FT%)
+- **League Size:** 14 Teams
+- **Roster Capacity:** 13 Players (10 Active Slots + 3 Bench Slots)
+- **Draft Type:** Snake Draft — 13 Rounds, 182 Total Selections
+- **Focal Team:** Berk's Best Team (Draft Slot #8)
+- **Draft Date:** October 18, 2026
+
+---
+
+## 2. Team Draft Slots & Rosters
 
 ### Slot #1: MuCa Tandır
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #1 | Nikola Jokić | DEN | C |
 | 2 | #28 | Jalen Brunson | NYK | PG |
@@ -36,7 +36,7 @@
 | 13 | #169 | Kelly Oubre Jr. | IND | SF,PF |
 
 ### Slot #2: Mordor Tulums
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #2 | Victor Wembanyama | SAS | C |
 | 2 | #27 | Trey Murphy III | NOP | SG,SF |
@@ -53,7 +53,7 @@
 | 13 | #170 | Sam Hauser | BOS | SF,PF |
 
 ### Slot #3: Philadelphia Sikers
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #3 | Luka Dončić | LAL | PG,SG |
 | 2 | #26 | Trae Young | WAS | PG |
@@ -70,7 +70,7 @@
 | 13 | #171 | Bennedict Mathurin | NOP | SG,SF |
 
 ### Slot #4: Houston Buckets
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #4 | Shai Gilgeous-Alexander | OKC | PG |
 | 2 | #25 | Stephen Curry | GSW | PG |
@@ -87,7 +87,7 @@
 | 13 | #172 | Tre Jones | CHI | PG,SG |
 
 ### Slot #5: Kuvâ-yi Milfiye
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #5 | Cade Cunningham | DET | PG,SG |
 | 2 | #24 | Devin Booker | PHX | PG,SG |
@@ -104,7 +104,7 @@
 | 13 | #173 | Moussa Diabaté | CHA | C |
 
 ### Slot #6: abu dhabi camels
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #6 | Giannis Antetokounmpo | MIA | PF,C |
 | 2 | #23 | LaMelo Ball | MIN | PG |
@@ -121,7 +121,7 @@
 | 13 | #174 | Anthony Black | ORL | PG,SG,SF |
 
 ### Slot #7: Samurai Strikers
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #7 | Jayson Tatum | BOS | SF,PF |
 | 2 | #22 | Amen Thompson | HOU | PG,SG |
@@ -138,7 +138,7 @@
 | 13 | #175 | Jeremiah Fears | NOP | PG,SG |
 
 ### Slot #8: Berk's Best Team
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #8 | Tyrese Maxey | PHI | PG |
 | 2 | #21 | James Harden | CLE | PG,SG |
@@ -155,7 +155,7 @@
 | 13 | #176 | Jay Huff | IND | C |
 
 ### Slot #9: FatihTerimSpor
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #9 | Anthony Edwards | MIN | PG,SG |
 | 2 | #20 | Jalen Duren | DET | C |
@@ -172,7 +172,7 @@
 | 13 | #177 | Deandre Ayton | WAS | C |
 
 ### Slot #10: Redeem Team
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #10 | Tyrese Haliburton | IND | PG,SG |
 | 2 | #19 | Austin Reaves | LAL | PG,SG,SF |
@@ -189,7 +189,7 @@
 | 13 | #178 | Ben Simmons | SAC | PG |
 
 ### Slot #11: Fikirtepe Warriors
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #11 | Cooper Flagg | DAL | SG,SF,PF |
 | 2 | #18 | Karl-Anthony Towns | NYK | PF,C |
@@ -206,7 +206,7 @@
 | 13 | #179 | Zaccharie Risacher | DAL | SF,PF |
 
 ### Slot #12: Istanbul Brickmakers
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #12 | Jalen Johnson | ATL | SF,PF |
 | 2 | #17 | Kevin Durant | HOU | SG,SF,PF |
@@ -223,7 +223,7 @@
 | 13 | #180 | Jake LaRavia | LAL | SF,PF |
 
 ### Slot #13: SILE BULLS
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #13 | Donovan Mitchell | CLE | PG,SG |
 | 2 | #16 | Scottie Barnes | TOR | SF,PF,C |
@@ -240,7 +240,7 @@
 | 13 | #181 | Pelle Larsson | MIA | SG,SF |
 
 ### Slot #14: YearOne Tyrants
-| Tur | Genel Sıra | Oyuncu | NBA Takımı | Pozisyon |
+| Round | Overall Pick | Player | NBA Team | Positions |
 | :---: | :---: | :--- | :---: | :---: |
 | 1 | #14 | Alperen Şengün | HOU | PF,C |
 | 2 | #15 | Jamal Murray | DEN | PG |
@@ -258,9 +258,9 @@
 
 ---
 
-## 3. Tur Tur Draft Seçim Sıralaması (Tüm 182 Seçim)
+## 3. Complete Round-by-Round Draft Log (All 182 Selections)
 
-| Genel # | Tur | Tur İçi # | Oyuncu | NBA Takımı | Pozisyon | Seçen Takım | Slot |
+| Overall # | Round | Round Pick | Player | NBA Team | Position | Drafting Team | Slot # |
 | :---: | :---: | :---: | :--- | :---: | :---: | :--- | :---: |
 | #1 | R1 | 1 | Nikola Jokić | DEN | C | MuCa Tandır | #1 |
 | #2 | R1 | 2 | Victor Wembanyama | SAS | C | Mordor Tulums | #2 |
@@ -447,11 +447,11 @@
 
 ---
 
-## 4. 'Berk's Best Team' (Slot #8) Kadrosu ve İstatistiksel Projeksiyonları
+## 4. Focal Team: 'Berk's Best Team' (Slot #8) Projections
 
-### A. Oyuncu Bazlı Maç Başına Ham Projeksiyon Verileri (Bayesian Model)
+### A. Per-Game Player Baseline Projections (Bayesian Model)
 
-| Oyuncu | Mevki | PTS | REB | AST | STL | BLK | 3PM | TOV | FG% | FT% |
+| Player | Position | PTS | REB | AST | STL | BLK | 3PM | TOV | FG% | FT% |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | Tyrese Maxey | G | 21.1 | 3.3 | 5.0 | 1.39 | 0.54 | 2.4 | 1.9 | 45.7% | 87.5% |
 | James Harden | G | 18.4 | 4.1 | 6.3 | 1.00 | 0.38 | 2.4 | 2.8 | 43.2% | 87.1% |
@@ -466,11 +466,11 @@
 | Nikola Vučević | C | 11.5 | 6.5 | 2.4 | 0.52 | 0.57 | 1.1 | 1.1 | 50.9% | 77.7% |
 | Julian Champagnie | F | 9.6 | 4.6 | 1.4 | 0.68 | 0.42 | 1.9 | 0.8 | 44.5% | 81.8% |
 | Jay Huff | C | 8.1 | 3.5 | 1.2 | 0.43 | 1.32 | 1.1 | 0.8 | 49.6% | 77.7% |
-| **Kadro Ort.** | - | **13.6** | **4.9** | **2.9** | **0.82** | **0.57** | **1.4** | **1.4** | **48.8%** | **82.3%** |
+| **Roster Mean** | - | **13.6** | **4.9** | **2.9** | **0.82** | **0.57** | **1.4** | **1.4** | **48.8%** | **82.3%** |
 
-### B. Model Kategori Kazanma Olasılıkları Çıktısı
+### B. Analytical Category Win Probabilities ($\Phi$)
 
-| Kategori | Canlı Draft HUD Tahmini (Tur Kohortu) | 13 Gerçek Rakibe Karşı Simülasyon Ort. | Fark |
+| Category | Live Draft HUD Estimate (Round Cohort) | 13-Opponent Simulation Mean | Delta |
 | :--- | :---: | :---: | :---: |
 | **PTS** | 73.8% | 71.6% | -2.2% |
 | **REB** | 71.4% | 71.8% | +0.4% |
@@ -479,65 +479,65 @@
 | **BLK** | 69.0% | 66.1% | -2.9% |
 | **FG3M** | 67.1% | 67.3% | +0.2% |
 | **TOV** | 57.0% | 44.1% | -12.9% |
-| **FG** | 68.1% | 57.3% | -10.8% |
-| **FT** | 86.9% | 69.0% | -17.9% |
+| **FG%** | 68.1% | 57.3% | -10.8% |
+| **FT%** | 86.9% | 69.0% | -17.9% |
 
-- **Ortalama Haftalık Beklenen Kategori Skoru:** 5.64 - 3.36
-- **Haftalık Maç Kazanma Olasılığı P(Galibiyet >= 5):** %78.7
+- **Expected Weekly Category Score:** 5.64 - 3.36
+- **Match Victory Probability $P(\text{Wins} \ge 5)$:** 78.7%
 
 ---
 
-## 5. Modelin Lig Genel Sıralaması (Poisson-Binomial Round-Robin Power Rankings)
+## 5. League Power Rankings (Poisson-Binomial Round-Robin)
 
-14 takımın her birinin ligdeki diğer 13 takımla yaptığı ikili Poisson-Binomial maç simülasyonları sonucunda elde edilen genel sıralama:
+Pairwise Poisson-Binomial round-robin matchup simulations across all 14 teams yield the following aggregate power rankings:
 
-| Sıra | Slot # | Takım Adı | Haftalık Maç Kazanma Olasılığı | Beklenen Kategori Galibiyeti (9 Üzerinden) |
+| Rank | Slot # | Team Name | Weekly Win Prob | Expected Categories Won (Out of 9) |
 | :---: | :---: | :--- | :---: | :---: |
-| 1 | #8 | Berk's Best Team | %78.7 | 5.64 |
-| 2 | #13 | SILE BULLS | %64.2 | 5.03 |
-| 3 | #4 | Houston Buckets | %61.3 | 4.93 |
-| 4 | #2 | Mordor Tulums | %56.6 | 4.73 |
-| 5 | #7 | Samurai Strikers | %56.2 | 4.73 |
-| 6 | #10 | Redeem Team | %53.4 | 4.63 |
-| 7 | #14 | YearOne Tyrants | %50.5 | 4.52 |
-| 8 | #3 | Philadelphia Sikers | %47.2 | 4.39 |
-| 9 | #5 | Kuvâ-yi Milfiye | %43.5 | 4.25 |
-| 10 | #1 | MuCa Tandır | %43.4 | 4.25 |
-| 11 | #11 | Fikirtepe Warriors | %39.1 | 4.09 |
-| 12 | #12 | Istanbul Brickmakers | %38.9 | 4.08 |
-| 13 | #9 | FatihTerimSpor | %34.9 | 3.93 |
-| 14 | #6 | abu dhabi camels | %32.1 | 3.81 |
+| 1 | #8 | Berk's Best Team | 78.7% | 5.64 |
+| 2 | #13 | SILE BULLS | 64.2% | 5.03 |
+| 3 | #4 | Houston Buckets | 61.3% | 4.93 |
+| 4 | #2 | Mordor Tulums | 56.6% | 4.73 |
+| 5 | #7 | Samurai Strikers | 56.2% | 4.73 |
+| 6 | #10 | Redeem Team | 53.4% | 4.63 |
+| 7 | #14 | YearOne Tyrants | 50.5% | 4.52 |
+| 8 | #3 | Philadelphia Sikers | 47.2% | 4.39 |
+| 9 | #5 | Kuvâ-yi Milfiye | 43.5% | 4.25 |
+| 10 | #1 | MuCa Tandır | 43.4% | 4.25 |
+| 11 | #11 | Fikirtepe Warriors | 39.1% | 4.09 |
+| 12 | #12 | Istanbul Brickmakers | 38.9% | 4.08 |
+| 13 | #9 | FatihTerimSpor | 34.9% | 3.93 |
+| 14 | #6 | abu dhabi camels | 32.1% | 3.81 |
 
 ---
 
-## 6. 13 Rakip Takımla Birebir Eşleşme Matrisi (Berk's Best Team vs. Rakipler)
+## 6. Head-to-Head Matchup Matrix (Berk's Best Team vs. 13 Opponents)
 
-| Slot | Rakip Takım | Beklenen Kategori Skoru | Maç Kazanma Olasılığı | PTS | REB | AST | STL | BLK | 3PM | TOV | FG% | FT% |
+| Slot | Opponent | Expected Score | Win Probability | PTS | REB | AST | STL | BLK | 3PM | TOV | FG% | FT% |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| #1 | MuCa Tandır | 5.77 - 3.23 | %82.4 | %80 | %83 | %59 | %53 | %81 | %66 | %32 | %52 | %71 |
-| #2 | Mordor Tulums | 5.29 - 3.71 | %72.4 | %81 | %66 | %94 | %67 | %33 | %64 | %19 | %45 | %59 |
-| #3 | Philadelphia Sikers | 5.67 - 3.33 | %79.5 | %61 | %73 | %48 | %65 | %74 | %52 | %58 | %66 | %69 |
-| #4 | Houston Buckets | 5.17 - 3.83 | %67.8 | %56 | %84 | %47 | %56 | %60 | %64 | %42 | %54 | %55 |
-| #5 | Kuvâ-yi Milfiye | 5.84 - 3.16 | %82.8 | %75 | %72 | %68 | %72 | %64 | %63 | %43 | %66 | %61 |
-| #6 | abu dhabi camels | 6.13 - 2.87 | %88.8 | %77 | %79 | %50 | %64 | %76 | %83 | %45 | %58 | %82 |
-| #7 | Samurai Strikers | 5.33 - 3.67 | %72.2 | %71 | %53 | %34 | %43 | %72 | %69 | %57 | %57 | %77 |
-| #9 | FatihTerimSpor | 6.11 - 2.89 | %88.0 | %62 | %70 | %68 | %73 | %84 | %73 | %53 | %52 | %76 |
-| #10 | Redeem Team | 5.41 - 3.59 | %74.4 | %76 | %68 | %40 | %49 | %62 | %74 | %39 | %51 | %83 |
-| #11 | Fikirtepe Warriors | 6.00 - 3.00 | %86.3 | %77 | %64 | %79 | %69 | %66 | %72 | %40 | %68 | %66 |
-| #12 | Istanbul Brickmakers | 5.95 - 3.05 | %85.5 | %78 | %76 | %75 | %72 | %64 | %76 | %41 | %47 | %67 |
-| #13 | SILE BULLS | 5.09 - 3.91 | %65.8 | %63 | %70 | %34 | %44 | %60 | %54 | %54 | %69 | %61 |
-| #14 | YearOne Tyrants | 5.57 - 3.43 | %77.5 | %75 | %76 | %42 | %54 | %64 | %65 | %52 | %60 | %70 |
+| #1 | MuCa Tandır | 5.77 - 3.23 | 82.4% | 80% | 83% | 59% | 53% | 81% | 66% | 32% | 52% | 71% |
+| #2 | Mordor Tulums | 5.29 - 3.71 | 72.4% | 81% | 66% | 94% | 67% | 33% | 64% | 19% | 45% | 59% |
+| #3 | Philadelphia Sikers | 5.67 - 3.33 | 79.5% | 61% | 73% | 48% | 65% | 74% | 52% | 58% | 66% | 69% |
+| #4 | Houston Buckets | 5.17 - 3.83 | 67.8% | 56% | 84% | 47% | 56% | 60% | 64% | 42% | 54% | 55% |
+| #5 | Kuvâ-yi Milfiye | 5.84 - 3.16 | 82.8% | 75% | 72% | 68% | 72% | 64% | 63% | 43% | 66% | 61% |
+| #6 | abu dhabi camels | 6.13 - 2.87 | 88.8% | 77% | 79% | 50% | 64% | 76% | 83% | 45% | 58% | 82% |
+| #7 | Samurai Strikers | 5.33 - 3.67 | 72.2% | 71% | 53% | 34% | 43% | 72% | 69% | 57% | 57% | 77% |
+| #9 | FatihTerimSpor | 6.11 - 2.89 | 88.0% | 62% | 70% | 68% | 73% | 84% | 73% | 53% | 52% | 76% |
+| #10 | Redeem Team | 5.41 - 3.59 | 74.4% | 76% | 68% | 40% | 49% | 62% | 74% | 39% | 51% | 83% |
+| #11 | Fikirtepe Warriors | 6.00 - 3.00 | 86.3% | 77% | 64% | 79% | 69% | 66% | 72% | 40% | 68% | 66% |
+| #12 | Istanbul Brickmakers | 5.95 - 3.05 | 85.5% | 78% | 76% | 75% | 72% | 64% | 76% | 41% | 47% | 67% |
+| #13 | SILE BULLS | 5.09 - 3.91 | 65.8% | 63% | 70% | 34% | 44% | 60% | 54% | 54% | 69% | 61% |
+| #14 | YearOne Tyrants | 5.57 - 3.43 | 77.5% | 75% | 76% | 42% | 54% | 64% | 65% | 52% | 60% | 70% |
 
 ---
 
-## 7. Yahoo Fantasy Resmi Projeksiyon Verisi ve Karşılaştırma
+## 7. Model vs. Official Yahoo Fantasy Projections
 
-| Projeksiyon Kaynağı | Berk's Best Team Sıralaması | Beklenen Maç Kazanma Olasılığı / Karakteri |
+| Projection Source | Berk's Best Team Projected Rank | Expected Performance Characteristics |
 | :--- | :---: | :--- |
-| **Yahoo Fantasy Resmi Draft Raporu (Predicted Order of Finish)** | **12. Sıra (14 Takım Arasında)** | Yahoo'nun resmi draft değerlendirmesinde ligin alt basamaklarında öngörülmüştür. |
-| **Poisson-Binomial H2H Eşleşme Simülasyon Modeli** | **1. Sıra (14 Takım Arasında)** | Haftalık %78.7 kazanma olasılığı ve 5.64 beklenen kategori galibiyeti öngörülmüştür. |
+| **Yahoo Fantasy Official Draft Recap (Predicted Finish)** | **12th of 14 Teams** | Standard cumulative raw volume heuristic predicting a bottom-tier finish. |
+| **Poisson-Binomial H2H Simulation Model** | **1st of 14 Teams** | Projects a 78.7% weekly match victory rate and 5.64 expected category wins. |
 
-### Diğer Ajanlar ve Bağımsız Denetçiler İçin Açık Sorular:
-1. Aynı 182 seçim ve aynı 14 kadro verisi üzerinden; Yahoo Fantasy resmi projeksiyonunun takımı **12. sırada** göstermesi ile Poisson-Binomial eşleşme simülasyonunun takımı **1. sırada** göstermesi arasındaki temel metodolojik ve matematiksel zıtlıklar nelerdir?
-2. 9 kategorili Head-to-Head (H2H) lig yapısında kadro inşası değerlendirilirken; sezonluk kümülatif toplam istatistik yaklaşımı ile haftalık ikili kategori kazanma olasılığı yaklaşımı arasında hangi farklar bulunmaktadır?
-3. Bu kadro yapısının güçlü ve riskli yönleri bağımsız bir gözle incelendiğinde nasıl değerlendirilmelidir?
+### Methodological Discussion & Analysis Questions:
+1. Across identical draft logs (182 selections, 14 rosters), what explains the stark divergence between Yahoo's **12th-place** projection and the Poisson-Binomial simulation's **1st-place** ranking?
+2. In a 9-Category Head-to-Head league format, how does season-long cumulative total aggregation distort roster value compared to weekly pairwise category margin optimization?
+3. What are the key structural strengths and vulnerabilities of this roster when evaluated through an independent quantitative lens?

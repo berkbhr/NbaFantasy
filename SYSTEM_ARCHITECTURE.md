@@ -1,98 +1,122 @@
-# NBA Fantasy Yapay Zeka Simülasyonu - Sistem Mimarisi
+# NBA Fantasy Decision & Simulation Engine - System Architecture
 
-Bu doküman, projenin güncellenmiş **Olasılıksal Karar Teorisi (Probabilistic Decision Theory)** ve **Eşlenik Bayes (Conjugate Bayesian)** tabanlı veri ve yapay zeka mimarisini detaylandırmak amacıyla hazırlanmıştır.
-
-## 1. Proje Özeti
-Bu proje, NBA Fantasy H2H (Head-to-Head) 9-Kategori formatı için sıradan bir geçmiş istatistik hesaplayıcısı değil; sakatlıkları, takasları, dakika değişimlerini ve oyuncuların "gece-gece dalgalanma (prediktif varyans)" ihtimallerini doğrudan **Kategori Kazanma Olasılığına ($\Phi$)** dönüştüren **Tahminsel (Predictive) ve Adaptif bir Yapay Zeka** motorudur.
-
-Geleneksel parçalı Z-Skoru, yapay "punt" eşikleri ve manuel doygunluk (saturation) yamaları yerine; tüm kararlar (Draft, Günlük Kadro Dizilimi ve Sezon İçi Waiver/Streaming) tek bir birleşik matematiksel amaç fonksiyonuna dayanır: **Beklenen Kazanılan Kategori Sayısını ($\sum_{c=1}^{9} \mathbb{P}(\text{Win}_c)$) Maksimize Etmek.**
+This document details the mathematical and statistical architecture of the NBA Fantasy Head-to-Head (H2H) 9-Category Decision and Simulation Suite, built upon **Probabilistic Decision Theory** and **Conjugate Bayesian Inference**.
 
 ---
 
-## 2. Veri Mimarisi (Data Engineering)
+## 1. Executive Summary
 
-Projenin veri boru hattı (Data Pipeline), `src/data_fetcher.py` üzerinden tamamen otomatikleştirilmiştir. Veriler NBA'in resmi API'sinden çekilir ve "Medallion Architecture" mantığıyla saklanır.
+This platform is not a static historical stat calculator; it is an adaptive, predictive decision engine that models injuries, trades, minute fluctuations, and night-to-night variance directly into an **Analytical Category Win Probability ($\Phi$)**.
 
-### Veri Akışı
-1.  **Raw (Ham) Veri:** NBA API'den çekilen oyuncu ve takım maç logları (Game Logs) doğrudan `.parquet` formatında `data/raw/` klasörüne kaydedilir.
-2.  **Processed (İşlenmiş) Veri:** Ham veriler işlenerek yapay zekanın kullanacağı 6 ana tabloya ayrılır ve `data/processed/` klasöründe saklanır:
-    *   **Player_Stats:** Maç bazlı oyuncu istatistikleri.
-    *   **Team_Stats:** Maç bazlı takım istatistikleri.
-    *   **Schedule:** Tam sezon fikstürü.
-    *   **Trades:** Günlük takım değişikliklerini (ID değişimleri) takip ederek çıkarılan takas listesi.
-    *   **Injuries_DNP:** Takımın maçı olduğu halde oyuncunun sahada olmamasından türetilen Sakatlık/Oynamadı bilgisi.
-    *   **Player_Positions:** Oyuncuların Yahoo Fantasy esnek pozisyon uygunluklarını (`PG, SG, G, SF, PF, F, C, UTIL, BN`) belirleyen pozisyon tablosu.
+Rather than relying on piecewise Z-scores, arbitrary punting rules, or heuristic saturation thresholds, every strategic decision—across Draft Selection, Daily Roster Optimization, and Season-Long Waivers/Streaming—optimizes a single unified objective function:
+
+$$\max \mathcal{V}(\text{Roster}) = \sum_{c=1}^{9} \mathbb{P}(\text{Win}_c)$$
 
 ---
 
-## 3. Yapay Zeka ve Karar Mimarisi (Bayesian Inference & Decision Theory)
+## 2. Data Engineering Architecture
 
-Yapay zeka, oyuncuların performansını tekil nokta tahminlerle (point estimates) değil, **Öngörücü Olasılık Dağılımlarıyla (Predictive Distributions)** değerlendirir.
+The automated data pipeline (`src/data_fetcher.py`) fetches official NBA API data and organizes it using Medallion Architecture principles:
 
-### 3.1. Hacim Bazlı Yüzdeler (Beta-Binom Modeli)
-* **Kategoriler:** FG% (Saha İçi), FT% (Serbest Atış).
-* **Mantık:** Yüzdeler sadece bir oran değil, şut hacmidir. Dağılım $\text{Beta}(\alpha, \beta)$ ($\alpha=\text{İsabet}, \beta=\text{Kaçan}$) olarak kurulur. Az şut atan oyuncunun yüzdesi yüksek bile olsa, Beta-Binom prediktif varyansı yüksek olacağı için yapay zeka bunu karar fonksiyonuna doğrudan yansıtır.
-* **Net Etki (Impact) Dönüşümü:** Oranların doğrusal toplanabilmesi için şut yüzdeleri rakip/lig referans oranına ($p_{\text{ref}}$) göre **Net İsabet Etkisi** ($Y = \text{M} - p_{\text{ref}} \cdot \text{A}$) üzerinden değerlendirilir.
-
-### 3.2. Dakika (Exposure) Bazlı Sayılabilir Veriler (Gamma-Poisson Modeli)
-* **Kategoriler:** PTS, REB, AST, STL, BLK, 3PM, TOV.
-* **Mantık:** Oyuncunun maça çıkması (1 Maç) değil, sahada kaldığı **Süre (Dakika)** maruziyet (exposure) olarak baz alınır. Dağılım $\text{Gamma}(\alpha, \beta)$ olarak kurulur.
-* **Güncelleme:** $\alpha_{\text{yeni}} = \delta \alpha + \text{Stat}$, $\beta_{\text{yeni}} = \delta \beta + \text{Dakika}$
-* **Prediktif Dağılım (Negatif Binom):** Beklenen değer $\mu = m \cdot \frac{\alpha}{\beta}$ ve prediktif varyans $\sigma^2 = \mu + \frac{\mu^2}{\alpha}$ olarak analitik formda hesaplanır.
-
-### 3.3. Unutma Mekanizması (Discounted Conjugate Filtering)
-Oyuncuların geçmiş istatistiklerinin bugünü zehirlememesi için sonsuz hafıza iptal edilmiştir:
-*   **Soft Decay (Günlük):** Her maç güncellemesinde eski verilerin ağırlığı üstel olarak sönümlenir ($\delta = e^{-\lambda \Delta t}$).
-*   **Hard Reset (Takas/Rol Değişimi):** Bir oyuncu takaslandığında ($\delta_{\text{event}} = 0.2$), oyuncunun dakika başı yetenek oranı ($\alpha/\beta$) korunur ancak modelin geçmişe olan **güveni (Effective Sample Size - $\beta$)** 5'te 1'e indirilir. Böylece yeni takımdaki ilk birkaç maç, eski takımdaki 50 maçtan daha baskın hale gelir.
+### Data Flow & Storage
+1. **Raw Layer (`data/raw/`):** Game-by-game player and team logs pulled directly from the NBA API saved as columnar `.parquet` files.
+2. **Processed Layer (`data/processed/`):** Cleaned, relational analytical tables:
+   - `player_logs_*.parquet`: Game-by-game box scores with playing time and standard categories.
+   - `schedule_*.parquet`: Official 82-game regular season schedules with team matchups and week numbers.
+   - `trades_*.parquet`: Inferred intra-season player movement and roster changes tracked via team ID transitions.
+   - `injuries_dnps_*.parquet`: Inferred DNP (Did Not Play) and injury logs derived from team schedules and actual on-court presence.
+   - `player_positions.parquet`: Multi-position Yahoo Fantasy eligibility mappings (`PG, SG, G, SF, PF, F, C, UTIL, BN`).
+   - `active_roster_2026_27.parquet`: Active rosters, draft credentials, and preseason roles for the upcoming campaign.
 
 ---
 
-## 4. Mantıksal Karar Katmanları (Unified Decision Layers)
+## 3. Bayesian Inference & Decision Theory
 
-### 4.1. Birleşik Hedef Fonksiyonu: Analitik H2H Kategori Kazanma Olasılığı ($\sum \Phi$)
-Parçalı Z-skoru toplamları, keyfi doygunluk sınırları (`z > 2.5`) ve keskin punt kuralları (`mean_z - 1.5`) yerine, hem Draft hem de Sezon İçi değerlendirmede **Analitik Normal Kümülatif Dağılım Fonksiyonu (Gaussian CDF - $\Phi$)** kullanılır:
+Player performance is modeled via **Predictive Probability Distributions** rather than single-point estimates.
 
-$$\mathcal{V}(\text{Kadro}) = \sum_{c=1}^{9} \mathbb{P}(\text{Win}_c) = \sum_{c=1}^{9} \Phi\!\left(\frac{\mu_{\text{ben}, c} - \mu_{\text{rakip}, c}}{\sqrt{\sigma^2_{\text{ben}, c} + \sigma^2_{\text{rakip}, c}}}\right)$$
+### 3.1. Shooting Percentages: Beta-Binomial Model
+* **Categories:** Field Goal Percentage (FG%), Free Throw Percentage (FT%).
+* **Formulation:** Shooting percentages represent discrete trials and successes. The prior and posterior follow $\text{Beta}(\alpha, \beta)$ where $\alpha = \text{Makes}$ and $\beta = \text{Misses}$. Low-volume shooters maintain high predictive uncertainty, which naturally prevents overvaluing erratic high-percentage bench players.
+* **Impact Transformation:** To permit linear aggregation and comparison against league benchmarks ($p_{\text{ref}}$), shooting metrics are transformed into **Net Impact**:
+  
+  $$Y = \text{Makes} - p_{\text{ref}} \cdot \text{Attempts}$$
 
-Bu tek denklem üç temel stratejiyi **kendiliğinden (doğal olarak)** gerçekleştirir:
-1.  **Doğal Doygunluk (Natural Saturation):** Kazanma olasılığı %95+ ($\approx +2\sigma$) olan bir kategoride $\Phi$ eğrisi yataylaşır (marjinal fayda $\phi(z) \to 0$). Yapay zeka zaten kazandığı kategoriye gereksiz yatırım yapmayı bırakır.
-2.  **Doğal Punt (Natural Punting):** Kazanma olasılığı %5'in altına ($\approx -2\sigma$) düşen bir kategoride de $\Phi$ eğrisinin alt kuyruğu yataylaşır. Yapay zeka tek bir oyuncuyla kurtarılamayacak kategoriyi doğal olarak feda eder ve başa baş ($Z \approx 0$, marjinal eğim $\phi(z)$ maksimum) kategorilere odaklanır.
-3.  **Varyans Duyarlılığı (Risk-Seeking vs. Risk-Averse):** Geride olunan ($\mu_{\text{ben}} < \mu_{\text{rakip}}$) kategorilerde yüksek varyanslı ($\sigma^2$ yüksek) oyuncular paydadaki kök değerini büyütüp negatif kesri sıfıra yaklaştırarak kazanma ihtimalini artırır (kumara girer). Önde olunan ($\mu_{\text{ben}} > \mu_{\text{rakip}}$) kategorilerde ise düşük varyanslı (stabil) oyuncular tercih edilir.
+### 3.2. Counting Statistics: Gamma-Poisson Model
+* **Categories:** PTS, REB, AST, STL, BLK, 3PM, TOV.
+* **Formulation:** Player output is governed by playing time exposure ($m$ minutes) rather than arbitrary game counts. Per-minute rates follow a Gamma prior $\text{Gamma}(\alpha, \beta)$, generating a **Poisson** likelihood for observed stats.
+* **Conjugate Posterior Update:**
+  
+  $$\alpha_{\text{new}} = \delta \alpha + \text{Stat}, \quad \beta_{\text{new}} = \delta \beta + \text{Minutes}$$
 
-### 4.2. Draft Motoru: Yılan Draft İleriye Bakış (Lookahead Rollout)
-`src/live_draft_assistant.py` içinde aday oyuncular değerlendirilirken:
-*   Rakiplerin kalan turlardaki olası seçimleri pozisyon kısıtları (10 aktif + 3 bench slotu) gözetilerek ileriye doğru simüle edilir (**Lookahead Rollout**).
-*   Böylece **Pozisyon Kıtlığı (Positional Scarcity)** (örneğin pivotların erken tükenmesi) ve takımın kalan turlarda oluşturacağı nihai 13 kişilik kadronun $\sum_{c=1}^9 \Phi_c$ kazanma olasılığı birlikte optimize edilir.
+* **Predictive Distribution (Negative Binomial):** Analytically solved with expected value $\mu = m \cdot \frac{\alpha}{\beta}$ and predictive variance:
+  
+  $$\sigma^2 = \mu + \frac{\mu^2}{\alpha}$$
 
-### 4.3. Günlük Kadro Optimizasyonu: Maksimum Ağırlıklı Bipartit Eşleştirme (Linear Assignment)
-`src/matchup_engine.py` içinde günlük aktif 10 oyuncunun (`PG, SG, G, SF, PF, F, C, C, UTIL, UTIL`) seçimi için kaba kuvvet alt küme kombinasyonları (`combinations`) yerine **Linear Assignment (Maksimum Ağırlıklı Bipartit Eşleştirme)** kullanılır:
-*   Her oyuncunun o günkü marjinal kategori ağırlıklarına ($\phi(z_c)$) göre beklenen katkısı hesaplanır.
-*   Oyuncu-Slot uygunluk matrisi üzerinden optimal eşleşme tek adımda çözülür; 10'dan fazla oyuncusu olan kadrolarda kalan oyuncular doğal olarak yedek (`BN`) koltuğuna yerleşir.
-
-### 4.4. Sezon İçi Öğrenme ve Core-Protected Waiver (Streaming) Döngüsü
-`league_simulator.py` ve `src/model_ai.py` tam entegre çalışır:
-*   **Günlük Bayes Güncellemesi:** Sezonun her gününde oynanan gerçek maçlar ve gerçekleşen takaslar `BayesianPlayer.update_stats` ile tüm oyuncu havuzunun posterior dağılımlarını günceller.
-*   **Çekirdek Korumalı Waiver (Core-Protected Streaming):** Haftalık serbest oyuncu (waiver) hamlelerinde kadrodaki en değerli 11 oyuncu ("Core") korunur; yalnızca son 2 koltuk ("Streaming Slots") gelecek haftanın maç sayısı (fikstür avantajı) ve takımın başa baş olduğu kategorilerin marjinal ağırlıklarına ($\phi(z_c)$) göre serbest oyuncu havuzundaki en uygun oyuncularla sirküle edilir.
+### 3.3. Discounted Conjugate Filtering (Dynamic Memory)
+To reflect recent player form without suffering from infinite memory bias:
+* **Soft Daily Decay:** Historical observations decay exponentially with time ($\delta = e^{-\lambda \Delta t}$).
+* **Hard Reset on Trade or Role Expansion:** When a player is traded ($\delta_{\text{event}} = 0.2$), the estimated rate parameter ($\alpha/\beta$) is preserved while the effective sample size ($\beta$) is reduced fivefold. Consequently, the first few games with the new team dominate the posterior faster than 50 games with the previous team.
 
 ---
 
-## 5. Dosya Hiyerarşisi
+## 4. Unified Strategic Decision Layers
+
+### 4.1. The Unified Objective Function: Analytical Gaussian CDF ($\sum \Phi$)
+Pairwise category victory against an opponent is computed using the **Standard Normal Cumulative Distribution Function (Gaussian CDF - $\Phi$)**:
+
+$$\mathcal{V}(\text{Roster}) = \sum_{c=1}^{9} \mathbb{P}(\text{Win}_c) = \sum_{c=1}^{9} \Phi\!\left(\frac{\mu_{\text{team}, c} - \mu_{\text{opp}, c}}{\sqrt{\sigma^2_{\text{team}, c} + \sigma^2_{\text{opp}, c}}}\right)$$
+
+This objective function naturally exhibits three critical fantasy properties without manual tuning:
+1. **Natural Saturation:** When winning probability exceeds 95% ($Z \ge +2$), the CDF flattens ($\phi(Z) \to 0$). The optimizer automatically stops drafting or streaming surplus stats in safe categories.
+2. **Natural Punting:** When winning probability falls below 5% ($Z \le -2$), the lower tail also flattens. The model automatically concedes unrecoverable deficits and redirects capital to swing categories ($Z \approx 0$).
+3. **Variance Sensitivity:** When trailing ($\mu_{\text{team}} < \mu_{\text{opp}}$), high-variance options ($\sigma^2 \uparrow$) expand the denominator and pull the negative quotient closer to 0, increasing win probability (rational upside risk). When leading, low-variance players protect the lead.
+
+### 4.2. Live Draft Engine: Lookahead Rollout
+During live snake drafts (`src/live_draft_assistant.py`):
+* Candidate picks are evaluated not just in isolation, but by projecting future competitor selections across upcoming snake rounds under position constraints (10 active + 3 bench spots).
+* **Positional Scarcity** (e.g., center runs or premium playmakers) is naturally internalized through projected roster completion values.
+
+### 4.3. Daily Lineup Optimization: Maximum Weight Bipartite Matching
+In `src/matchup_engine.py`, selecting the active 10 starters (`PG, SG, G, SF, PF, F, C, C, UTIL, UTIL`) is solved using **Linear Sum Assignment (Hungarian Algorithm)**:
+* Each eligible player's expected marginal utility is weighted by daily matchup category leverage $\phi(z_c)$.
+* The bipartite assignment solves globally in $\mathcal{O}(V^3)$ without heuristic approximations, automatically placing surplus players on the bench (`BN`).
+
+### 4.4. Core-Protected In-Season Streaming & Waiver Engine
+`league_simulator.py` and `src/model_ai.py` operate in unison throughout the season:
+* **Daily Bayesian Updates:** Real match results update posteriors daily via `BayesianPlayer.update_stats`.
+* **Core-Protected Streaming:** The top 11 foundational roster spots ("Core") are protected from waiver drops. Only the bottom 2 slots ("Streaming Slots") are cycled based on weekly fixture volume and target categories.
+
+---
+
+## 5. Repository Structure
+
 ```text
-D:\Github Projects\NbaFantasy\
-│
+NbaFantasy/
+├── config/
+│   └── yahoo_oauth.template.json     # Yahoo OAuth2 API credentials template
 ├── data/
-│   ├── processed/              # Parquet ve PivotTable uyumlu Excel veri tabanları
-│   └── raw/                    # NBA API'den gelen işlenmemiş ham Parquet dosyaları
-│
+│   ├── raw/                          # NBA API raw parquet logs
+│   ├── processed/                    # Processed relational analytics tables
+│   └── simulations/                  # Monte Carlo league & draft simulation artifacts
+├── docs/
+│   ├── README_TR.md                  # Turkish documentation
+│   └── SYSTEM_ARCHITECTURE_TR.md     # Turkish architectural blueprint
+├── reports/
+│   ├── league_draft_overview_and_projections.md     # 14-Team live draft & model projection report
+│   └── league_draft_overview_and_projections.tr.md  # Turkish edition of draft projection report
 ├── src/
-│   ├── bayesian_model.py       # Eşlenik Bayes (Gamma-Poisson & Beta-Binom) çekirdeği
-│   ├── matchup_engine.py       # Analitik H2H (Φ), Linear Assignment Lineup & Eşleşme motoru
-│   ├── live_draft_assistant.py # Lookahead Rollout & Φ(Z) tabanlı canlı draft asistanı
-│   ├── model_ai.py             # Bayesçi Core-Protected Waiver/Streaming karar motoru
-│   ├── opponent_ai.py          # Rakiplerin (Naive Z-Score) waiver ve davranış modelleri
-│   ├── simulator.py            # Sezon öncesi prior yükleme ve tekil Bayes simülasyon araçları
-│   └── data_fetcher.py         # Veri çekme ve işleme (Data Pipeline) motoru
-│
-├── league_simulator.py         # Tam entegre (Draft + Günlük Bayes + Waiver + H2H) Lig Simülatörü
-└── SYSTEM_ARCHITECTURE.md      # Bu doküman
+│   ├── bayesian_model.py             # Gamma-Poisson & Beta-Binomial conjugate Bayesian engine
+│   ├── matchup_engine.py             # Analytical H2H CDF & Linear Assignment lineup solver
+│   ├── live_draft_assistant.py       # Live draft assistant with lookahead rollouts
+│   ├── model_ai.py                   # Core-protected streaming & Bayesian decision rules
+│   ├── simulator.py                  # Prior season baseline loaders & simulation utilities
+│   ├── simulate_slot8_scenarios.py   # Multi-scenario Monte Carlo draft evaluator
+│   ├── data_fetcher.py               # NBA API pipeline for rosters, schedules & logs
+│   ├── verify_yahoo_names.py         # Player name resolution test suite
+│   ├── yahoo_draft_bridge.user.js    # Browser Userscript for Yahoo live draft room integration
+│   └── yahoo_draft_sync.py           # Local HTTP synchronization daemon & dashboard
+├── league_simulator.py               # Full 12/14-team multi-season H2H league simulation engine
+├── requirements.txt                  # Python dependencies
+├── README.md                         # Main project overview (English)
+└── SYSTEM_ARCHITECTURE.md            # Technical system architecture (English)
 ```

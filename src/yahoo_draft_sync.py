@@ -130,7 +130,7 @@ class YahooFantasyOAuthClient:
                     headers={
                         'Authorization': f'Bearer {self.access_token}',
                         'Accept': 'application/json',
-                        'User-Agent': 'AntigravityYahooFantasyAssistant/1.0',
+                        'User-Agent': 'NBAFantasyAssistant/1.0',
                     },
                     method='GET',
                 )

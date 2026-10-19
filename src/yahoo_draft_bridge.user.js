@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         🏀 Antigravity Yahoo NBA Fantasy Live Draft Bridge & HUD (14-Takım, Slot #8)
+// @name         🏀 NBA Fantasy Live Draft Bridge & HUD (14-Team, Slot #8)
 // @namespace    http://127.0.0.1:8765/
 // @version      5.1.0
 // @description  Yahoo Canlı Draft odasındaki Board (Tam İsim) ve Sol Picks listesini sıfır hatayla yakalar, menajer adlarını ve Players tablosunu filtreler.
@@ -30,7 +30,7 @@
   let syncDebounceTimer = null;
   let isSyncing = false;
 
-  console.log(`🏀 [Antigravity] Canlı Draft Köprüsü ve HUD v5.1.0 Başlatıldı (${NUM_TEAMS} Takım, Slot #8)...`);
+  console.log(`🏀 [NBA Fantasy] Canlı Draft Köprüsü ve HUD v5.1.0 Başlatıldı (${NUM_TEAMS} Takım, Slot #8)...`);
 
   // =========================================================================
   // 1. SABİTLER & İSİM TEMİZLEME MOTORU
@@ -575,7 +575,7 @@
         <div style="display:flex;align-items:center;gap:6px;">
           <button id="agy-btn-toggle" style="background:#1e293b;color:#38bdf8;border:1px solid #334155;border-radius:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;font-weight:700;padding:0;" title="Paneli Küçült / Büyüt">▼</button>
           <div>
-            <strong style="font-size:13px;color:#38bdf8;">🏀 Antigravity AI Draft v5.1 (Slot #<span id="agy-slot">8</span>)</strong>
+            <strong style="font-size:13px;color:#38bdf8;">🏀 NBA Fantasy Live Draft v5.1 (Slot #<span id="agy-slot">8</span>)</strong>
             <div id="agy-substatus" style="font-size:11px;color:#94a3b8;margin-top:1px;">Köprü bağlanıyor (127.0.0.1:8765)...</div>
           </div>
         </div>
@@ -741,7 +741,7 @@
     const all = aggregateAllPicks();
 
     console.log('====================================================');
-    console.log(`🏀 [Antigravity v5.0 Teşhis Raporu]`);
+    console.log(`🏀 [NBA Fantasy v5.0 Teşhis Raporu]`);
     console.log(`1. Board Tam İsim Izgarası : ${board.length} seçim`, board);
     console.log(`2. Sol "Picks" Listesi     : ${sidebar.length} seçim`, sidebar);
     console.log(`3. Results Tablosu         : ${results.length} seçim`, results);
