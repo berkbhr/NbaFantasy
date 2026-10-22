@@ -143,7 +143,26 @@ def get_optimal_daily_lineup(available_players, category_weights, p_ref_fg=0.47,
 
 
 class MatchupEngine:
-    def __init__(self, bayesian_players_dict, df_schedule, df_positions, season="2024_25", prior_season="2024_25"):
+    def __init__(self, bayesian_players_dict, df_schedule, df_positions, season="2024_25", prior_season="2024_25",
+                 free_agent_pool=None, num_il_slots=2, max_weekly_adds=3,
+                 il_eligible_statuses=('OUT', 'INJ'), yahoo_il_eligible_ids=None, consec_dnp_limit=2,
+                 availability_weighted_lineup=True, availability_weighted_draft_lineup=False):
+        """
+        New (all optional, defaults keep the previous draft-mode numbers reproducible):
+          il_eligible_statuses  statuses that may go to IL/IL+ when Yahoo eligibility is unknown.
+                                Default ('OUT', 'INJ'): REST, SUSPENDED and GTD/QUESTIONABLE are NOT eligible.
+                                Check your league settings before adding 'SUSPENDED'.
+          yahoo_il_eligible_ids set of player ids that Yahoo currently shows as IL-eligible (from the bridge).
+                                None = unknown: fall back to il_eligible_statuses and report the stashed
+                                players in meta['il_unverified_ids'].
+          consec_dnp_limit      players with this many consecutive DNPs are treated as unavailable for the week
+                                (live mode only, BOTH code paths). None disables the rule.
+          availability_weighted_lineup        dated path: choose the daily lineup by availability-weighted
+                                projections, so back-to-back rest / doubtful players do not take a slot from a
+                                reliable bench player.
+          availability_weighted_draft_lineup  same for the draft-mode (no schedule) path. Off by default because it
+                                changes previously reported numbers.
+        """
         self.players = bayesian_players_dict
         self.schedule = df_schedule.copy() if df_schedule is not None and not df_schedule.empty else pd.DataFrame()
         if not self.schedule.empty and 'GAME_DATE' in self.schedule.columns:
@@ -159,6 +178,14 @@ class MatchupEngine:
 
         self.season = season
         self.prior_season = prior_season
+        self.num_il_slots = int(num_il_slots)
+        self.max_weekly_adds = int(max_weekly_adds)
+        self.free_agent_pool = list(free_agent_pool) if free_agent_pool else []
+        self.il_eligible_statuses = tuple(str(s).upper() for s in il_eligible_statuses)
+        self.yahoo_il_eligible_ids = set(yahoo_il_eligible_ids) if yahoo_il_eligible_ids is not None else None
+        self.consec_dnp_limit = consec_dnp_limit
+        self.availability_weighted_lineup = bool(availability_weighted_lineup)
+        self.availability_weighted_draft_lineup = bool(availability_weighted_draft_lineup)
         # Initialize team_map strictly from prior_season (keep='last') or target season's FIRST game
         # to eliminate look-ahead leakage of mid-season trades (fixes Rapor 2 / L7)
         self.team_map = self._load_leak_free_team_map(prior_season, season)
@@ -251,12 +278,70 @@ class MatchupEngine:
 
         return flat_mean, flat_var
 
-    def get_expected_weekly_distribution(self, roster_ids, start_date=None, end_date=None, category_weights=None):
+    # ---- helpers for the injury / availability layer -------------------------------------------
+    @staticmethod
+    def _player_value(p, category_weights):
+        """Scalar value of a per-game line under the category weights. Used only to ORDER players deterministically."""
+        proj = p['PROJ']
+        v = 0.0
+        for stat in COUNT_STATS:
+            v += (-1.0 if stat == 'TOV' else 1.0) * proj.get(stat, 0.0) * category_weights.get(stat, 0.0)
+        v += (proj.get('FGM', 0.0) - 0.47 * proj.get('FGA', 0.0)) * category_weights.get('FG', category_weights.get('FG_PCT', 0.0))
+        v += (proj.get('FTM', 0.0) - 0.78 * proj.get('FTA', 0.0)) * category_weights.get('FT', category_weights.get('FT_PCT', 0.0))
+        return v
+
+    @staticmethod
+    def _availability_weighted(p, availability):
+        """Copy of a player entry whose counting projections are scaled by availability (for lineup scoring only)."""
+        q = dict(p)
+        q['PROJ'] = {k: (v * availability if k in ALL_CATEGORIES else v) for k, v in p['PROJ'].items()}
+        return q
+
+    def _is_il_eligible(self, p):
+        """
+        Only a player who will not play at all (AVAIL == 0) can use an IL slot, and only if Yahoo allows it.
+        REST / SUSPENDED / GTD do not qualify unless the league settings (or the Yahoo bridge) say so.
+        """
+        if p['AVAIL'] > 0.0:
+            return False
+        if self.yahoo_il_eligible_ids is not None:
+            return p['ID'] in self.yahoo_il_eligible_ids
+        bp = self.players.get(p['ID'])
+        status = str(getattr(bp, 'injury_status', '') or '').upper().strip()
+        return status in self.il_eligible_statuses
+
+    def _excluded_by_dnps(self, p, use_live_injuries):
+        return bool(use_live_injuries and self.consec_dnp_limit is not None
+                    and p.get('CONSEC_DNPS', 0) >= self.consec_dnp_limit)
+
+    def _make_entry(self, pid, ref_date, start_date, end_date, dates, avail, streamer=False):
+        flat_mean, flat_var = self._build_player_game_projection(pid, target_minutes=None, current_date=ref_date)
+        tid = self.team_map.get(pid)
+        sched_dates = self._get_player_schedule(tid, start_date, end_date) if len(dates) > 0 else set()
+        return {
+            'ID': pid,
+            'POS': self.pos_dict.get(pid, 'UTIL'),
+            'PROJ': flat_mean,
+            'VAR': flat_var,
+            'AVAIL': avail,
+            'CONSEC_DNPS': 0 if streamer else getattr(self.players[pid], 'consecutive_dnps', 0),
+            'SCHEDULE': sched_dates,
+            'STARTED_GAMES': 0.0,
+            'DAY_AVAIL_SUM': 0.0,      # sum of per-game availability over the games he is slotted for (dated path)
+            'IS_STREAMER': streamer,
+        }
+
+    def get_expected_weekly_distribution(self, roster_ids, start_date=None, end_date=None, category_weights=None, use_live_injuries=True):
         """
         Evaluates a roster's optimal weekly output (both Mean and Calibrated Predictive Variance):
           - Uses consecutive_dnps-aware effective availability (fixes Rapor 1 / K2 & K4)
           - Models autocorrelated multi-game injury/availability variance g^2 * p * (1-p) (fixes Rapor 1 / K3)
           - Tracks per-player percentage heterogeneity for exact Jensen-free impact variance (fixes Rapor 1 / K13)
+          - Supports Yahoo IL/IL+ stashing & weekly streaming simulation
+
+        Dated path (schedule available): per-game availability (incl. back-to-back rest) is applied as a
+        PROBABILITY: expected games = sum over slotted game days of P(play that day).
+        Returned dict also carries 'meta' (il_stashed_ids, il_unverified_ids, streamer_ids, dnp_excluded_ids).
         """
         if start_date is not None and end_date is not None and not self.schedule.empty:
             dates = pd.date_range(pd.to_datetime(start_date).normalize(), pd.to_datetime(end_date).normalize())
@@ -273,67 +358,121 @@ class MatchupEngine:
             if pid not in self.players:
                 continue
             bp = self.players[pid]
-            # Only pass ref_date for idle-days decay if within 14 days of last_game_date (live in-season tracking);
-            # prevents 150-day artificial prior decay when forecasting future schedule weeks before season start
             eff_ref_date = ref_date
             if eff_ref_date is not None and getattr(bp, 'last_game_date', None) is not None:
                 if (eff_ref_date - pd.to_datetime(bp.last_game_date).normalize()).days > 14:
                     eff_ref_date = None
-            flat_mean, flat_var = self._build_player_game_projection(pid, target_minutes=None, current_date=eff_ref_date)
-            tid = self.team_map.get(pid)
-            sched_dates = self._get_player_schedule(tid, start_date, end_date) if len(dates) > 0 else set()
-            # Use injury-conditioned effective availability when evaluating in-season weeks (fixes K2/K4)
-            eff_avail = (
-                bp.get_effective_game_availability()
-                if start_date is not None
-                else getattr(bp, 'availability_rate', 0.85)
-            )
-            data[pid] = {
-                'ID': pid,
-                'POS': self.pos_dict.get(pid, 'UTIL'),
-                'PROJ': flat_mean,
-                'VAR': flat_var,
-                'AVAIL': eff_avail,
-                'CONSEC_DNPS': getattr(bp, 'consecutive_dnps', 0),
-                'SCHEDULE': sched_dates,
-                'STARTED_GAMES': 0.0,
-            }
+            if use_live_injuries:
+                eff_avail = bp.get_effective_game_availability(is_b2b=False)
+            else:
+                eff_avail = getattr(bp, 'availability_rate', 0.85)
+            data[pid] = self._make_entry(pid, eff_ref_date, start_date, end_date, dates, eff_avail)
+
+        # -------------------------------------------------------------------------
+        # IL / IL+ stashing and streaming (same rules for every team)
+        # -------------------------------------------------------------------------
+        stashed_ids = set()
+        il_stashed_list, il_unverified_ids, streamer_ids = [], [], []
+        if use_live_injuries:
+            il_eligible = sorted(
+                [p for p in data.values() if self._is_il_eligible(p)],
+                key=lambda p: (-self._player_value(p, category_weights), str(p['ID'])))
+            il_stashed_players = il_eligible[:self.num_il_slots]
+            stashed_ids = {p['ID'] for p in il_stashed_players}
+            il_stashed_list = [p['ID'] for p in il_stashed_players]
+            if self.yahoo_il_eligible_ids is None:
+                il_unverified_ids = list(il_stashed_list)
+
+            for p in il_stashed_players:
+                p['AVAIL'] = 0.0
+                p['STARTED_GAMES'] = 0.0
+                p['IS_STASHED_IL'] = True
+
+            # Only a freed IL slot can be refilled; the weekly add limit caps the number of streamers.
+            streaming_adds = min(len(il_stashed_players), self.max_weekly_adds)
+            if streaming_adds > 0 and self.free_agent_pool:
+                for fa_pid in self.free_agent_pool:
+                    if len(streamer_ids) >= streaming_adds:
+                        break
+                    if fa_pid not in self.players or fa_pid in data or fa_pid in stashed_ids:
+                        continue
+                    fa_avail = self.players[fa_pid].get_effective_game_availability(is_b2b=False)
+                    if fa_avail <= 0.0:
+                        continue          # an injured free agent is not a streamer
+                    data[fa_pid] = self._make_entry(fa_pid, ref_date, start_date, end_date, dates, fa_avail, streamer=True)
+                    streamer_ids.append(fa_pid)
 
         var_keys = ALL_CATEGORIES + ['FGM_cond', 'FTM_cond']
         week_mean = {cat: 0.0 for cat in ALL_CATEGORIES}
         week_var = {cat: 0.0 for cat in var_keys}
+        dnp_excluded_ids = set()
 
         if len(dates) == 0:
-            # Season-wide expected weekly evaluation (fixes Rapor 1 / K6: realistic 2.35 games/week for bench slots)
-            all_p = list(data.values())
-            best_starters = get_optimal_daily_lineup(all_p, category_weights)
-            starter_ids = {p['ID'] for p in best_starters}
-            bench_players = [p for p in all_p if p['ID'] not in starter_ids]
-
-            for p in best_starters:
-                p['STARTED_GAMES'] = 3.35
+            # Draft-mode path: fixed 3.35 games for starters / 2.35 for the 3 best bench players
+            active_p = []
+            for p in data.values():
+                if p['ID'] in stashed_ids or p['AVAIL'] <= 0.0:
+                    continue
+                if self._excluded_by_dnps(p, use_live_injuries):
+                    dnp_excluded_ids.add(p['ID'])
+                    continue
+                active_p.append(p)
+            if self.availability_weighted_draft_lineup:
+                pool = [self._availability_weighted(p, p['AVAIL']) for p in active_p]
+            else:
+                pool = active_p
+            by_id = {p['ID']: p for p in active_p}
+            best_starters = get_optimal_daily_lineup(pool, category_weights)
+            starter_ids = {q['ID'] for q in best_starters}
+            bench_players = sorted(
+                [p for p in active_p if p['ID'] not in starter_ids],
+                key=lambda p: (-self._player_value(p, category_weights), str(p['ID'])))
+            for q in best_starters:
+                by_id[q['ID']]['STARTED_GAMES'] = 3.35
             for p in bench_players[:3]:
                 p['STARTED_GAMES'] = 2.35
         else:
             for current_date in dates:
-                # Match the simulator's prematch lineup rule: exclude players known to be out (consecutive_dnps >= 2)
-                playing_today = [
-                    p for p in data.values()
-                    if current_date in p['SCHEDULE'] and p['CONSEC_DNPS'] < 2
-                ]
-                if not playing_today:
+                candidates = []
+                for p in data.values():
+                    if p['ID'] in stashed_ids:
+                        continue
+                    if current_date not in p['SCHEDULE']:
+                        continue
+                    if self._excluded_by_dnps(p, use_live_injuries):
+                        dnp_excluded_ids.add(p['ID'])
+                        continue
+                    # Back-to-Back (B2B) rest check: is the previous calendar day also scheduled?
+                    prev_date = current_date - pd.Timedelta(days=1)
+                    is_b2b = prev_date in p['SCHEDULE']
+                    bp = self.players.get(p['ID'])
+                    p_day_avail = bp.get_effective_game_availability(is_b2b=is_b2b) if (bp and use_live_injuries) else p['AVAIL']
+                    if p_day_avail <= 0.0:
+                        continue
+                    candidates.append((p, p_day_avail))
+
+                if not candidates:
                     continue
-                best_lineup = get_optimal_daily_lineup(playing_today, category_weights)
-                for p in best_lineup:
-                    p['STARTED_GAMES'] += 1.0
+                by_id = {p['ID']: p for p, _ in candidates}
+                day_avail = {p['ID']: a for p, a in candidates}
+                if self.availability_weighted_lineup:
+                    pool = [self._availability_weighted(p, a) for p, a in candidates]
+                else:
+                    pool = [p for p, _ in candidates]
+                for q in get_optimal_daily_lineup(pool, category_weights):
+                    orig = by_id[q['ID']]
+                    orig['STARTED_GAMES'] += 1.0
+                    orig['DAY_AVAIL_SUM'] += day_avail[q['ID']]
 
         # Accumulate weekly mean and autocorrelated weekly variance across each player's started games
+        dated = len(dates) > 0
         player_Breakdown = []
         for p in data.values():
             g = p['STARTED_GAMES']
             if g <= 0:
                 continue
-            p_avail = p['AVAIL']
+            # dated path: average per-game availability over the slotted games (B2B rest etc. as probability)
+            p_avail = (p['DAY_AVAIL_SUM'] / g) if dated else p['AVAIL']
             exp_gp = g * p_avail
             # Autocorrelated weekly availability variance: injuries span multiple games in a week,
             # so Var(N_played) ≈ (0.35 * g + 0.65 * g^2) * p_avail * (1 - p_avail) (fixes Rapor 1 / K3)
@@ -358,7 +497,11 @@ class MatchupEngine:
                 'FTA_var': p['VAR']['FTA'],
             })
 
-        return {'mean': week_mean, 'var': week_var, 'players': player_Breakdown}
+        return {
+            'mean': week_mean, 'var': week_var, 'players': player_Breakdown,
+            'meta': {'il_stashed_ids': il_stashed_list, 'il_unverified_ids': il_unverified_ids,
+                     'streamer_ids': streamer_ids, 'dnp_excluded_ids': sorted(dnp_excluded_ids, key=str)},
+        }
 
     def get_expected_weekly_stats(self, roster_ids, start_date=None, end_date=None, category_weights=None):
         dist = self.get_expected_weekly_distribution(roster_ids, start_date, end_date, category_weights=category_weights)
@@ -391,9 +534,11 @@ class MatchupEngine:
         return base_cond_var + att_var_sum
 
     @classmethod
-    def evaluate_h2h_matchup(cls, my_dist, opp_dist):
+    def evaluate_h2h_matchup(cls, my_dist, opp_dist, var_scale=1.0):
         """
         Analytical H2H 9-Category Evaluation using Calibrated Gaussian CDF Phi(z).
+        var_scale multiplies every WEEKLY_VAR_INFLATION_BY_CAT factor (1.0 = current calibration);
+        use it to report the sensitivity of the headline numbers to these hand-set factors.
         """
         my_mean, my_var = my_dist['mean'], my_dist['var']
         opp_mean, opp_var = opp_dist['mean'], opp_dist['var']
@@ -407,7 +552,7 @@ class MatchupEngine:
             if stat == 'TOV':
                 diff = -diff
 
-            infl = WEEKLY_VAR_INFLATION_BY_CAT.get(stat, 1.30)
+            infl = WEEKLY_VAR_INFLATION_BY_CAT.get(stat, 1.30) * var_scale
             total_var = max((my_var.get(stat, 0.0) + opp_var.get(stat, 0.0)) * infl, 1e-6)
             sigma = math.sqrt(total_var)
             z = diff / sigma
@@ -429,7 +574,7 @@ class MatchupEngine:
             opp_impact = opp_m - p_ref * opp_a
             diff_impact = my_impact - opp_impact
 
-            infl = WEEKLY_VAR_INFLATION_BY_CAT.get(stat, 1.25)
+            infl = WEEKLY_VAR_INFLATION_BY_CAT.get(stat, 1.25) * var_scale
             my_impact_var = cls._compute_team_pct_impact_var(my_dist, stat, p_ref)
             opp_impact_var = cls._compute_team_pct_impact_var(opp_dist, stat, p_ref)
             total_var = max((my_impact_var + opp_impact_var) * infl, 1e-6)
@@ -443,6 +588,24 @@ class MatchupEngine:
 
         expected_wins = sum(win_probs.values())
         return expected_wins, win_probs, marginal_weights
+
+    @staticmethod
+    def compute_matchup_win_prob(win_probs_dict, rho=0.0):
+        """
+        Calculates overall weekly matchup win probability P(>= 5 category wins out of 9),
+        with optional category covariance sensitivity rho in [0.0, 0.20].
+        """
+        p_vals = list(win_probs_dict.values())
+        exp_wins = sum(p_vals)
+        var_base = sum(p * (1.0 - p) for p in p_vals)
+        cov_sum = 0.0
+        if rho > 0.0:
+            n = len(p_vals)
+            for i in range(n):
+                for j in range(i + 1, n):
+                    cov_sum += 2.0 * rho * math.sqrt(p_vals[i] * (1.0 - p_vals[i]) * p_vals[j] * (1.0 - p_vals[j]))
+        var_tot = max(0.25, var_base + cov_sum)
+        return float(norm_cdf((exp_wins - 4.5) / math.sqrt(var_tot)))
 
     def simulate_matchup(self, my_roster_ids, opp_roster_ids, start_date, end_date, n_iterations=1000):
         my_dist = self.get_expected_weekly_distribution(my_roster_ids, start_date, end_date)

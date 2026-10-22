@@ -69,6 +69,10 @@ class BayesianPlayer:
         self.avail_beta = 6.0
         self.availability_rate = 0.85
         self.consecutive_dnps = 0
+        self.injury_status = 'HEALTHY'
+        self.injury_desc = ''
+        self.is_b2b_rest = False
+        self.expected_return = None
 
         self.last_game_date = None
         self.decay_lambda = 0.015
@@ -195,13 +199,32 @@ class BayesianPlayer:
         else:
             self.consecutive_dnps += 1
 
-    def get_effective_game_availability(self):
+    def update_injury_status(self, status='HEALTHY', desc='', is_b2b_rest=False, expected_return=None):
+        self.injury_status = str(status).upper().strip() if status else 'HEALTHY'
+        self.injury_desc = desc or ''
+        self.is_b2b_rest = bool(is_b2b_rest)
+        self.expected_return = expected_return
+
+    def get_effective_game_availability(self, is_b2b=False):
         """
         Returns the conditional probability the player plays in an upcoming game this week,
-        given their current active injury streak (consecutive_dnps) (fixes Rapor 1 / K2 & K4).
-        When consecutive_dnps == 0 (healthy entering the week), only sudden onset DNP risk (~5-7%)
-        applies, avoiding double-counting multi-game injury streaks already excluded by CONSEC_DNPS < 2.
+        conditioned on:
+          1. Explicit live injury status (OUT, DOUBTFUL, QUESTIONABLE, PROBABLE, B2B_REST).
+          2. Multi-game DNP streak (consecutive_dnps).
+          3. Long-term Bayesian baseline availability rate.
         """
+        st = getattr(self, 'injury_status', 'HEALTHY')
+        if st in ('OUT', 'INJ', 'SUSPENDED', 'REST'):
+            return 0.0
+        if getattr(self, 'is_b2b_rest', False) and is_b2b:
+            return 0.05
+        if st == 'DOUBTFUL':
+            return 0.15
+        if st in ('QUESTIONABLE', 'GTD', 'DTD'):
+            return 0.52
+        if st == 'PROBABLE':
+            return 0.90
+
         if self.consecutive_dnps >= 5:
             return 0.08
         elif self.consecutive_dnps >= 3:
@@ -210,7 +233,8 @@ class BayesianPlayer:
             return 0.30
         elif self.consecutive_dnps == 1:
             return min(self.availability_rate, 0.72)
-        return float(np.clip(0.55 + 0.42 * self.availability_rate, 0.85, 0.96))
+        # Preserve player-specific availability prior blended with healthy entry streak
+        return float(np.clip(0.35 * 0.92 + 0.65 * self.availability_rate, 0.35, 0.96))
 
     def _apply_floored_decay(self, delta_days, is_event_reset=False):
         """

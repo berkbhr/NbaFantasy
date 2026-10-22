@@ -490,6 +490,11 @@ class YahooLiveDraftBridgeManager:
                     payload = manager.build_state_payload(fast_only=fast_only)
                     self._send_json(payload)
                     return
+                if parsed.path == '/api/injuries':
+                    tracker = getattr(manager.assistant, 'injury_tracker', None)
+                    injuries = tracker.get_all_active_injuries() if tracker else []
+                    self._send_json({'ok': True, 'injuries': injuries})
+                    return
                 self._send_json({'error': 'Not found'}, status=404)
 
             def do_POST(self):
@@ -531,6 +536,43 @@ class YahooLiveDraftBridgeManager:
                 if parsed.path == '/api/undo':
                     manager.assistant.undo_last_pick()
                     self._send_json({'ok': True, 'state': manager.build_state_payload(fast_only=False)})
+                    return
+
+                if parsed.path == '/api/injuries/update':
+                    player_query = str(body.get('player', '')).strip()
+                    status = str(body.get('status', 'OUT')).upper().strip()
+                    desc = str(body.get('desc', ''))
+                    is_b2b = bool(body.get('is_b2b_rest', False))
+                    tracker = getattr(manager.assistant, 'injury_tracker', None)
+                    pid = manager.assistant.resolve_player_id(player_query, only_available=False)
+                    if pid is None or tracker is None:
+                        self._send_json({'ok': False, 'error': f"Oyuncu bulunamadı: {player_query}"}, status=400)
+                        return
+                    p_name = manager.assistant.players[pid].name if pid in manager.assistant.players else player_query
+                    team_name = manager.assistant.team_abbr_dict.get(pid, 'NBA')
+                    if status in ('HEALTHY', 'CLEAR', 'ACT'):
+                        tracker.clear_injury(pid)
+                        if pid in manager.assistant.players:
+                            manager.assistant.players[pid].update_injury_status('HEALTHY')
+                    else:
+                        tracker.set_injury(pid, p_name, status, team=team_name, desc=desc, is_b2b_rest=is_b2b, source="api")
+                        if pid in manager.assistant.players:
+                            manager.assistant.players[pid].update_injury_status(status, desc, is_b2b_rest=is_b2b)
+                    self._send_json({'ok': True, 'player_id': pid, 'name': p_name, 'status': status})
+                    return
+
+                if parsed.path == '/api/sync_injuries':
+                    records = body.get('injuries', [])
+                    tracker = getattr(manager.assistant, 'injury_tracker', None)
+                    if not tracker:
+                        self._send_json({'ok': False, 'error': "InjuryTracker aktif değil"}, status=500)
+                        return
+                    updated_cnt = tracker.bulk_sync_yahoo_statuses(
+                        records,
+                        lambda q: manager.assistant.resolve_player_id(q, only_available=False)
+                    )
+                    manager.assistant._sync_injuries_into_players()
+                    self._send_json({'ok': True, 'updated': updated_cnt})
                     return
 
                 self._send_json({'error': 'Unknown endpoint'}, status=404)

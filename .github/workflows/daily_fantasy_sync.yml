@@ -1,0 +1,62 @@
+name: NBA Fantasy Autonomous Cloud Sync
+
+on:
+  schedule:
+    # 3 Strategic Daily Run Times (TR / UTC / ET synchronized):
+    - cron: '30 7 * * *'   # 10:30 TR / 07:30 UTC / 03:30 ET (Morning scores & overnight waivers)
+    - cron: '30 18 * * *'  # 21:30 TR / 18:30 UTC / 14:30 ET (NBA Afternoon Official Injury Report)
+    - cron: '15 22 * * *'  # 01:15 TR / 22:15 UTC / 18:15 ET (Game Lock: 45 min before first tip-off)
+  workflow_dispatch:        # Allows manual 1-click execution anytime from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  autonomous-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas scipy scikit-learn requests beautifulsoup4 pulp nba_api pypdf
+
+      - name: Run NBA Fantasy Cloud Sync
+        env:
+          YAHOO_COOKIE: ${{ secrets.YAHOO_COOKIE }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python src/cloud_sync.py
+
+      - name: Commit & Push to Dedicated 'nba-fantasy-bot' Branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Switch to or create isolated 'nba-fantasy-bot' branch (keeping main 100% clean)
+          if git ls-remote --heads origin nba-fantasy-bot | grep -q nba-fantasy-bot; then
+            git checkout -B nba-fantasy-bot origin/nba-fantasy-bot
+          else
+            git checkout -b nba-fantasy-bot
+          fi
+
+          git add data/processed/injuries.db data/processed/league_state.json reports/latest_cloud_summary.md
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            git commit -m "🤖 [nba-fantasy-bot] Auto-Sync: Injuries, Rosters & Projections [skip ci]"
+            git push origin nba-fantasy-bot
+            echo "Changes pushed to branch nba-fantasy-bot successfully."
+          else
+            echo "No database or projection changes to commit."
+          fi

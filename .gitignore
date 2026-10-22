@@ -21,3 +21,11 @@ Thumbs.db
 # Task logs & transcripts
 *.log
 .system_generated/
+scratch/
+
+# Legacy root duplicate (moved to docs/)
+/injury_system_architecture_and_peer_review.md
+
+# Raw injury PDF downloads & scratch files
+data/raw/injuries/*.pdf
+data/raw/injuries/*.txt

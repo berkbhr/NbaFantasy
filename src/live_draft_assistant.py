@@ -295,6 +295,29 @@ class LiveDraftAssistant:
             else:
                 self.round_cohort_z[r_idx + 1] = {s: 0.0 for s in all_cats}
 
+        # Initialize Free Agent Pool in MatchupEngine from top available players
+        avail_in_base = [pid for pid in self.available_player_ids if pid in self.df_base.index]
+        self.engine.free_agent_pool = avail_in_base
+
+        # Initialize Injury Tracker & Sync into Players
+        from injury_tracker import InjuryTracker
+        self.injury_tracker = InjuryTracker()
+        self._sync_injuries_into_players()
+
+    def _sync_injuries_into_players(self):
+        if not hasattr(self, 'injury_tracker'):
+            return
+        injuries = self.injury_tracker.get_all_active_injuries()
+        for inj in injuries:
+            pid = inj['player_id']
+            if pid in self.players:
+                self.players[pid].update_injury_status(
+                    status=inj['status'],
+                    desc=inj['injury_desc'],
+                    is_b2b_rest=inj['is_b2b_rest'],
+                    expected_return=inj['expected_return']
+                )
+
     def _get_state_key(self):
         return (
             self.my_team_idx,
@@ -1007,6 +1030,9 @@ def interactive_loop():
     print("  search <isim>         : İsimle oyuncu ara.")
     print(f"  pos <1-{assistant.num_teams}>            : Draft sıranı değiştir (Varsayılan: 8).")
     print("  punt <kat1> <kat2>    : Manuel punt kategorisi belirle (Örn: punt FT TOV).")
+    print("  injury list           : Tüm aktif sakatlıkları ve durumları listele.")
+    print("  injury set <DURUM> <isim> [aciklama] : Sakatlık/dinlenme ata (Örn: injury set OUT kawhi [diz]).")
+    print("  injury clear <isim>   : Oyuncunun sakatlık kaydını temizle (Sağlıklı yap).")
     print("  exit                  : Çıkış.")
 
     while True:
@@ -1047,6 +1073,51 @@ def interactive_loop():
             assistant.punt_categories = cats
             assistant.precompute_suggestions_async()
             print(f"Manuel punt kategorileri: {assistant.punt_categories if cats else 'Yok (Otomatik)'}")
+        elif action == 'injury':
+            if len(cmd) > 1 and cmd[1].lower() == 'list':
+                injuries = assistant.injury_tracker.get_all_active_injuries()
+                if not injuries:
+                    print("Aktif sakatlık kaydı bulunmuyor (Tüm oyuncular sağlıklı).")
+                else:
+                    df_inj = pd.DataFrame(injuries)
+                    print("\n--- AKTİF SAKATLIK VE KULLANILABİLİRLİK LİSTESİ ---")
+                    cols = ['player_name', 'team', 'status', 'injury_desc', 'is_b2b_rest', 'updated_at']
+                    print(df_inj[cols].to_string(index=False))
+            elif len(cmd) > 3 and cmd[1].lower() == 'set':
+                status = cmd[2].upper()
+                p_query = " ".join(cmd[3:])
+                desc = ""
+                if "[" in p_query and "]" in p_query:
+                    parts = p_query.split("[")
+                    p_query = parts[0].strip()
+                    desc = parts[1].replace("]", "").strip()
+                pid = assistant.resolve_player_id(p_query, only_available=False)
+                if pid is None:
+                    print(f"Oyuncu bulunamadı: '{p_query}'")
+                else:
+                    pname = assistant.players[pid].name if pid in assistant.players else p_query
+                    tname = assistant.team_abbr_dict.get(pid, 'NBA')
+                    is_b2b = (status == 'B2B_REST')
+                    assistant.injury_tracker.set_injury(pid, pname, status, team=tname, desc=desc, is_b2b_rest=is_b2b)
+                    if pid in assistant.players:
+                        assistant.players[pid].update_injury_status(status, desc=desc, is_b2b_rest=is_b2b)
+                    print(f"[SAKATLIK GÜNCELLENDİ] {pname} ({tname}) -> {status} {f'({desc})' if desc else ''}")
+            elif len(cmd) > 2 and cmd[1].lower() == 'clear':
+                p_query = " ".join(cmd[2:])
+                pid = assistant.resolve_player_id(p_query, only_available=False)
+                if pid is None:
+                    print(f"Oyuncu bulunamadı: '{p_query}'")
+                else:
+                    pname = assistant.players[pid].name if pid in assistant.players else p_query
+                    assistant.injury_tracker.clear_injury(pid)
+                    if pid in assistant.players:
+                        assistant.players[pid].update_injury_status('HEALTHY')
+                    print(f"[SAĞLIKLI] {pname} sakatlık kaydı temizlendi.")
+            else:
+                print("Kullanım:")
+                print("  injury list")
+                print("  injury set <STATUS> <isim> [aciklama]  (Örn: injury set OUT kawhi leonard [diz dinlendirme])")
+                print("  injury clear <isim>                   (Örn: injury clear kawhi leonard)")
         elif action == 'suggest':
             df_sug = assistant.rank_available_players()
             elapsed_ms = df_sug.attrs.get('elapsed_ms', 0.0)

@@ -1,10 +1,12 @@
 pandas
-nba_api
-pulp
-# Future Steps / Scraping
-beautifulsoup4
-tweepy
-requests
+numpy
 scipy
-# Later Steps (L4)
 scikit-learn
+pulp
+requests
+beautifulsoup4
+nba_api
+pypdf
+pyarrow
+openpyxl
+
