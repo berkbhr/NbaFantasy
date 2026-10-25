@@ -64,7 +64,12 @@ class BayesianPlayer:
 
         # Player-specific role & Beta-Bernoulli availability state (fixes Rapor 1 / K7 & K8)
         self.expected_minutes = 20.0
+        self.base_expected_minutes = 20.0
+        self.prior_min = 0.0
+        self.depth_rank_in_pos = 1
+        self.is_recent_transfer = False
         self.minutes_var = 42.0  # Empirical residual SD ≈ 6.5 mins -> var ≈ 42.25
+        self.base_minutes_var = 42.0
         self.avail_alpha = 34.0
         self.avail_beta = 6.0
         self.availability_rate = 0.85
@@ -106,6 +111,7 @@ class BayesianPlayer:
         """
         has_valid_prior = bool(prior_data and prior_data.get('MIN', 0) >= 50)
         prior_min = float(prior_data['MIN']) if has_valid_prior else 0.0
+        self.prior_min = prior_min
         prior_gp = float(prior_data.get('GP', 0)) if has_valid_prior else 0.0
 
         pos_rates = self._resolve_pos_rates(positional_averages, pos_str=pos_str)
@@ -116,6 +122,7 @@ class BayesianPlayer:
             obs_mpg = prior_min / prior_gp
             w_min = prior_gp / (prior_gp + 8.0)
             self.expected_minutes = float(np.clip(w_min * obs_mpg + (1.0 - w_min) * replacement_mpg, 8.0, 38.0))
+            self.base_expected_minutes = self.expected_minutes
 
             # Beta(alpha, beta) prior for game availability based on prior season out of 82 games
             avail_gp_ref = float(prior_data.get('ROOKIE_AVAIL_GP', prior_gp))
@@ -127,6 +134,7 @@ class BayesianPlayer:
             self.availability_rate = float(np.clip(self.avail_alpha / (self.avail_alpha + self.avail_beta), 0.35, 0.96))
         else:
             self.expected_minutes = replacement_mpg
+            self.base_expected_minutes = replacement_mpg
             self.avail_alpha = 15.0
             self.avail_beta = 5.0
             self.availability_rate = 0.75
@@ -287,8 +295,10 @@ class BayesianPlayer:
             ewma_alpha = 0.45 if is_event_reset else 0.18
             diff_min = minutes - self.expected_minutes
             self.expected_minutes = float(np.clip(self.expected_minutes + ewma_alpha * diff_min, 6.0, 40.0))
+            self.base_expected_minutes = self.expected_minutes
             # Unclipped up to 144.0 (SD = 12 mins) to capture rotation/foul-trouble/blowout variance (fixes Rapor 1 / K7)
             self.minutes_var = float(np.clip((1.0 - ewma_alpha) * self.minutes_var + ewma_alpha * (diff_min ** 2), 9.0, 144.0))
+            self.base_minutes_var = self.minutes_var
 
             for stat in COUNT_STATS:
                 val = float(stats_dict.get(stat, 0.0))
@@ -390,3 +400,54 @@ class BayesianPlayer:
             }
 
         return predictions
+
+    def apply_positional_depth_and_injury_boost(self, depth_rank=1, is_new_transfer=False,
+                                                competing_Starter_minutes=0.0, vacated_pos_minutes=0.0,
+                                                boost_share=0.0):
+        """
+        Updates expected_minutes and minutes_var dynamically based on:
+          1. Post-transfer positional depth chart rank k in {1, 2, 3, ...}:
+             If a player transferred to a new team and ranks behind established positional incumbents
+             (depth_rank >= 2), their baseline expected minutes are compressed toward the positional
+             backup/3rd-string ceiling while increasing role uncertainty (minutes_var).
+          2. Teammate injury redistribution (vacated minutes ΔM_vacated at the same position):
+             Healthy players behind or sharing the position with injured teammates absorb
+             boost_share * vacated_pos_minutes up to a realistic starter ceiling (36.0 mins).
+        """
+        self.depth_rank_in_pos = max(1, int(depth_rank))
+        self.is_recent_transfer = bool(is_new_transfer)
+        base_m = float(getattr(self, 'base_expected_minutes', self.expected_minutes))
+        base_v = float(getattr(self, 'base_minutes_var', 42.0))
+
+        # 1. Transfer Positional Depth Adjustment (when joining a new team)
+        if self.is_recent_transfer:
+            if self.depth_rank_in_pos == 1:
+                # Acquired as primary starter at the position
+                role_m = max(base_m, min(32.0, 1.05 * base_m))
+                role_v = base_v * 1.10
+            elif self.depth_rank_in_pos == 2:
+                # 2nd string behind an established starter: minutes bounded by remaining positional minutes
+                avail_behind_starter = max(14.0, 48.0 - 0.85 * float(competing_Starter_minutes))
+                role_m = min(base_m, 0.55 * base_m + 0.45 * min(24.0, avail_behind_starter))
+                role_v = min(144.0, base_v * 1.25 + 6.0)
+            else:
+                # 3rd+ string depth piece on new team
+                role_m = min(base_m, max(10.0, 0.45 * base_m + 5.0))
+                role_v = min(144.0, base_v * 1.35 + 10.0)
+        else:
+            role_m = base_m
+            role_v = base_v
+
+        # 2. Teammate Positional Injury Boost (e.g. Raynaud & Cardwell OUT -> Precious Achiuwa steps up)
+        delta_boost = max(0.0, float(vacated_pos_minutes) * float(boost_share))
+        # Cap individual single-game injury boost at +10.0 minutes and role-dependent ceiling
+        delta_boost = min(delta_boost, 10.0)
+        max_ceiling = 35.5 if base_m >= 26.0 else (31.0 if base_m >= 20.0 else 25.0)
+        new_m = float(np.clip(role_m + delta_boost, 8.0, max_ceiling))
+
+        # Role expansion from teammate injuries carries higher minute variance (+0.35 * delta_boost^2)
+        new_v = float(np.clip(role_v + 0.35 * (delta_boost ** 2), 9.0, 144.0))
+
+        self.expected_minutes = new_m
+        self.minutes_var = new_v
+        return new_m, delta_boost

@@ -146,7 +146,8 @@ class MatchupEngine:
     def __init__(self, bayesian_players_dict, df_schedule, df_positions, season="2024_25", prior_season="2024_25",
                  free_agent_pool=None, num_il_slots=2, max_weekly_adds=3,
                  il_eligible_statuses=('OUT', 'INJ'), yahoo_il_eligible_ids=None, consec_dnp_limit=2,
-                 availability_weighted_lineup=True, availability_weighted_draft_lineup=False):
+                 availability_weighted_lineup=True, availability_weighted_draft_lineup=False,
+                 use_dynamic_add_drop=True, use_positional_depth_and_injury_boost=False):
         """
         New (all optional, defaults keep the previous draft-mode numbers reproducible):
           il_eligible_statuses  statuses that may go to IL/IL+ when Yahoo eligibility is unknown.
@@ -186,10 +187,15 @@ class MatchupEngine:
         self.consec_dnp_limit = consec_dnp_limit
         self.availability_weighted_lineup = bool(availability_weighted_lineup)
         self.availability_weighted_draft_lineup = bool(availability_weighted_draft_lineup)
+        self.use_dynamic_add_drop = bool(use_dynamic_add_drop)
+        self.use_positional_depth_and_injury_boost = bool(use_positional_depth_and_injury_boost)
         # Initialize team_map strictly from prior_season (keep='last') or target season's FIRST game
         # to eliminate look-ahead leakage of mid-season trades (fixes Rapor 2 / L7)
+        self.prior_team_map = {}
         self.team_map = self._load_leak_free_team_map(prior_season, season)
         self.default_norm_weights = self._compute_pool_unit_weights()
+        if self.use_positional_depth_and_injury_boost:
+            self.recompute_team_depth_and_injury_minutes()
 
     def _compute_pool_unit_weights(self):
         if not self.players:
@@ -219,9 +225,11 @@ class MatchupEngine:
         if os.path.exists(prior_path):
             df_prior = pd.read_parquet(prior_path, columns=['PLAYER_ID', 'TEAM_ID', 'GAME_DATE'])
             df_prior = df_prior.sort_values('GAME_DATE')
-            team_map.update(
-                df_prior.drop_duplicates(subset=['PLAYER_ID'], keep='last').set_index('PLAYER_ID')['TEAM_ID'].to_dict()
-            )
+            self.prior_team_map = {
+                int(k): int(v) for k, v in
+                df_prior.drop_duplicates(subset=['PLAYER_ID'], keep='last').set_index('PLAYER_ID')['TEAM_ID'].to_dict().items()
+            }
+            team_map.update(self.prior_team_map)
 
         target_path = os.path.join(DATA_DIR, 'raw', f'player_logs_{target_season}.parquet')
         if os.path.exists(target_path):
@@ -238,6 +246,247 @@ class MatchupEngine:
                 team_map.update(df_r26.set_index('PLAYER_ID')['TEAM_ID'].to_dict())
 
         return {int(k): int(v) for k, v in team_map.items()}
+
+    @staticmethod
+    def _extract_primary_pos_buckets(pos_str):
+        """Maps any position string ('G-F', 'C', 'PF', 'Guard-Forward') into primary buckets {'G', 'F', 'C'}."""
+        pos_u = str(pos_str or 'UTIL').upper()
+        buckets = set()
+        if 'G' in pos_u:
+            buckets.add('G')
+        if 'F' in pos_u:
+            buckets.add('F')
+        if 'C' in pos_u:
+            buckets.add('C')
+        if not buckets:
+            buckets.update(('G', 'F', 'C'))
+        return buckets
+
+    def recompute_team_depth_and_injury_minutes(self, use_live_injuries=True):
+        """
+        Vectorized / group-wise positional depth chart & teammate injury minute redistribution engine:
+          1. Groups all players by NBA TEAM_ID and primary position bucket B in {'G', 'F', 'C'}.
+          2. Ranks players within (Team, Position) by baseline per-game productivity * base_expected_minutes
+             to establish positional depth order k = 1, 2, 3, ...
+          3. Detects offseason/in-season transfers (where prior_team_map[pid] != team_map[pid]) and adjusts
+             their baseline expected minutes according to their positional rank on the new team.
+          4. Redistributes vacated positional minutes from injured/OUT/doubtful teammates (especially those
+             ahead on the depth chart) to healthy teammates at the same position (e.g., Maxime Raynaud &
+             Dylan Cardwell OUT on SAC -> Precious Achiuwa's expected minutes & projections jump).
+        Returns a summary list of players receiving significant injury minute boosts.
+        """
+        if not self.players:
+            return []
+
+        if not self.use_positional_depth_and_injury_boost:
+            for bp in self.players.values():
+                if hasattr(bp, 'base_expected_minutes'):
+                    bp.expected_minutes = float(bp.base_expected_minutes)
+                    bp.minutes_var = float(getattr(bp, 'base_minutes_var', 42.0))
+            return []
+
+        # Group players by NBA team (exclude unproved zero-minute / G-League entries from absorbing rotation minutes)
+        by_team = {}
+        for pid, bp in self.players.items():
+            tid = self.team_map.get(pid)
+            if not tid or tid <= 0:
+                continue
+            by_team.setdefault(tid, []).append(pid)
+
+        boost_summary = []
+
+        for tid, team_pids in by_team.items():
+            # Precompute base talent score and availability for every player on this NBA team
+            base_mins = {}
+            prior_mins_map = {}
+            talent_scores = {}
+            avail_map = {}
+            pos_buckets_map = {}
+            is_transfer_map = {}
+
+            for pid in team_pids:
+                bp = self.players[pid]
+                bm = float(getattr(bp, 'base_expected_minutes', bp.expected_minutes))
+                pm = float(getattr(bp, 'prior_min', 0.0))
+                base_mins[pid] = bm
+                prior_mins_map[pid] = pm
+                preds_base = bp.predict_next_game(projected_minutes=bm)
+                proj_flat = {s: preds_base[s]['mean'] for s in COUNT_STATS}
+                proj_flat['FGM'] = preds_base['FG']['mean']
+                proj_flat['FGA'] = preds_base['FG']['attempts']
+                proj_flat['FTM'] = preds_base['FT']['mean']
+                proj_flat['FTA'] = preds_base['FT']['attempts']
+                val = self._player_value({'PROJ': proj_flat}, self.default_norm_weights)
+                # Penalize zero-prior-minute G-League/Two-Way placeholders so true NBA rotation players rank above them
+                exp_bonus = 3.0 if pm >= 150.0 else (1.0 if pm >= 40.0 else -6.0)
+                talent_scores[pid] = 0.65 * bm + 1.85 * val + exp_bonus
+                avail = bp.get_effective_game_availability(is_b2b=False) if use_live_injuries else getattr(bp, 'availability_rate', 0.85)
+                avail_map[pid] = avail
+                pos_buckets_map[pid] = self._extract_primary_pos_buckets(self.pos_dict.get(pid, 'UTIL'))
+                prev_tid = self.prior_team_map.get(pid)
+                is_transfer_map[pid] = bool(prev_tid is not None and prev_tid > 0 and prev_tid != tid)
+
+            # Determine positional depth rank k in {'G', 'F', 'C'} and competing starter minutes
+            best_rank_by_pid = {pid: 99 for pid in team_pids}
+            competing_starter_min_by_pid = {pid: 0.0 for pid in team_pids}
+            pos_depth_lists = {}
+
+            for b_pos in ('G', 'F', 'C'):
+                elig_pids = [pid for pid in team_pids if b_pos in pos_buckets_map[pid]]
+                elig_pids.sort(key=lambda p: talent_scores[p], reverse=True)
+                pos_depth_lists[b_pos] = elig_pids
+                starter_m = base_mins[elig_pids[0]] if elig_pids else 28.0
+                for idx_r, pid in enumerate(elig_pids):
+                    rank_k = idx_r + 1
+                    if rank_k < best_rank_by_pid[pid]:
+                        best_rank_by_pid[pid] = rank_k
+                        competing_starter_min_by_pid[pid] = starter_m if rank_k > 1 else 0.0
+
+            # Compute vacated positional minutes from injured players and redistribute via
+            # Quality-Elastic Cross-Positional Spillover (Same-Position + Adjacent Small-Ball/Wing Spillover)
+            vacated_gain_by_pid = {pid: 0.0 for pid in team_pids}
+            injured_names_by_pid = {pid: [] for pid in team_pids}
+
+            # Positional adjacency matrix psi(pos_ben, pos_inj):
+            # Same bucket = 1.00; Adjacent ('G'<->'F' wing slide or 'C'<->'F' small-ball) = 0.55; Distant ('G'<->'C') = 0.15
+            ADJ_MAP = {
+                ('G', 'G'): 1.00, ('F', 'F'): 1.00, ('C', 'C'): 1.00,
+                ('G', 'F'): 0.55, ('F', 'G'): 0.55,
+                ('C', 'F'): 0.55, ('F', 'C'): 0.55,
+                ('G', 'C'): 0.15, ('C', 'G'): 0.15,
+            }
+
+            if use_live_injuries:
+                # Top-8 proven rotation players on the team (candidates for cross-positional minute expansion)
+                sorted_team_rot = sorted(
+                    [p for p in team_pids if prior_mins_map[p] >= 40.0 and avail_map[p] > 0.50],
+                    key=lambda p: talent_scores[p],
+                    reverse=True
+                )[:8]
+                team_rot_set = set(sorted_team_rot)
+
+                for b_pos in ('G', 'F', 'C'):
+                    elig_pids = pos_depth_lists[b_pos]
+                    if not elig_pids:
+                        continue
+                    # Identify injured/reduced-availability players in this positional group
+                    for idx_inj, inj_pid in enumerate(elig_pids):
+                        inj_avail = avail_map[inj_pid]
+                        inj_bp = self.players[inj_pid]
+                        inj_st = getattr(inj_bp, 'injury_status', 'HEALTHY')
+                        # Trigger redistribution only when a proven rotation teammate has explicit injury status or severe DNP drop
+                        if inj_avail >= 0.65 and inj_st in ('HEALTHY', 'PROBABLE', ''):
+                            continue
+                        if prior_mins_map[inj_pid] < 40.0 and idx_inj >= 2:
+                            continue
+                        missing_prob = max(0.0, 0.90 - inj_avail) if inj_avail > 0.0 else 1.0
+                        # Share of player's minutes belonging to this specific position bucket
+                        n_buckets = float(len(pos_buckets_map[inj_pid]))
+                        # Only primary rotation players (top 3 at the position or base_mins >= 18) vacate real NBA rotation minutes!
+                        if idx_inj == 0:
+                            rot_weight = 1.00
+                        elif idx_inj == 1:
+                            rot_weight = 0.85
+                        elif idx_inj == 2 and base_mins[inj_pid] >= 16.0:
+                            rot_weight = 0.55
+                        elif base_mins[inj_pid] >= 22.0:
+                            rot_weight = 0.50
+                        else:
+                            continue
+
+                        # Total redistributable rotation minutes (75% of vacated minutes; remaining 25% goes to deep garbage/end-of-bench)
+                        vacated_m = (base_mins[inj_pid] / n_buckets) * missing_prob * 0.75 * rot_weight
+                        if vacated_m < 1.0:
+                            continue
+
+                        # Candidate pool: top-4 same-position backups + top-8 overall team rotation players (cross-positional)
+                        same_pos_cands = [
+                            p for idx_b, p in enumerate(elig_pids)
+                            if p != inj_pid and avail_map[p] > 0.50 and idx_b < 4 and prior_mins_map[p] >= 40.0
+                        ]
+                        candidate_pool = list(dict.fromkeys(same_pos_cands + [p for p in sorted_team_rot if p != inj_pid]))
+                        if not candidate_pool:
+                            continue
+
+                        # Measure quality of best available same-position backup vs best adjacent-position starter/sixth-man
+                        best_same_talent = max((talent_scores[p] for p in same_pos_cands), default=8.0)
+                        best_adj_talent = max(
+                            (talent_scores[p] for p in team_rot_set if p != inj_pid and b_pos not in pos_buckets_map[p]),
+                            default=best_same_talent
+                        )
+                        # Quality gap delta_S: if same-position backup is much worse than a star forward/wing,
+                        # cross-positional spillover increases automatically (e.g. 30-min forward expands to 34 mins)
+                        quality_gap = max(0.0, best_adj_talent - best_same_talent)
+                        spillover_boost = min(1.85, 1.0 + 0.06 * quality_gap)
+
+                        beneficiaries = []
+                        for ben_pid in candidate_pool:
+                            # Remaining headroom before player hits their role ceiling (starters ~35.5m, rotation ~31m)
+                            bm_ben = base_mins[ben_pid]
+                            ceil_ben = 35.5 if bm_ben >= 26.0 else (31.0 if bm_ben >= 20.0 else 25.0)
+                            headroom = max(1.5, ceil_ben - bm_ben)
+
+                            # Softplus/exponential quality factor so higher-quality players draw larger share
+                            qual_factor = math.exp(0.055 * max(0.0, talent_scores[ben_pid] - 10.0))
+
+                            if ben_pid in elig_pids:
+                                idx_ben = elig_pids.index(ben_pid)
+                                pos_affinity = 1.00
+                                order_mult = 1.65 if idx_ben > idx_inj else (0.75 if idx_inj == 1 else 0.40)
+                                prox_mult = 1.0 / (1.0 + 0.40 * abs(idx_ben - idx_inj - 1))
+                            else:
+                                # Cross-positional teammate (e.g. F absorbing C or G minutes via small-ball / wing slide)
+                                pos_affinity = max(ADJ_MAP.get((bp_b, b_pos), 0.15) for bp_b in pos_buckets_map[ben_pid])
+                                order_mult = 0.70 * spillover_boost
+                                prox_mult = 0.85
+
+                            # Weight combines quality, positional affinity, depth order, available headroom, and play prob
+                            w_ben = (
+                                qual_factor
+                                * pos_affinity
+                                * order_mult
+                                * prox_mult
+                                * math.sqrt(headroom)
+                                * avail_map[ben_pid]
+                            )
+                            beneficiaries.append((ben_pid, w_ben))
+
+                        tot_w = sum(w for _, w in beneficiaries)
+                        if tot_w > 0:
+                            for ben_pid, w_ben in beneficiaries:
+                                share = w_ben / tot_w
+                                gain = vacated_m * share
+                                vacated_gain_by_pid[ben_pid] += gain
+                                if gain >= 0.8 and inj_bp.name not in injured_names_by_pid[ben_pid]:
+                                    injured_names_by_pid[ben_pid].append(inj_bp.name)
+
+            # Apply both transfer depth adjustment and injury boost to each player on the team
+            for pid in team_pids:
+                bp = self.players[pid]
+                rank_k = best_rank_by_pid[pid] if best_rank_by_pid[pid] < 99 else 2
+                new_m, delta_boost = bp.apply_positional_depth_and_injury_boost(
+                    depth_rank=rank_k,
+                    is_new_transfer=is_transfer_map[pid],
+                    competing_Starter_minutes=competing_starter_min_by_pid[pid],
+                    vacated_pos_minutes=vacated_gain_by_pid[pid],
+                    boost_share=1.0
+                )
+                if delta_boost >= 1.5 and avail_map[pid] > 0.50:
+                    boost_summary.append({
+                        'player_id': pid,
+                        'player_name': bp.name,
+                        'team_id': tid,
+                        'depth_rank': rank_k,
+                        'is_transfer': is_transfer_map[pid],
+                        'base_minutes': base_mins[pid],
+                        'projected_minutes': new_m,
+                        'minute_boost': delta_boost,
+                        'injured_teammates': injured_names_by_pid[pid],
+                    })
+
+        boost_summary.sort(key=lambda x: x['minute_boost'], reverse=True)
+        self.last_injury_boost_summary = boost_summary
+        return boost_summary
 
     def _get_player_schedule(self, team_id, start_date, end_date):
         if self.schedule.empty or team_id is None:
@@ -350,6 +599,14 @@ class MatchupEngine:
 
         if category_weights is None:
             category_weights = self.default_norm_weights
+
+        if self.use_positional_depth_and_injury_boost:
+            self.recompute_team_depth_and_injury_minutes(use_live_injuries=use_live_injuries)
+        else:
+            for bp in self.players.values():
+                if hasattr(bp, 'base_expected_minutes'):
+                    bp.expected_minutes = float(bp.base_expected_minutes)
+                    bp.minutes_var = float(getattr(bp, 'base_minutes_var', 42.0))
 
         ref_date = pd.to_datetime(start_date).normalize() if start_date is not None else None
 
@@ -612,3 +869,178 @@ class MatchupEngine:
         opp_dist = self.get_expected_weekly_distribution(opp_roster_ids, start_date, end_date)
         _, win_probs, _ = self.evaluate_h2h_matchup(my_dist, opp_dist)
         return win_probs
+
+    @classmethod
+    def combine_live_and_remaining_dist(cls, actual_stats, rem_dist, rem_fraction=1.0):
+        """
+        Conditions weekly predictive distribution on already realized live scoreboard stats X_actual
+        and scales remaining distribution by rem_fraction (if rem_dist is a full-week undated distribution;
+        if rem_dist is already computed over remaining_dates, pass rem_fraction=1.0).
+          mu_final = X_actual + rem_fraction * mu_rem
+          var_final = rem_fraction * var_rem
+        """
+        actual_stats = actual_stats or {}
+        f = max(0.0, float(rem_fraction))
+        mean_out = {}
+        var_out = {}
+        for cat in ALL_CATEGORIES:
+            mean_out[cat] = float(actual_stats.get(cat, 0.0)) + f * float(rem_dist['mean'].get(cat, 0.0))
+            var_out[cat] = f * float(rem_dist['var'].get(cat, 0.0))
+        for ck in ('FGM_cond', 'FTM_cond'):
+            var_out[ck] = f * float(rem_dist['var'].get(ck, 0.0))
+
+        players_out = []
+        for pb in rem_dist.get('players', []):
+            pb_copy = dict(pb)
+            pb_copy['exp_gp'] = f * float(pb.get('exp_gp', 0.0))
+            pb_copy['var_gp'] = f * float(pb.get('var_gp', 0.0))
+            players_out.append(pb_copy)
+
+        return {
+            'mean': mean_out,
+            'var': var_out,
+            'players': players_out,
+            'meta': dict(rem_dist.get('meta', {})),
+        }
+
+    def recommend_add_drop_moves(self, my_roster_ids, opp_roster_ids, candidate_fa_ids,
+                                 start_date=None, end_date=None,
+                                 my_actual_stats=None, opp_actual_stats=None,
+                                 my_rem_fraction=1.0, opp_rem_fraction=1.0,
+                                 top_k=5):
+        """
+        Evaluates marginal expected weekly category wins Delta sum_{c=1}^9 Phi_c for adding a Free Agent
+        (either into an open IL-freed roster spot or by dropping a low-leverage bench player)
+        conditioned on remaining games in [start_date, end_date] and current live scoreboard stats.
+        When `self.use_dynamic_add_drop` is False, falls back to static per-game value ordering.
+        """
+        base_my_rem = self.get_expected_weekly_distribution(my_roster_ids, start_date=start_date, end_date=end_date)
+        base_opp_rem = self.get_expected_weekly_distribution(opp_roster_ids, start_date=start_date, end_date=end_date)
+
+        base_my_tot = self.combine_live_and_remaining_dist(my_actual_stats, base_my_rem, rem_fraction=my_rem_fraction)
+        base_opp_tot = self.combine_live_and_remaining_dist(opp_actual_stats, base_opp_rem, rem_fraction=opp_rem_fraction)
+
+        base_exp_wins, base_win_probs, base_marg_weights = self.evaluate_h2h_matchup(base_my_tot, base_opp_tot)
+
+        # Determine droppable players on my roster (exclude IL-stashed players and top core stars)
+        stashed_set = set(base_my_rem.get('meta', {}).get('il_stashed_ids', []))
+        active_roster = [pid for pid in my_roster_ids if pid in self.players and pid not in stashed_set]
+
+        # Score each active player by marginal utility under current matchup weights
+        ref_date = pd.to_datetime(start_date).normalize() if start_date is not None else None
+        dates = (
+            pd.date_range(pd.to_datetime(start_date).normalize(), pd.to_datetime(end_date).normalize())
+            if (start_date is not None and end_date is not None and not self.schedule.empty)
+            else []
+        )
+
+        roster_entries = {}
+        for pid in active_roster:
+            avail = self.players[pid].get_effective_game_availability(is_b2b=False)
+            entry = self._make_entry(pid, ref_date, start_date, end_date, dates, avail)
+            rem_g = len(entry['SCHEDULE']) if len(dates) > 0 else 3.35 * my_rem_fraction
+            entry['REM_GAMES'] = rem_g
+            val = self._player_value(entry, base_marg_weights if self.use_dynamic_add_drop else self.default_norm_weights)
+            entry['MATCHUP_VAL'] = val * max(rem_g, 0.5) * avail
+            roster_entries[pid] = entry
+
+        # Bottom 3 active players are candidate drops; also check if an open slot exists (active_roster < 13)
+        sorted_active = sorted(active_roster, key=lambda pid: roster_entries[pid]['MATCHUP_VAL'])
+        drop_candidates = sorted_active[:3]
+        has_open_slot = len(active_roster) < MAX_ROSTER_SIZE
+
+        recommendations = []
+        valid_fas = [
+            pid for pid in candidate_fa_ids
+            if pid in self.players and pid not in my_roster_ids
+            and self.players[pid].get_effective_game_availability(is_b2b=False) > 0.50
+        ]
+
+        # Pre-filter top 15 FAs by remaining-schedule weighted marginal utility for fast exact evaluation
+        fa_prelim = []
+        for fa_pid in valid_fas:
+            avail = self.players[fa_pid].get_effective_game_availability(is_b2b=False)
+            entry = self._make_entry(fa_pid, ref_date, start_date, end_date, dates, avail, streamer=True)
+            rem_g = len(entry['SCHEDULE']) if len(dates) > 0 else 3.35 * my_rem_fraction
+            w_dict = base_marg_weights if self.use_dynamic_add_drop else self.default_norm_weights
+            prelim_score = self._player_value(entry, w_dict) * (rem_g if self.use_dynamic_add_drop else 1.0) * avail
+            fa_prelim.append((prelim_score, fa_pid, rem_g, avail))
+
+        fa_prelim.sort(key=lambda x: x[0], reverse=True)
+        shortlist_fas = [x[1] for x in fa_prelim[:12]]
+        fa_meta = {x[1]: (x[2], x[3]) for x in fa_prelim[:12]}
+
+        # Disable automatic internal streamer injection during counterfactual roster swap evaluation
+        saved_pool = self.free_agent_pool
+        self.free_agent_pool = []
+        try:
+            # Evaluate baseline without auto-streamer so swaps are measured cleanly
+            clean_base_rem = self.get_expected_weekly_distribution(my_roster_ids, start_date=start_date, end_date=end_date)
+            clean_base_tot = self.combine_live_and_remaining_dist(my_actual_stats, clean_base_rem, rem_fraction=my_rem_fraction)
+            clean_base_wins, clean_base_probs, _ = self.evaluate_h2h_matchup(clean_base_tot, base_opp_tot)
+
+            for fa_pid in shortlist_fas:
+                rem_g, fa_avail = fa_meta[fa_pid]
+                fa_name = self.players[fa_pid].name
+
+                if has_open_slot:
+                    trial_roster = list(my_roster_ids) + [fa_pid]
+                    trial_rem = self.get_expected_weekly_distribution(trial_roster, start_date=start_date, end_date=end_date)
+                    trial_tot = self.combine_live_and_remaining_dist(my_actual_stats, trial_rem, rem_fraction=my_rem_fraction)
+                    new_wins, new_probs, _ = self.evaluate_h2h_matchup(trial_tot, base_opp_tot)
+                    delta_wins = new_wins - clean_base_wins
+                    best_cats = sorted(
+                        [(c, new_probs[c] - clean_base_probs[c]) for c in new_probs],
+                        key=lambda item: item[1], reverse=True
+                    )
+                    top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
+                    recommendations.append({
+                        'action': 'ADD (Boş Yuva / IL+)',
+                        'add_id': fa_pid,
+                        'add_name': fa_name,
+                        'drop_id': None,
+                        'drop_name': 'Boş Yuva (IL+ Stash)',
+                        'rem_games_add': rem_g,
+                        'rem_games_drop': 0,
+                        'fa_avail': fa_avail,
+                        'base_expected_wins': clean_base_wins,
+                        'new_expected_wins': new_wins,
+                        'delta_expected_wins': delta_wins,
+                        'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
+                    })
+                else:
+                    best_swap = None
+                    for drop_pid in drop_candidates:
+                        trial_roster = [p for p in my_roster_ids if p != drop_pid] + [fa_pid]
+                        trial_rem = self.get_expected_weekly_distribution(trial_roster, start_date=start_date, end_date=end_date)
+                        trial_tot = self.combine_live_and_remaining_dist(my_actual_stats, trial_rem, rem_fraction=my_rem_fraction)
+                        new_wins, new_probs, _ = self.evaluate_h2h_matchup(trial_tot, base_opp_tot)
+                        delta_wins = new_wins - clean_base_wins
+                        if best_swap is None or delta_wins > best_swap['delta_expected_wins']:
+                            best_cats = sorted(
+                                [(c, new_probs[c] - clean_base_probs[c]) for c in new_probs],
+                                key=lambda item: item[1], reverse=True
+                            )
+                            top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
+                            best_swap = {
+                                'action': 'ADD / DROP',
+                                'add_id': fa_pid,
+                                'add_name': fa_name,
+                                'drop_id': drop_pid,
+                                'drop_name': self.players[drop_pid].name,
+                                'rem_games_add': rem_g,
+                                'rem_games_drop': roster_entries[drop_pid]['REM_GAMES'],
+                                'fa_avail': fa_avail,
+                                'base_expected_wins': clean_base_wins,
+                                'new_expected_wins': new_wins,
+                                'delta_expected_wins': delta_wins,
+                                'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
+                            }
+                    if best_swap is not None:
+                        recommendations.append(best_swap)
+        finally:
+            self.free_agent_pool = saved_pool
+
+        if self.use_dynamic_add_drop:
+            recommendations.sort(key=lambda r: r['delta_expected_wins'], reverse=True)
+        return recommendations[:top_k]

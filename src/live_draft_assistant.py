@@ -46,6 +46,7 @@ class LiveDraftAssistant:
         self._last_sync_time = None
 
         self.external_pool_ids = kwargs.get('pool_ids', None)
+        self.use_positional_depth_and_injury_boost = bool(kwargs.get('use_positional_depth_and_injury_boost', True))
         self.team_abbr_dict = {}
 
         self.load_data()
@@ -148,8 +149,14 @@ class LiveDraftAssistant:
             self.available_player_ids.add(pid)
 
         self.engine = MatchupEngine(
-            self.players, self.schedule_df, self.df_pos, season=self.target_season, prior_season=self.prior_season
+            self.players, self.schedule_df, self.df_pos, season=self.target_season, prior_season=self.prior_season,
+            use_positional_depth_and_injury_boost=self.use_positional_depth_and_injury_boost
         )
+        self._refresh_projected_stats_dict()
+
+    def _refresh_projected_stats_dict(self):
+        if hasattr(self, 'engine') and self.engine is not None and self.use_positional_depth_and_injury_boost:
+            self.engine.recompute_team_depth_and_injury_minutes(use_live_injuries=True)
 
         for pid, bp in self.players.items():
             preds = bp.predict_next_game(self.target_minutes)
@@ -307,6 +314,12 @@ class LiveDraftAssistant:
     def _sync_injuries_into_players(self):
         if not hasattr(self, 'injury_tracker'):
             return
+        # First reset all players in memory to HEALTHY so any player cleared from injuries.db
+        # immediately regains their healthy availability and their backups revert to baseline minutes!
+        for bp in self.players.values():
+            bp.update_injury_status('HEALTHY', desc='', is_b2b_rest=False, expected_return=None)
+
+        from injury_tracker import normalize_name
         injuries = self.injury_tracker.get_all_active_injuries()
         for inj in injuries:
             pid = inj['player_id']
@@ -317,6 +330,42 @@ class LiveDraftAssistant:
                     is_b2b_rest=inj['is_b2b_rest'],
                     expected_return=inj['expected_return']
                 )
+            else:
+                norm_target = normalize_name(inj.get('player_name', ''))
+                for bp in self.players.values():
+                    if normalize_name(bp.name) == norm_target:
+                        bp.update_injury_status(
+                            status=inj['status'],
+                            desc=inj['injury_desc'],
+                            is_b2b_rest=inj['is_b2b_rest'],
+                            expected_return=inj['expected_return']
+                        )
+                        break
+        if self.use_positional_depth_and_injury_boost and hasattr(self, 'engine') and self.engine is not None:
+            self._refresh_projected_stats_dict()
+            # Recompute Z-Scores and fast_z_dict with updated teammate-injury-boosted minutes
+            df = pd.DataFrame.from_dict(self.projected_stats, orient='index')
+            for stat in COUNT_STATS:
+                z_series = (df[stat] - self.z_means[stat]) / (self.z_stds[stat] if self.z_stds[stat] else 1.0)
+                if stat == 'TOV':
+                    z_series = -z_series
+                df[f"Z_{stat}"] = z_series
+            for stat in PERCENTAGE_STATS:
+                avg_rate = self.z_means[f"{stat}_rate"]
+                df[f"IMPACT_{stat}"] = (df[f"{stat}_rate"] - avg_rate) * df[f"{stat}A"]
+                df[f"Z_{stat}"] = (df[f"IMPACT_{stat}"] - self.z_means[f"IMPACT_{stat}"]) / (
+                    self.z_stds[f"IMPACT_{stat}"] if self.z_stds[f"IMPACT_{stat}"] else 1.0
+                )
+            z_cols = [f"Z_{s}" for s in COUNT_STATS + PERCENTAGE_STATS]
+            df['BASE_Z'] = df[z_cols].sum(axis=1)
+            if 'ADP_Z' in self.df_base.columns:
+                df['ADP_Z'] = self.df_base['ADP_Z']
+            self.df_base = df.sort_values('BASE_Z', ascending=False)
+            all_cats = COUNT_STATS + PERCENTAGE_STATS
+            self.fast_z_dict = {
+                int(pid): {s: float(row[f"Z_{s}"]) for s in all_cats}
+                for pid, row in self.df_base.iterrows()
+            }
 
     def _get_state_key(self):
         return (

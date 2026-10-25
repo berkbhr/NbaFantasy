@@ -42,22 +42,35 @@ class YahooFantasyOAuthClient:
         self.load_config()
 
     def load_config(self):
-        if not os.path.exists(self.config_path):
-            return False
+        data = {}
+        if os.path.exists(self.config_path):
+            try:
+                with open(self.config_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            except Exception as e:
+                self.last_error = f"Config okuma hatası: {e}"
+
+        # Support headless GitHub Actions environment secrets (`YAHOO_OAUTH_JSON` or individual env vars)
+        env_oauth_json = os.environ.get("YAHOO_OAUTH_JSON", "").strip()
+        if env_oauth_json:
+            try:
+                env_data = json.loads(env_oauth_json)
+                if isinstance(env_data, dict):
+                    data.update({k: v for k, v in env_data.items() if v})
+            except Exception:
+                pass
+
+        self.client_id = str(os.environ.get('YAHOO_CLIENT_ID') or data.get('client_id', '')).strip()
+        self.client_secret = str(os.environ.get('YAHOO_CLIENT_SECRET') or data.get('client_secret', '')).strip()
+        self.refresh_token = str(os.environ.get('YAHOO_REFRESH_TOKEN') or data.get('refresh_token', '')).strip()
+        self.access_token = str(os.environ.get('YAHOO_ACCESS_TOKEN') or data.get('access_token', '')).strip()
         try:
-            with open(self.config_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            self.client_id = str(data.get('client_id', '')).strip()
-            self.client_secret = str(data.get('client_secret', '')).strip()
-            self.refresh_token = str(data.get('refresh_token', '')).strip()
-            self.access_token = str(data.get('access_token', '')).strip()
             self.token_expiry = float(data.get('token_expiry', 0.0))
-            self.league_key = str(data.get('league_key', '')).strip()
-            self.team_key = str(data.get('team_key', '')).strip()
-            return bool(self.client_id and self.client_secret and (self.refresh_token or self.access_token))
-        except Exception as e:
-            self.last_error = f"Config okuma hatası: {e}"
-            return False
+        except (TypeError, ValueError):
+            self.token_expiry = 0.0
+        self.league_key = str(os.environ.get('YAHOO_LEAGUE_KEY') or data.get('league_key', '')).strip()
+        self.team_key = str(os.environ.get('YAHOO_TEAM_KEY') or data.get('team_key', '')).strip()
+        return bool(self.client_id and self.client_secret and (self.refresh_token or self.access_token))
 
     def save_config(self):
         os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
@@ -197,6 +210,383 @@ class YahooFantasyOAuthClient:
         except Exception as e:
             self.last_error = f"Draft JSON ayrıştırma hatası: {e}"
         return picks_out
+
+    def discover_league_and_team(self, target_league_id="64691"):
+        """
+        Automatically resolves `self.league_key` (e.g. `454.l.64691`) and `self.team_key`
+        if not explicitly stored in config/yahoo_oauth.json.
+        """
+        if self.league_key and self.team_key:
+            return True
+        data = self._api_get("users;use_login=1/games;game_keys=nba/leagues")
+        if not data:
+            return False
+        try:
+            fc = data.get("fantasy_content", {})
+            users = fc.get("users", {})
+            user_info = users.get("0", {}).get("user", [])
+            games = user_info[1].get("games", {}) if len(user_info) > 1 else {}
+            nba_game = games.get("0", {}).get("game", [])
+            leagues = nba_game[1].get("leagues", {}) if len(nba_game) > 1 else {}
+
+            for k, v in leagues.items():
+                if k == "count" or not isinstance(v, dict):
+                    continue
+                l_info = v.get("league", [])
+                meta = l_info[0] if l_info else {}
+                l_key = str(meta.get("league_key", ""))
+                l_id = str(meta.get("league_id", ""))
+                if l_key and (not target_league_id or l_id == str(target_league_id) or l_key.endswith(f".l.{target_league_id}")):
+                    self.league_key = l_key
+                    break
+            if not self.league_key:
+                # Fallback to first discovered NBA league
+                for k, v in leagues.items():
+                    if k != "count" and isinstance(v, dict):
+                        l_info = v.get("league", [])
+                        if l_info and isinstance(l_info[0], dict):
+                            self.league_key = str(l_info[0].get("league_key", ""))
+                            if self.league_key:
+                                break
+            if self.league_key:
+                t_data = self._api_get(f"league/{self.league_key}/teams")
+                if t_data:
+                    t_fc = t_data.get("fantasy_content", {}).get("league", [])
+                    teams_obj = t_fc[1].get("teams", {}) if len(t_fc) > 1 else {}
+                    for tk, tv in teams_obj.items():
+                        if tk == "count" or not isinstance(tv, dict):
+                            continue
+                        t_arr = tv.get("team", [])
+                        if not t_arr:
+                            continue
+                        meta_list = t_arr[0] if isinstance(t_arr[0], list) else t_arr
+                        t_name, curr_t_key, is_owned = "", "", False
+                        for item in meta_list:
+                            if isinstance(item, dict):
+                                if "name" in item:
+                                    t_name = str(item["name"])
+                                if "team_key" in item:
+                                    curr_t_key = str(item["team_key"])
+                                if item.get("is_owned_by_current_login") == 1:
+                                    is_owned = True
+                        if is_owned or "berk" in t_name.lower():
+                            self.team_key = curr_t_key
+                            break
+                self.save_config()
+                return True
+        except Exception as e:
+            self.last_error = f"Lig keşif hatası: {e}"
+        return False
+
+    def fetch_league_rosters_and_il(self):
+        """
+        Fetches all 14 teams' live rosters and slot assignments (`PG`, `UTIL`, `BN`, `IL`, `IL+`)
+        via `/league/{league_key}/teams;out=roster`.
+        Returns:
+          {
+            'rosters_by_slot': {0: [{'name': str, 'selected_position': str, 'status': str}, ...], ...},
+            'team_names_by_slot': {0: str, ...},
+            'team_keys_by_slot': {0: str, ...},
+            'il_players_by_slot': {0: [str, ...], ...},
+            'unslotted_injured_by_slot': {0: [{'name': str, 'status': str, 'slot': str}, ...], ...},
+            'empty_active_slots_by_slot': {0: int, ...}
+          }
+        """
+        if not self.league_key:
+            self.discover_league_and_team()
+        if not self.league_key:
+            return None
+
+        data = self._api_get(f"league/{self.league_key}/teams;out=roster", timeout=6.0)
+        if not data:
+            return None
+
+        result = {
+            'rosters_by_slot': {},
+            'team_names_by_slot': {},
+            'team_keys_by_slot': {},
+            'il_players_by_slot': {},
+            'unslotted_injured_by_slot': {},
+            'empty_active_slots_by_slot': {},
+        }
+        try:
+            league_arr = data.get("fantasy_content", {}).get("league", [])
+            if len(league_arr) < 2:
+                return None
+            teams_obj = league_arr[1].get("teams", {})
+            for tk, tv in teams_obj.items():
+                if tk == "count" or not isinstance(tv, dict):
+                    continue
+                team_node = tv.get("team", [])
+                if not team_node:
+                    continue
+                meta_list = team_node[0] if isinstance(team_node[0], list) else []
+                t_id, t_key, t_name = None, "", ""
+                for item in meta_list:
+                    if isinstance(item, dict):
+                        if "team_id" in item:
+                            t_id = int(item["team_id"])
+                        if "team_key" in item:
+                            t_key = str(item["team_key"])
+                        if "name" in item:
+                            t_name = str(item["name"])
+                if t_id is None:
+                    continue
+                slot_idx = t_id - 1
+                result['team_names_by_slot'][slot_idx] = t_name
+                result['team_keys_by_slot'][slot_idx] = t_key
+
+                roster_obj = team_node[1].get("roster", {}) if len(team_node) > 1 else {}
+                players_container = roster_obj.get("0", {}).get("players", {}) if "0" in roster_obj else roster_obj.get("players", {})
+
+                team_players = []
+                il_list = []
+                unslotted_inj = []
+                active_filled_count = 0
+
+                if isinstance(players_container, dict):
+                    for pk, pv in players_container.items():
+                        if pk == "count" or not isinstance(pv, dict):
+                            continue
+                        p_node = pv.get("player", [])
+                        if not p_node:
+                            continue
+                        p_meta = p_node[0] if isinstance(p_node[0], list) else []
+                        p_name, p_status = "", "HEALTHY"
+                        for m in p_meta:
+                            if isinstance(m, dict):
+                                if "name" in m and isinstance(m["name"], dict):
+                                    p_name = str(m["name"].get("full", "")).strip()
+                                if "status" in m and m["status"]:
+                                    p_status = str(m["status"]).upper().strip()
+
+                        sel_pos = "BN"
+                        for sub in p_node[1:]:
+                            if isinstance(sub, dict) and "selected_position" in sub:
+                                sp_arr = sub["selected_position"]
+                                if isinstance(sp_arr, list):
+                                    for sp_item in sp_arr:
+                                        if isinstance(sp_item, dict) and "position" in sp_item:
+                                            sel_pos = str(sp_item["position"]).upper().strip()
+                                elif isinstance(sp_arr, dict) and "position" in sp_arr:
+                                    sel_pos = str(sp_arr["position"]).upper().strip()
+
+                        if not p_name:
+                            continue
+                        team_players.append({
+                            'name': p_name,
+                            'selected_position': sel_pos,
+                            'status': p_status,
+                        })
+                        if sel_pos in ('IL', 'IL+'):
+                            il_list.append(p_name)
+                        else:
+                            if sel_pos not in ('BN', 'IL', 'IL+'):
+                                active_filled_count += 1
+                            if p_status in ('INJ', 'O', 'OUT', 'IL', 'GTD', 'DTD'):
+                                unslotted_inj.append({
+                                    'name': p_name,
+                                    'status': p_status,
+                                    'slot': sel_pos,
+                                })
+
+                result['rosters_by_slot'][slot_idx] = team_players
+                result['il_players_by_slot'][slot_idx] = il_list
+                result['unslotted_injured_by_slot'][slot_idx] = unslotted_inj
+                # Standard 10 active slots; if total non-IL players < 13, empty roster spot exists
+                non_il_count = len([x for x in team_players if x['selected_position'] not in ('IL', 'IL+')])
+                result['empty_active_slots_by_slot'][slot_idx] = max(0, 13 - non_il_count)
+            return result
+        except Exception as e:
+            self.last_error = f"Kadro/IL ayrıştırma hatası: {e}"
+            return None
+
+    def fetch_recent_transactions(self, count=25):
+        """
+        Fetches `/league/{league_key}/transactions;types=add,drop,trade` and returns chronological
+        list of add/drop/trade moves:
+          `[{'transaction_id': str, 'type': str, 'timestamp': int, 'added': [{'player_name': str, 'team_name': str, 'team_key': str}], 'dropped': [...]}, ...]`
+        """
+        if not self.league_key:
+            self.discover_league_and_team()
+        if not self.league_key:
+            return []
+
+        data = self._api_get(f"league/{self.league_key}/transactions;types=add,drop,trade;count={int(count)}", timeout=5.0)
+        if not data:
+            return []
+
+        tx_list = []
+        try:
+            league_arr = data.get("fantasy_content", {}).get("league", [])
+            if len(league_arr) < 2:
+                return []
+            tx_obj = league_arr[1].get("transactions", {})
+            for k, v in tx_obj.items():
+                if k == "count" or not isinstance(v, dict):
+                    continue
+                tx_node = v.get("transaction", [])
+                if len(tx_node) < 2:
+                    continue
+                tx_meta = tx_node[0] if isinstance(tx_node[0], dict) else {}
+                tx_id = str(tx_meta.get("transaction_id", ""))
+                tx_type = str(tx_meta.get("type", ""))
+                tx_time = int(tx_meta.get("timestamp", 0))
+                players_obj = tx_node[1].get("players", {})
+                added, dropped = [], []
+                if isinstance(players_obj, dict):
+                    for pk, pv in players_obj.items():
+                        if pk == "count" or not isinstance(pv, dict):
+                            continue
+                        p_node = pv.get("player", [])
+                        if not p_node:
+                            continue
+                        p_meta = p_node[0] if isinstance(p_node[0], list) else []
+                        p_name = ""
+                        for m in p_meta:
+                            if isinstance(m, dict) and "name" in m and isinstance(m["name"], dict):
+                                p_name = str(m["name"].get("full", "")).strip()
+                        tx_data = {}
+                        for sub in p_node[1:]:
+                            if isinstance(sub, dict) and "transaction_data" in sub:
+                                td = sub["transaction_data"]
+                                tx_data = td[0] if isinstance(td, list) and td else (td if isinstance(td, dict) else {})
+                        action_type = str(tx_data.get("type", "")).lower()
+                        if action_type == "add":
+                            added.append({
+                                'player_name': p_name,
+                                'team_key': str(tx_data.get("destination_team_key", "")),
+                                'team_name': str(tx_data.get("destination_team_name", "")),
+                                'source_type': str(tx_data.get("source_type", "")),
+                            })
+                        elif action_type == "drop":
+                            dropped.append({
+                                'player_name': p_name,
+                                'team_key': str(tx_data.get("source_team_key", "")),
+                                'team_name': str(tx_data.get("source_team_name", "")),
+                                'destination_type': str(tx_data.get("destination_type", "")),
+                            })
+                if added or dropped:
+                    tx_list.append({
+                        'transaction_id': tx_id,
+                        'type': tx_type,
+                        'timestamp': tx_time,
+                        'added': added,
+                        'dropped': dropped,
+                    })
+            tx_list.sort(key=lambda x: x['timestamp'], reverse=True)
+        except Exception as e:
+            self.last_error = f"Transaction ayrıştırma hatası: {e}"
+        return tx_list
+
+    def fetch_live_scoreboard(self, week=None):
+        """
+        Fetches `/league/{league_key}/scoreboard` for the current (or specified) week and parses
+        all 9-category H2H scores plus remaining/played games.
+        Yahoo standard NBA stat_ids:
+          '9004003': FGM/FGA, '5': FG%, '9007006': FTM/FTA, '8': FT%,
+          '10': FG3M, '12': PTS, '15': REB, '16': AST, '17': STL, '18': BLK, '19': TOV
+        """
+        if not self.league_key:
+            self.discover_league_and_team()
+        if not self.league_key:
+            return None
+
+        ep = f"league/{self.league_key}/scoreboard" + (f";week={int(week)}" if week else "")
+        data = self._api_get(ep, timeout=5.0)
+        if not data:
+            return None
+
+        STAT_ID_MAP = {
+            '10': 'FG3M',
+            '12': 'PTS',
+            '15': 'REB',
+            '16': 'AST',
+            '17': 'STL',
+            '18': 'BLK',
+            '19': 'TOV',
+        }
+        try:
+            league_arr = data.get("fantasy_content", {}).get("league", [])
+            if len(league_arr) < 2:
+                return None
+            sb = league_arr[1].get("scoreboard", {})
+            curr_week = int(sb.get("week", week or 1))
+            matchups_obj = sb.get("0", {}).get("matchups", {}) if "0" in sb else sb.get("matchups", {})
+
+            parsed_matchups = []
+            for mk, mv in matchups_obj.items():
+                if mk == "count" or not isinstance(mv, dict):
+                    continue
+                m_node = mv.get("matchup", {})
+                teams_container = m_node.get("0", {}).get("teams", {}) if "0" in m_node else m_node.get("teams", {})
+                pair = []
+                for tk in ("0", "1"):
+                    if tk not in teams_container:
+                        continue
+                    t_node = teams_container[tk].get("team", [])
+                    if len(t_node) < 2:
+                        continue
+                    t_meta = t_node[0] if isinstance(t_node[0], list) else []
+                    t_name, t_id, t_key = "", 0, ""
+                    for item in t_meta:
+                        if isinstance(item, dict):
+                            if "name" in item:
+                                t_name = str(item["name"])
+                            if "team_id" in item:
+                                t_id = int(item["team_id"])
+                            if "team_key" in item:
+                                t_key = str(item["team_key"])
+
+                    t_stats_wrapper = t_node[1] if isinstance(t_node[1], dict) else {}
+                    rg_obj = t_stats_wrapper.get("remaining_games", {}).get("total", {})
+                    if not rg_obj and "team_remaining_games" in t_stats_wrapper:
+                        rg_obj = t_stats_wrapper.get("team_remaining_games", {}).get("total", {})
+
+                    gp = int(rg_obj.get("completed_games", 0))
+                    g_rem = int(rg_obj.get("remaining_games", 0)) + int(rg_obj.get("live_games", 0))
+
+                    stats_dict = {
+                        'name': t_name,
+                        'slot': t_id,
+                        'team_key': t_key,
+                        'games_played': gp,
+                        'games_remaining': g_rem,
+                        'total_scheduled': max(gp + g_rem, 1),
+                    }
+                    raw_stats = t_stats_wrapper.get("team_stats", {}).get("stats", [])
+                    for s_entry in raw_stats:
+                        st_obj = s_entry.get("stat", {}) if isinstance(s_entry, dict) else {}
+                        sid = str(st_obj.get("stat_id", ""))
+                        val_str = str(st_obj.get("value", "0")).strip()
+                        if sid in STAT_ID_MAP:
+                            try:
+                                stats_dict[STAT_ID_MAP[sid]] = float(val_str) if val_str and val_str != '-' else 0.0
+                            except ValueError:
+                                stats_dict[STAT_ID_MAP[sid]] = 0.0
+                        elif sid == '9004003' or ('/' in val_str and 'FGM' not in stats_dict):
+                            parts = val_str.split('/')
+                            if len(parts) == 2:
+                                try:
+                                    stats_dict['FGM'] = float(parts[0])
+                                    stats_dict['FGA'] = float(parts[1])
+                                except ValueError:
+                                    pass
+                        elif sid == '9007006' or ('/' in val_str and 'FTM' not in stats_dict):
+                            parts = val_str.split('/')
+                            if len(parts) == 2:
+                                try:
+                                    stats_dict['FTM'] = float(parts[0])
+                                    stats_dict['FTA'] = float(parts[1])
+                                except ValueError:
+                                    pass
+                    pair.append(stats_dict)
+                if len(pair) == 2:
+                    parsed_matchups.append(pair)
+            return {'week': curr_week, 'matchups': parsed_matchups}
+        except Exception as e:
+            self.last_error = f"Scoreboard ayrıştırma hatası: {e}"
+            return None
 
 
 DASHBOARD_HTML = """<!DOCTYPE html>

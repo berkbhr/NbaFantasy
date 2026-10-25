@@ -195,9 +195,9 @@ def find_overview_markdown(extra_dirs=()):
     if env and os.path.exists(env):
         return env
     here = os.path.abspath(os.path.dirname(__file__))
-    for base in (here, os.path.join(here, '..'), os.path.join(here, '..', 'data'),
-                 os.path.join(here, '..', 'docs'), os.path.join(here, '..', 'tests'),
-                 r'C:\Users\berkb\.gemini\antigravity\brain\7504ecdc-048a-42e1-ac33-fce91d8d200a',
+    for base in (here, os.path.join(here, '..'), os.path.join(here, '..', 'reports'),
+                 os.path.join(here, '..', 'data'), os.path.join(here, '..', 'docs'),
+                 os.path.join(here, '..', 'tests'),
                  *extra_dirs):
         p = os.path.abspath(os.path.join(base, name))
         if os.path.exists(p):

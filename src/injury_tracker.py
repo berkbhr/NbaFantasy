@@ -169,6 +169,25 @@ class InjuryTracker:
                 }
             return None
 
+    def get_injury_by_name(self, player_name):
+        norm_n = normalize_name(player_name)
+        with self._get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT player_id, player_name, team, status, injury_desc, is_b2b_rest, expected_return, updated_at FROM active_injuries WHERE norm_name = ?", (norm_n,))
+            row = cur.fetchone()
+            if row:
+                return {
+                    'player_id': row[0],
+                    'player_name': row[1],
+                    'team': row[2],
+                    'status': row[3],
+                    'injury_desc': row[4],
+                    'is_b2b_rest': bool(row[5]),
+                    'expected_return': row[6],
+                    'updated_at': row[7]
+                }
+            return None
+
     def get_all_active_injuries(self):
         with self._get_conn() as conn:
             cur = conn.cursor()
@@ -188,8 +207,10 @@ class InjuryTracker:
                 for r in rows
             ]
 
-    def get_play_probability(self, player_id, base_avail=0.85, is_b2b=False):
+    def get_play_probability(self, player_id, base_avail=0.85, is_b2b=False, player_name=None):
         inj = self.get_injury(player_id)
+        if not inj and player_name:
+            inj = self.get_injury_by_name(player_name)
         if not inj:
             return base_avail
         st = str(inj.get('status', 'HEALTHY')).upper().strip()
@@ -254,3 +275,85 @@ class InjuryTracker:
                     self.clear_injury(item['player_id'], source='yahoo_sync_recovery')
 
         return updated
+
+    def sync_espn_injuries(self, player_resolver_fn=None, reconcile_recovered=True):
+        """
+        Fetches official 30-team Rotowire/ESPN injury API (public, zero-credential).
+        Captures long-term, multi-week, and off-day injuries that game-day referee reports miss
+        (e.g. Maxime Raynaud, Donte DiVincenzo, Mark Williams, Brandon Ingram).
+        When `reconcile_recovered=True`, any previously recorded 'espn_rotowire' injury that is no
+        longer present in the 30-team feed is automatically cleared (`clear_injury`) so recovered
+        teammates' minutes return to them and backup players' temporary minute boosts revert to baseline!
+        """
+        import requests
+        try:
+            url = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/injuries"
+            resp = requests.get(url, timeout=8.0)
+            if resp.status_code != 200:
+                return 0
+            data = resp.json()
+            teams_list = data.get('injuries', [])
+            if not teams_list:
+                return 0
+
+            updated = 0
+            seen_pids = set()
+            seen_norm_names = set()
+
+            for team in teams_list:
+                t_name = team.get('displayName', '')
+                for item in team.get('injuries', []):
+                    athlete = item.get('athlete', {})
+                    p_name = athlete.get('displayName', '')
+                    if not p_name:
+                        continue
+                    st = item.get('status', 'Out')
+                    st_lower = st.lower()
+                    if 'out' in st_lower:
+                        st_clean = 'OUT'
+                    elif 'doubt' in st_lower:
+                        st_clean = 'DOUBTFUL'
+                    elif 'quest' in st_lower or 'day' in st_lower or 'gtd' in st_lower:
+                        st_clean = 'QUESTIONABLE'
+                    elif 'prob' in st_lower:
+                        st_clean = 'PROBABLE'
+                    else:
+                        st_clean = 'OUT'
+
+                    desc = item.get('shortComment', '') or item.get('longComment', '') or item.get('details', {}).get('detail', '')
+                    ret_date = item.get('details', {}).get('returnDate', '')
+                    pid = player_resolver_fn(p_name) if player_resolver_fn else None
+                    if pid is None:
+                        # Fallback: hash the normalized name to a consistent negative integer if not resolved
+                        pid = -abs(hash(normalize_name(p_name)) % 10000000)
+
+                    seen_pids.add(int(pid))
+                    seen_norm_names.add(normalize_name(p_name))
+
+                    self.set_injury(
+                        player_id=pid,
+                        player_name=p_name,
+                        status=st_clean,
+                        team=t_name,
+                        desc=desc,
+                        expected_return=ret_date,
+                        source='espn_rotowire'
+                    )
+                    updated += 1
+
+            # Reconcile recovered players: if ESPN returned the league-wide feed (>= 15 teams reported)
+            # and a previously injured 'espn_rotowire' player is no longer listed, clear their injury!
+            if reconcile_recovered and len(teams_list) >= 15:
+                with self._get_conn() as conn:
+                    cur = conn.cursor()
+                    cur.execute("SELECT player_id, player_name, source FROM active_injuries")
+                    existing_rows = cur.fetchall()
+                for ex_pid, ex_name, ex_src in existing_rows:
+                    if ex_src == 'espn_rotowire':
+                        if int(ex_pid) not in seen_pids and normalize_name(ex_name) not in seen_norm_names:
+                            self.clear_injury(ex_pid, source='espn_recovery_auto')
+
+            return updated
+        except Exception:
+            return 0
+
