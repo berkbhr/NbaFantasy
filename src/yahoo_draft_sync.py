@@ -213,70 +213,104 @@ class YahooFantasyOAuthClient:
 
     def discover_league_and_team(self, target_league_id="64691"):
         """
-        Automatically resolves `self.league_key` (e.g. `454.l.64691`) and `self.team_key`
-        if not explicitly stored in config/yahoo_oauth.json.
+        Automatically resolves `self.league_key` (e.g. `454.l.64691` or `nba.l.64691`) and `self.team_key`
+        using multi-stage fallback probing so it never fails even if `league_key` is blank in config.
         """
         if self.league_key and self.team_key:
             return True
-        data = self._api_get("users;use_login=1/games;game_keys=nba/leagues")
-        if not data:
-            return False
-        try:
-            fc = data.get("fantasy_content", {})
-            users = fc.get("users", {})
-            user_info = users.get("0", {}).get("user", [])
-            games = user_info[1].get("games", {}) if len(user_info) > 1 else {}
-            nba_game = games.get("0", {}).get("game", [])
-            leagues = nba_game[1].get("leagues", {}) if len(nba_game) > 1 else {}
 
-            for k, v in leagues.items():
-                if k == "count" or not isinstance(v, dict):
-                    continue
-                l_info = v.get("league", [])
-                meta = l_info[0] if l_info else {}
-                l_key = str(meta.get("league_key", ""))
-                l_id = str(meta.get("league_id", ""))
-                if l_key and (not target_league_id or l_id == str(target_league_id) or l_key.endswith(f".l.{target_league_id}")):
-                    self.league_key = l_key
-                    break
-            if not self.league_key:
-                # Fallback to first discovered NBA league
-                for k, v in leagues.items():
-                    if k != "count" and isinstance(v, dict):
-                        l_info = v.get("league", [])
-                        if l_info and isinstance(l_info[0], dict):
-                            self.league_key = str(l_info[0].get("league_key", ""))
-                            if self.league_key:
-                                break
+        # Stage 1: Query all NBA game seasons associated with the logged-in Yahoo user
+        for ep_query in (
+            "users;use_login=1/games;game_codes=nba/leagues",
+            "users;use_login=1/games;game_keys=nba/leagues",
+        ):
             if self.league_key:
-                t_data = self._api_get(f"league/{self.league_key}/teams")
-                if t_data:
-                    t_fc = t_data.get("fantasy_content", {}).get("league", [])
-                    teams_obj = t_fc[1].get("teams", {}) if len(t_fc) > 1 else {}
-                    for tk, tv in teams_obj.items():
-                        if tk == "count" or not isinstance(tv, dict):
+                break
+            data = self._api_get(ep_query)
+            if not data:
+                continue
+            try:
+                fc = data.get("fantasy_content", {})
+                users = fc.get("users", {})
+                user_info = users.get("0", {}).get("user", [])
+                games = user_info[1].get("games", {}) if len(user_info) > 1 else {}
+                all_found_keys = []
+                for gk, gv in games.items():
+                    if gk == "count" or not isinstance(gv, dict):
+                        continue
+                    g_arr = gv.get("game", [])
+                    leagues = g_arr[1].get("leagues", {}) if len(g_arr) > 1 else {}
+                    for lk, lv in leagues.items():
+                        if lk == "count" or not isinstance(lv, dict):
                             continue
-                        t_arr = tv.get("team", [])
-                        if not t_arr:
-                            continue
-                        meta_list = t_arr[0] if isinstance(t_arr[0], list) else t_arr
-                        t_name, curr_t_key, is_owned = "", "", False
-                        for item in meta_list:
-                            if isinstance(item, dict):
-                                if "name" in item:
-                                    t_name = str(item["name"])
-                                if "team_key" in item:
-                                    curr_t_key = str(item["team_key"])
-                                if item.get("is_owned_by_current_login") == 1:
-                                    is_owned = True
-                        if is_owned or "berk" in t_name.lower():
-                            self.team_key = curr_t_key
-                            break
-                self.save_config()
-                return True
+                        l_info = lv.get("league", [])
+                        meta = l_info[0] if l_info and isinstance(l_info[0], dict) else {}
+                        l_key = str(meta.get("league_key", ""))
+                        l_id = str(meta.get("league_id", ""))
+                        if l_key:
+                            all_found_keys.append(l_key)
+                            if target_league_id and (l_id == str(target_league_id) or l_key.endswith(f".l.{target_league_id}")):
+                                self.league_key = l_key
+                                break
+                    if self.league_key:
+                        break
+                if not self.league_key and all_found_keys:
+                    # Pick the most recent season's league key (highest numeric game_id prefix)
+                    all_found_keys.sort( reverse=True)
+                    self.league_key = all_found_keys[0]
+            except Exception as e:
+                self.last_error = f"Lig keşif hatası (Stage 1): {e}"
+
+        # Stage 2: Direct candidate league_key probing for league_id 64691 (covers current/recent NBA game IDs)
+        if not self.league_key and target_league_id:
+            for cand_prefix in ("nba", "466", "454", "428"):
+                cand_key = f"{cand_prefix}.l.{target_league_id}"
+                probe = self._api_get(f"league/{cand_key}/teams")
+                if probe and "fantasy_content" in probe:
+                    try:
+                        l_arr = probe["fantasy_content"].get("league", [])
+                        if l_arr and isinstance(l_arr[0], dict) and l_arr[0].get("league_key"):
+                            self.league_key = str(l_arr[0]["league_key"])
+                        else:
+                            self.league_key = cand_key
+                        break
+                    except Exception:
+                        self.league_key = cand_key
+                        break
+
+        if not self.league_key:
+            return False
+
+        # Stage 3: Discover user's team_key inside the resolved league
+        try:
+            t_data = self._api_get(f"league/{self.league_key}/teams")
+            if t_data:
+                t_fc = t_data.get("fantasy_content", {}).get("league", [])
+                teams_obj = t_fc[1].get("teams", {}) if len(t_fc) > 1 else {}
+                for tk, tv in teams_obj.items():
+                    if tk == "count" or not isinstance(tv, dict):
+                        continue
+                    t_arr = tv.get("team", [])
+                    if not t_arr:
+                        continue
+                    meta_list = t_arr[0] if isinstance(t_arr[0], list) else t_arr
+                    t_name, curr_t_key, is_owned = "", "", False
+                    for item in meta_list:
+                        if isinstance(item, dict):
+                            if "name" in item:
+                                t_name = str(item["name"])
+                            if "team_key" in item:
+                                curr_t_key = str(item["team_key"])
+                            if item.get("is_owned_by_current_login") == 1:
+                                is_owned = True
+                    if is_owned or "berk" in t_name.lower():
+                        self.team_key = curr_t_key
+                        break
+            self.save_config()
+            return True
         except Exception as e:
-            self.last_error = f"Lig keşif hatası: {e}"
-        return False
+            self.last_error = f"Takım keşif hatası: {e}"
+            return bool(self.league_key)
 
     def fetch_league_rosters_and_il(self):
         """

@@ -189,7 +189,6 @@ def run_cloud_sync():
     # -------------------------------------------------------------------------
     print("\n[STEP 3] Synchronizing Live Yahoo League State (Rosters, IL+, Transactions, Scoreboard)...")
     yahoo_client = YahooFantasyOAuthClient()
-    yahoo_cookie = os.environ.get("YAHOO_COOKIE", "").strip()
     yahoo_status_msg = "Not configured (using canonical draft rosters)"
 
     recent_transactions = []
@@ -283,22 +282,11 @@ def run_cloud_sync():
                             json.dump(berk_matchup, f, indent=2)
                     except Exception:
                         pass
-
-    if not live_rosters_synced and yahoo_cookie:
-        try:
-            import urllib.request
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Cookie': yahoo_cookie
-            }
-            req = urllib.request.Request("https://basketball.fantasysports.yahoo.com/nba/64691/teams", headers=headers)
-            with urllib.request.urlopen(req, timeout=8.0) as resp:
-                if resp.status == 200:
-                    yahoo_status_msg = "Connected via session cookie (Live league synchronized)"
-                    print(f"  {yahoo_status_msg}")
-        except Exception as e:
-            yahoo_status_msg = f"Cookie sync attempted but encountered: {e}"
+        else:
+            yahoo_status_msg = f"OAuth2 configured, but league discovery returned False ({yahoo_client.last_error or 'check token/league'})"
             print(f"  [WARN] {yahoo_status_msg}")
+    else:
+        print("  [INFO] No Yahoo OAuth2 credentials found in config/yahoo_oauth.json or YAHOO_OAUTH_JSON env.")
 
     if not recent_transactions and prior_state.get("transactions"):
         recent_transactions = prior_state.get("transactions", [])
@@ -702,80 +690,91 @@ def run_cloud_sync():
             except Exception:
                 pass
 
-    # Build Rich Structured Notification Payload covering all 5 live systems + depth/injury minute boosts
-    out_players = [f"{item['name']} ({item['slot_state']})" for item in roster_health if item['is_out']]
-    gtd_players = [f"{item['name']} (%{item['eff_avail']*100:.0f})" for item in roster_health if not item['is_out'] and item['eff_avail'] < 0.80]
+    # Build Clean, Mobile-Friendly Executive Notification Card (Telegram HTML & Discord Markdown)
+    out_items = [item for item in roster_health if item['is_out']]
+    gtd_items = [item for item in roster_health if not item['is_out'] and item['eff_avail'] < 0.80]
 
-    # Category breakdown strings
+    # Category breakdown strings (clean dot-separated pills)
     strong_cats, tossup_cats, weak_cats = [], [], []
     for c_key, p_val in active_win_probs.items():
-        c_lbl = c_key.replace('_PCT', '%')
-        entry_s = f"{c_lbl} %{p_val*100:.0f}"
+        c_lbl = c_key.replace('_PCT', '%').replace('FG3M', '3PT')
         if p_val >= 0.58:
-            strong_cats.append(entry_s)
+            strong_cats.append(f"{c_lbl} (%{p_val*100:.0f})")
         elif p_val <= 0.42:
-            weak_cats.append(entry_s)
+            weak_cats.append(f"{c_lbl} (%{p_val*100:.0f})")
         else:
-            tossup_cats.append(entry_s)
+            tossup_cats.append(f"{c_lbl} (%{p_val*100:.0f})")
+
+    sync_badge = "🟢 Canlı Yahoo OAuth Aktif" if live_rosters_synced else "🟡 Yedek Kadro Modu (OAuth Bekleniyor)"
+    rem_line = (
+        f"⏳ <b>Kalan Maç:</b> Berk {int(ta.get('games_remaining', 0))} maç • Rakip {int(tb.get('games_remaining', 0))} maç"
+        if live_data and ('games_remaining' in ta or 'games_remaining' in tb)
+        else f"⏳ <b>Haftalık İlerleme:</b> %{fa*100:.0f} Kalan Maç"
+    )
 
     msg_lines = [
-        f"🏀 <b>NBA FANTASY OTONOM RAPORU</b> ({now_utc.strftime('%d.%m.%Y %H:%M UTC')})",
-        f"📡 <i>{yahoo_status_msg}</i>",
+        f"🏀 <b>NBA FANTASY GÜNLÜK ÖZET</b>",
+        f"🗓 <i>{now_utc.strftime('%d.%m.%Y %H:%M UTC')} • {sync_badge}</i>",
         "",
-        f"⚔️ <b>CANLI EŞLEŞME: Berk vs {opp_team_name}</b>",
-        f"• <b>Beklenen Skor:</b> <b>{exp_score:.2f} - {9.0 - exp_score:.2f}</b>",
-        f"• <b>Kazanma Olasılığı P(≥5):</b> <b>%{matchup_win_prob*100:.1f}</b> (Kalan Maç: %{fa*100:.0f} vs %{fb*100:.0f})",
-        f"• 🟢 <b>Üstün:</b> {', '.join(strong_cats) if strong_cats else 'Yok'}",
-        f"• ⚖️ <b>Kritik (Toss-up):</b> {', '.join(tossup_cats) if tossup_cats else 'Yok'}",
-        f"• 🔴 <b>Geride:</b> {', '.join(weak_cats) if weak_cats else 'Yok'}",
+        f"⚔️ <b>BERK vs {opp_team_name}</b>",
+        f"📊 <b>Tahmini Skor:</b> <b>{exp_score:.2f} - {9.0 - exp_score:.2f}</b>  |  🎯 <b>Kazanma: %{matchup_win_prob*100:.0f}</b>",
+        rem_line,
         "",
-        "🛡️ <b>KADRO & IL+ YUVA DENETİMİ:</b>",
+        f"🟢 <b>Üstün:</b> {' • '.join(strong_cats) if strong_cats else '—'}",
+        f"⚖️ <b>Kritik:</b> {' • '.join(tossup_cats) if tossup_cats else '—'}",
+        f"🔴 <b>Geride:</b> {' • '.join(weak_cats) if weak_cats else '—'}",
+        "",
+        "🏥 <b>KADRO & IL+ DURUMU</b>",
     ]
-    if out_players:
-        msg_lines.append(f"• ❌ <b>OUT / IL+:</b> {', '.join(out_players)}")
+    if out_items:
+        for it in out_items:
+            il_hint = "IL+'da" if it['slot_state'] == "IL+" else "➔ IL+'a çek (Boş yuva açılır)"
+            msg_lines.append(f"• ❌ <b>{it['name']}</b> (OUT) <i>{il_hint}</i>")
     else:
-        msg_lines.append("• ✅ Kadroda OUT oyuncu yok.")
-    if gtd_players:
-        msg_lines.append(f"• ⚠️ <b>GTD / Riskli:</b> {', '.join(gtd_players)}")
+        msg_lines.append("• ✅ Kadroda OUT oyuncu yok")
+    for it in gtd_items:
+        msg_lines.append(f"• ⚠️ <b>{it['name']}</b> ({it['status']} • %{it['eff_avail']*100:.0f} Oynama)")
 
     msg_lines.extend([
         "",
-        "🎯 <b>DİNAMİK ADD/DROP ÖNERİLERİ (ΔE[Wins] & Kalan Maç):</b>",
+        "🎯 <b>EN İYİ HAMLE ÖNERİLERİ (Kalan Maç & Skor Odaklı)</b>",
     ])
-    for idx_m, rec in enumerate(add_drop_recs[:3], 1):
+    rank_icons = ["1️⃣", "2️⃣", "3️⃣"]
+    for idx_m, rec in enumerate(add_drop_recs[:3]):
+        r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
         m_info = ""
         if bp_add:
             bm_a = getattr(bp_add, 'base_expected_minutes', bp_add.expected_minutes)
             bst = bp_add.expected_minutes - bm_a
-            m_info = f" [{bp_add.expected_minutes:.1f}dk, {bst:+.1f}dk]" if abs(bst) >= 0.5 else f" [{bp_add.expected_minutes:.1f}dk]"
-        msg_lines.append(
-            f"<b>#{idx_m}</b> {rec['action']}: <b>+{rec['add_name']}</b>{m_info} (Çıkan: {rec['drop_name']}) "
-            f"➔ <b>{rec['delta_expected_wins']:+.3f} W</b> <i>({rec['key_cat_gains']})</i>"
-        )
+            m_info = f" ({bp_add.expected_minutes:.1f} dk, {bst:+.1f}🔼)" if abs(bst) >= 0.5 else f" ({bp_add.expected_minutes:.1f} dk)"
+        drop_lbl = "Boş Yuva (IL+)" if rec['drop_id'] is None else f"-{rec['drop_name']}"
+        clean_gains = rec['key_cat_gains'].replace('_PCT', '%').replace('FG3M', '3PT')
+        msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b>{m_info}")
+        msg_lines.append(f"   └ 📥 {drop_lbl} • 📈 <b>{rec['delta_expected_wins']:+.2f} Kat.</b> <i>({clean_gains})</i>")
 
-    # Top Free Agents with injury-boosted minutes
+    # Top Free Agents (clean 1-line summary)
     top_fa_strs = []
     for pid_f, name_f, z_f, av_f, dropped_f in healthy_free_agents[:4]:
         bp_f = assistant.players[pid_f]
         bm_f = getattr(bp_f, 'base_expected_minutes', bp_f.expected_minutes)
         bst_f = bp_f.expected_minutes - bm_f
-        tag_f = "🔥Drop" if dropped_f else f"{bp_f.expected_minutes:.0f}m" + (f"({bst_f:+.0f})" if abs(bst_f) >= 1.0 else "")
-        top_fa_strs.append(f"{name_f} [{tag_f}, Z:{z_f:+.2f}]")
+        tag_f = "🔥Yeni Düştü" if dropped_f else (f"{bp_f.expected_minutes:.0f}dk {bst_f:+.0f}🔼" if abs(bst_f) >= 1.0 else f"{bp_f.expected_minutes:.0f}dk")
+        top_fa_strs.append(f"<b>{name_f}</b> ({tag_f})")
 
     msg_lines.extend([
         "",
-        f"📋 <b>BOŞTAKİ SAĞLIKLI FA HAVUZU:</b> {', '.join(top_fa_strs)}",
+        f"📋 <b>Boştaki Formda FA:</b> {' • '.join(top_fa_strs)}",
     ])
 
     if recent_transactions:
-        tx_strs = []
+        msg_lines.extend(["", "🔄 <b>SON LİG HAMLELERİ</b>"])
         for tx in recent_transactions[:3]:
-            a_n = "+".join(x['player_name'] for x in tx.get('added', []))
-            d_n = "-".join(x['player_name'] for x in tx.get('dropped', []))
+            a_n = ", ".join(f"+{x['player_name']}" for x in tx.get('added', []))
+            d_n = ", ".join(f"-{x['player_name']}" for x in tx.get('dropped', []))
             t_n = tx['added'][0]['team_name'] if tx.get('added') else (tx['dropped'][0]['team_name'] if tx.get('dropped') else "")
-            tx_strs.append(f"{t_n}: {a_n} / {d_n}".strip(" /"))
-        msg_lines.append(f"🔄 <b>SON HAMLELER:</b> {' | '.join(tx_strs)}")
+            moves_joined = " / ".join(x for x in (a_n, d_n) if x)
+            msg_lines.append(f"• <b>{t_n}:</b> {moves_joined}")
 
     if tg_token and tg_chat:
         try:

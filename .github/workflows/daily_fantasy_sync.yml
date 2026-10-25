@@ -45,7 +45,6 @@ jobs:
           YAHOO_REFRESH_TOKEN: ${{ secrets.YAHOO_REFRESH_TOKEN }}
           YAHOO_LEAGUE_KEY: ${{ secrets.YAHOO_LEAGUE_KEY }}
           YAHOO_TEAM_KEY: ${{ secrets.YAHOO_TEAM_KEY }}
-          YAHOO_COOKIE: ${{ secrets.YAHOO_COOKIE }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -67,16 +66,37 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+          # Back up newly generated runtime files before switching branches so git checkout never aborts!
+          mkdir -p /tmp/nba_sync_out
+          cp -f data/processed/injuries.db /tmp/nba_sync_out/injuries.db 2>/dev/null || true
+          cp -f data/processed/league_state.json /tmp/nba_sync_out/league_state.json 2>/dev/null || true
+          cp -f reports/latest_cloud_summary.md /tmp/nba_sync_out/latest_cloud_summary.md 2>/dev/null || true
+          if [ -f data/processed/live_matchup.json ]; then
+            cp -f data/processed/live_matchup.json /tmp/nba_sync_out/live_matchup.json
+          fi
+
+          # Clean working tree before switching to 'nba-fantasy-bot' branch
+          git reset --hard HEAD
+          git clean -fd
+
           if git ls-remote --heads origin nba-fantasy-bot | grep -q nba-fantasy-bot; then
+            git fetch origin nba-fantasy-bot
             git checkout -B nba-fantasy-bot origin/nba-fantasy-bot
           else
             git checkout -b nba-fantasy-bot
           fi
 
-          git add data/processed/injuries.db data/processed/league_state.json reports/latest_cloud_summary.md
-          if [ -f data/processed/live_matchup.json ]; then
-            git add data/processed/live_matchup.json
+          # Restore newly generated files onto 'nba-fantasy-bot' branch
+          mkdir -p data/processed reports
+          cp -f /tmp/nba_sync_out/injuries.db data/processed/injuries.db 2>/dev/null || true
+          cp -f /tmp/nba_sync_out/league_state.json data/processed/league_state.json 2>/dev/null || true
+          cp -f /tmp/nba_sync_out/latest_cloud_summary.md reports/latest_cloud_summary.md 2>/dev/null || true
+          if [ -f /tmp/nba_sync_out/live_matchup.json ]; then
+            cp -f /tmp/nba_sync_out/live_matchup.json data/processed/live_matchup.json
+            git add -f data/processed/live_matchup.json
           fi
+
+          git add -f data/processed/injuries.db data/processed/league_state.json reports/latest_cloud_summary.md
 
           if ! git diff --quiet || ! git diff --staged --quiet; then
             git commit -m "🤖 [nba-fantasy-bot] Auto-Sync: Live Matchup, Add/Drop & Injury Boosts [skip ci]"
