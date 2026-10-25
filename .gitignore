@@ -1,5 +1,6 @@
 # Yahoo OAuth credentials & secrets
 config/yahoo_oauth.json
+config/telegram.json
 
 # Python artifacts
 __pycache__/

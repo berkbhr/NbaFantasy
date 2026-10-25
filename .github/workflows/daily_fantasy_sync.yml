@@ -1,6 +1,11 @@
 name: NBA Fantasy Autonomous Cloud Sync & Notification Engine
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'data/processed/league_state.json'
+      - 'data/processed/live_matchup.json'
   schedule:
     # 3 Strategic Daily Run Times (TR / UTC / ET synchronized):
     - cron: '30 7 * * *'   # 10:30 TR / 07:30 UTC / 03:30 ET (Morning scoreboard, overnight add/drops & waivers)

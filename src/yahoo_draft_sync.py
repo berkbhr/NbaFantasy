@@ -16,6 +16,80 @@ CONFIG_DIR = os.path.join(PROJECT_ROOT, 'config')
 OAUTH_CONFIG_PATH = os.path.join(CONFIG_DIR, 'yahoo_oauth.json')
 
 
+def _merge_yahoo_meta(node):
+    """
+    Flattens a Yahoo API metadata node (which may be a dict, a list of dicts,
+    or a nested list of dicts) into a single unified dictionary.
+    """
+    out = {}
+    if isinstance(node, dict):
+        out.update(node)
+    elif isinstance(node, list):
+        for item in node:
+            if isinstance(item, dict):
+                out.update(item)
+            elif isinstance(item, list):
+                for sub in item:
+                    if isinstance(sub, dict):
+                        out.update(sub)
+    return out
+
+
+def _find_subresource(node, key_name):
+    """
+    Searches a Yahoo container (list or dict) for a dictionary containing `key_name`
+    and returns `d[key_name]`.
+    """
+    if isinstance(node, dict):
+        if key_name in node:
+            return node[key_name]
+        for k, v in node.items():
+            if isinstance(v, (dict, list)):
+                found = _find_subresource(v, key_name)
+                if found is not None:
+                    return found
+    elif isinstance(node, list):
+        for item in node:
+            if isinstance(item, dict) and key_name in item:
+                return item[key_name]
+        for item in node:
+            if isinstance(item, (dict, list)):
+                found = _find_subresource(item, key_name)
+                if found is not None:
+                    return found
+    return None
+
+
+def _collect_league_metas(node, out_list=None):
+    """
+    Recursively walks a Yahoo JSON response and collects flattened metadata dicts
+    for every `league` entry encountered.
+    """
+    if out_list is None:
+        out_list = []
+    if isinstance(node, dict):
+        if "league_key" in node:
+            out_list.append(node)
+        if "league" in node:
+            l_val = node["league"]
+            if isinstance(l_val, list) and l_val:
+                meta = _merge_yahoo_meta(l_val[0])
+                if meta.get("league_key"):
+                    out_list.append(meta)
+            elif isinstance(l_val, dict):
+                meta = _merge_yahoo_meta(l_val)
+                if meta.get("league_key"):
+                    out_list.append(meta)
+        for v in node.values():
+            if isinstance(v, (dict, list)):
+                _collect_league_metas(v, out_list)
+    elif isinstance(node, list):
+        for item in node:
+            if isinstance(item, (dict, list)):
+                _collect_league_metas(item, out_list)
+    return out_list
+
+
 class YahooFantasyOAuthClient:
     """
     Lightweight, zero-dependency Yahoo Fantasy Sports OAuth2 REST API client.
@@ -38,6 +112,7 @@ class YahooFantasyOAuthClient:
         self.token_expiry = 0.0
         self.league_key = ""
         self.team_key = ""
+        self.config_source = "none"
         self.last_error = None
         self.load_config()
 
@@ -47,18 +122,29 @@ class YahooFantasyOAuthClient:
             try:
                 with open(self.config_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
+                if data:
+                    self.config_source = "file"
             except Exception as e:
                 self.last_error = f"Config okuma hatası: {e}"
 
         # Support headless GitHub Actions environment secrets (`YAHOO_OAUTH_JSON` or individual env vars)
-        env_oauth_json = os.environ.get("YAHOO_OAUTH_JSON", "").strip()
+        env_oauth_json = os.environ.get("YAHOO_OAUTH_JSON", "").lstrip("\ufeff").strip()
         if env_oauth_json:
+            parsed_env = None
             try:
-                env_data = json.loads(env_oauth_json)
-                if isinstance(env_data, dict):
-                    data.update({k: v for k, v in env_data.items() if v})
+                parsed_env = json.loads(env_oauth_json)
             except Exception:
-                pass
+                # Fallback regex extraction in case secret has multiline/quoting formatting issues
+                import re as _re
+                parsed_env = {}
+                for m in _re.finditer(r'"(client_id|client_secret|refresh_token|access_token|league_key|team_key)"\s*:\s*"([^"]*)"', env_oauth_json):
+                    parsed_env[m.group(1)] = m.group(2).strip()
+            if isinstance(parsed_env, dict) and parsed_env:
+                data.update({k: v for k, v in parsed_env.items() if v})
+                self.config_source = "env_json"
+
+        if os.environ.get('YAHOO_CLIENT_ID') or os.environ.get('YAHOO_REFRESH_TOKEN'):
+            self.config_source = "env_vars"
 
         self.client_id = str(os.environ.get('YAHOO_CLIENT_ID') or data.get('client_id', '')).strip()
         self.client_secret = str(os.environ.get('YAHOO_CLIENT_SECRET') or data.get('client_secret', '')).strip()
@@ -96,37 +182,55 @@ class YahooFantasyOAuthClient:
         if not (self.client_id and self.client_secret and self.refresh_token):
             self.last_error = "OAuth2 refresh_token veya client_id/secret eksik."
             return False
-        try:
-            creds = f"{self.client_id}:{self.client_secret}".encode('utf-8')
-            b64_auth = base64.b64encode(creds).decode('ascii')
-            body = urllib.parse.urlencode({
-                'grant_type': 'refresh_token',
-                'redirect_uri': 'oob',
-                'refresh_token': self.refresh_token,
-            }).encode('utf-8')
-            req = urllib.request.Request(
-                self.TOKEN_URL,
-                data=body,
-                headers={
-                    'Authorization': f'Basic {b64_auth}',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                method='POST',
-            )
-            with urllib.request.urlopen(req, timeout=4.0) as resp:
-                resp_data = json.loads(resp.read().decode('utf-8'))
-            self.access_token = resp_data.get('access_token', self.access_token)
-            self.refresh_token = resp_data.get('refresh_token', self.refresh_token)
-            expires_in = float(resp_data.get('expires_in', 3600))
-            self.token_expiry = time.time() + expires_in - 60.0
-            self.save_config()
-            self.last_error = None
-            return True
-        except Exception as e:
-            self.last_error = f"Token yenileme hatası: {e}"
-            return False
 
-    def _api_get(self, endpoint_path, timeout=3.5):
+        creds = f"{self.client_id}:{self.client_secret}".encode('utf-8')
+        b64_auth = base64.b64encode(creds).decode('ascii')
+
+        # Try redirect_uri matching auth_yahoo.py ('https://localhost:8080'), then 'oob', then omitted
+        last_err_detail = ""
+        for redir in ("https://localhost:8080", "oob", None):
+            try:
+                params = {
+                    'grant_type': 'refresh_token',
+                    'refresh_token': self.refresh_token,
+                }
+                if redir:
+                    params['redirect_uri'] = redir
+                body = urllib.parse.urlencode(params).encode('utf-8')
+                req = urllib.request.Request(
+                    self.TOKEN_URL,
+                    data=body,
+                    headers={
+                        'Authorization': f'Basic {b64_auth}',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'User-Agent': 'Mozilla/5.0',
+                    },
+                    method='POST',
+                )
+                with urllib.request.urlopen(req, timeout=6.0) as resp:
+                    resp_data = json.loads(resp.read().decode('utf-8'))
+                if resp_data.get('access_token'):
+                    self.access_token = resp_data.get('access_token', self.access_token)
+                    self.refresh_token = resp_data.get('refresh_token', self.refresh_token)
+                    expires_in = float(resp_data.get('expires_in', 3600))
+                    self.token_expiry = time.time() + expires_in - 60.0
+                    self.save_config()
+                    self.last_error = None
+                    return True
+            except urllib.error.HTTPError as he:
+                err_body = ""
+                try:
+                    err_body = he.read().decode('utf-8', errors='ignore')[:120]
+                except Exception:
+                    pass
+                last_err_detail = f"HTTP {he.code} ({err_body})"
+            except Exception as e:
+                last_err_detail = str(e)
+
+        self.last_error = f"Token yenileme hatası: {last_err_detail}"
+        return False
+
+    def _api_get(self, endpoint_path, timeout=5.0):
         if not self.access_token or (self.token_expiry > 0 and time.time() >= self.token_expiry):
             self.refresh_access_token()
 
@@ -143,7 +247,7 @@ class YahooFantasyOAuthClient:
                     headers={
                         'Authorization': f'Bearer {self.access_token}',
                         'Accept': 'application/json',
-                        'User-Agent': 'NBAFantasyAssistant/1.0',
+                        'User-Agent': 'Mozilla/5.0',
                     },
                     method='GET',
                 )
@@ -152,10 +256,24 @@ class YahooFantasyOAuthClient:
                     self.last_error = None
                     return json.loads(raw)
             except urllib.error.HTTPError as he:
-                if he.code == 401 and attempt == 0:
+                if he.code in (401, 403) and attempt == 0:
                     if self.refresh_access_token():
                         continue
-                self.last_error = f"Yahoo HTTP {he.code}: {he.reason}"
+                err_desc = ""
+                try:
+                    raw_err = he.read().decode('utf-8', errors='ignore')
+                    try:
+                        err_json = json.loads(raw_err)
+                        err_desc = str(err_json.get("error", {}).get("description", "")).strip()
+                    except Exception:
+                        pass
+                    if not err_desc:
+                        import re as _re
+                        m_d = _re.search(r'"description"\s*:\s*"([^"]+)"', raw_err)
+                        err_desc = m_d.group(1) if m_d else raw_err.strip()[:220]
+                except Exception:
+                    pass
+                self.last_error = f"Yahoo HTTP {he.code} ({ endpoint_path }): {err_desc or he.reason}".strip()
                 return None
             except Exception as e:
                 self.last_error = f"Yahoo bağlantı hatası: {e}"
@@ -219,93 +337,96 @@ class YahooFantasyOAuthClient:
         if self.league_key and self.team_key:
             return True
 
-        # Stage 1: Query all NBA game seasons associated with the logged-in Yahoo user
+        import re as _re
+        stage1_errors = []
+
+        # Stage 1: Query all NBA teams & leagues associated with the logged-in Yahoo user
         for ep_query in (
+            "users;use_login=1/games;game_codes=nba/teams",
             "users;use_login=1/games;game_codes=nba/leagues",
+            "users;use_login=1/games;game_keys=nba/teams",
             "users;use_login=1/games;game_keys=nba/leagues",
+            "users;use_login=1/teams",
+            "users;use_login=1/leagues",
         ):
             if self.league_key:
                 break
             data = self._api_get(ep_query)
             if not data:
+                if self.last_error:
+                    stage1_errors.append(self.last_error)
                 continue
             try:
-                fc = data.get("fantasy_content", {})
-                users = fc.get("users", {})
-                user_info = users.get("0", {}).get("user", [])
-                games = user_info[1].get("games", {}) if len(user_info) > 1 else {}
-                all_found_keys = []
-                for gk, gv in games.items():
-                    if gk == "count" or not isinstance(gv, dict):
-                        continue
-                    g_arr = gv.get("game", [])
-                    leagues = g_arr[1].get("leagues", {}) if len(g_arr) > 1 else {}
-                    for lk, lv in leagues.items():
-                        if lk == "count" or not isinstance(lv, dict):
-                            continue
-                        l_info = lv.get("league", [])
-                        meta = l_info[0] if l_info and isinstance(l_info[0], dict) else {}
-                        l_key = str(meta.get("league_key", ""))
-                        l_id = str(meta.get("league_id", ""))
-                        if l_key:
-                            all_found_keys.append(l_key)
-                            if target_league_id and (l_id == str(target_league_id) or l_key.endswith(f".l.{target_league_id}")):
-                                self.league_key = l_key
-                                break
-                    if self.league_key:
-                        break
-                if not self.league_key and all_found_keys:
-                    # Pick the most recent season's league key (highest numeric game_id prefix)
-                    all_found_keys.sort( reverse=True)
-                    self.league_key = all_found_keys[0]
-            except Exception as e:
-                self.last_error = f"Lig keşif hatası (Stage 1): {e}"
+                raw_dump = json.dumps(data)
+                found_team_keys = sorted(set(_re.findall(r'\b(\d+\.l\.\d+\.t\.\d+)\b', raw_dump)), reverse=True)
+                found_league_keys = sorted(set(_re.findall(r'\b(\d+\.l\.\d+)\b', raw_dump)), reverse=True)
 
-        # Stage 2: Direct candidate league_key probing for league_id 64691 (covers current/recent NBA game IDs)
+                for meta in _collect_league_metas(data):
+                    lk = str(meta.get("league_key", "")).strip()
+                    if lk and lk not in found_league_keys:
+                        found_league_keys.append(lk)
+
+                # Prioritize target_league_id if present among user's leagues/teams, otherwise take user's newest NBA league
+                if found_team_keys:
+                    target_tks = [tk for tk in found_team_keys if target_league_id and f".l.{target_league_id}." in tk]
+                    chosen_tk = target_tks[0] if target_tks else found_team_keys[0]
+                    self.team_key = chosen_tk
+                    self.league_key = chosen_tk.split(".t.")[0]
+                    break
+
+                if found_league_keys:
+                    target_lks = [lk for lk in found_league_keys if target_league_id and lk.endswith(f".l.{target_league_id}")]
+                    self.league_key = target_lks[0] if target_lks else found_league_keys[0]
+                    break
+            except Exception as e:
+                stage1_errors.append(f"Stage 1 parse ({ep_query}): {e}")
+
+        # Stage 2: Direct candidate league_key probing for target_league_id (including dynamic `game/nba` lookup)
+        stage2_errors = []
         if not self.league_key and target_league_id:
-            for cand_prefix in ("nba", "466", "454", "428"):
+            cand_prefixes = ["nba", "466", "465", "454", "428"]
+            game_data = self._api_get("game/nba")
+            if game_data:
+                raw_g = json.dumps(game_data)
+                m_gk = _re.search(r'"game_key"\s*:\s*"(\d+)"', raw_g)
+                if m_gk and m_gk.group(1) not in cand_prefixes:
+                    cand_prefixes.insert(0, m_gk.group(1))
+
+            for cand_prefix in cand_prefixes:
                 cand_key = f"{cand_prefix}.l.{target_league_id}"
                 probe = self._api_get(f"league/{cand_key}/teams")
                 if probe and "fantasy_content" in probe:
-                    try:
-                        l_arr = probe["fantasy_content"].get("league", [])
-                        if l_arr and isinstance(l_arr[0], dict) and l_arr[0].get("league_key"):
-                            self.league_key = str(l_arr[0]["league_key"])
-                        else:
-                            self.league_key = cand_key
-                        break
-                    except Exception:
-                        self.league_key = cand_key
-                        break
+                    raw_p = json.dumps(probe)
+                    m_lk = _re.search(r'\b(\d+\.l\.\d+)\b', raw_p)
+                    self.league_key = m_lk.group(1) if m_lk else cand_key
+                    break
+                elif self.last_error:
+                    stage2_errors.append(self.last_error)
 
         if not self.league_key:
+            if stage1_errors:
+                self.last_error = f"Stage1: {stage1_errors[0]} | Stage2: {stage2_errors[0] if stage2_errors else 'none'}"
             return False
 
         # Stage 3: Discover user's team_key inside the resolved league
         try:
             t_data = self._api_get(f"league/{self.league_key}/teams")
             if t_data:
-                t_fc = t_data.get("fantasy_content", {}).get("league", [])
-                teams_obj = t_fc[1].get("teams", {}) if len(t_fc) > 1 else {}
-                for tk, tv in teams_obj.items():
-                    if tk == "count" or not isinstance(tv, dict):
-                        continue
-                    t_arr = tv.get("team", [])
-                    if not t_arr:
-                        continue
-                    meta_list = t_arr[0] if isinstance(t_arr[0], list) else t_arr
-                    t_name, curr_t_key, is_owned = "", "", False
-                    for item in meta_list:
-                        if isinstance(item, dict):
-                            if "name" in item:
-                                t_name = str(item["name"])
-                            if "team_key" in item:
-                                curr_t_key = str(item["team_key"])
-                            if item.get("is_owned_by_current_login") == 1:
-                                is_owned = True
-                    if is_owned or "berk" in t_name.lower():
-                        self.team_key = curr_t_key
-                        break
+                teams_obj = _find_subresource(t_data, "teams") or {}
+                if isinstance(teams_obj, dict):
+                    for tk, tv in teams_obj.items():
+                        if tk == "count" or not isinstance(tv, dict):
+                            continue
+                        t_arr = tv.get("team", [])
+                        if not t_arr:
+                            continue
+                        t_meta = _merge_yahoo_meta(t_arr[0] if isinstance(t_arr, list) else t_arr)
+                        t_name = str(t_meta.get("name", ""))
+                        curr_t_key = str(t_meta.get("team_key", ""))
+                        is_owned = str(t_meta.get("is_owned_by_current_login", "0")) == "1"
+                        if is_owned or "berk" in t_name.lower():
+                            self.team_key = curr_t_key
+                            break
             self.save_config()
             return True
         except Exception as e:
@@ -344,34 +465,34 @@ class YahooFantasyOAuthClient:
             'empty_active_slots_by_slot': {},
         }
         try:
-            league_arr = data.get("fantasy_content", {}).get("league", [])
-            if len(league_arr) < 2:
+            teams_obj = _find_subresource(data, "teams")
+            if not isinstance(teams_obj, dict):
                 return None
-            teams_obj = league_arr[1].get("teams", {})
+
             for tk, tv in teams_obj.items():
                 if tk == "count" or not isinstance(tv, dict):
                     continue
                 team_node = tv.get("team", [])
                 if not team_node:
                     continue
-                meta_list = team_node[0] if isinstance(team_node[0], list) else []
-                t_id, t_key, t_name = None, "", ""
-                for item in meta_list:
-                    if isinstance(item, dict):
-                        if "team_id" in item:
-                            t_id = int(item["team_id"])
-                        if "team_key" in item:
-                            t_key = str(item["team_key"])
-                        if "name" in item:
-                            t_name = str(item["name"])
-                if t_id is None:
+                t_meta = _merge_yahoo_meta(team_node[0] if isinstance(team_node, list) else team_node)
+                t_id_raw = t_meta.get("team_id")
+                if t_id_raw is None:
                     continue
+                t_id = int(t_id_raw)
+                t_key = str(t_meta.get("team_key", ""))
+                t_name = str(t_meta.get("name", ""))
                 slot_idx = t_id - 1
                 result['team_names_by_slot'][slot_idx] = t_name
                 result['team_keys_by_slot'][slot_idx] = t_key
 
-                roster_obj = team_node[1].get("roster", {}) if len(team_node) > 1 else {}
-                players_container = roster_obj.get("0", {}).get("players", {}) if "0" in roster_obj else roster_obj.get("players", {})
+                roster_obj = _find_subresource(team_node, "roster") or {}
+                players_container = _find_subresource(roster_obj, "players") or {}
+                if not players_container and t_key:
+                    # Fallback per-team roster query if subresource wasn't embedded
+                    t_ros_data = self._api_get(f"team/{t_key}/roster", timeout=4.0)
+                    if t_ros_data:
+                        players_container = _find_subresource(t_ros_data, "players") or {}
 
                 team_players = []
                 il_list = []
@@ -385,25 +506,17 @@ class YahooFantasyOAuthClient:
                         p_node = pv.get("player", [])
                         if not p_node:
                             continue
-                        p_meta = p_node[0] if isinstance(p_node[0], list) else []
-                        p_name, p_status = "", "HEALTHY"
-                        for m in p_meta:
-                            if isinstance(m, dict):
-                                if "name" in m and isinstance(m["name"], dict):
-                                    p_name = str(m["name"].get("full", "")).strip()
-                                if "status" in m and m["status"]:
-                                    p_status = str(m["status"]).upper().strip()
+                        p_meta = _merge_yahoo_meta(p_node[0] if isinstance(p_node, list) else p_node)
+                        name_obj = p_meta.get("name", {})
+                        p_name = str(name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj).strip()
+                        p_status = str(p_meta.get("status", "HEALTHY") or "HEALTHY").upper().strip()
 
                         sel_pos = "BN"
-                        for sub in p_node[1:]:
-                            if isinstance(sub, dict) and "selected_position" in sub:
-                                sp_arr = sub["selected_position"]
-                                if isinstance(sp_arr, list):
-                                    for sp_item in sp_arr:
-                                        if isinstance(sp_item, dict) and "position" in sp_item:
-                                            sel_pos = str(sp_item["position"]).upper().strip()
-                                elif isinstance(sp_arr, dict) and "position" in sp_arr:
-                                    sel_pos = str(sp_arr["position"]).upper().strip()
+                        sp_raw = _find_subresource(p_node, "selected_position")
+                        if sp_raw is not None:
+                            sp_meta = _merge_yahoo_meta(sp_raw)
+                            if sp_meta.get("position"):
+                                sel_pos = str(sp_meta["position"]).upper().strip()
 
                         if not p_name:
                             continue
@@ -452,21 +565,20 @@ class YahooFantasyOAuthClient:
 
         tx_list = []
         try:
-            league_arr = data.get("fantasy_content", {}).get("league", [])
-            if len(league_arr) < 2:
+            tx_obj = _find_subresource(data, "transactions")
+            if not isinstance(tx_obj, dict):
                 return []
-            tx_obj = league_arr[1].get("transactions", {})
             for k, v in tx_obj.items():
                 if k == "count" or not isinstance(v, dict):
                     continue
                 tx_node = v.get("transaction", [])
-                if len(tx_node) < 2:
+                if not tx_node:
                     continue
-                tx_meta = tx_node[0] if isinstance(tx_node[0], dict) else {}
+                tx_meta = _merge_yahoo_meta(tx_node[0] if isinstance(tx_node, list) else tx_node)
                 tx_id = str(tx_meta.get("transaction_id", ""))
                 tx_type = str(tx_meta.get("type", ""))
-                tx_time = int(tx_meta.get("timestamp", 0))
-                players_obj = tx_node[1].get("players", {})
+                tx_time = int(tx_meta.get("timestamp", 0) or 0)
+                players_obj = _find_subresource(tx_node, "players") or {}
                 added, dropped = [], []
                 if isinstance(players_obj, dict):
                     for pk, pv in players_obj.items():
@@ -475,16 +587,11 @@ class YahooFantasyOAuthClient:
                         p_node = pv.get("player", [])
                         if not p_node:
                             continue
-                        p_meta = p_node[0] if isinstance(p_node[0], list) else []
-                        p_name = ""
-                        for m in p_meta:
-                            if isinstance(m, dict) and "name" in m and isinstance(m["name"], dict):
-                                p_name = str(m["name"].get("full", "")).strip()
-                        tx_data = {}
-                        for sub in p_node[1:]:
-                            if isinstance(sub, dict) and "transaction_data" in sub:
-                                td = sub["transaction_data"]
-                                tx_data = td[0] if isinstance(td, list) and td else (td if isinstance(td, dict) else {})
+                        p_meta = _merge_yahoo_meta(p_node[0] if isinstance(p_node, list) else p_node)
+                        name_obj = p_meta.get("name", {})
+                        p_name = str(name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj).strip()
+                        td_raw = _find_subresource(p_node, "transaction_data")
+                        tx_data = _merge_yahoo_meta(td_raw) if td_raw is not None else {}
                         action_type = str(tx_data.get("type", "")).lower()
                         if action_type == "add":
                             added.append({
@@ -532,6 +639,12 @@ class YahooFantasyOAuthClient:
             return None
 
         STAT_ID_MAP = {
+            '3': 'FGA',
+            '4': 'FGM',
+            '5': 'FG_PCT',
+            '6': 'FTA',
+            '7': 'FTM',
+            '8': 'FT_PCT',
             '10': 'FG3M',
             '12': 'PTS',
             '15': 'REB',
@@ -541,44 +654,45 @@ class YahooFantasyOAuthClient:
             '19': 'TOV',
         }
         try:
-            league_arr = data.get("fantasy_content", {}).get("league", [])
-            if len(league_arr) < 2:
+            sb = _find_subresource(data, "scoreboard")
+            if not sb:
                 return None
-            sb = league_arr[1].get("scoreboard", {})
-            curr_week = int(sb.get("week", week or 1))
-            matchups_obj = sb.get("0", {}).get("matchups", {}) if "0" in sb else sb.get("matchups", {})
+            sb_meta = _merge_yahoo_meta(sb)
+            curr_week = int(sb_meta.get("week", week or 1) or (week or 1))
+            matchups_obj = _find_subresource(sb, "matchups") or {}
+            if not isinstance(matchups_obj, dict):
+                return None
 
             parsed_matchups = []
             for mk, mv in matchups_obj.items():
                 if mk == "count" or not isinstance(mv, dict):
                     continue
                 m_node = mv.get("matchup", {})
-                teams_container = m_node.get("0", {}).get("teams", {}) if "0" in m_node else m_node.get("teams", {})
+                teams_container = _find_subresource(m_node, "teams") or {}
+                if not isinstance(teams_container, dict):
+                    continue
                 pair = []
                 for tk in ("0", "1"):
                     if tk not in teams_container:
                         continue
                     t_node = teams_container[tk].get("team", [])
-                    if len(t_node) < 2:
+                    if not t_node:
                         continue
-                    t_meta = t_node[0] if isinstance(t_node[0], list) else []
-                    t_name, t_id, t_key = "", 0, ""
-                    for item in t_meta:
-                        if isinstance(item, dict):
-                            if "name" in item:
-                                t_name = str(item["name"])
-                            if "team_id" in item:
-                                t_id = int(item["team_id"])
-                            if "team_key" in item:
-                                t_key = str(item["team_key"])
+                    t_meta = _merge_yahoo_meta(t_node[0] if isinstance(t_node, list) else t_node)
+                    t_name = str(t_meta.get("name", ""))
+                    t_id = int(t_meta.get("team_id", 0) or 0)
+                    t_key = str(t_meta.get("team_key", ""))
 
-                    t_stats_wrapper = t_node[1] if isinstance(t_node[1], dict) else {}
-                    rg_obj = t_stats_wrapper.get("remaining_games", {}).get("total", {})
-                    if not rg_obj and "team_remaining_games" in t_stats_wrapper:
-                        rg_obj = t_stats_wrapper.get("team_remaining_games", {}).get("total", {})
+                    rg_wrapper = (
+                        _find_subresource(t_node, "team_remaining_games")
+                        or _find_subresource(t_node, "remaining_games")
+                        or {}
+                    )
+                    rg_total = _find_subresource(rg_wrapper, "total") or _merge_yahoo_meta(rg_wrapper)
+                    rg_meta = _merge_yahoo_meta(rg_total)
 
-                    gp = int(rg_obj.get("completed_games", 0))
-                    g_rem = int(rg_obj.get("remaining_games", 0)) + int(rg_obj.get("live_games", 0))
+                    gp = int(rg_meta.get("completed_games", 0) or 0)
+                    g_rem = int(rg_meta.get("remaining_games", 0) or 0) + int(rg_meta.get("live_games", 0) or 0)
 
                     stats_dict = {
                         'name': t_name,
@@ -588,32 +702,35 @@ class YahooFantasyOAuthClient:
                         'games_remaining': g_rem,
                         'total_scheduled': max(gp + g_rem, 1),
                     }
-                    raw_stats = t_stats_wrapper.get("team_stats", {}).get("stats", [])
-                    for s_entry in raw_stats:
-                        st_obj = s_entry.get("stat", {}) if isinstance(s_entry, dict) else {}
-                        sid = str(st_obj.get("stat_id", ""))
-                        val_str = str(st_obj.get("value", "0")).strip()
-                        if sid in STAT_ID_MAP:
-                            try:
-                                stats_dict[STAT_ID_MAP[sid]] = float(val_str) if val_str and val_str != '-' else 0.0
-                            except ValueError:
-                                stats_dict[STAT_ID_MAP[sid]] = 0.0
-                        elif sid == '9004003' or ('/' in val_str and 'FGM' not in stats_dict):
-                            parts = val_str.split('/')
-                            if len(parts) == 2:
+                    ts_obj = _find_subresource(t_node, "team_stats") or {}
+                    raw_stats = _find_subresource(ts_obj, "stats") or []
+                    if isinstance(raw_stats, list):
+                        for s_entry in raw_stats:
+                            st_obj = _find_subresource(s_entry, "stat") if isinstance(s_entry, (dict, list)) else {}
+                            st_meta = _merge_yahoo_meta(st_obj)
+                            sid = str(st_meta.get("stat_id", ""))
+                            val_str = str(st_meta.get("value", "0")).strip()
+                            if sid == '9004003' or ('/' in val_str and 'FGM' not in stats_dict):
+                                parts = val_str.split('/')
+                                if len(parts) == 2:
+                                    try:
+                                        stats_dict['FGM'] = float(parts[0]) if parts[0] != '-' else 0.0
+                                        stats_dict['FGA'] = float(parts[1]) if parts[1] != '-' else 0.0
+                                    except ValueError:
+                                        pass
+                            elif sid == '9007006' or ('/' in val_str and 'FTM' not in stats_dict):
+                                parts = val_str.split('/')
+                                if len(parts) == 2:
+                                    try:
+                                        stats_dict['FTM'] = float(parts[0]) if parts[0] != '-' else 0.0
+                                        stats_dict['FTA'] = float(parts[1]) if parts[1] != '-' else 0.0
+                                    except ValueError:
+                                        pass
+                            elif sid in STAT_ID_MAP:
                                 try:
-                                    stats_dict['FGM'] = float(parts[0])
-                                    stats_dict['FGA'] = float(parts[1])
+                                    stats_dict[STAT_ID_MAP[sid]] = float(val_str) if val_str and val_str != '-' else 0.0
                                 except ValueError:
-                                    pass
-                        elif sid == '9007006' or ('/' in val_str and 'FTM' not in stats_dict):
-                            parts = val_str.split('/')
-                            if len(parts) == 2:
-                                try:
-                                    stats_dict['FTM'] = float(parts[0])
-                                    stats_dict['FTA'] = float(parts[1])
-                                except ValueError:
-                                    pass
+                                    stats_dict[STAT_ID_MAP[sid]] = 0.0
                     pair.append(stats_dict)
                 if len(pair) == 2:
                     parsed_matchups.append(pair)

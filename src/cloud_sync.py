@@ -232,6 +232,10 @@ def run_cloud_sync():
                     live_rosters_synced = True
                     yahoo_status_msg = f"OAuth2 Live Sync Active (League {yahoo_client.league_key})"
                     print(f"  [OK] {yahoo_status_msg}: Synced {len(new_rosters)} team rosters & IL slots.")
+                else:
+                    yahoo_status_msg = f"OAuth2 League {yahoo_client.league_key} connected, roster resolution < 2 teams"
+            else:
+                yahoo_status_msg = f"OAuth2 League {yahoo_client.league_key} connected, roster endpoint: {yahoo_client.last_error or 'empty'}"
 
             recent_transactions = yahoo_client.fetch_recent_transactions(count=30)
             if recent_transactions:
@@ -253,10 +257,13 @@ def run_cloud_sync():
                                     if canonical_tname.lower() in t_name or t_name in canonical_tname.lower():
                                         if a_pid not in rosters[s_idx]:
                                             rosters[s_idx].append(a_pid)
+                    live_rosters_synced = True
+                    yahoo_status_msg = f"OAuth2 Live Transactions Synced (League {yahoo_client.league_key})"
 
             sb_payload = yahoo_client.fetch_live_scoreboard()
             if sb_payload and sb_payload.get('matchups'):
                 print(f"  [OK] Fetched Live Scoreboard for Week {sb_payload.get('week')}.")
+                live_rosters_synced = True
                 # Locate Berk's matchup
                 berk_matchup = None
                 for pair in sb_payload['matchups']:
@@ -286,7 +293,51 @@ def run_cloud_sync():
             yahoo_status_msg = f"OAuth2 configured, but league discovery returned False ({yahoo_client.last_error or 'check token/league'})"
             print(f"  [WARN] {yahoo_status_msg}")
     else:
+        yahoo_status_msg = "OAuth2 Secret Eksik (GitHub Secrets -> YAHOO_OAUTH_JSON kontrol edin)"
         print("  [INFO] No Yahoo OAuth2 credentials found in config/yahoo_oauth.json or YAHOO_OAUTH_JSON env.")
+
+    # Fallback to Browser Bookmarklet / Bridge synced state in `league_state.json` if OAuth API is pending approval
+    if not live_rosters_synced and prior_state.get("rosters"):
+        prior_rosters_loaded = 0
+        for s_str, name_list in prior_state.get("rosters", {}).items():
+            try:
+                s_idx = int(s_str)
+            except ValueError:
+                continue
+            resolved_p = []
+            for p_name in name_list:
+                pid = assistant.resolve_player_id(p_name, only_available=False)
+                if pid is not None and pid in assistant.players:
+                    resolved_p.append(pid)
+            if resolved_p:
+                rosters[s_idx] = resolved_p
+                prior_rosters_loaded += 1
+        if prior_state.get("il_slots"):
+            for s_str, il_names in prior_state["il_slots"].items():
+                try:
+                    il_players_by_slot[int(s_str)] = list(il_names)
+                    for il_n in il_names:
+                        il_pid = assistant.resolve_player_id(il_n, only_available=False)
+                        if il_pid is not None:
+                            yahoo_il_eligible_pids.add(il_pid)
+                except ValueError:
+                    pass
+        if prior_state.get("unslotted_injured"):
+            for s_str, un_items in prior_state["unslotted_injured"].items():
+                try:
+                    unslotted_injured_by_slot[int(s_str)] = list(un_items)
+                except ValueError:
+                    pass
+        if prior_state.get("empty_active_slots"):
+            for s_str, emp_c in prior_state["empty_active_slots"].items():
+                try:
+                    empty_active_slots_by_slot[int(s_str)] = int(emp_c)
+                except ValueError:
+                    pass
+        if prior_state.get("live_synced") and prior_rosters_loaded >= 2:
+            live_rosters_synced = True
+            yahoo_status_msg = prior_state.get("sync_status", "Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro)")
+            print(f"  [OK] Loaded live league state from league_state.json ({yahoo_status_msg}).")
 
     if not recent_transactions and prior_state.get("transactions"):
         recent_transactions = prior_state.get("transactions", [])
@@ -305,6 +356,7 @@ def run_cloud_sync():
         "updated_at": now_utc.isoformat(),
         "league_id": "64691",
         "league_key": yahoo_client.league_key or "nba.l.64691",
+        "live_synced": bool(live_rosters_synced),
         "sync_status": yahoo_status_msg,
         "rosters": {str(slot): [assistant.players[p].name for p in pids if p in assistant.players] for slot, pids in rosters.items()},
         "berk_roster_names": [assistant.players[p].name for p in berk_pids if p in assistant.players],
@@ -495,6 +547,8 @@ def run_cloud_sync():
 
         header_table = f"| Category | Live Score | Berk Proj Final | {opp_team_name} Proj Final | Berk Win Prob | Projected Winner |\n| :--- | :---: | :---: | :---: | :---: | :---: |"
     else:
+        comb_berk = dist_berk
+        comb_opp = dist_sile
         exp_score, win_probs, _ = MatchupEngine.evaluate_h2h_matchup(dist_berk, dist_sile)
         active_win_probs = win_probs
         matchup_win_prob = MatchupEngine.compute_matchup_win_prob(active_win_probs)
@@ -705,20 +759,118 @@ def run_cloud_sync():
         else:
             tossup_cats.append(f"{c_lbl} (%{p_val*100:.0f})")
 
-    sync_badge = "🟢 Canlı Yahoo OAuth Aktif" if live_rosters_synced else "🟡 Yedek Kadro Modu (OAuth Bekleniyor)"
-    rem_line = (
-        f"⏳ <b>Kalan Maç:</b> Berk {int(ta.get('games_remaining', 0))} maç • Rakip {int(tb.get('games_remaining', 0))} maç"
-        if live_data and ('games_remaining' in ta or 'games_remaining' in tb)
-        else f"⏳ <b>Haftalık İlerleme:</b> %{fa*100:.0f} Kalan Maç"
+    sync_badge = (
+        f"🟢 Canlı Yahoo Senkron Aktif ({yahoo_client.league_key or '64691'})"
+        if live_rosters_synced
+        else f"🟡 Yedek Kadro Modu ({yahoo_status_msg[:48]})"
     )
+    gp_a = int(ta.get('games_played', 0)) if live_data else 0
+    rem_a = int(ta.get('games_remaining', 37)) if live_data else 37
+    tot_a = int(ta.get('total_scheduled', max(gp_a + rem_a, 37))) if live_data else 37
+    gp_b = int(tb.get('games_played', 0)) if live_data else 0
+    rem_b = int(tb.get('games_remaining', 36)) if live_data else 36
+    tot_b = int(tb.get('total_scheduled', max(gp_b + rem_b, 36))) if live_data else 36
+
+    # Build Yahoo-style Comparative Box Score Table (Live + Projected Final) for BOTH teams
+    opp_short = opp_team_name[:10].upper()
+    box_lines = []
+    if live_data and (gp_a > 0 or gp_b > 0):
+        fgm_la, fga_la = int(round(ta.get('FGM', 0))), int(round(ta.get('FGA', 0)))
+        fgm_lb, fga_lb = int(round(tb.get('FGM', 0))), int(round(tb.get('FGA', 0)))
+        fgp_la = fgm_la / max(fga_la, 1) if fga_la > 0 else 0.0
+        fgp_lb = fgm_lb / max(fga_lb, 1) if fga_lb > 0 else 0.0
+
+        ftm_la, fta_la = int(round(ta.get('FTM', 0))), int(round(ta.get('FTA', 0)))
+        ftm_lb, fta_lb = int(round(tb.get('FTM', 0))), int(round(tb.get('FTA', 0)))
+        ftp_la = ftm_la / max(fta_la, 1) if fta_la > 0 else 0.0
+        ftp_lb = ftm_lb / max(fta_lb, 1) if fta_lb > 0 else 0.0
+
+        live_wins_a, live_wins_b = 0, 0
+        def _win_tag(va, vb, lower_better=False):
+            nonlocal live_wins_a, live_wins_b
+            if abs(va - vb) < 1e-6:
+                return "⚖️Ber"
+            is_a = (va < vb) if lower_better else (va > vb)
+            if is_a:
+                live_wins_a += 1
+                return "🟢Berk"
+            else:
+                live_wins_b += 1
+                return "🔴Rakip"
+
+        live_rows = [
+            ("FGM/A", f"{fgm_la}/{fga_la}", f"{fgm_lb}/{fga_lb}", "  —"),
+            ("FG%",   f".{int(round(fgp_la*1000)):03d}", f".{int(round(fgp_lb*1000)):03d}", _win_tag(fgp_la, fgp_lb)),
+            ("FTM/A", f"{ftm_la}/{fta_la}", f"{ftm_lb}/{fta_lb}", "  —"),
+            ("FT%",   f".{int(round(ftp_la*1000)):03d}", f".{int(round(ftp_lb*1000)):03d}", _win_tag(ftp_la, ftp_lb)),
+            ("3PTM",  f"{int(round(ta.get('FG3M', 0)))}", f"{int(round(tb.get('FG3M', 0)))}", _win_tag(ta.get('FG3M', 0), tb.get('FG3M', 0))),
+            ("PTS",   f"{int(round(ta.get('PTS', 0)))}",  f"{int(round(tb.get('PTS', 0)))}",  _win_tag(ta.get('PTS', 0), tb.get('PTS', 0))),
+            ("REB",   f"{int(round(ta.get('REB', 0)))}",  f"{int(round(tb.get('REB', 0)))}",  _win_tag(ta.get('REB', 0), tb.get('REB', 0))),
+            ("AST",   f"{int(round(ta.get('AST', 0)))}",  f"{int(round(tb.get('AST', 0)))}",  _win_tag(ta.get('AST', 0), tb.get('AST', 0))),
+            ("ST",    f"{int(round(ta.get('STL', 0)))}",  f"{int(round(tb.get('STL', 0)))}",  _win_tag(ta.get('STL', 0), tb.get('STL', 0))),
+            ("BLK",   f"{int(round(ta.get('BLK', 0)))}",  f"{int(round(tb.get('BLK', 0)))}",  _win_tag(ta.get('BLK', 0), tb.get('BLK', 0))),
+            ("TO",    f"{int(round(ta.get('TOV', 0)))}",  f"{int(round(tb.get('TOV', 0)))}",  _win_tag(ta.get('TOV', 0), tb.get('TOV', 0), lower_better=True)),
+        ]
+        box_lines.append("📋 <b>ANLIK YAHOO SKOR TABLOSU (Canlı)</b>")
+        pre_live = [
+            f"{'KAT':<5} {'BERK':>9} {opp_short:>10}  {'LİDER':<6}",
+            "─" * 34,
+        ]
+        for c_name, v_a, v_b, w_t in live_rows:
+            pre_live.append(f"{c_name:<5} {v_a:>9} {v_b:>10}  {w_t}")
+        pre_live.append("─" * 34)
+        pre_live.append(f"SKOR: Berk {live_wins_a} - {live_wins_b} {opp_team_name[:12]}")
+        box_lines.append("<pre>" + "\n".join(pre_live) + "</pre>")
+
+    # Projected End-of-Week Final Table (Live + Remaining Games Combined)
+    p_fgm_a, p_fga_a = comb_berk['mean']['FGM'], max(comb_berk['mean']['FGA'], 1.0)
+    p_fgm_b, p_fga_b = comb_opp['mean']['FGM'], max(comb_opp['mean']['FGA'], 1.0)
+    p_fg_a, p_fg_b = p_fgm_a / p_fga_a, p_fgm_b / p_fga_b
+
+    p_ftm_a, p_fta_a = comb_berk['mean']['FTM'], max(comb_berk['mean']['FTA'], 1.0)
+    p_ftm_b, p_fta_b = comb_opp['mean']['FTM'], max(comb_opp['mean']['FTA'], 1.0)
+    p_ft_a, p_ft_b = p_ftm_a / p_fta_a, p_ftm_b / p_fta_b
+
+    def _prob_tag(cat_key):
+        wp_v = active_win_probs.get(cat_key, 0.5)
+        ico = "🟢" if wp_v >= 0.52 else ("🔴" if wp_v <= 0.48 else "⚖️")
+        return f"%{wp_v*100:2.0f}{ico}"
+
+    proj_rows = [
+        ("FGM/A", f"{int(round(p_fgm_a))}/{int(round(p_fga_a))}", f"{int(round(p_fgm_b))}/{int(round(p_fga_b))}", "  —"),
+        ("FG%",   f".{int(round(p_fg_a*1000)):03d}", f".{int(round(p_fg_b*1000)):03d}", _prob_tag('FG_PCT')),
+        ("FTM/A", f"{int(round(p_ftm_a))}/{int(round(p_fta_a))}", f"{int(round(p_ftm_b))}/{int(round(p_fta_b))}", "  —"),
+        ("FT%",   f".{int(round(p_ft_a*1000)):03d}", f".{int(round(p_ft_b*1000)):03d}", _prob_tag('FT_PCT')),
+        ("3PTM",  f"{comb_berk['mean']['FG3M']:.1f}", f"{comb_opp['mean']['FG3M']:.1f}", _prob_tag('FG3M')),
+        ("PTS",   f"{comb_berk['mean']['PTS']:.1f}",  f"{comb_opp['mean']['PTS']:.1f}",  _prob_tag('PTS')),
+        ("REB",   f"{comb_berk['mean']['REB']:.1f}",  f"{comb_opp['mean']['REB']:.1f}",  _prob_tag('REB')),
+        ("AST",   f"{comb_berk['mean']['AST']:.1f}",  f"{comb_opp['mean']['AST']:.1f}",  _prob_tag('AST')),
+        ("ST",    f"{comb_berk['mean']['STL']:.1f}",  f"{comb_opp['mean']['STL']:.1f}",  _prob_tag('STL')),
+        ("BLK",   f"{comb_berk['mean']['BLK']:.1f}",  f"{comb_opp['mean']['BLK']:.1f}",  _prob_tag('BLK')),
+        ("TO",    f"{comb_berk['mean']['TOV']:.1f}",  f"{comb_opp['mean']['TOV']:.1f}",  _prob_tag('TOV')),
+    ]
+    box_lines.append("🔮 <b>HAFTA SONU FİNAL TAHMİNİ (Kalan Maçlar Dahil)</b>")
+    pre_proj = [
+        f"{'KAT':<5} {'BERK':>9} {opp_short:>10}  {'BERK%':<6}",
+        "─" * 34,
+    ]
+    for c_name, v_a, v_b, w_p in proj_rows:
+        pre_proj.append(f"{c_name:<5} {v_a:>9} {v_b:>10}  {w_p}")
+    pre_proj.append("─" * 34)
+    pre_proj.append(f"TAHMİN: Berk {exp_score:.2f} - {9.0 - exp_score:.2f} (%{matchup_win_prob*100:.0f})")
+    box_lines.append("<pre>" + "\n".join(pre_proj) + "</pre>")
 
     msg_lines = [
         f"🏀 <b>NBA FANTASY GÜNLÜK ÖZET</b>",
         f"🗓 <i>{now_utc.strftime('%d.%m.%Y %H:%M UTC')} • {sync_badge}</i>",
         "",
-        f"⚔️ <b>BERK vs {opp_team_name}</b>",
-        f"📊 <b>Tahmini Skor:</b> <b>{exp_score:.2f} - {9.0 - exp_score:.2f}</b>  |  🎯 <b>Kazanma: %{matchup_win_prob*100:.0f}</b>",
-        rem_line,
+        f"⚔️ <b>BERK'S BEST TEAM vs {opp_team_name}</b>",
+        f"📊 <b>Tahmini Final:</b> <b>{exp_score:.2f} - {9.0 - exp_score:.2f}</b>  |  🎯 <b>Kazanma: %{matchup_win_prob*100:.0f}</b>",
+        f"⏳ <b>Maçlar (Oynanan/Toplam • Kalan):</b>",
+        f"• <b>Berk's Best Team:</b> <code>{gp_a}/{tot_a}</code> Oynandı • <b>{rem_a} Kalan</b>",
+        f"• <b>{opp_team_name}:</b> <code>{gp_b}/{tot_b}</code> Oynandı • <b>{rem_b} Kalan</b>",
+        "",
+        *box_lines,
         "",
         f"🟢 <b>Üstün:</b> {' • '.join(strong_cats) if strong_cats else '—'}",
         f"⚖️ <b>Kritik:</b> {' • '.join(tossup_cats) if tossup_cats else '—'}",
@@ -796,7 +948,13 @@ def run_cloud_sync():
     if discord_webhook:
         try:
             import urllib.request
-            plain_md = "\n".join(msg_lines).replace("<b>", "**").replace("</b>", "**").replace("<i>", "*").replace("</i>", "*")
+            plain_md = (
+                "\n".join(msg_lines)
+                .replace("<b>", "**").replace("</b>", "**")
+                .replace("<i>", "*").replace("</i>", "*")
+                .replace("<code>", "`").replace("</code>", "`")
+                .replace("<pre>", "```\n").replace("</pre>", "\n```")
+            )
             disc_payload = json.dumps({"content": plain_md[:1990]}).encode("utf-8")
             req_d = urllib.request.Request(
                 discord_webhook,

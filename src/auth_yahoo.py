@@ -52,6 +52,34 @@ def main():
         print("  - 'client_secret' karsiligina Yahoo Client Secret'inizi yazip kaydedin.\n")
         return
 
+    # If refresh_token already exists in config, try refreshing & discovering league automatically first
+    if cfg.get("refresh_token"):
+        sys.path.insert(0, PROJECT_ROOT)
+        from src.yahoo_draft_sync import YahooFantasyOAuthClient
+        client = YahooFantasyOAuthClient(config_path=CONFIG_PATH)
+        if client.refresh_access_token():
+            if client.discover_league_and_team(target_league_id="64691"):
+                print(f"\n✅ Mevcut refresh_token ile baglanti dogrulandi!")
+                print(f"  League Key: {client.league_key}")
+                print(f"  Team Key:   {client.team_key}")
+                print(f"🎉 '{CONFIG_PATH}' guncellendi!")
+                return
+            else:
+                print(f"\n[DETAY] Mevcut token gecerli ancak lig kesfi hatasi: {client.last_error}")
+                custom_lid = input("\nYahoo lig sayfanizin URL'sini veya Lig ID numaranizi girin (Yeni token almak icin 'yeni' yazin, cikmak icin Enter): ").strip()
+                if not custom_lid:
+                    return
+                if custom_lid.lower() != "yeni":
+                    m_lid = re.search(r'(\d{3,8})', custom_lid)
+                    if m_lid and client.discover_league_and_team(target_league_id=m_lid.group(1)):
+                        print(f"\n✅ Lig basariyla bulundu!")
+                        print(f"  League Key: {client.league_key}")
+                        print(f"  Team Key:   {client.team_key}")
+                        print(f"🎉 '{CONFIG_PATH}' guncellendi!")
+                        return
+                    print(f"[UYARI] Lig ({custom_lid}) yine erisilemedi: {client.last_error}")
+                    return
+
     # 1. Generate Auth URL
     auth_url = AUTH_URL_TEMPLATE.format(
         client_id=urllib.parse.quote(client_id),
@@ -123,71 +151,19 @@ def main():
     cfg["access_token"] = access_token
     cfg["refresh_token"] = refresh_token
     cfg["token_expiry"] = time.time() + expires_in - 60.0
-
-    # 3. Discover User's NBA Leagues
-    print("\n[BILGI] Yahoo Fantasy ligleriniz taranıyor...")
-    leagues_req = urllib.request.Request(
-        f"{API_BASE}/users;use_login=1/games;game_keys=nba/leagues?format=json",
-        headers={
-            "Authorization": f"Bearer {access_token}",
-            "Accept": "application/json",
-            "User-Agent": "Mozilla/5.0",
-        }
-    )
-
-    league_key = None
-    team_key = None
-    try:
-        with urllib.request.urlopen(leagues_req, timeout=10.0) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            fc = data.get("fantasy_content", {})
-            users = fc.get("users", {})
-            user_info = users.get("0", {}).get("user", [])
-            games = user_info[1].get("games", {}) if len(user_info) > 1 else {}
-            nba_game = games.get("0", {}).get("game", [])
-            leagues = nba_game[1].get("leagues", {}) if len(nba_game) > 1 else {}
-            
-            for k, v in leagues.items():
-                if k == "count" or not isinstance(v, dict):
-                    continue
-                l_info = v.get("league", [])
-                meta = l_info[0] if l_info else {}
-                league_key = meta.get("league_key")
-                league_name = meta.get("name")
-                print(f"  Bulunan Lig: {league_name} (Key: {league_key})")
-                
-                # Check user's team in this league
-                teams_req = urllib.request.Request(
-                    f"{API_BASE}/league/{league_key}/teams?format=json",
-                    headers={"Authorization": f"Bearer {access_token}", "User-Agent": "Mozilla/5.0"}
-                )
-                with urllib.request.urlopen(teams_req, timeout=10.0) as t_resp:
-                    t_data = json.loads(t_resp.read().decode("utf-8"))
-                    # Pick user's team or slot 8
-                    t_fc = t_data.get("fantasy_content", {}).get("league", [])[1].get("teams", {})
-                    for tk, tv in t_fc.items():
-                        if tk == "count" or not isinstance(tv, dict):
-                            continue
-                        t_arr = tv.get("team", [])[0]
-                        t_name = ""
-                        curr_t_key = ""
-                        for item in t_arr:
-                            if isinstance(item, dict):
-                                if "name" in item: t_name = item["name"]
-                                if "team_key" in item: curr_t_key = item["team_key"]
-                        if "berk" in t_name.lower():
-                            team_key = curr_t_key
-                            print(f"  Takiminiz Tespit Edildi: {t_name} (Key: {team_key})")
-                            break
-    except Exception as e:
-        print(f"[UYARI] Otomatik lig tespiti yapilamadi ({e}). Manuel 'league_id' kullanilacak.")
-
-    if league_key:
-        cfg["league_key"] = league_key
-    if team_key:
-        cfg["team_key"] = team_key
-
     save_config(cfg)
+
+    # 3. Discover User's NBA Leagues via hardened YahooFantasyOAuthClient
+    print("\n[BILGI] Yahoo Fantasy ligleriniz taranıyor...")
+    sys.path.insert(0, PROJECT_ROOT)
+    from src.yahoo_draft_sync import YahooFantasyOAuthClient
+    client = YahooFantasyOAuthClient(config_path=CONFIG_PATH)
+    if client.discover_league_and_team(target_league_id="64691"):
+        print(f"  Bulunan Lig Key: {client.league_key}")
+        print(f"  Takiminiz Key:   {client.team_key}")
+    else:
+        print(f"[UYARI] Otomatik lig tespiti yapilamadi ({client.last_error}).")
+
     print(f"\n🎉 Baglanti tamamlandi ve '{CONFIG_PATH}' dosyasina kalici olarak kaydedildi!")
     print("Artik sistem her calistiginda arka planda liginizi otomatik olarak senkronize edebilir.")
 
