@@ -1,266 +1,346 @@
 {
-  "updated_at": "2026-10-25T21:02:20.131450+00:00",
+  "updated_at": "2026-10-25T21:03:36.050865+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
   "sync_status": "Taray\u0131c\u0131 K\u00f6pr\u00fcs\u00fc Aktif (14 Tak\u0131m Canl\u0131 Kadro)",
   "rosters": {
     "0": [
-      "Nikola Joki\u0107",
-      "Jalen Brunson",
-      "Evan Mobley",
-      "Cameron Boozer",
-      "Kon Knueppel",
-      "Caleb Wilson",
-      "Norman Powell",
-      "Cason Wallace",
-      "Herbert Jones",
-      "Sandro Mamukelashvili",
-      "Alex Caruso",
-      "Scotty Pippen Jr.",
-      "Kelly Oubre Jr."
+      "Dylan Harper",
+      "Jaylen Wells",
+      "Zach LaVine",
+      "Keon Ellis",
+      "Rui Hachimura",
+      "Kevin Durant",
+      "Anthony Davis",
+      "Kristaps Porzi\u0146\u0123is",
+      "Jalen Johnson",
+      "Ryan Rollins",
+      "Darius Acuff Jr.",
+      "Kyrie Irving",
+      "Khaman Maluach",
+      "Zach Edey",
+      "Yves Missi"
     ],
     "1": [
-      "Victor Wembanyama",
-      "Trey Murphy III",
-      "Chet Holmgren",
-      "Damian Lillard",
-      "OG Anunoby",
       "Ty Jerome",
-      "John Collins",
-      "Tobias Harris",
-      "Cameron Johnson",
+      "Trey Murphy III",
+      "Aaron Wiggins",
       "Peyton Watson",
+      "OG Anunoby",
+      "Obi Toppin",
+      "John Collins",
+      "Chet Holmgren",
       "Mitchell Robinson",
+      "Sam Hauser",
+      "Damian Lillard",
       "Robert Williams III",
-      "Sam Hauser"
+      "Victor Wembanyama",
+      "Cameron Johnson",
+      "Tobias Harris"
     ],
     "2": [
-      "Luka Don\u010di\u0107",
-      "Trae Young",
-      "Lauri Markkanen",
-      "Ivica Zubac",
-      "Darius Garland",
-      "Immanuel Quickley",
-      "Alex Sarr",
-      "Toumani Camara",
-      "Jalen Green",
-      "Jakob Poeltl",
-      "Jonathan Kuminga",
-      "Jerami Grant",
-      "Bennedict Mathurin"
+      "LaMelo Ball",
+      "Ajay Mitchell",
+      "Aaron Nesmith",
+      "Franz Wagner",
+      "Giannis Antetokounmpo",
+      "Anthony Black",
+      "Joel Embiid",
+      "Andre Drummond",
+      "AJ Dybantsa",
+      "CJ McCollum",
+      "Dyson Daniels",
+      "Josh Giddey",
+      "Daniel Gafford"
     ],
     "3": [
+      "Anthony Edwards",
+      "Keyonte George",
+      "Quentin Grimes",
+      "Dillon Brooks",
+      "Aaron Gordon",
+      "Bobby Portis Jr.",
+      "Deandre Ayton",
+      "Noah Clowney",
+      "RJ Barrett",
+      "Ja Morant",
+      "Stephon Castle",
+      "Paul George",
+      "Kyle Kuzma",
+      "Jalen Duren",
+      "Paolo Banchero"
+    ],
+    "4": [
+      "Dejounte Murray",
+      "Cooper Flagg",
+      "Egor D\u00ebmin",
+      "Jaden McDaniels",
+      "Saddiq Bey",
+      "Karl-Anthony Towns",
+      "Myles Turner",
+      "Isaiah Jackson",
+      "Yaxel Lendeborg",
+      "Jaylon Tyson",
+      "Zaccharie Risacher",
+      "Bam Adebayo",
+      "Deni Avdija",
+      "Jusuf Nurki\u0107",
+      "Coby White"
+    ],
+    "5": [
       "Shai Gilgeous-Alexander",
+      "Jaylen Brown",
       "Stephen Curry",
       "Jalen Williams",
-      "Jaylen Brown",
-      "Nic Claxton",
       "Derik Queen",
       "Keegan Murray",
-      "Andrew Wiggins",
+      "Nic Claxton",
       "Brook Lopez",
+      "Andrew Wiggins",
       "Tim Hardaway Jr.",
       "DeMar DeRozan",
       "Jrue Holiday",
       "Tre Jones"
     ],
-    "4": [
-      "Cade Cunningham",
-      "Devin Booker",
-      "Walker Kessler",
-      "Nickeil Alexander-Walker",
-      "Michael Porter Jr.",
-      "Naz Reid",
-      "Cedric Coward",
-      "Miles Bridges",
-      "Darryn Peterson",
-      "Gui Santos",
-      "Ace Bailey",
-      "Mikel Brown Jr.",
-      "Moussa Diabat\u00e9"
-    ],
-    "5": [
-      "Giannis Antetokounmpo",
-      "LaMelo Ball",
-      "Josh Giddey",
-      "Franz Wagner",
-      "Dyson Daniels",
-      "Joel Embiid",
-      "AJ Dybantsa",
-      "CJ McCollum",
-      "Khaman Maluach",
-      "Ajay Mitchell",
-      "Daniel Gafford",
-      "Aaron Nesmith",
-      "Anthony Black"
-    ],
     "6": [
-      "Jayson Tatum",
-      "Amen Thompson",
-      "Domantas Sabonis",
-      "Donovan Clingan",
-      "LeBron James",
-      "Tyler Herro",
-      "Ausar Thompson",
-      "Day'Ron Sharpe",
-      "Brandin Podziemski",
-      "Andrew Nembhard",
-      "Reed Sheppard",
-      "Grayson Allen",
-      "Jeremiah Fears"
+      "Cade Cunningham",
+      "Ziaire Williams",
+      "Darryn Peterson",
+      "Michael Porter Jr.",
+      "Ace Bailey",
+      "Cedric Coward",
+      "Walker Kessler",
+      "Paul Reed",
+      "Dennis Schr\u00f6der",
+      "Miles Bridges",
+      "Devin Booker",
+      "Naz Reid"
     ],
     "7": [
-      "Tyrese Maxey",
-      "James Harden",
-      "Kawhi Leonard",
-      "Desmond Bane",
-      "Jarrett Allen",
-      "Jabari Smith Jr.",
-      "Josh Hart",
-      "Neemias Queta",
-      "Brandon Ingram",
-      "Ayo Dosunmu",
-      "Nikola Vu\u010devi\u0107",
-      "Julian Champagnie",
-      "Jay Huff"
+      "Kris Dunn",
+      "VJ Edgecombe",
+      "Kyshawn George",
+      "Scottie Barnes",
+      "Julius Randle",
+      "Jaren Jackson Jr.",
+      "Isaiah Hartenstein",
+      "P.J. Washington",
+      "Collin Gillespie",
+      "Kasparas Jaku\u010dionis",
+      "Donovan Mitchell",
+      "Payton Pritchard",
+      "Derrick White",
+      "Jimmy Butler III"
     ],
     "8": [
-      "Anthony Edwards",
-      "Jalen Duren",
-      "Keyonte George",
-      "Paolo Banchero",
-      "Stephon Castle",
-      "Paul George",
-      "Ja Morant",
-      "Aaron Gordon",
-      "RJ Barrett",
-      "Quentin Grimes",
-      "Dillon Brooks",
-      "Bobby Portis Jr.",
-      "Deandre Ayton"
-    ],
-    "9": [
       "Tyrese Haliburton",
+      "Keaton Wagler",
+      "Duncan Robinson",
       "Austin Reaves",
-      "Onyeka Okongwu",
       "Pascal Siakam",
       "Mikal Bridges",
+      "Onyeka Okongwu",
       "Rudy Gobert",
-      "Zion Williamson",
-      "Fred VanVleet",
-      "Kevin Porter Jr.",
-      "Devin Vassell",
       "Wendell Carter Jr.",
+      "Zion Williamson",
+      "Devin Vassell",
       "Draymond Green",
-      "Ben Simmons"
+      "Fred VanVleet"
+    ],
+    "9": [
+      "Miles McBride",
+      "Tyler Herro",
+      "Andrew Nembhard",
+      "Ausar Thompson",
+      "LeBron James",
+      "Grayson Allen",
+      "Day'Ron Sharpe",
+      "Domantas Sabonis",
+      "Jeremiah Fears",
+      "Donovan Clingan",
+      "Amen Thompson",
+      "Jayson Tatum",
+      "Jalen Smith",
+      "Mark Williams",
+      "Brandin Podziemski"
     ],
     "10": [
-      "Cooper Flagg",
-      "Karl-Anthony Towns",
-      "Bam Adebayo",
-      "Deni Avdija",
-      "Dejounte Murray",
-      "Jaden McDaniels",
-      "Coby White",
-      "Myles Turner",
-      "Yaxel Lendeborg",
-      "Egor D\u00ebmin",
-      "Saddiq Bey",
-      "Isaiah Jackson",
-      "Zaccharie Risacher"
+      "Jalen Suggs",
+      "Jaime Jaquez Jr.",
+      "De'Aaron Fox",
+      "Matas Buzelis",
+      "Tristan da Silva",
+      "Collin Murray-Boyles",
+      "Alperen Sengun",
+      "Kel'el Ware",
+      "Jamal Murray",
+      "Davion Mitchell",
+      "Brandon Miller",
+      "Christian Braun",
+      "Tari Eason"
     ],
     "11": [
-      "Jalen Johnson",
-      "Kevin Durant",
-      "Kyrie Irving",
-      "Anthony Davis",
-      "Ryan Rollins",
-      "Zach Edey",
-      "Dylan Harper",
-      "Zach LaVine",
-      "Darius Acuff Jr.",
-      "Rui Hachimura",
-      "Yves Missi",
-      "Jaylen Wells",
-      "Jake LaRavia"
+      "Luka Don\u010di\u0107",
+      "Immanuel Quickley",
+      "Trae Young",
+      "Lauri Markkanen",
+      "Jerami Grant",
+      "Jonathan Kuminga",
+      "Ivica Zubac",
+      "Alex Sarr",
+      "Darius Garland",
+      "Jakob Poeltl",
+      "Jalen Green",
+      "Bennedict Mathurin",
+      "Toumani Camara"
     ],
     "12": [
-      "Donovan Mitchell",
-      "Scottie Barnes",
-      "Derrick White",
-      "Jaren Jackson Jr.",
-      "Payton Pritchard",
-      "Julius Randle",
-      "VJ Edgecombe",
-      "Isaiah Hartenstein",
-      "Collin Gillespie",
-      "Kyshawn George",
-      "P.J. Washington",
-      "Jimmy Butler III",
-      "Pelle Larsson"
+      "Scotty Pippen Jr.",
+      "Jared McCain",
+      "Jalen Brunson",
+      "Kelly Oubre Jr.",
+      "Naji Marshall",
+      "Cameron Boozer",
+      "Evan Mobley",
+      "Sandro Mamukelashvili",
+      "Cason Wallace",
+      "Derrick Jones Jr.",
+      "Norman Powell",
+      "Nikola Joki\u0107",
+      "Caleb Wilson",
+      "Kon Knueppel"
     ],
     "13": [
-      "Alperen Sengun",
-      "Jamal Murray",
-      "Matas Buzelis",
-      "Brandon Miller",
-      "Kel'el Ware",
-      "De'Aaron Fox",
-      "Jalen Suggs",
-      "Collin Murray-Boyles",
-      "Jaime Jaquez Jr.",
-      "Christian Braun",
-      "Davion Mitchell",
-      "Tari Eason",
-      "Scoot Henderson"
+      "Tyrese Maxey",
+      "Ayo Dosunmu",
+      "James Harden",
+      "Desmond Bane",
+      "Kawhi Leonard",
+      "Josh Hart",
+      "Precious Achiuwa",
+      "Jaxson Hayes",
+      "Julian Champagnie",
+      "Neemias Queta",
+      "Bilal Coulibaly",
+      "Jabari Smith Jr.",
+      "Jarrett Allen",
+      "Brandon Ingram"
     ]
   },
   "berk_roster_names": [
-    "Tyrese Maxey",
-    "James Harden",
-    "Kawhi Leonard",
-    "Desmond Bane",
-    "Jarrett Allen",
-    "Jabari Smith Jr.",
-    "Josh Hart",
-    "Neemias Queta",
-    "Brandon Ingram",
-    "Ayo Dosunmu",
-    "Nikola Vu\u010devi\u0107",
-    "Julian Champagnie",
-    "Jay Huff"
+    "Kris Dunn",
+    "VJ Edgecombe",
+    "Kyshawn George",
+    "Scottie Barnes",
+    "Julius Randle",
+    "Jaren Jackson Jr.",
+    "Isaiah Hartenstein",
+    "P.J. Washington",
+    "Collin Gillespie",
+    "Kasparas Jaku\u010dionis",
+    "Donovan Mitchell",
+    "Payton Pritchard",
+    "Derrick White",
+    "Jimmy Butler III"
   ],
   "il_slots": {
-    "0": [],
-    "1": [],
+    "0": [
+      "Zach Edey",
+      "Yves Missi"
+    ],
+    "1": [
+      "Cameron Johnson",
+      "Tobias Harris"
+    ],
     "2": [],
-    "3": [],
-    "4": [],
+    "3": [
+      "Jalen Duren",
+      "Paolo Banchero"
+    ],
+    "4": [
+      "Jusuf Nurki\u0107",
+      "No new player Notes",
+      "Coby White"
+    ],
     "5": [],
     "6": [],
-    "7": [],
-    "8": [],
-    "9": [],
+    "7": [
+      "Jimmy Butler III"
+    ],
+    "8": [
+      "Draymond Green",
+      "Fred VanVleet"
+    ],
+    "9": [
+      "Mark Williams",
+      "No new player Notes",
+      "Brandin Podziemski"
+    ],
     "10": [],
     "11": [],
-    "12": [],
-    "13": []
+    "12": [
+      "Kon Knueppel"
+    ],
+    "13": [
+      "Brandon Ingram",
+      "No new player Notes"
+    ]
   },
   "unslotted_injured": {
-    "0": [],
+    "0": [
+      {
+        "name": "Kristaps Porzi\u0146\u0123is",
+        "status": "O",
+        "slot": "C"
+      }
+    ],
     "1": [],
-    "2": [],
+    "2": [
+      {
+        "name": "Joel Embiid",
+        "status": "O",
+        "slot": "C"
+      },
+      {
+        "name": "AJ Dybantsa",
+        "status": "O",
+        "slot": "UTIL"
+      }
+    ],
     "3": [],
-    "4": [],
-    "5": [],
+    "4": [
+      {
+        "name": "Cooper Flagg",
+        "status": "O",
+        "slot": "SG"
+      }
+    ],
+    "5": [
+      {
+        "name": "Nic Claxton",
+        "status": "O",
+        "slot": "C"
+      }
+    ],
     "6": [],
     "7": [],
     "8": [],
     "9": [],
     "10": [],
     "11": [],
-    "12": [],
+    "12": [
+      {
+        "name": "Naji Marshall",
+        "status": "O",
+        "slot": "PF"
+      },
+      {
+        "name": "New Player Note",
+        "status": "O",
+        "slot": "PF"
+      }
+    ],
     "13": []
   },
   "empty_active_slots": {
@@ -279,7 +359,446 @@
     "12": 0,
     "13": 0
   },
-  "transactions": [],
-  "dropped_free_agents": [],
-  "added_streamers": []
+  "transactions": [
+    {
+      "transaction_id": "dom_0",
+      "type": "add/drop",
+      "timestamp": 1792962216,
+      "added": [
+        {
+          "player_name": "Kyle Kuzma",
+          "team_name": "FatihTerimSpor"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "FatihTerimSpor"
+        },
+        {
+          "player_name": "Ryan Kalkbrenner",
+          "team_name": "FatihTerimSpor"
+        },
+        {
+          "player_name": "",
+          "team_name": "FatihTerimSpor"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1792962215,
+      "added": [
+        {
+          "player_name": "Ziaire Williams",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_2",
+      "type": "add/drop",
+      "timestamp": 1792962214,
+      "added": [
+        {
+          "player_name": "Marcus Smart",
+          "team_name": "Redeem Team"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Redeem Team"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_3",
+      "type": "add/drop",
+      "timestamp": 1792962213,
+      "added": [
+        {
+          "player_name": "Miles McBride",
+          "team_name": "Samurai Strikers"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Samurai Strikers"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_4",
+      "type": "add/drop",
+      "timestamp": 1792962212,
+      "added": [
+        {
+          "player_name": "Derrick Jones Jr.",
+          "team_name": "MuCa Tand\u0131rs"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "MuCa Tand\u0131rs"
+        },
+        {
+          "player_name": "Herbert Jones",
+          "team_name": "MuCa Tand\u0131rs"
+        },
+        {
+          "player_name": "",
+          "team_name": "MuCa Tand\u0131rs"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_5",
+      "type": "add/drop",
+      "timestamp": 1792962211,
+      "added": [
+        {
+          "player_name": "Khaman Maluach",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_6",
+      "type": "add/drop",
+      "timestamp": 1792962210,
+      "added": [
+        {
+          "player_name": "Moussa Diabat\u00e9",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_7",
+      "type": "add/drop",
+      "timestamp": 1792962209,
+      "added": [
+        {
+          "player_name": "Gui Santos",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_8",
+      "type": "add/drop",
+      "timestamp": 1792962208,
+      "added": [
+        {
+          "player_name": "Tristan da Silva",
+          "team_name": "YearOne Tyrants"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "YearOne Tyrants"
+        },
+        {
+          "player_name": "Scoot Henderson",
+          "team_name": "YearOne Tyrants"
+        },
+        {
+          "player_name": "",
+          "team_name": "YearOne Tyrants"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_9",
+      "type": "add/drop",
+      "timestamp": 1792962207,
+      "added": [
+        {
+          "player_name": "Noah Clowney",
+          "team_name": "FatihTerimSpor"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "FatihTerimSpor"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_10",
+      "type": "add/drop",
+      "timestamp": 1792962206,
+      "added": [
+        {
+          "player_name": "Marcus Smart",
+          "team_name": "Redeem Team"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Redeem Team"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_11",
+      "type": "add/drop",
+      "timestamp": 1792962205,
+      "added": [
+        {
+          "player_name": "Kasparas Jaku\u010dionis",
+          "team_name": "SILE BULLS"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "SILE BULLS"
+        },
+        {
+          "player_name": "Pelle Larsson",
+          "team_name": "SILE BULLS"
+        },
+        {
+          "player_name": "",
+          "team_name": "SILE BULLS"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_12",
+      "type": "add/drop",
+      "timestamp": 1792962204,
+      "added": [
+        {
+          "player_name": "Ryan Kalkbrenner",
+          "team_name": "FatihTerimSpor"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "FatihTerimSpor"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_13",
+      "type": "add/drop",
+      "timestamp": 1792962203,
+      "added": [
+        {
+          "player_name": "Keon Ellis",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_14",
+      "type": "add/drop",
+      "timestamp": 1792962202,
+      "added": [
+        {
+          "player_name": "Jake LaRavia",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_15",
+      "type": "add/drop",
+      "timestamp": 1792962201,
+      "added": [
+        {
+          "player_name": "Kris Dunn",
+          "team_name": "SILE BULLS"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "SILE BULLS"
+        },
+        {
+          "player_name": "Brayden Burries",
+          "team_name": "SILE BULLS"
+        },
+        {
+          "player_name": "",
+          "team_name": "SILE BULLS"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_16",
+      "type": "add/drop",
+      "timestamp": 1792962200,
+      "added": [
+        {
+          "player_name": "Aaron Wiggins",
+          "team_name": "Mordor Tulums"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Mordor Tulums"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_17",
+      "type": "add/drop",
+      "timestamp": 1792962199,
+      "added": [
+        {
+          "player_name": "Paul Reed",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_18",
+      "type": "add/drop",
+      "timestamp": 1792962198,
+      "added": [
+        {
+          "player_name": "Obi Toppin",
+          "team_name": "Mordor Tulums"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Mordor Tulums"
+        },
+        {
+          "player_name": "Sam Merrill",
+          "team_name": "Mordor Tulums"
+        },
+        {
+          "player_name": "",
+          "team_name": "Mordor Tulums"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_19",
+      "type": "add/drop",
+      "timestamp": 1792962197,
+      "added": [
+        {
+          "player_name": "Precious Achiuwa",
+          "team_name": "Berk's Best Team"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "",
+          "team_name": "Berk's Best Team"
+        },
+        {
+          "player_name": "Nikola Vu\u010devi\u0107",
+          "team_name": "Berk's Best Team"
+        },
+        {
+          "player_name": "",
+          "team_name": "Berk's Best Team"
+        }
+      ]
+    }
+  ],
+  "dropped_free_agents": [
+    "Ben Simmons",
+    "Reed Sheppard",
+    "Alex Caruso",
+    "Herbert Jones",
+    "Pelle Larsson",
+    "Gui Santos",
+    "Mikel Brown Jr.",
+    "Jay Huff",
+    "Nickeil Alexander-Walker",
+    "Nikola Vu\u010devi\u0107",
+    "Kevin Porter Jr.",
+    "Scoot Henderson",
+    "Moussa Diabat\u00e9",
+    "Jake LaRavia"
+  ],
+  "added_streamers": [
+    "Naji Marshall",
+    "Kris Dunn",
+    "Dennis Schr\u00f6der",
+    "Jusuf Nurki\u0107",
+    "Kristaps Porzi\u0146\u0123is",
+    "Kyle Kuzma",
+    "Derrick Jones Jr.",
+    "Noah Clowney",
+    "Bilal Coulibaly",
+    "Jared McCain",
+    "Jaylon Tyson",
+    "Tristan da Silva",
+    "Ziaire Williams",
+    "Andre Drummond",
+    "Miles McBride",
+    "Kasparas Jaku\u010dionis",
+    "Mark Williams",
+    "Aaron Wiggins",
+    "Keaton Wagler",
+    "Keon Ellis",
+    "Jaxson Hayes",
+    "Duncan Robinson",
+    "Obi Toppin",
+    "Precious Achiuwa",
+    "Jalen Smith",
+    "Paul Reed"
+  ]
 }

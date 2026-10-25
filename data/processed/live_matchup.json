@@ -1,42 +1,34 @@
 {
   "week": 1,
-  "updated_at": "2026-10-25T20:50:00Z",
+  "updated_at": "2026-10-25T21:03:36.025018+00:00",
   "matchup": {
     "team_a": {
-      "name": "Berk's Best Team",
+      "name": "SILE BULLS",
       "slot": 8,
       "games_played": 30,
       "games_remaining": 7,
       "total_scheduled": 37,
-      "FGM": 145.0,
-      "FGA": 316.0,
-      "FTM": 86.0,
-      "FTA": 106.0,
-      "FG3M": 44.0,
-      "PTS": 420.0,
-      "REB": 147.0,
-      "AST": 70.0,
-      "STL": 41.0,
-      "BLK": 30.0,
-      "TOV": 43.0
+      "FG3M": 0.77,
+      "PTS": 41,
+      "REB": 437,
+      "AST": 164,
+      "STL": 103,
+      "BLK": 28,
+      "TOV": 24
     },
     "team_b": {
-      "name": "SILE BULLS",
-      "slot": 13,
+      "name": "Berk's Best Team",
+      "slot": 14,
       "games_played": 30,
-      "games_remaining": 6,
-      "total_scheduled": 36,
-      "FGM": 151.0,
-      "FGA": 334.0,
-      "FTM": 94.0,
-      "FTA": 122.0,
-      "FG3M": 41.0,
-      "PTS": 437.0,
-      "REB": 164.0,
-      "AST": 103.0,
-      "STL": 28.0,
-      "BLK": 24.0,
-      "TOV": 80.0
+      "games_remaining": 7,
+      "total_scheduled": 37,
+      "FG3M": 0.811,
+      "PTS": 44,
+      "REB": 420,
+      "AST": 147,
+      "STL": 70,
+      "BLK": 41,
+      "TOV": 30
     }
   }
 }
