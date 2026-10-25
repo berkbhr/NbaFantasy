@@ -1,7 +1,7 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-25 15:53:16 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-25_11_45AM.pdf`  
-**Yahoo League Status:** `Not configured (using canonical draft rosters)`  
+**Sync Timestamp:** `2026-10-25 19:37:05 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-25_03_30PM.pdf`  
+**Yahoo League Status:** `OAuth2 configured, but league discovery returned False (Yahoo HTTP 403: Forbidden)`  
 
 ---
 
@@ -29,7 +29,7 @@
 | **#2 Mordor Tulums** | — | Tobias Harris (OUT) | `0` |
 | **#4 Houston Buckets** | — | Nic Claxton (OUT) | `0` |
 | **#5 Kuvâ-yi Milfiye** | — | Mikel Brown Jr. (OUT) | `0` |
-| **#6 abu dhabi camels** | — | AJ Dybantsa (OUT) | `0` |
+| **#6 abu dhabi camels** | — | Joel Embiid (OUT), AJ Dybantsa (OUT) | `0` |
 | **#8 Berk's Best Team** | — | Brandon Ingram (OUT) | `0` |
 | **#9 FatihTerimSpor** | — | Jalen Duren (OUT), Paolo Banchero (OUT) | `0` |
 | **#10 Redeem Team** | — | Ben Simmons (OUT) | `0` |
@@ -53,7 +53,7 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 | #2 | `ADD (Boş Yuva / IL+)` | **Naji Marshall** | Boş Yuva (IL+ Stash) | `3.4 / 0.0` | **`+0.405`** | PTS (+14.4%), AST (+11.4%) |
 | #3 | `ADD (Boş Yuva / IL+)` | **Duncan Robinson** | Boş Yuva (IL+ Stash) | `3.4 / 0.0` | **`+0.390`** | FG3M (+15.5%), PTS (+10.8%) |
 | #4 | `ADD (Boş Yuva / IL+)` | **Precious Achiuwa** | Boş Yuva (IL+ Stash) | `3.4 / 0.0` | **`+0.385`** | REB (+15.9%), PTS (+9.5%) |
-| #5 | `ADD (Boş Yuva / IL+)` | **Kris Dunn** | Boş Yuva (IL+ Stash) | `3.4 / 0.0` | **`+0.379`** | STL (+13.2%), AST (+9.9%) |
+| #5 | `ADD (Boş Yuva / IL+)` | **Kris Dunn** | Boş Yuva (IL+ Stash) | `3.4 / 0.0` | **`+0.380`** | STL (+13.2%), AST (+9.9%) |
 
 ### 📋 Available Healthy Free Agents Pool (Top 8)
 | Rank | Free Agent | Source | Exp Min (Boost) | Base Z | Eff Availability |
@@ -73,16 +73,16 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 * **IL+ Stash:** `Brandon Ingram`
 * **Top Auto-Streamer:** `Kyle Filipowski`
 * **Remaining Games Multiplier:** `Berk: 100% remaining | SILE BULLS: 100% remaining`
-* **Expected Matchup Outcome:** **4.90 - 4.10** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%61.0`** (Berk favori)
+* **Expected Matchup Outcome:** **4.91 - 4.09** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%61.0`** (Berk favori)
 
 | Category | Berk's Expected | SILE BULLS Expected | Berk Win Prob | Projected Winner |
 | :--- | :---: | :---: | :---: | :---: |
-| **PTS** | `587.5` | `572.7` | `%54.9` | 🏆 Berk |
-| **REB** | `222.8` | `209.1` | `%61.0` | 🏆 Berk |
+| **PTS** | `587.5` | `572.6` | `%55.0` | 🏆 Berk |
+| **REB** | `222.8` | `209.0` | `%61.0` | 🏆 Berk |
 | **AST** | `125.2` | `140.7` | `%30.1` | SILE BULLS |
-| **STL** | `37.0` | `38.8` | `%43.8` | SILE BULLS |
+| **STL** | `37.0` | `38.8` | `%43.9` | SILE BULLS |
 | **BLK** | `24.0` | `24.6` | `%47.3` | SILE BULLS |
 | **FG3M** | `62.8` | `62.3` | `%51.2` | ⚖️ Toss-up |
-| **TOV** | `62.0` | `69.1` | `%66.0` | 🏆 Berk |
-| **FG%** | `.489` | `.469` | `%69.4` | 🏆 Berk |
+| **TOV** | `62.0` | `69.0` | `%66.0` | 🏆 Berk |
+| **FG%** | `.489` | `.469` | `%69.3` | 🏆 Berk |
 | **FT%** | `.820` | `.794` | `%66.7` | 🏆 Berk |

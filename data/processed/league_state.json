@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-10-25T15:53:16.346483+00:00",
+  "updated_at": "2026-10-25T19:37:05.576305+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
-  "sync_status": "Not configured (using canonical draft rosters)",
+  "sync_status": "OAuth2 configured, but league discovery returned False (Yahoo HTTP 403: Forbidden)",
   "rosters": {
     "0": [
       "Nikola Joki\u0107",
