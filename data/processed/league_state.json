@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-25T21:03:36.050865+00:00",
+  "updated_at": "2026-10-25T21:08:54.984490+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -270,6 +270,7 @@
     ],
     "8": [
       "Draymond Green",
+      "New Player Note",
       "Fred VanVleet"
     ],
     "9": [
@@ -352,7 +353,7 @@
     "5": 0,
     "6": 0,
     "7": 0,
-    "8": 0,
+    "8": 1,
     "9": 0,
     "10": 0,
     "11": 0,
@@ -363,7 +364,7 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1792962216,
+      "timestamp": 1792962534,
       "added": [
         {
           "player_name": "Kyle Kuzma",
@@ -388,7 +389,7 @@
     {
       "transaction_id": "dom_1",
       "type": "add/drop",
-      "timestamp": 1792962215,
+      "timestamp": 1792962533,
       "added": [
         {
           "player_name": "Ziaire Williams",
@@ -405,7 +406,7 @@
     {
       "transaction_id": "dom_2",
       "type": "add/drop",
-      "timestamp": 1792962214,
+      "timestamp": 1792962532,
       "added": [
         {
           "player_name": "Marcus Smart",
@@ -422,7 +423,7 @@
     {
       "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1792962213,
+      "timestamp": 1792962531,
       "added": [
         {
           "player_name": "Miles McBride",
@@ -439,7 +440,7 @@
     {
       "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1792962212,
+      "timestamp": 1792962530,
       "added": [
         {
           "player_name": "Derrick Jones Jr.",
@@ -464,7 +465,7 @@
     {
       "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1792962211,
+      "timestamp": 1792962529,
       "added": [
         {
           "player_name": "Khaman Maluach",
@@ -481,7 +482,7 @@
     {
       "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1792962210,
+      "timestamp": 1792962528,
       "added": [
         {
           "player_name": "Moussa Diabat\u00e9",
@@ -498,7 +499,7 @@
     {
       "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1792962209,
+      "timestamp": 1792962527,
       "added": [
         {
           "player_name": "Gui Santos",
@@ -515,7 +516,7 @@
     {
       "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1792962208,
+      "timestamp": 1792962526,
       "added": [
         {
           "player_name": "Tristan da Silva",
@@ -540,7 +541,7 @@
     {
       "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1792962207,
+      "timestamp": 1792962525,
       "added": [
         {
           "player_name": "Noah Clowney",
@@ -557,7 +558,7 @@
     {
       "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1792962206,
+      "timestamp": 1792962524,
       "added": [
         {
           "player_name": "Marcus Smart",
@@ -574,7 +575,7 @@
     {
       "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1792962205,
+      "timestamp": 1792962523,
       "added": [
         {
           "player_name": "Kasparas Jaku\u010dionis",
@@ -599,7 +600,7 @@
     {
       "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1792962204,
+      "timestamp": 1792962522,
       "added": [
         {
           "player_name": "Ryan Kalkbrenner",
@@ -616,7 +617,7 @@
     {
       "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1792962203,
+      "timestamp": 1792962521,
       "added": [
         {
           "player_name": "Keon Ellis",
@@ -633,7 +634,7 @@
     {
       "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1792962202,
+      "timestamp": 1792962520,
       "added": [
         {
           "player_name": "Jake LaRavia",
@@ -650,7 +651,7 @@
     {
       "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1792962201,
+      "timestamp": 1792962519,
       "added": [
         {
           "player_name": "Kris Dunn",
@@ -675,7 +676,7 @@
     {
       "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1792962200,
+      "timestamp": 1792962518,
       "added": [
         {
           "player_name": "Aaron Wiggins",
@@ -692,7 +693,7 @@
     {
       "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1792962199,
+      "timestamp": 1792962517,
       "added": [
         {
           "player_name": "Paul Reed",
@@ -709,7 +710,7 @@
     {
       "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1792962198,
+      "timestamp": 1792962516,
       "added": [
         {
           "player_name": "Obi Toppin",
@@ -734,7 +735,7 @@
     {
       "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1792962197,
+      "timestamp": 1792962515,
       "added": [
         {
           "player_name": "Precious Achiuwa",
