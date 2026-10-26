@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-26 08:31:23 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_04_30AM.pdf`  
+**Sync Timestamp:** `2026-10-26 09:10:22 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_05_00AM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
@@ -8,16 +8,16 @@
 ## 1. 🛡️ Berk's Best Team Roster, IL+ & Slot Audit
 | Player | Active/IL+ Slot | Status | Play Probability | Notes / Reason |
 | :--- | :---: | :---: | :---: | :--- |
-| ✅ **Tyrese Maxey** | `Active/BN` | Healthy | `0.86` | Expected to play |
+| ✅ **Tyrese Maxey** | `Active/BN` | Healthy | `0.87` | Expected to play |
 | ✅ **Ayo Dosunmu** | `Active/BN` | Healthy | `0.86` | Expected to play |
 | ✅ **James Harden** | `Active/BN` | Healthy | `0.88` | Expected to play |
-| ⚠️ **Bilal Coulibaly** | `Active/BN` | **HEALTHY** | `0.80` | Expected to play |
+| ⚠️ **Bilal Coulibaly** | `Active/BN` | **HEALTHY** | `0.81` | Expected to play |
 | ✅ **Jabari Smith Jr.** | `Active/BN` | Healthy | `0.90` | Expected to play |
 | ✅ **Josh Hart** | `Active/BN` | Healthy | `0.87` | Expected to play |
-| ⚠️ **Jaxson Hayes** | `Active/BN` | **HEALTHY** | `0.84` | Expected to play |
+| ⚠️ **Jaxson Hayes** | `Active/BN` | **HEALTHY** | `0.85` | Expected to play |
 | ⚠️ **Jarrett Allen** | `Active/BN` | **HEALTHY** | `0.85` | Expected to play |
 | ✅ **Julian Champagnie** | `Active/BN` | Healthy | `0.92` | Expected to play |
-| ✅ **Neemias Queta** | `Active/BN` | Healthy | `0.89` | Expected to play |
+| ✅ **Neemias Queta** | `Active/BN` | Healthy | `0.90` | Expected to play |
 | ✅ **Desmond Bane** | `Active/BN` | Healthy | `0.92` | Expected to play |
 | ❌ **Kawhi Leonard** | `⚠️ Move to IL+` | **OUT** | `0.00` | Leonard is out for Sunday's game against the Timberwolves due to left knee swelling, Blake Murphy of Sportsnet.ca reports. |
 | ✅ **Precious Achiuwa** | `Active/BN` | Healthy | `0.88` | Expected to play |
@@ -63,23 +63,23 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 
 | Rank | Action | Add Target (FA) | Drop Candidate | Rem Games (Add/Drop) | $\Delta E[\text{Wins}]$ | Key Category Gains |
 | :---: | :---: | :--- | :--- | :---: | :---: | :--- |
-| #1 | `ADD / DROP` | **Nikola Vučević** | Kawhi Leonard | `3.4 / 3.4` | **`+0.433`** | REB (+14.5%), PTS (+12.0%) |
-| #2 | `ADD / DROP` | **Nickeil Alexander-Walker** | Kawhi Leonard | `3.4 / 3.4` | **`+0.431`** | FG3M (+13.9%), PTS (+13.6%) |
-| #3 | `ADD / DROP` | **Kyle Filipowski** | Kawhi Leonard | `3.4 / 3.4` | **`+0.387`** | REB (+15.6%), PTS (+11.2%) |
-| #4 | `ADD / DROP` | **Kevin Huerter** | Kawhi Leonard | `3.4 / 3.4` | **`+0.347`** | PTS (+9.7%), STL (+9.6%) |
-| #5 | `ADD / DROP` | **Moussa Diabaté** | Kawhi Leonard | `3.4 / 3.4` | **`+0.343`** | REB (+17.3%), BLK (+8.5%) |
+| #1 | `ADD / DROP` | **Moussa Diabaté** | Kawhi Leonard | `4.0 / 3.0` | **`+0.514`** | REB (+22.0%), STL (+12.5%) |
+| #2 | `ADD / DROP` | **Nickeil Alexander-Walker** | Kawhi Leonard | `4.0 / 3.0` | **`+0.488`** | PTS (+14.7%), STL (+13.0%) |
+| #3 | `ADD / DROP` | **Ryan Kalkbrenner** | Kawhi Leonard | `4.0 / 3.0` | **`+0.432`** | BLK (+15.6%), REB (+14.4%) |
+| #4 | `ADD / DROP` | **Dean Wade** | Kawhi Leonard | `3.0 / 3.0` | **`+0.431`** | STL (+14.8%), REB (+10.7%) |
+| #5 | `ADD / DROP` | **Ziaire Williams** | Kawhi Leonard | `4.0 / 3.0` | **`+0.397`** | STL (+14.1%), PTS (+10.2%) |
 
 ### 📋 Available Healthy Free Agents Pool (Top 8)
 | Rank | Free Agent | Source | Exp Min (Boost) | Base Z | Eff Availability |
 | :---: | :--- | :---: | :---: | :---: | :---: |
-| #1 | **Nickeil Alexander-Walker** | `🔥 Dropped by Team` | `30.6m` | `1.76` | `0.91` |
-| #2 | **Nikola Vučević** | `🔥 Dropped by Team` | `28.9m (+3.0m)` | `1.35` | `0.85` |
-| #3 | **Kyle Filipowski** | `Unrostered FA` | `28.8m (+5.4m)` | `0.59` | `0.90` |
-| #4 | **Reed Sheppard** | `🔥 Dropped by Team` | `23.9m (+0.7m)` | `-0.34` | `0.92` |
-| #5 | **Kevin Huerter** | `Unrostered FA` | `30.1m (+7.5m)` | `-0.37` | `0.86` |
-| #6 | **Moussa Diabaté** | `🔥 Dropped by Team` | `28.8m (+4.8m)` | `-0.47` | `0.88` |
-| #7 | **Kevin Porter Jr.** | `🔥 Dropped by Team` | `26.9m` | `-0.79` | `0.83` |
-| #8 | **Gary Payton II** | `Unrostered FA` | `22.2m (+4.9m)` | `-1.23` | `0.88` |
+| #1 | **Nickeil Alexander-Walker** | `🔥 Dropped by Team` | `30.1m` | `1.54` | `0.91` |
+| #2 | **Dean Wade** | `Unrostered FA` | `34.6m (+5.7m)` | `0.77` | `0.81` |
+| #3 | **Reed Sheppard** | `🔥 Dropped by Team` | `23.5m` | `-1.20` | `0.92` |
+| #4 | **Moussa Diabaté** | `🔥 Dropped by Team` | `25.6m (+0.8m)` | `-1.58` | `0.88` |
+| #5 | **Max Christie** | `Unrostered FA` | `33.9m (+4.7m)` | `-1.92` | `0.90` |
+| #6 | **Justin Champagnie** | `Unrostered FA` | `22.3m` | `-2.00` | `0.86` |
+| #7 | **Ja'Kobe Walter** | `Unrostered FA` | `25.2m (+1.3m)` | `-2.11` | `0.88` |
+| #8 | **Kevin Huerter** | `Unrostered FA` | `27.4m (+5.4m)` | `-2.34` | `0.86` |
 
 ---
 
@@ -87,16 +87,16 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 * **IL+ Stash:** `Brandon Ingram`
 * **Top Auto-Streamer:** `Nickeil Alexander-Walker`
 * **Remaining Games Multiplier:** `Berk: 100% remaining | Mordor Tulums: 100% remaining`
-* **Expected Matchup Outcome:** **4.47 - 4.53** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%49.1`** (Mordor Tulums favori)
+* **Expected Matchup Outcome:** **3.97 - 5.03** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%35.4`** (Mordor Tulums favori)
 
 | Category | Live Score | Berk Proj Final | Mordor Tulums Proj Final | Berk Win Prob | Projected Winner |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **PTS** | `0 - 0` | `537.6` | `517.6` | `%56.7` | 🏆 Berk |
-| **REB** | `0 - 0` | `199.4` | `193.6` | `%54.8` | 🏆 Berk |
-| **AST** | `0 - 0` | `117.9` | `90.2` | `%84.5` | 🏆 Berk |
-| **STL** | `0 - 0` | `36.1` | `32.8` | `%61.8` | 🏆 Berk |
-| **BLK** | `0 - 0` | `22.5` | `28.6` | `%27.0` | Mordor Tulums |
-| **FG3M** | `0 - 0` | `57.9` | `61.9` | `%41.4` | Mordor Tulums |
-| **TOV** | `0 - 0` | `58.2` | `52.3` | `%35.6` | Mordor Tulums |
-| **FG%** | `.484 - .494` | `.484` | `.494` | `%40.3` | Mordor Tulums |
-| **FT%** | `.810 - .817` | `.810` | `.817` | `%45.0` | Mordor Tulums |
+| **PTS** | `0 - 0` | `576.8` | `620.2` | `%36.3` | Mordor Tulums |
+| **REB** | `0 - 0` | `214.9` | `222.8` | `%43.7` | Mordor Tulums |
+| **AST** | `0 - 0` | `120.7` | `101.8` | `%75.6` | 🏆 Berk |
+| **STL** | `0 - 0` | `40.4` | `38.3` | `%57.1` | 🏆 Berk |
+| **BLK** | `0 - 0` | `27.5` | `32.8` | `%31.2` | Mordor Tulums |
+| **FG3M** | `0 - 0` | `60.7` | `77.1` | `%19.7` | Mordor Tulums |
+| **TOV** | `0 - 0` | `61.9` | `59.9` | `%45.2` | Mordor Tulums |
+| **FG%** | `.488 - .491` | `.488` | `.491` | `%46.9` | Mordor Tulums |
+| **FT%** | `.797 - .810` | `.797` | `.810` | `%41.3` | Mordor Tulums |
