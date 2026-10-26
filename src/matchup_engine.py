@@ -1050,6 +1050,14 @@ class MatchupEngine:
                     'BLK': round(fa_proj.get('BLK', 0.0) * rem_g, 1),
                     '3PT': round(fa_proj.get('FG3M', 0.0) * rem_g, 1),
                 }
+                exp_stats_pg = {
+                    'PTS': round(fa_proj.get('PTS', 0.0), 1),
+                    'REB': round(fa_proj.get('REB', 0.0), 1),
+                    'AST': round(fa_proj.get('AST', 0.0), 1),
+                    'STL': round(fa_proj.get('STL', 0.0), 1),
+                    'BLK': round(fa_proj.get('BLK', 0.0), 1),
+                    '3PT': round(fa_proj.get('FG3M', 0.0), 1),
+                }
 
                 if has_open_slot:
                     trial_roster = list(my_roster_ids) + [fa_pid]
@@ -1080,6 +1088,7 @@ class MatchupEngine:
                         'cat_gains': cat_gains,
                         'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                         'exp_stats': exp_stats,
+                        'exp_stats_pg': exp_stats_pg,
                     })
                 else:
                     best_swap = None
@@ -1113,6 +1122,7 @@ class MatchupEngine:
                                 'cat_gains': cat_gains,
                                 'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                                 'exp_stats': exp_stats,
+                                'exp_stats_pg': exp_stats_pg,
                             }
                     if best_swap is not None:
                         recommendations.append(best_swap)

@@ -978,15 +978,24 @@ def run_cloud_sync():
         exp_m = int(round(bp_add.expected_minutes)) if bp_add else 25
         g_add = _g_str(rec.get('rem_games_add', 0))
 
-        # Expected weekly stats in remaining games
+        # Expected weekly and per-game stats in remaining games
         st = rec.get('exp_stats', {})
-        pts = st.get('PTS', 0.0)
-        reb = st.get('REB', 0.0)
-        ast = st.get('AST', 0.0)
-        stl = st.get('STL', 0.0)
-        blk = st.get('BLK', 0.0)
-        fg3 = st.get('3PT', 0.0)
-        stat_str = f"{pts:.1f} PTS • {reb:.1f} REB • {ast:.1f} AST • {stl:.1f} STL • {blk:.1f} BLK • {fg3:.1f} 3PT"
+        st_pg = rec.get('exp_stats_pg', {})
+        rem_g_val = max(float(rec.get('rem_games_add', 1.0) or 1.0), 0.1)
+        pts, pts_pg = st.get('PTS', 0.0), st_pg.get('PTS', st.get('PTS', 0.0) / rem_g_val)
+        reb, reb_pg = st.get('REB', 0.0), st_pg.get('REB', st.get('REB', 0.0) / rem_g_val)
+        ast, ast_pg = st.get('AST', 0.0), st_pg.get('AST', st.get('AST', 0.0) / rem_g_val)
+        stl, stl_pg = st.get('STL', 0.0), st_pg.get('STL', st.get('STL', 0.0) / rem_g_val)
+        blk, blk_pg = st.get('BLK', 0.0), st_pg.get('BLK', st.get('BLK', 0.0) / rem_g_val)
+        fg3, fg3_pg = st.get('3PT', 0.0), st_pg.get('3PT', st.get('3PT', 0.0) / rem_g_val)
+        stat_str = (
+            f"{pts:.1f} ({pts_pg:.1f}) PTS • "
+            f"{reb:.1f} ({reb_pg:.1f}) REB • "
+            f"{ast:.1f} ({ast_pg:.1f}) AST • "
+            f"{stl:.1f} ({stl_pg:.1f}) STL • "
+            f"{blk:.1f} ({blk_pg:.1f}) BLK • "
+            f"{fg3:.1f} ({fg3_pg:.1f}) 3PT"
+        )
 
         # Target categories with percentage chance increases (e.g. REB (+%22.0), STL (+%12.5))
         cat_gain_parts = []
