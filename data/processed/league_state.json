@@ -3,7 +3,7 @@
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
-  "sync_status": "Taray\u0131c\u0131 K\u00f6pr\u00fcs\u00fc Aktif (14 Tak\u0131m Canl\u0131 Kadro & Skor)",
+  "sync_status": "Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)",
   "rosters": {
     "0": [
       "Scotty Pippen Jr.",
@@ -13,7 +13,7 @@
       "Caleb Wilson",
       "Cameron Boozer",
       "Evan Mobley",
-      "Nikola Joki\u0107",
+      "Nikola Jokić",
       "Cason Wallace",
       "Reed Sheppard",
       "Derrick Jones Jr.",
@@ -40,7 +40,7 @@
       "Tobias Harris"
     ],
     "2": [
-      "Luka Don\u010di\u0107",
+      "Luka Dončić",
       "Jalen Green",
       "Trae Young",
       "Lauri Markkanen",
@@ -77,11 +77,12 @@
       "Miles Bridges",
       "Paul Reed",
       "Naz Reid",
-      "Dennis Schr\u00f6der",
+      "Dennis Schröder",
       "Alex Caruso",
       "Michael Porter Jr.",
       "Cade Cunningham",
-      "Walker Kessler"
+      "Walker Kessler",
+      "Nickeil Alexander-Walker"
     ],
     "5": [
       "LaMelo Ball",
@@ -165,7 +166,7 @@
     "10": [
       "Dejounte Murray",
       "Cooper Flagg",
-      "Egor D\u00ebmin",
+      "Egor Dëmin",
       "Jaden McDaniels",
       "Zaccharie Risacher",
       "Karl-Anthony Towns",
@@ -176,7 +177,7 @@
       "Saddiq Bey",
       "Isaiah Jackson",
       "Deni Avdija",
-      "Jusuf Nurki\u0107",
+      "Jusuf Nurkić",
       "Coby White"
     ],
     "11": [
@@ -193,7 +194,7 @@
       "Darius Acuff Jr.",
       "Rui Hachimura",
       "Dylan Harper",
-      "Kristaps Porzi\u0146\u0123is",
+      "Kristaps Porziņģis",
       "Yves Missi"
     ],
     "12": [
@@ -206,7 +207,7 @@
       "Isaiah Hartenstein",
       "P.J. Washington",
       "Collin Gillespie",
-      "Kasparas Jaku\u010dionis",
+      "Kasparas Jakučionis",
       "Kris Dunn",
       "Scottie Barnes",
       "Ja'Kobe Walter",
@@ -270,11 +271,11 @@
     ],
     "9": [],
     "10": [
-      "Jusuf Nurki\u0107",
+      "Jusuf Nurkić",
       "Coby White"
     ],
     "11": [
-      "Kristaps Porzi\u0146\u0123is",
+      "Kristaps Porziņģis",
       "Yves Missi"
     ],
     "12": [
@@ -369,7 +370,7 @@
       "added": [
         {
           "player_name": "Reed Sheppard",
-          "team_name": "MuCa Tand\u0131rs"
+          "team_name": "MuCa Tandırs"
         }
       ],
       "dropped": []
@@ -398,13 +399,13 @@
       "added": [
         {
           "player_name": "Alex Caruso",
-          "team_name": "Kuv\u00e2-yi Milfiye"
+          "team_name": "Kuvâ-yi Milfiye"
         }
       ],
       "dropped": [
         {
           "player_name": "Ziaire Williams",
-          "team_name": "Kuv\u00e2-yi Milfiye"
+          "team_name": "Kuvâ-yi Milfiye"
         }
       ]
     },
@@ -444,7 +445,7 @@
       "added": [
         {
           "player_name": "Ziaire Williams",
-          "team_name": "Kuv\u00e2-yi Milfiye"
+          "team_name": "Kuvâ-yi Milfiye"
         }
       ],
       "dropped": []
@@ -480,13 +481,13 @@
       "added": [
         {
           "player_name": "Derrick Jones Jr.",
-          "team_name": "MuCa Tand\u0131rs"
+          "team_name": "MuCa Tandırs"
         }
       ],
       "dropped": [
         {
           "player_name": "Herbert Jones",
-          "team_name": "MuCa Tand\u0131rs"
+          "team_name": "MuCa Tandırs"
         }
       ]
     },
@@ -497,7 +498,7 @@
       "added": [
         {
           "player_name": "Khaman Maluach",
-          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+          "team_name": "Istanbul Brickmakers 🧱"
         }
       ],
       "dropped": []
@@ -508,8 +509,8 @@
       "timestamp": 1793036442,
       "added": [
         {
-          "player_name": "Moussa Diabat\u00e9",
-          "team_name": "Kuv\u00e2-yi Milfiye"
+          "player_name": "Moussa Diabaté",
+          "team_name": "Kuvâ-yi Milfiye"
         }
       ],
       "dropped": []
@@ -521,7 +522,7 @@
       "added": [
         {
           "player_name": "Gui Santos",
-          "team_name": "Kuv\u00e2-yi Milfiye"
+          "team_name": "Kuvâ-yi Milfiye"
         }
       ],
       "dropped": []
@@ -573,7 +574,7 @@
       "timestamp": 1793036437,
       "added": [
         {
-          "player_name": "Kasparas Jaku\u010dionis",
+          "player_name": "Kasparas Jakučionis",
           "team_name": "SILE BULLS"
         }
       ],
@@ -603,7 +604,7 @@
       "added": [
         {
           "player_name": "Keon Ellis",
-          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+          "team_name": "Istanbul Brickmakers 🧱"
         }
       ],
       "dropped": []
@@ -616,19 +617,18 @@
     "Jeremiah Fears",
     "Gui Santos",
     "Mikel Brown Jr.",
-    "Nickeil Alexander-Walker",
-    "Nikola Vu\u010devi\u0107",
+    "Nikola Vučević",
     "Kevin Porter Jr.",
     "Scoot Henderson",
-    "Moussa Diabat\u00e9",
+    "Moussa Diabaté",
     "Jake LaRavia"
   ],
   "added_streamers": [
     "Naji Marshall",
     "Kris Dunn",
-    "Dennis Schr\u00f6der",
-    "Jusuf Nurki\u0107",
-    "Kristaps Porzi\u0146\u0123is",
+    "Dennis Schröder",
+    "Jusuf Nurkić",
+    "Kristaps Porziņģis",
     "Derrick Jones Jr.",
     "Kyle Kuzma",
     "Bilal Coulibaly",
@@ -637,7 +637,7 @@
     "Jaylon Tyson",
     "Tristan da Silva",
     "Andre Drummond",
-    "Kasparas Jaku\u010dionis",
+    "Kasparas Jakučionis",
     "Trevon Brazile",
     "Mark Williams",
     "Aaron Wiggins",

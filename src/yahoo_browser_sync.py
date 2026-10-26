@@ -62,10 +62,13 @@ BOOKMARKLET_JS_RAW = r"""
 
       const links = doc.querySelectorAll('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a, td.player a.name, a.Nowrap[href*="/nba/"]');
       links.forEach(a => {
-        let name = (a.textContent || '').trim();
-        if (name.includes('\n')) name = name.split('\n')[0].trim();
-        name = name.replace(/\s+(PG|SG|G|SF|PF|F|C|UTIL)$/i, '').replace(/\s*\([^)]*\)/g, '').trim();
-        if (!name || name.length < 3 || seen.has(name) || /^(View|Note|Player|Stats|Video)$/i.test(name) || /player\s*note/i.test(name)) return;
+        let rawText = (a.textContent || '').trim();
+        const validLines = rawText.split('\n')
+          .map(l => l.trim().replace(/\s+(PG|SG|G|SF|PF|F|C|UTIL)$/i, '').replace(/\s*\([^)]*\)/g, '').trim())
+          .filter(l => l.length >= 3 && !/^(View|Note|Player|Stats|Video|Player Note)$/i.test(l) && !/player\s*note/i.test(l));
+        if (!validLines.length) return;
+        const name = validLines[0];
+        if (seen.has(name)) return;
         const tr = a.closest('tr');
         if (!tr) return;
         seen.add(name);
@@ -172,8 +175,12 @@ BOOKMARKLET_JS_RAW = r"""
         const added = [], dropped = [];
         pLinks.forEach((pl, pIdx) => {
           const pName = pl.textContent.trim();
-          const containerTxt = (pl.parentElement ? pl.parentElement.textContent : tr.textContent).toLowerCase();
-          if (pIdx === 0 && (pLinks.length > 1 || !containerTxt.includes('drop'))) {
+          const trTxt = tr.textContent.toLowerCase();
+          const cellTxt = (pl.closest('td') ? pl.closest('td').textContent : trTxt).toLowerCase();
+          const isDrop = cellTxt.includes('drop') || trTxt.includes('drop') || cellTxt.includes('bırak') || trTxt.includes('bırak');
+          if (pIdx === 0 && !isDrop && pLinks.length > 1) {
+            added.push({ player_name: pName, team_name: teamName });
+          } else if (pIdx === 0 && !isDrop && !trTxt.includes('drop') && !trTxt.includes('bırak')) {
             added.push({ player_name: pName, team_name: teamName });
           } else {
             dropped.push({ player_name: pName, team_name: teamName });
@@ -322,6 +329,39 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
             canon_key = _resolve_canonical_draft_slot(names, s_key)
             rosters_clean[canon_key] = names
             total_players += len(names)
+
+    # Protect against missing drafted players on incomplete team scrapes (< 13 players)
+    try:
+        from src.live_draft_assistant import LiveDraftAssistant
+        _temp_ast = LiveDraftAssistant()
+        initial_draft_rosters = draft_data.resolve_rosters(_temp_ast)
+        all_seen_names = set(n.lower() for s, p_names in rosters_clean.items() for n in p_names)
+        for s_k, p_names in rosters_clean.items():
+            try:
+                s_idx = int(s_k)
+            except ValueError:
+                continue
+            if len(p_names) < 13 and s_idx in initial_draft_rosters:
+                for d_pid in initial_draft_rosters[s_idx]:
+                    if len(p_names) >= 13:
+                        break
+                    d_name = _temp_ast.players[d_pid].name if d_pid in _temp_ast.players else ""
+                    if d_name and d_name.lower() not in all_seen_names:
+                        print(f"  [BROWSER SYNC PROTECTION] Preserving drafted player '{d_name}' in slot {s_idx} ({len(p_names)}/13).")
+                        p_names.append(d_name)
+                        all_seen_names.add(d_name.lower())
+                rosters_clean[s_k] = p_names
+    except Exception as e_p:
+        print(f"  [WARN] Roster protection check: {e_p}")
+
+    for s_key in rosters_by_slot:
+        names = [
+            str(p.get("name", "")).strip()
+            for p in rosters_by_slot[s_key]
+            if isinstance(p, dict) and p.get("name") and "player note" not in str(p.get("name", "")).lower()
+        ]
+        if names:
+            canon_key = _resolve_canonical_draft_slot(names, s_key)
             il_clean[canon_key] = [
                 n for n in raw_il.get(s_key, raw_il.get(str(s_key), []))
                 if "player note" not in str(n).lower()
@@ -435,9 +475,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
 
 
 def build_setup_html():
-    import urllib.parse
-    minified_js = " ".join(line.strip() for line in BOOKMARKLET_JS_RAW.splitlines() if not line.strip().startswith("//"))
-    bookmarklet_href = "javascript:" + urllib.parse.quote(minified_js)
+    bookmarklet_href = "javascript:(function(){const s=document.createElement('script');s.src='http://127.0.0.1:8765/sync.js?t='+Date.now();document.head.appendChild(s);})()"
     return f"""<!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -488,6 +526,15 @@ class BrowserSyncHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        if self.path.startswith("/sync.js"):
+            js_code = BOOKMARKLET_JS_RAW.encode("utf-8")
+            self.send_response(200)
+            self._send_cors()
+            self.send_header("Content-Type", "application/javascript; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(js_code)
+            return
+
         html = build_setup_html().encode("utf-8")
         self.send_response(200)
         self._send_cors()

@@ -917,6 +917,33 @@ class MatchupEngine:
             'meta': dict(rem_dist.get('meta', {})),
         }
 
+    @staticmethod
+    def _compute_cat_details(clean_base_probs, new_probs):
+        details = []
+        for c in new_probs:
+            base_p = clean_base_probs.get(c, 0.5)
+            new_p = new_probs.get(c, 0.5)
+            d = new_p - base_p
+            if d >= 0.005:
+                is_flip = (base_p < 0.50 and new_p >= 0.50)
+                is_crit = (0.38 <= base_p <= 0.62)
+                is_hopeless = (base_p < 0.35 and new_p < 0.45)
+                is_safe = (base_p >= 0.75)
+                # Weighted priority: Flips > Critical swing > Hopeless / already won
+                weight = 3.0 if is_flip else (2.0 if is_crit else (0.4 if is_hopeless else (0.6 if is_safe else 1.0)))
+                score = d * weight
+                details.append({
+                    'cat': c,
+                    'base_pct': int(round(base_p * 100)),
+                    'new_pct': int(round(new_p * 100)),
+                    'delta_pct': round(d * 100, 1),
+                    'is_flip': is_flip,
+                    'is_crit': is_crit,
+                    'score': score
+                })
+        details.sort(key=lambda x: x['score'], reverse=True)
+        return details
+
     def recommend_add_drop_moves(self, my_roster_ids, opp_roster_ids, candidate_fa_ids,
                                  start_date=None, end_date=None,
                                  my_actual_stats=None, opp_actual_stats=None,
@@ -1065,31 +1092,30 @@ class MatchupEngine:
                     trial_tot = self.combine_live_and_remaining_dist(my_actual_stats, trial_rem, rem_fraction=my_rem_fraction)
                     new_wins, new_probs, _ = self.evaluate_h2h_matchup(trial_tot, base_opp_tot)
                     delta_wins = new_wins - clean_base_wins
-                    best_cats = sorted(
-                        [(c, new_probs[c] - clean_base_probs[c]) for c in new_probs],
-                        key=lambda item: item[1], reverse=True
-                    )
-                    top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
-                    target_cats = [c for c, d in best_cats[:2] if d >= 0.005]
-                    cat_gains = [(c, d) for c, d in best_cats if d >= 0.005][:2]
-                    recommendations.append({
-                        'action': 'ADD (Boş Yuva / IL+)',
-                        'add_id': fa_pid,
-                        'add_name': fa_name,
-                        'drop_id': None,
-                        'drop_name': f'Boş Yuva ({stash_note})',
-                        'rem_games_add': rem_g,
-                        'rem_games_drop': 0,
-                        'fa_avail': fa_avail,
-                        'base_expected_wins': clean_base_wins,
-                        'new_expected_wins': new_wins,
-                        'delta_expected_wins': delta_wins,
-                        'target_cats': target_cats,
-                        'cat_gains': cat_gains,
-                        'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
-                        'exp_stats': exp_stats,
-                        'exp_stats_pg': exp_stats_pg,
-                    })
+                    cat_details = self._compute_cat_details(clean_base_probs, new_probs)
+                    top_cat_gains = [f"{cd['cat']} (%{cd['base_pct']} ➔ %{cd['new_pct']})" for cd in cat_details[:2]]
+                    target_cats = [cd['cat'] for cd in cat_details[:2]]
+                    cat_gains = [(cd['cat'], cd['delta_pct'] / 100.0) for cd in cat_details[:2]]
+                    if delta_wins > 0:
+                        recommendations.append({
+                            'action': 'ADD (Boş Yuva / IL+)',
+                            'add_id': fa_pid,
+                            'add_name': fa_name,
+                            'drop_id': None,
+                            'drop_name': f'Boş Yuva ({stash_note})',
+                            'rem_games_add': rem_g,
+                            'rem_games_drop': 0,
+                            'fa_avail': fa_avail,
+                            'base_expected_wins': clean_base_wins,
+                            'new_expected_wins': new_wins,
+                            'delta_expected_wins': delta_wins,
+                            'target_cats': target_cats,
+                            'cat_gains': cat_gains,
+                            'cat_details': cat_details,
+                            'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
+                            'exp_stats': exp_stats,
+                            'exp_stats_pg': exp_stats_pg,
+                        })
                 else:
                     best_swap = None
                     for drop_pid in drop_candidates:
@@ -1099,13 +1125,10 @@ class MatchupEngine:
                         new_wins, new_probs, _ = self.evaluate_h2h_matchup(trial_tot, base_opp_tot)
                         delta_wins = new_wins - clean_base_wins
                         if best_swap is None or delta_wins > best_swap['delta_expected_wins']:
-                            best_cats = sorted(
-                                [(c, new_probs[c] - clean_base_probs[c]) for c in new_probs],
-                                key=lambda item: item[1], reverse=True
-                            )
-                            top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
-                            target_cats = [c for c, d in best_cats[:2] if d >= 0.005]
-                            cat_gains = [(c, d) for c, d in best_cats if d >= 0.005][:2]
+                            cat_details = self._compute_cat_details(clean_base_probs, new_probs)
+                            top_cat_gains = [f"{cd['cat']} (%{cd['base_pct']} ➔ %{cd['new_pct']})" for cd in cat_details[:2]]
+                            target_cats = [cd['cat'] for cd in cat_details[:2]]
+                            cat_gains = [(cd['cat'], cd['delta_pct'] / 100.0) for cd in cat_details[:2]]
                             best_swap = {
                                 'action': 'ADD / DROP',
                                 'add_id': fa_pid,
@@ -1120,11 +1143,12 @@ class MatchupEngine:
                                 'delta_expected_wins': delta_wins,
                                 'target_cats': target_cats,
                                 'cat_gains': cat_gains,
+                                'cat_details': cat_details,
                                 'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                                 'exp_stats': exp_stats,
                                 'exp_stats_pg': exp_stats_pg,
                             }
-                    if best_swap is not None:
+                    if best_swap is not None and best_swap['delta_expected_wins'] > 0:
                         recommendations.append(best_swap)
         finally:
             self.free_agent_pool = saved_pool

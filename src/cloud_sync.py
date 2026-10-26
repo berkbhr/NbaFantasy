@@ -372,14 +372,52 @@ def run_cloud_sync():
     if not recent_transactions and prior_state.get("transactions"):
         recent_transactions = prior_state.get("transactions", [])
 
+    # ROSTER PROTECTION: A drafted player can NEVER be dropped to FA unless:
+    # 1. They were explicitly dropped in transactions, OR
+    # 2. Their drafting team's roster is fully filled (>= 13 players) without them.
+    # If a team has < 13 players (e.g. temporary scraper/DOM missing player like NAW in slot 4):
+    # the un-dropped drafted player MUST be preserved on the team's roster!
+    initial_draft_rosters = draft_data.resolve_rosters(assistant)
+    initial_draft_pids = set(p for slot in initial_draft_rosters for p in initial_draft_rosters[slot])
+
+    dropped_tx_names = set()
+    for tx in recent_transactions:
+        if isinstance(tx, dict):
+            for d in tx.get("dropped", []):
+                pn = d.get("player_name", "").strip().lower()
+                if pn:
+                    dropped_tx_names.add(pn)
+
+    all_current_pids = set(p for slot in rosters for p in rosters[slot])
+    for s_idx, d_pids in initial_draft_rosters.items():
+        curr_pids = rosters.get(s_idx, [])
+        if len(curr_pids) < 13:
+            for d_pid in d_pids:
+                if len(curr_pids) >= 13:
+                    break
+                if d_pid not in all_current_pids and d_pid in assistant.players:
+                    p_name = assistant.players[d_pid].name
+                    if p_name.lower() not in dropped_tx_names:
+                        print(f"  [ROSTER PROTECTION] Preserving drafted player '{p_name}' in slot {s_idx} ({len(curr_pids)}/13 players).")
+                        curr_pids.append(d_pid)
+                        all_current_pids.add(d_pid)
+            rosters[s_idx] = curr_pids
+
     # Refresh Berk's roster & all_rostered_pids after live roster / transaction updates
     berk_pids = rosters[draft_data.MY_TEAM_IDX]
     all_drafted_pids = set(p for slot in rosters for p in rosters[slot])
 
     # Identify newly dropped players who are now Free Agents
-    initial_draft_rosters = draft_data.resolve_rosters(assistant)
-    initial_draft_pids = set(p for slot in initial_draft_rosters for p in initial_draft_rosters[slot])
-    dropped_to_fa_pids = [pid for pid in initial_draft_pids if pid not in all_drafted_pids]
+    dropped_to_fa_pids = []
+    for pid in initial_draft_pids:
+        if pid not in all_drafted_pids:
+            bp = assistant.players.get(pid)
+            p_name = bp.name if bp else ""
+            drafting_slot = next((s for s, dp in initial_draft_rosters.items() if pid in dp), None)
+            team_size = len(rosters.get(drafting_slot, [])) if drafting_slot is not None else 0
+            if p_name.lower() in dropped_tx_names or team_size >= 13:
+                dropped_to_fa_pids.append(pid)
+
     newly_added_from_fa_pids = [pid for pid in all_drafted_pids if pid not in initial_draft_pids]
 
     league_state = {
@@ -970,56 +1008,74 @@ def run_cloud_sync():
         gp_x = int(getattr(bp_x, 'current_season_gp', 0) or 0)
         return f", sezon: {gp_x}MP {getattr(bp_x, 'current_season_mpg', 0.0):.0f}dk" if gp_x > 0 else ""
 
-    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
-    for idx_m, rec in enumerate(add_drop_recs[:10]):
-        r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
-        bp_add = assistant.players.get(rec['add_id'])
-        pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
-        exp_m = int(round(bp_add.expected_minutes)) if bp_add else 25
-        g_add = _g_str(rec.get('rem_games_add', 0))
+    MIN_ADD_DROP_DELTA = 0.035  # En az +0.035 kategori artışı sağlamayan marjinal hamleler önerilmez
+    meaningful_recs = [r for r in add_drop_recs if r.get('delta_expected_wins', 0.0) >= MIN_ADD_DROP_DELTA]
 
-        # Expected weekly and per-game stats in remaining games
-        st = rec.get('exp_stats', {})
-        st_pg = rec.get('exp_stats_pg', {})
-        rem_g_val = max(float(rec.get('rem_games_add', 1.0) or 1.0), 0.1)
-        pts, pts_pg = st.get('PTS', 0.0), st_pg.get('PTS', st.get('PTS', 0.0) / rem_g_val)
-        reb, reb_pg = st.get('REB', 0.0), st_pg.get('REB', st.get('REB', 0.0) / rem_g_val)
-        ast, ast_pg = st.get('AST', 0.0), st_pg.get('AST', st.get('AST', 0.0) / rem_g_val)
-        stl, stl_pg = st.get('STL', 0.0), st_pg.get('STL', st.get('STL', 0.0) / rem_g_val)
-        blk, blk_pg = st.get('BLK', 0.0), st_pg.get('BLK', st.get('BLK', 0.0) / rem_g_val)
-        fg3, fg3_pg = st.get('3PT', 0.0), st_pg.get('3PT', st.get('3PT', 0.0) / rem_g_val)
-        stat_str = (
-            f"{pts:.1f} ({pts_pg:.1f}) PTS • "
-            f"{reb:.1f} ({reb_pg:.1f}) REB • "
-            f"{ast:.1f} ({ast_pg:.1f}) AST • "
-            f"{stl:.1f} ({stl_pg:.1f}) STL • "
-            f"{blk:.1f} ({blk_pg:.1f}) BLK • "
-            f"{fg3:.1f} ({fg3_pg:.1f}) 3PT"
-        )
+    if not meaningful_recs:
+        msg_lines.append("<i>💡 Şu an serbest havuzda kadro kalitesini belirgin artıracak acil bir hamle bulunmuyor. Haftalık hamle hakkınızı haftanın sonraki günlerine (sakatlık / fikstür avantajı) saklamanız önerilir.</i>")
+    else:
+        rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
+        for idx_m, rec in enumerate(meaningful_recs[:10]):
+            r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
+            bp_add = assistant.players.get(rec['add_id'])
+            pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
+            exp_m = int(round(bp_add.expected_minutes)) if bp_add else 25
+            g_add = _g_str(rec.get('rem_games_add', 0))
 
-        # Target categories with percentage chance increases (e.g. REB (+%22.0), STL (+%12.5))
-        cat_gain_parts = []
-        for c, d in rec.get('cat_gains', []):
-            c_lbl = c.replace('_PCT', '%').replace('FG3M', '3PT')
-            cat_gain_parts.append(f"{c_lbl} (+%{d*100:.1f})")
-        cat_text = ', '.join(cat_gain_parts) if cat_gain_parts else 'Dengeli Katkı'
-
-        # Action tag
-        if rec['drop_id'] is None:
-            action_tag = "➔ <i>Boş Yuva (Drop Yok!)</i>"
-        else:
-            bp_drop = assistant.players.get(rec['drop_id'])
-            is_drop_inj = (
-                getattr(bp_drop, 'injury_status', '') in ('OUT', 'INJ', 'O', 'IL', 'SUSPENDED')
-                or (bp_drop and bp_drop.get_effective_game_availability(is_b2b=False) <= 0.0)
+            # Expected weekly and per-game stats in remaining games
+            st = rec.get('exp_stats', {})
+            st_pg = rec.get('exp_stats_pg', {})
+            rem_g_val = max(float(rec.get('rem_games_add', 1.0) or 1.0), 0.1)
+            pts, pts_pg = st.get('PTS', 0.0), st_pg.get('PTS', st.get('PTS', 0.0) / rem_g_val)
+            reb, reb_pg = st.get('REB', 0.0), st_pg.get('REB', st.get('REB', 0.0) / rem_g_val)
+            ast, ast_pg = st.get('AST', 0.0), st_pg.get('AST', st.get('AST', 0.0) / rem_g_val)
+            stl, stl_pg = st.get('STL', 0.0), st_pg.get('STL', st.get('STL', 0.0) / rem_g_val)
+            blk, blk_pg = st.get('BLK', 0.0), st_pg.get('BLK', st.get('BLK', 0.0) / rem_g_val)
+            fg3, fg3_pg = st.get('3PT', 0.0), st_pg.get('3PT', st.get('3PT', 0.0) / rem_g_val)
+            stat_str = (
+                f"{pts:.1f} ({pts_pg:.1f}) PTS • "
+                f"{reb:.1f} ({reb_pg:.1f}) REB • "
+                f"{ast:.1f} ({ast_pg:.1f}) AST • "
+                f"{stl:.1f} ({stl_pg:.1f}) STL • "
+                f"{blk:.1f} ({blk_pg:.1f}) BLK • "
+                f"{fg3:.1f} ({fg3_pg:.1f}) 3PT"
             )
-            g_drop = _g_str(rec.get('rem_games_drop', 0))
-            drop_tag = "Sakat" if is_drop_inj else f"{g_drop} maç"
-            action_tag = f"➔ <i>-{rec['drop_name']} ({drop_tag}) Drop</i>"
 
-        msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç) {action_tag}")
-        msg_lines.append(f"   ├ 📊 <b>Haftalık:</b> {stat_str}")
-        msg_lines.append(f"   └ 🎯 <b>Etki:</b> {cat_text} artışı <i>(📈 +{rec['delta_expected_wins']:.2f} Kat.)</i>")
+            # Impact string with category probabilities (e.g. REB (%52 ➔ %67), FG% (%47 ➔ %53 🟢))
+            cat_details = rec.get('cat_details', [])
+            cat_gain_parts = []
+            if cat_details:
+                for cd in cat_details[:2]:
+                    c_lbl = cd['cat'].replace('_PCT', '%').replace('FG3M', '3PT')
+                    flip_tag = " 🟢" if cd.get('is_flip') else ""
+                    cat_gain_parts.append(f"{c_lbl} (%{cd['base_pct']} ➔ %{cd['new_pct']}{flip_tag})")
+            else:
+                for c, d in rec.get('cat_gains', []):
+                    c_lbl = c.replace('_PCT', '%').replace('FG3M', '3PT')
+                    cat_gain_parts.append(f"{c_lbl} (+%{d*100:.1f})")
+            cat_text = ', '.join(cat_gain_parts) if cat_gain_parts else 'Dengeli Katkı'
+
+            b_wins = rec.get('base_expected_wins', 0.0)
+            n_wins = rec.get('new_expected_wins', 0.0)
+            d_wins = rec.get('delta_expected_wins', 0.0)
+            score_str = f" | Skor: {b_wins:.2f} ➔ {n_wins:.2f}" if (b_wins > 0 and n_wins > 0) else ""
+
+            # Action tag
+            if rec['drop_id'] is None:
+                action_tag = "➔ <i>Boş Yuva (Drop Yok!)</i>"
+            else:
+                bp_drop = assistant.players.get(rec['drop_id'])
+                is_drop_inj = (
+                    getattr(bp_drop, 'injury_status', '') in ('OUT', 'INJ', 'O', 'IL', 'SUSPENDED')
+                    or (bp_drop and bp_drop.get_effective_game_availability(is_b2b=False) <= 0.0)
+                )
+                g_drop = _g_str(rec.get('rem_games_drop', 0))
+                drop_tag = "Sakat" if is_drop_inj else f"{g_drop} maç"
+                action_tag = f"➔ <i>-{rec['drop_name']} ({drop_tag}) Drop</i>"
+
+            msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç) {action_tag}")
+            msg_lines.append(f"   ├ 📊 <b>Haftalık:</b> {stat_str}")
+            msg_lines.append(f"   └ 🎯 <b>Etki:</b> {cat_text}{score_str} <i>(📈 +{d_wins:.2f} Kat.)</i>")
 
     # Top Free Agents (clean 1-line summary)
     top_fa_strs = []
