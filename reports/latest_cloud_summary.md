@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-26 20:22:54 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_04_15PM.pdf`  
+**Sync Timestamp:** `2026-10-26 22:12:43 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_06_00PM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
@@ -64,47 +64,50 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 
 | Rank | Action | Add Target (FA) | Drop Candidate | Rem Games (Add/Drop) | $\Delta E[\text{Wins}]$ | Key Category Gains |
 | :---: | :---: | :--- | :--- | :---: | :---: | :--- |
-| #1 | `ADD / DROP` | **Ryan Kalkbrenner** | Jaxson Hayes | `4.0 / 3.0` | **`+0.271`** | PTS (%49 ➔ %53), REB (%37 ➔ %46) |
-| #2 | `ADD / DROP` | **Moussa Diabaté** | Jaxson Hayes | `4.0 / 3.0` | **`+0.209`** | REB (%37 ➔ %51), STL (%49 ➔ %55) |
-| #3 | `ADD / DROP` | **Dean Wade** | Jaxson Hayes | `3.0 / 3.0` | **`+0.174`** | STL (%49 ➔ %57), PTS (%49 ➔ %51) |
-| #4 | `ADD / DROP` | **Jock Landale** | Jaxson Hayes | `4.0 / 3.0` | **`+0.144`** | PTS (%49 ➔ %54), REB (%37 ➔ %44) |
-| #5 | `ADD / DROP` | **Ziaire Williams** | Jaxson Hayes | `4.0 / 3.0` | **`+0.122`** | STL (%49 ➔ %56), PTS (%49 ➔ %53) |
-| #6 | `ADD / DROP` | **Sam Merrill** | Jaxson Hayes | `4.0 / 3.0` | **`+0.103`** | PTS (%49 ➔ %53), STL (%49 ➔ %51) |
-| #7 | `ADD / DROP` | **Royce O'Neale** | Jaxson Hayes | `4.0 / 3.0` | **`+0.072`** | STL (%49 ➔ %52), FT_PCT (%54 ➔ %56) |
-| #8 | `ADD / DROP` | **Luguentz Dort** | Jaxson Hayes | `4.0 / 3.0` | **`+0.070`** | STL (%49 ➔ %53), PTS (%49 ➔ %51) |
-| #9 | `ADD / DROP` | **Jake LaRavia** | Jaxson Hayes | `4.0 / 3.0` | **`+0.069`** | STL (%49 ➔ %55), FT_PCT (%54 ➔ %56) |
-| #10 | `ADD / DROP` | **Jarace Walker** | Jaxson Hayes | `4.0 / 3.0` | **`+0.064`** | PTS (%49 ➔ %53), STL (%49 ➔ %52) |
-| #11 | `ADD / DROP` | **Max Christie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.026`** | PTS (%49 ➔ %51), FT_PCT (%54 ➔ %55) |
-| #12 | `ADD / DROP` | **Kevin Huerter** | Jaxson Hayes | `3.0 / 3.0` | **`+0.020`** | STL (%49 ➔ %51), FT_PCT (%54 ➔ %56) |
+| #1 | `ADD / DROP` | **Dean Wade** | Jaxson Hayes | `3.0 / 3.0` | **`+0.174`** | STL (%49 ➔ %58), PTS (%49 ➔ %50) |
+| #2 | `ADD / DROP` | **Jock Landale** | Jaxson Hayes | `4.0 / 3.0` | **`+0.145`** | PTS (%49 ➔ %53), REB (%38 ➔ %44) |
+| #3 | `ADD / DROP` | **Sam Merrill** | Jaxson Hayes | `4.0 / 3.0` | **`+0.103`** | PTS (%49 ➔ %52), STL (%49 ➔ %51) |
+| #4 | `ADD / DROP` | **Luguentz Dort** | Jaxson Hayes | `4.0 / 3.0` | **`+0.070`** | STL (%49 ➔ %53), PTS (%49 ➔ %51) |
+| #5 | `ADD / DROP` | **Jake LaRavia** | Jaxson Hayes | `4.0 / 3.0` | **`+0.069`** | STL (%49 ➔ %55), FT_PCT (%53 ➔ %55) |
+| #6 | `ADD / DROP` | **Jarace Walker** | Jaxson Hayes | `4.0 / 3.0` | **`+0.063`** | PTS (%49 ➔ %52), STL (%49 ➔ %53) |
+| #7 | `ADD / DROP` | **Royce O'Neale** | Jaxson Hayes | `4.0 / 3.0` | **`+0.059`** | STL (%49 ➔ %52), FT_PCT (%53 ➔ %56) |
+| #8 | `ADD / DROP` | **Moussa Diabaté** | Jaxson Hayes | `3.0 / 3.0` | **`+0.044`** | STL (%49 ➔ %52), REB (%38 ➔ %45) |
+| #9 | `ADD / DROP` | **Will Richard** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.030`** | STL (%49 ➔ %51), FG_PCT (%44 ➔ %45) |
+| #10 | `ADD / DROP` | **Gary Payton II** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.026`** | FG_PCT (%44 ➔ %47), REB (%38 ➔ %39) |
+| #11 | `ADD / DROP` | **Max Christie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.025`** | PTS (%49 ➔ %50), FT_PCT (%53 ➔ %55) |
+| #12 | `ADD / DROP` | **Kevin Huerter** | Jaxson Hayes | `3.0 / 3.0` | **`+0.020`** | STL (%49 ➔ %51), FT_PCT (%53 ➔ %56) |
+| #13 | `ADD / DROP` | **Ziaire Williams** | Jaxson Hayes | `3.0 / 3.0` | **`+0.010`** | STL (%49 ➔ %53), FT_PCT (%53 ➔ %56) |
+| #14 | `ADD / DROP` | **Keldon Johnson** | Jaxson Hayes | `3.0 / 3.0` | **`+0.009`** | PTS (%49 ➔ %51), FT_PCT (%53 ➔ %56) |
+| #15 | `ADD / DROP` | **Jordan Poole** | Jaxson Hayes | `3.0 / 3.0` | **`+0.007`** | FT_PCT (%53 ➔ %57), PTS (%49 ➔ %51) |
 
 ### 📋 Available Healthy Free Agents Pool (Top 8)
 | Rank | Free Agent | Source | Exp Min (Boost) | Base Z | Eff Availability |
 | :---: | :--- | :---: | :---: | :---: | :---: |
-| #1 | **Moussa Diabaté** | `🔥 Dropped by Team` | `27.4m (+2.6m)` | `-0.82` | `0.88` |
-| #2 | **Dean Wade** | `Unrostered FA` | `29.0m` | `-1.33` | `0.81` |
+| #1 | **Dean Wade** | `Unrostered FA` | `29.0m` | `-1.33` | `0.81` |
+| #2 | **Moussa Diabaté** | `🔥 Dropped by Team` | `25.6m (+0.8m)` | `-1.58` | `0.88` |
 | #3 | **Max Christie** | `Unrostered FA` | `32.6m (+3.4m)` | `-2.27` | `0.90` |
-| #4 | **Ryan Kalkbrenner** | `Unrostered FA` | `21.6m (+2.1m)` | `-2.44` | `0.86` |
-| #5 | **Ziaire Williams** | `Unrostered FA` | `26.0m` | `-2.84` | `0.82` |
-| #6 | **Jordan Goodwin** | `Unrostered FA` | `21.9m (+0.6m)` | `-2.93` | `0.87` |
-| #7 | **Kevin Huerter** | `Unrostered FA` | `25.6m (+3.7m)` | `-2.96` | `0.86` |
-| #8 | **Malik Beasley** | `Unrostered FA` | `26.7m` | `-3.17` | `0.82` |
+| #4 | **Ziaire Williams** | `Unrostered FA` | `26.0m` | `-2.84` | `0.82` |
+| #5 | **Jordan Goodwin** | `Unrostered FA` | `21.9m (+0.6m)` | `-2.93` | `0.87` |
+| #6 | **Kevin Huerter** | `Unrostered FA` | `25.6m (+3.6m)` | `-2.96` | `0.86` |
+| #7 | **Malik Beasley** | `Unrostered FA` | `26.7m` | `-3.17` | `0.82` |
+| #8 | **Keldon Johnson** | `Unrostered FA` | `22.3m` | `-3.23` | `0.92` |
 
 ---
 
 ## 4. ⚔️ Live Matchup Scoreboard & Updated Projections: Berk's Best Team vs Mordor Tulums
 * **IL+ Stash:** `Brandon Ingram`
-* **Top Auto-Streamer:** `Moussa Diabaté`
+* **Top Auto-Streamer:** `Dean Wade`
 * **Remaining Games Multiplier:** `Berk: 100% remaining | Mordor Tulums: 100% remaining`
-* **Expected Matchup Outcome:** **4.49 - 4.51** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%49.8`** (Mordor Tulums favori)
+* **Expected Matchup Outcome:** **4.38 - 4.62** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%46.6`** (Mordor Tulums favori)
 
 | Category | Live Score | Berk Proj Final | Mordor Tulums Proj Final | Berk Win Prob | Projected Winner |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **PTS** | `0 - 0` | `580.0` | `562.7` | `%55.5` | 🏆 Berk |
-| **REB** | `0 - 0` | `238.9` | `229.3` | `%57.2` | 🏆 Berk |
-| **AST** | `0 - 0` | `122.4` | `94.5` | `%84.7` | 🏆 Berk |
-| **STL** | `0 - 0` | `42.1` | `39.5` | `%58.5` | 🏆 Berk |
-| **BLK** | `0 - 0` | `28.7` | `31.0` | `%41.7` | Mordor Tulums |
-| **FG3M** | `0 - 0` | `56.0` | `68.2` | `%25.6` | Mordor Tulums |
-| **TOV** | `0 - 0` | `63.3` | `54.5` | `%29.5` | Mordor Tulums |
-| **FG%** | `.494 - .496` | `.494` | `.496` | `%47.8` | Mordor Tulums |
-| **FT%** | `.791 - .793` | `.791` | `.793` | `%48.7` | Mordor Tulums |
+| **PTS** | `0 - 0` | `569.9` | `560.6` | `%53.0` | 🏆 Berk |
+| **REB** | `0 - 0` | `220.0` | `227.3` | `%44.4` | Mordor Tulums |
+| **AST** | `0 - 0` | `118.2` | `94.0` | `%81.4` | 🏆 Berk |
+| **STL** | `0 - 0` | `42.3` | `39.3` | `%59.8` | 🏆 Berk |
+| **BLK** | `0 - 0` | `27.1` | `30.8` | `%36.4` | Mordor Tulums |
+| **FG3M** | `0 - 0` | `59.2` | `68.1` | `%31.8` | Mordor Tulums |
+| **TOV** | `0 - 0` | `59.9` | `54.2` | `%36.2` | Mordor Tulums |
+| **FG%** | `.488 - .496` | `.488` | `.496` | `%42.5` | Mordor Tulums |
+| **FT%** | `.798 - .794` | `.798` | `.794` | `%52.4` | 🏆 Berk |

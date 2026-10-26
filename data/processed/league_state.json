@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-26T20:22:54.129006+00:00",
+  "updated_at": "2026-10-26T22:12:43.063959+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -672,5 +672,15 @@
     "Precious Achiuwa",
     "Jalen Smith",
     "Paul Reed"
-  ]
+  ],
+  "waivers": {
+    "Ryan Kalkbrenner": {
+      "date": "2026-10-28",
+      "display": "28/10"
+    },
+    "Moussa Diabat\u00e9": {
+      "date": "2026-10-28",
+      "display": "28/10"
+    }
+  }
 }
