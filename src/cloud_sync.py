@@ -434,6 +434,7 @@ def run_cloud_sync():
         "transactions": recent_transactions[:25],
         "dropped_free_agents": [assistant.players[p].name for p in dropped_to_fa_pids if p in assistant.players],
         "added_streamers": [assistant.players[p].name for p in newly_added_from_fa_pids if p in assistant.players],
+        "waivers": prior_state.get("waivers", {}),
     }
 
     # Save state JSON
@@ -673,7 +674,37 @@ def run_cloud_sync():
         table_rows.append(f"| **FT%** | `.{int(round(ft_b*1000)):03d}` | `.{int(round(ft_s*1000)):03d}` | `%{wp_ft*100:.1f}` | {'🏆 Berk' if wp_ft > 0.5 else opp_team_name} |")
         header_table = f"| Category | Berk's Expected | {opp_team_name} Expected | Berk Win Prob | Projected Winner |\n| :--- | :---: | :---: | :---: | :---: |"
 
-    # Compute Remaining-Games Marginal Add/Drop Recommendations
+    # -------------------------------------------------------------------------
+    # Build Waivers Dictionary (Live Browser Scrape + Recent 48h Drop Transactions)
+    # -------------------------------------------------------------------------
+    waivers_dict = {}
+    raw_waivers = league_state.get("waivers", {}) or league_state.get("waiver_players", {})
+    if isinstance(raw_waivers, dict):
+        for p_name, w_val in raw_waivers.items():
+            pid = assistant.resolve_player_id(p_name, only_available=False)
+            if pid is not None:
+                if isinstance(w_val, dict):
+                    waivers_dict[pid] = w_val
+                elif isinstance(w_val, str):
+                    waivers_dict[pid] = {"date": w_val, "display": w_val}
+
+    # Automatically mark players dropped in transactions within 48 hours as on waivers
+    now_ts = now_utc.timestamp()
+    for tx in recent_transactions:
+        if isinstance(tx, dict):
+            tx_ts = float(tx.get("timestamp", 0) or 0)
+            # Default Yahoo waiver duration is 48 hours (172800s)
+            if tx_ts > 0 and (now_ts - tx_ts) < 172800:
+                expire_dt = datetime.fromtimestamp(tx_ts + 172800, tz=timezone.utc)
+                expire_str = expire_dt.strftime("%Y-%m-%d")
+                expire_disp = expire_dt.strftime("%d/%m")
+                for d in tx.get("dropped", []):
+                    pn = d.get("player_name", "").strip()
+                    pid = assistant.resolve_player_id(pn, only_available=False)
+                    if pid is not None and pid not in waivers_dict:
+                        waivers_dict[pid] = {"date": expire_str, "display": expire_disp}
+
+    # Compute Remaining-Games Marginal Add/Drop Recommendations (accounting for waiver clear dates)
     add_drop_recs = engine.recommend_add_drop_moves(
         my_roster_ids=berk_pids,
         opp_roster_ids=opp_pids,
@@ -684,7 +715,8 @@ def run_cloud_sync():
         opp_actual_stats=tb if live_data else None,
         my_rem_fraction=fa,
         opp_rem_fraction=fb,
-        top_k=15
+        top_k=15,
+        waivers_dict=waivers_dict
     )
 
     print(f"  Berk IL+ Stashed: {[assistant.players[p].name for p in dist_berk.get('meta', {}).get('il_stashed_ids', [])]}")
@@ -1073,7 +1105,11 @@ def run_cloud_sync():
                 drop_tag = "Sakat" if is_drop_inj else f"{g_drop} maç"
                 action_tag = f"➔ <i>-{rec['drop_name']} ({drop_tag}) Drop</i>"
 
-            msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç) {action_tag}")
+            is_waiver = rec.get('is_waiver', False)
+            w_disp = rec.get('waiver_display', 'Waiver')
+            type_tag = f" • ⏳ <i>Waiver {w_disp} Claim</i>" if is_waiver else " • ⚡ <i>Serbest (Anında)</i>"
+
+            msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç{type_tag}) {action_tag}")
             msg_lines.append(f"   ├ 📊 <b>Haftalık:</b> {stat_str}")
             msg_lines.append(f"   └ 🎯 <b>Etki:</b> {cat_text}{score_str} <i>(📈 +{d_wins:.2f} Kat.)</i>")
 

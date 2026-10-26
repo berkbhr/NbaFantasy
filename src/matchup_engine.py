@@ -594,7 +594,7 @@ class MatchupEngine:
             'IS_STREAMER': streamer,
         }
 
-    def get_expected_weekly_distribution(self, roster_ids, start_date=None, end_date=None, category_weights=None, use_live_injuries=True):
+    def get_expected_weekly_distribution(self, roster_ids, start_date=None, end_date=None, category_weights=None, use_live_injuries=True, player_start_dates=None):
         """
         Evaluates a roster's optimal weekly output (both Mean and Calibrated Predictive Variance):
           - Uses consecutive_dnps-aware effective availability (fixes Rapor 1 / K2 & K4)
@@ -637,7 +637,8 @@ class MatchupEngine:
                 eff_avail = bp.get_effective_game_availability(is_b2b=False)
             else:
                 eff_avail = getattr(bp, 'availability_rate', 0.85)
-            data[pid] = self._make_entry(pid, eff_ref_date, start_date, end_date, dates, eff_avail)
+            eff_p_start = player_start_dates.get(pid, start_date) if player_start_dates else start_date
+            data[pid] = self._make_entry(pid, eff_ref_date, eff_p_start, end_date, dates, eff_avail)
 
         # -------------------------------------------------------------------------
         # IL / IL+ stashing and streaming (same rules for every team)
@@ -948,7 +949,7 @@ class MatchupEngine:
                                  start_date=None, end_date=None,
                                  my_actual_stats=None, opp_actual_stats=None,
                                  my_rem_fraction=1.0, opp_rem_fraction=1.0,
-                                 top_k=5):
+                                 top_k=5, waivers_dict=None):
         """
         Evaluates marginal expected weekly category wins Delta sum_{c=1}^9 Phi_c for adding a Free Agent
         (either into an open IL-freed roster spot or by dropping a low-leverage bench player)
@@ -1047,15 +1048,19 @@ class MatchupEngine:
         fa_prelim = []
         for fa_pid in valid_fas:
             avail = self.players[fa_pid].get_effective_game_availability(is_b2b=False)
-            entry = self._make_entry(fa_pid, ref_date, start_date, end_date, dates, avail, streamer=True)
+            w_info = waivers_dict.get(fa_pid) if waivers_dict else None
+            is_w = w_info is not None
+            w_date = w_info.get('date', w_info) if isinstance(w_info, dict) else w_info
+            eff_s = max(pd.to_datetime(start_date).normalize(), pd.to_datetime(w_date).normalize()).strftime('%Y-%m-%d') if (is_w and w_date and start_date) else start_date
+            entry = self._make_entry(fa_pid, ref_date, eff_s, end_date, dates, avail, streamer=True)
             rem_g = len(entry['SCHEDULE']) if len(dates) > 0 else 3.35 * my_rem_fraction
             w_dict = base_marg_weights if self.use_dynamic_add_drop else self.default_norm_weights
             prelim_score = self._player_value(entry, w_dict) * (rem_g if self.use_dynamic_add_drop else 1.0) * avail
-            fa_prelim.append((prelim_score, fa_pid, rem_g, avail, entry['PROJ']))
+            fa_prelim.append((prelim_score, fa_pid, rem_g, avail, entry['PROJ'], is_w, w_info))
 
         fa_prelim.sort(key=lambda x: x[0], reverse=True)
-        shortlist_fas = [x[1] for x in fa_prelim[:12]]
-        fa_meta = {x[1]: (x[2], x[3], x[4]) for x in fa_prelim[:12]}
+        shortlist_fas = [x[1] for x in fa_prelim[:15]]
+        fa_meta = {x[1]: (x[2], x[3], x[4], x[5], x[6]) for x in fa_prelim[:15]}
 
         # Disable automatic internal streamer injection during counterfactual roster swap evaluation
         saved_pool = self.free_agent_pool
@@ -1067,8 +1072,15 @@ class MatchupEngine:
             clean_base_wins, clean_base_probs, _ = self.evaluate_h2h_matchup(clean_base_tot, base_opp_tot)
 
             for fa_pid in shortlist_fas:
-                rem_g, fa_avail, fa_proj = fa_meta[fa_pid]
+                rem_g, fa_avail, fa_proj, is_waiver, w_info = fa_meta[fa_pid]
                 fa_name = self.players[fa_pid].name
+                w_date = w_info.get('date', w_info) if isinstance(w_info, dict) else w_info
+                w_disp = w_info.get('display', 'Waiver') if isinstance(w_info, dict) else (
+                    pd.to_datetime(w_date).strftime('%d/%m') if w_date else 'Waiver'
+                )
+                eff_s = max(pd.to_datetime(start_date).normalize(), pd.to_datetime(w_date).normalize()).strftime('%Y-%m-%d') if (is_waiver and w_date and start_date) else start_date
+                p_starts = {fa_pid: eff_s} if is_waiver else None
+
                 exp_stats = {
                     'PTS': round(fa_proj.get('PTS', 0.0) * rem_g, 1),
                     'REB': round(fa_proj.get('REB', 0.0) * rem_g, 1),
@@ -1088,7 +1100,7 @@ class MatchupEngine:
 
                 if has_open_slot:
                     trial_roster = list(my_roster_ids) + [fa_pid]
-                    trial_rem = self.get_expected_weekly_distribution(trial_roster, start_date=start_date, end_date=end_date)
+                    trial_rem = self.get_expected_weekly_distribution(trial_roster, start_date=start_date, end_date=end_date, player_start_dates=p_starts)
                     trial_tot = self.combine_live_and_remaining_dist(my_actual_stats, trial_rem, rem_fraction=my_rem_fraction)
                     new_wins, new_probs, _ = self.evaluate_h2h_matchup(trial_tot, base_opp_tot)
                     delta_wins = new_wins - clean_base_wins
@@ -1106,6 +1118,9 @@ class MatchupEngine:
                             'rem_games_add': rem_g,
                             'rem_games_drop': 0,
                             'fa_avail': fa_avail,
+                            'is_waiver': is_waiver,
+                            'waiver_display': w_disp,
+                            'waiver_clear_date': w_date,
                             'base_expected_wins': clean_base_wins,
                             'new_expected_wins': new_wins,
                             'delta_expected_wins': delta_wins,
@@ -1120,7 +1135,7 @@ class MatchupEngine:
                     best_swap = None
                     for drop_pid in drop_candidates:
                         trial_roster = [p for p in my_roster_ids if p != drop_pid] + [fa_pid]
-                        trial_rem = self.get_expected_weekly_distribution(trial_roster, start_date=start_date, end_date=end_date)
+                        trial_rem = self.get_expected_weekly_distribution(trial_roster, start_date=start_date, end_date=end_date, player_start_dates=p_starts)
                         trial_tot = self.combine_live_and_remaining_dist(my_actual_stats, trial_rem, rem_fraction=my_rem_fraction)
                         new_wins, new_probs, _ = self.evaluate_h2h_matchup(trial_tot, base_opp_tot)
                         delta_wins = new_wins - clean_base_wins
@@ -1138,6 +1153,9 @@ class MatchupEngine:
                                 'rem_games_add': rem_g,
                                 'rem_games_drop': roster_entries[drop_pid]['REM_GAMES'],
                                 'fa_avail': fa_avail,
+                                'is_waiver': is_waiver,
+                                'waiver_display': w_disp,
+                                'waiver_clear_date': w_date,
                                 'base_expected_wins': clean_base_wins,
                                 'new_expected_wins': new_wins,
                                 'delta_expected_wins': delta_wins,

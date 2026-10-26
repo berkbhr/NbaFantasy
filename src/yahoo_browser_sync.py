@@ -193,6 +193,27 @@ BOOKMARKLET_JS_RAW = r"""
       return txs.slice(0, 20);
     }
 
+    function parseAvailablePlayersDoc(doc) {
+      const waivers = {};
+      const rows = Array.from(doc.querySelectorAll('table tbody tr'));
+      rows.forEach(tr => {
+        const pLink = tr.querySelector('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a');
+        if (!pLink) return;
+        let name = (pLink.textContent || '').trim();
+        if (name.includes('\n')) name = name.split('\n')[0].trim();
+        name = name.replace(/\s+(PG|SG|G|SF|PF|F|C|UTIL)$/i, '').replace(/\s*\([^)]*\)/g, '').trim();
+        if (!name || name.length < 3) return;
+
+        const trTxt = tr.textContent;
+        const m = trTxt.match(/\bW\s*\(([A-Za-z0-9\/.]+)\)/i) || trTxt.match(/Off\s+Waivers\s+([A-Za-z0-9\/.]+)/i);
+        const isClaim = trTxt.includes('Claim') || tr.querySelector('a[href*="claim"], button[title*="Claim"], .claim-player');
+        if (m || isClaim) {
+          waivers[name] = m ? m[1] : 'Waiver';
+        }
+      });
+      return waivers;
+    }
+
     // 1. Check current page for matchup first
     let matchup = parseMatchupDoc(document);
 
@@ -241,6 +262,12 @@ BOOKMARKLET_JS_RAW = r"""
       transactions = parseTransactionsDoc(parser.parseFromString(txHtml, 'text/html'));
     }
 
+    let waivers = {};
+    const pHtml = await fetch(`/nba/${leagueId}/players?status=A&sort=OR`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
+    if (pHtml) {
+      waivers = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'));
+    }
+
     // 4. Send to local bridge (`http://127.0.0.1:8765/sync_league`)
     banner.textContent = '🏀 (3/3) Python Motoruna Gönderiliyor & Telegram Bildirimi Hazırlanıyor...';
     const payload = {
@@ -251,7 +278,8 @@ BOOKMARKLET_JS_RAW = r"""
       unslotted_injured_by_slot: unslottedBySlot,
       empty_active_slots_by_slot: emptyBySlot,
       transactions: transactions,
-      matchup: matchup
+      matchup: matchup,
+      waivers: waivers
     };
 
     const resp = await fetch('http://127.0.0.1:8765/sync_league', {
@@ -420,6 +448,10 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                 "dropped": drops,
             })
 
+    merged_waivers = dict(prior_state.get("waivers", {}))
+    if payload.get("waivers"):
+        merged_waivers.update(payload["waivers"])
+
     berk_slot_str = str(draft_data.MY_TEAM_IDX)
     state_data = {
         "updated_at": now_iso,
@@ -433,6 +465,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         "unslotted_injured": unslotted_clean or prior_state.get("unslotted_injured", {}),
         "empty_active_slots": empty_clean or prior_state.get("empty_active_slots", {}),
         "transactions": clean_txs,
+        "waivers": merged_waivers,
     }
     with open(state_json_path, "w", encoding="utf-8") as f:
         json.dump(state_data, f, indent=2)
