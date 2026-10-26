@@ -7,10 +7,11 @@ on:
       - 'data/processed/league_state.json'
       - 'data/processed/live_matchup.json'
   schedule:
-    # 3 Strategic Daily Run Times (TR / UTC / ET synchronized):
-    - cron: '30 7 * * *'   # 10:30 TR / 07:30 UTC / 03:30 ET (Morning scoreboard, overnight add/drops & waivers)
-    - cron: '30 18 * * *'  # 21:30 TR / 18:30 UTC / 14:30 ET (NBA Afternoon Official Injury Report & depth boosts)
-    - cron: '15 22 * * *'  # 01:15 TR / 22:15 UTC / 18:15 ET (Game Lock: 45 min before tip-off, IL+ & streamer alert)
+    # 4 Strategic Daily Run Times (Germany CET / TR / UTC / ET synchronized):
+    - cron: '30 6 * * *'   # 07:30 Germany (CET) / 09:30 TR / 06:30 UTC / 02:30 ET (Morning final scoreboard & overnight adds)
+    - cron: '30 12 * * *'  # 13:30 Germany (CET) / 15:30 TR / 12:30 UTC / 08:30 ET (Post-Waiver Wire clearance & new free agents)
+    - cron: '30 18 * * *'  # 19:30 Germany (CET) / 21:30 TR / 18:30 UTC / 14:30 ET (NBA Afternoon Official Injury Report & minute boosts)
+    - cron: '15 23 * * *'  # 00:15 Germany (CET) / 02:15 TR / 23:15 UTC / 19:15 ET (Game Lock: 45 min before tip-off, IL+ & late scratch alert)
   workflow_dispatch:        # Allows manual 1-click execution anytime from GitHub Actions UI
 
 permissions:

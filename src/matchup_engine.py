@@ -559,16 +559,18 @@ class MatchupEngine:
 
     def _is_il_eligible(self, p):
         """
-        Only a player who will not play at all (AVAIL == 0) can use an IL slot, and only if Yahoo allows it.
-        REST / SUSPENDED / GTD do not qualify unless the league settings (or the Yahoo bridge) say so.
+        Only a player who will not play at all (AVAIL == 0) can use an IL slot.
+        In Yahoo Fantasy NBA, any player marked OUT, INJ, O, IL, or SUSPENDED qualifies for IL/IL+.
         """
         if p['AVAIL'] > 0.0:
             return False
-        if self.yahoo_il_eligible_ids is not None:
-            return p['ID'] in self.yahoo_il_eligible_ids
         bp = self.players.get(p['ID'])
         status = str(getattr(bp, 'injury_status', '') or '').upper().strip()
-        return status in self.il_eligible_statuses
+        if status in self.il_eligible_statuses or status in ('OUT', 'INJ', 'O', 'IL', 'SUSPENDED'):
+            return True
+        if self.yahoo_il_eligible_ids is not None:
+            return p['ID'] in self.yahoo_il_eligible_ids
+        return False
 
     def _excluded_by_dnps(self, p, use_live_injuries):
         return bool(use_live_injuries and self.consec_dnp_limit is not None
@@ -955,8 +957,32 @@ class MatchupEngine:
             entry['MATCHUP_VAL'] = val * max(rem_g, 0.5) * avail
             roster_entries[pid] = entry
 
-        # Bottom 3 active players are candidate drops; also check if an open slot exists (active_roster < 13)
-        sorted_active = sorted(active_roster, key=lambda pid: roster_entries[pid]['MATCHUP_VAL'])
+        # Identify any OUT players who can be moved to an open IL/IL+ slot
+        already_in_yahoo = getattr(self, 'yahoo_already_stashed_ids', set()) or set()
+        out_players_to_stash = [
+            pid for pid in my_roster_ids
+            if pid in stashed_set and pid not in already_in_yahoo
+            and (getattr(self.players[pid], 'injury_status', '') in ('OUT', 'INJ', 'O', 'IL', 'SUSPENDED')
+                 or self.players[pid].get_effective_game_availability(is_b2b=False) <= 0.0)
+        ]
+        stash_note = f"{self.players[out_players_to_stash[0]].name} IL+'a" if out_players_to_stash else "IL+ Boş Yuva"
+
+        # Cant-cut protection: NEVER recommend dropping core franchise stars (e.g. Kawhi, Maxey, Harden, Bane)
+        # Drops must strictly come from the bottom tier of the bench (streamers / lowest season talent).
+        def _is_cant_cut(pid):
+            bp = self.players.get(pid)
+            if not bp:
+                return False
+            bm = float(getattr(bp, 'base_expected_minutes', bp.expected_minutes))
+            if bm >= 24.0 or getattr(bp, 'depth_rank_in_pos', 1) == 1:
+                return True
+            return False
+
+        candidate_drops_pool = [pid for pid in active_roster if not _is_cant_cut(pid)]
+        if not candidate_drops_pool:
+            candidate_drops_pool = active_roster
+
+        sorted_active = sorted(candidate_drops_pool, key=lambda pid: roster_entries[pid]['MATCHUP_VAL'])
         drop_candidates = sorted_active[:3]
         has_open_slot = len(active_roster) < MAX_ROSTER_SIZE
 
@@ -1005,18 +1031,20 @@ class MatchupEngine:
                         key=lambda item: item[1], reverse=True
                     )
                     top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
+                    target_cats = [c for c, d in best_cats[:2] if d >= 0.005]
                     recommendations.append({
                         'action': 'ADD (Boş Yuva / IL+)',
                         'add_id': fa_pid,
                         'add_name': fa_name,
                         'drop_id': None,
-                        'drop_name': 'Boş Yuva (IL+ Stash)',
+                        'drop_name': f'Boş Yuva ({stash_note})',
                         'rem_games_add': rem_g,
                         'rem_games_drop': 0,
                         'fa_avail': fa_avail,
                         'base_expected_wins': clean_base_wins,
                         'new_expected_wins': new_wins,
                         'delta_expected_wins': delta_wins,
+                        'target_cats': target_cats,
                         'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                     })
                 else:
@@ -1033,6 +1061,7 @@ class MatchupEngine:
                                 key=lambda item: item[1], reverse=True
                             )
                             top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
+                            target_cats = [c for c, d in best_cats[:2] if d >= 0.005]
                             best_swap = {
                                 'action': 'ADD / DROP',
                                 'add_id': fa_pid,
@@ -1045,6 +1074,7 @@ class MatchupEngine:
                                 'base_expected_wins': clean_base_wins,
                                 'new_expected_wins': new_wins,
                                 'delta_expected_wins': delta_wins,
+                                'target_cats': target_cats,
                                 'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                             }
                     if best_swap is not None:

@@ -478,6 +478,22 @@ def run_cloud_sync():
             except Exception:
                 pass
 
+    # Ensure every player who is currently OUT, INJ, O, IL, or eff_avail <= 0 is in yahoo_il_eligible_pids
+    for s_idx, p_list in rosters.items():
+        for p_id in p_list:
+            if p_id in assistant.players:
+                bp = assistant.players[p_id]
+                st = getattr(bp, 'injury_status', '')
+                if st in ('OUT', 'INJ', 'O', 'IL', 'SUSPENDED') or bp.get_effective_game_availability(is_b2b=False) <= 0.0:
+                    yahoo_il_eligible_pids.add(p_id)
+
+    yahoo_already_stashed = set()
+    for s_idx, p_names in il_players_by_slot.items():
+        for pn in p_names:
+            pid_res = assistant.resolve_player_id(pn, only_available=False)
+            if pid_res is not None:
+                yahoo_already_stashed.add(pid_res)
+
     top_fa_ids = [item[0] for item in healthy_free_agents]
     engine = MatchupEngine(
         bayesian_players_dict=assistant.players,
@@ -492,6 +508,7 @@ def run_cloud_sync():
         use_dynamic_add_drop=True,
         use_positional_depth_and_injury_boost=True
     )
+    engine.yahoo_already_stashed_ids = yahoo_already_stashed
     # Live in-season team assignments (trades / offseason moves) override the file-based team map
     if current_team_map:
         engine.team_map.update({int(k): int(v) for k, v in current_team_map.items()})
@@ -954,22 +971,27 @@ def run_cloud_sync():
     for idx_m, rec in enumerate(add_drop_recs[:3]):
         r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
-        m_info = ""
-        if bp_add:
-            bm_a = getattr(bp_add, 'base_expected_minutes', bp_add.expected_minutes)
-            bst = bp_add.expected_minutes - bm_a
-            bst_s = f", {bst:+.1f}🔼" if abs(bst) >= 0.5 else ""
-            m_info = f" ({bp_add.expected_minutes:.1f} dk{bst_s}{_season_tag(bp_add)})"
+        pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
+        exp_m = int(round(bp_add.expected_minutes)) if bp_add else 25
         g_add = _g_str(rec.get('rem_games_add', 0))
+
+        # Target categories to swing/win (e.g. REB, STL, FG%)
+        target_cats = rec.get('target_cats', [])
+        cat_labels = [c.replace('_PCT', '%').replace('FG3M', '3PT') for c in target_cats]
+        cat_text = ' & '.join(cat_labels) if cat_labels else 'Dengeli Katkı'
+
+        # Action line
         if rec['drop_id'] is None:
-            drop_lbl = "Boş Yuva (IL+)"
-            games_lbl = f"🗓 {g_add} maç"
+            # Drop name holds stash note (e.g. "Boş Yuva (Kawhi Leonard IL+'a)")
+            stash_lbl = rec.get('drop_name', 'IL+ Boş Yuva')
+            action_line = f"⚡ <b>İşlem:</b> {stash_lbl} ➔ Boş yuvaya ekle <i>(Drop Yok!)</i>"
         else:
-            drop_lbl = f"-{rec['drop_name']}"
-            games_lbl = f"🗓 {g_add} maç vs {_g_str(rec.get('rem_games_drop', 0))} maç"
-        clean_gains = rec['key_cat_gains'].replace('_PCT', '%').replace('FG3M', '3PT')
-        msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b>{m_info}")
-        msg_lines.append(f"   └ 📥 {drop_lbl} • {games_lbl} • 📈 <b>{rec['delta_expected_wins']:+.2f} Kat.</b> <i>({clean_gains})</i>")
+            g_drop = _g_str(rec.get('rem_games_drop', 0))
+            action_line = f"🔄 <b>İşlem:</b> -{rec['drop_name']} ({g_drop} maç) yerine al"
+
+        msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç)")
+        msg_lines.append(f"   ├ {action_line}")
+        msg_lines.append(f"   └ 🎯 <b>Hedef:</b> {cat_text} kategorilerini lehimize çevirir <i>(📈 {rec['delta_expected_wins']:+.2f} Kat.)</i>")
 
     # Top Free Agents (clean 1-line summary)
     top_fa_strs = []
