@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-26 11:39:56 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_07_30AM.pdf`  
+**Sync Timestamp:** `2026-10-26 12:05:20 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_08_00AM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
