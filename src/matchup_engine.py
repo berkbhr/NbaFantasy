@@ -231,6 +231,14 @@ class MatchupEngine:
             }
             team_map.update(self.prior_team_map)
 
+        if target_season == "2026_27" or prior_season == "2025_26":
+            # Offseason moves from the 2026-27 active roster (also covers players who have not played yet)
+            roster_26_path = os.path.join(DATA_DIR, 'processed', 'active_roster_2026_27.parquet')
+            if os.path.exists(roster_26_path):
+                df_r26 = pd.read_parquet(roster_26_path)
+                df_r26 = df_r26[df_r26['TEAM_ID'] > 0]
+                team_map.update(df_r26.set_index('PLAYER_ID')['TEAM_ID'].to_dict())
+
         target_path = os.path.join(DATA_DIR, 'raw', f'player_logs_{target_season}.parquet')
         if os.path.exists(target_path):
             df_target = pd.read_parquet(target_path, columns=['PLAYER_ID', 'TEAM_ID', 'GAME_DATE'])
@@ -238,12 +246,6 @@ class MatchupEngine:
             first_map = df_target.drop_duplicates(subset=['PLAYER_ID'], keep='first').set_index('PLAYER_ID')['TEAM_ID'].to_dict()
             # Update offseason team changes and rookies from their initial team at start of target season
             team_map.update(first_map)
-        elif target_season == "2026_27" or prior_season == "2025_26":
-            roster_26_path = os.path.join(DATA_DIR, 'processed', 'active_roster_2026_27.parquet')
-            if os.path.exists(roster_26_path):
-                df_r26 = pd.read_parquet(roster_26_path)
-                df_r26 = df_r26[df_r26['TEAM_ID'] > 0]
-                team_map.update(df_r26.set_index('PLAYER_ID')['TEAM_ID'].to_dict())
 
         return {int(k): int(v) for k, v in team_map.items()}
 
@@ -324,7 +326,9 @@ class MatchupEngine:
                 avail_map[pid] = avail
                 pos_buckets_map[pid] = self._extract_primary_pos_buckets(self.pos_dict.get(pid, 'UTIL'))
                 prev_tid = self.prior_team_map.get(pid)
-                is_transfer_map[pid] = bool(prev_tid is not None and prev_tid > 0 and prev_tid != tid)
+                # Once >= 3 games on the new team are observed, the measured role replaces the depth-chart guess
+                is_transfer_map[pid] = bool(prev_tid is not None and prev_tid > 0 and prev_tid != tid
+                                            and getattr(bp, 'current_season_gp', 0) < 3)
 
             # Determine positional depth rank k in {'G', 'F', 'C'} and competing starter minutes
             best_rank_by_pid = {pid: 99 for pid in team_pids}
@@ -453,9 +457,16 @@ class MatchupEngine:
 
                         tot_w = sum(w for _, w in beneficiaries)
                         if tot_w > 0:
+                            inj_cur_gp = int(getattr(inj_bp, 'current_season_gp', 0) or 0)
                             for ben_pid, w_ben in beneficiaries:
                                 share = w_ben / tot_w
                                 gain = vacated_m * share
+                                # Avoid double-counting: if the injured teammate has played 0 games this season
+                                # while the beneficiary has already played >= 2 games, the beneficiary's observed
+                                # in-season minutes already reflect playing without that teammate!
+                                ben_cur_gp = int(getattr(self.players[ben_pid], 'current_season_gp', 0) or 0)
+                                if inj_cur_gp == 0 and ben_cur_gp >= 2:
+                                    gain *= 0.15
                                 vacated_gain_by_pid[ben_pid] += gain
                                 if gain >= 0.8 and inj_bp.name not in injured_names_by_pid[ben_pid]:
                                     injured_names_by_pid[ben_pid].append(inj_bp.name)

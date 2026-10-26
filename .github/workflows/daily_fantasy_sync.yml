@@ -42,6 +42,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install numpy pandas pyarrow scipy scikit-learn requests beautifulsoup4 pulp nba_api pypdf
 
+      - name: Restore Cached Current-Season Game Logs (fallback if stats.nba.com throttles the runner)
+        run: |
+          mkdir -p data/raw
+          if git ls-remote --heads origin nba-fantasy-bot | grep -q nba-fantasy-bot; then
+            git fetch origin nba-fantasy-bot || true
+            git show origin/nba-fantasy-bot:data/raw/player_logs_2026_27.parquet > /tmp/player_logs_2026_27.parquet 2>/dev/null \
+              && [ -s /tmp/player_logs_2026_27.parquet ] \
+              && cp -f /tmp/player_logs_2026_27.parquet data/raw/player_logs_2026_27.parquet \
+              && echo "Restored cached season logs." || echo "No cached season logs yet."
+          fi
+
       - name: Run NBA Fantasy Autonomous Cloud Sync & Notifications
         env:
           YAHOO_OAUTH_JSON: ${{ secrets.YAHOO_OAUTH_JSON }}
@@ -76,6 +87,7 @@ jobs:
           cp -f data/processed/injuries.db /tmp/nba_sync_out/injuries.db 2>/dev/null || true
           cp -f data/processed/league_state.json /tmp/nba_sync_out/league_state.json 2>/dev/null || true
           cp -f reports/latest_cloud_summary.md /tmp/nba_sync_out/latest_cloud_summary.md 2>/dev/null || true
+          cp -f data/raw/player_logs_2026_27.parquet /tmp/nba_sync_out/player_logs_2026_27.parquet 2>/dev/null || true
           if [ -f data/processed/live_matchup.json ]; then
             cp -f data/processed/live_matchup.json /tmp/nba_sync_out/live_matchup.json
           fi
@@ -99,6 +111,11 @@ jobs:
           if [ -f /tmp/nba_sync_out/live_matchup.json ]; then
             cp -f /tmp/nba_sync_out/live_matchup.json data/processed/live_matchup.json
             git add -f data/processed/live_matchup.json
+          fi
+          if [ -s /tmp/nba_sync_out/player_logs_2026_27.parquet ]; then
+            mkdir -p data/raw
+            cp -f /tmp/nba_sync_out/player_logs_2026_27.parquet data/raw/player_logs_2026_27.parquet
+            git add -f data/raw/player_logs_2026_27.parquet
           fi
 
           git add -f data/processed/injuries.db data/processed/league_state.json reports/latest_cloud_summary.md

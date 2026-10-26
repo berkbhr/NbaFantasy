@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Olasılıksal Karar ve Simülasyon Paketi (H2H 9-Kategori)
 
-NBA Fantasy Head-to-Head (H2H) 9-Kategori formatı için tasarlanmış; **Eşlenik Bayes Çıkarımı (Conjugate Bayesian Inference)**, **Analitik Karar Teorisi (Analytical Decision Theory)** ve **Otonom Bulut CI/CD Boru Hatları** ile güçlendirilmiş, endüstriyel standartta bir nicel modelleme, simülasyon ve sezon içi canlı karar motoru.
+NBA Fantasy Head-to-Head (H2H) 9-Kategori formatı için tasarlanmış; **Eşlenik Bayes Çıkarımı (Conjugate Bayesian Inference)**, **Analitik Karar Teorisi (Analytical Decision Theory)**, **Kalite-Ağırlıklı Çapraz Pozisyonel Sakatlık Dağıtımı (Quality-Elastic Teammate Injury Redistribution)** ve **Otonom Bulut CI/CD Boru Hatları** ile güçlendirilmiş, endüstriyel standartta bir nicel modelleme, simülasyon ve sezon içi canlı karar motoru.
 
 > 🇬🇧 *For the English documentation, please refer to [README.md](../README.md).*
 
@@ -24,31 +24,50 @@ $$\mathcal{V}(\text{Kadro}) = \sum_{c=1}^{9} \mathbb{P}(\text{Win}_c) = \sum_{c=
 - **Varyans Optimizasyonu:** Geride olunan kategorilerde yüksek tavanlı (volatil) oyuncular, önde olunan kategorilerde ise tabanı sağlam (düşük varyanslı) oyuncular tercih edilir.
 - **Eşik Korelasyon Düzeltmesi ($\rho \in [0.10, 0.20]$):** Maç sayısı ve tempo korelasyonu analitik olarak hesaba katılır; lig içi sıralama gücü %100 korunur (Sıralama Değişmezliği).
 
-### 3. Resmi NBA Sakatlık Raporu Ayrıştırıcısı v2 (PDF Ingestion)
-- **Sıfır Kimlik Bilgisiyle Doğrudan Veri Çekme:** NBA'in resmi CDN'inden (`https://ak-static.cms.nba.com/referee/injury/...`) her 15 dakikada bir yayımlanan resmi PDF raporlarını otomatik çeker.
-- **7 Sütunlu Sayfa Düzeni Motoru:** `pdfplumber` / `pypdf` kütüphaneleriyle saf Python metin ayıklaması. Alt satıra taşan sakatlık gerekçelerini, ortak maç/tarih hücrelerini ve ters isimleri (`"Porter Jr., Kevin"` $\to$ `"Kevin Porter Jr."`) eksiksiz eşleştirir.
-- **Veri Sağlık Denetimi ve Karantina:** Rapor tamamlanma ve oyuncu eşleşme oranlarını denetler. Bozuk veya eksik satırlar ana veri tabanını kirletmeden karantinaya alınır.
+### 3. Kalite-Ağırlıklı Çapraz Pozisyonel Sakatlık Dağıtımı ve Tersinir İyileşme
+- **Pozisyonel Derinlik Şemaları ($k = 1, 2, 3, \dots$):** 30 NBA takımının tamamını birincil pozisyon havuzlarına (`G`, `F`, `C`) ayırır; oyuncuları yetenek puanı ve baz beklenen dakikalarına göre sıralar.
+- **Kalite-Esnek Çapraz Pozisyonel Taşma (Quality-Elastic Cross-Positional Spillover):** Bir ilk-5 oyuncusu OUT olduğunda (örneğin pivot Maxime Raynaud OUT) ve aynı pozisyondaki doğrudan yedek düşük yetenekliyse ($S_{\text{same}}$ düşük), oluşan yetenek farkı $\Delta S = \max(0, S_{\text{adj}} - S_{\text{same}})$ komşu forvet/kanat rotasyonuna çapraz dakika aktarımı tetikler (örneğin forvet Precious Achiuwa kısa beşler / small-ball sayesinde $+2.0$ ila $+4.0$ dakika ek süre alır).
+- **Role Bağlı Dakika Tavanları:** Genişletilen dakikaları gerçekçi fiziksel limitlerle sınırlar (ilk-5 oyuncuları için maks 35.5 dk, rotasyon oyuncuları için maks 31.0 dk) ve genişleyen rolün belirsizliğini modellemek için varyansı artırır ($+0.35 \cdot \Delta M^2$).
+- **Kesin Matematiksel Tersinirlik (Strict Reversibility):** Sakat oyuncular iyileştiğinde, tüm kadro dakikaları ve istatistiksel dağılımlar tek bir sapma olmadan baz değerlerine geri döner:
+  $$M_{\text{base}} < M_{\text{one\_out}} < M_{\text{both\_out}} \quad \text{ve} \quad M_{\text{recovered}} \equiv M_{\text{base}}$$
 
-### 4. SQLite Durum Takibi ve Otomatik İyileşme Tespiti
-- **İlişkisel Kalıcılık (`data/processed/injuries.db`):** Oyuncuların sakatlık durumunu, sakatlık bölgesini ve zaman damgalarını `injuries` ve `injury_history` tablolarında saklar.
-- **Otomatik İyileşme (Clearance) Algoritması:** Sakat bir oyuncu bir sonraki resmi NBA raporunda yer almadığında, sistem oyuncunun iyileştiğini anında tespit eder, durumunu `AVAILABLE` olarak işaretler ve aktif kadro hesaplarına geri dahil eder.
+### 4. Çift Sakatlık Motoru: Resmi NBA Hakem PDF'leri + 30 Takımlı ESPN API
+- **Resmi NBA Hakem Raporu Ayrıştırıcısı v2:** NBA resmi CDN'inden (`https://ak-static.cms.nba.com/referee/injury/...`) her 15 dakikada bir yayımlanan resmi PDF'leri sıfır kimlik bilgisiyle çeker. 7 sütunlu saf Python düzen ayrıştırıcısı, sağlık denetimi ve karantina mekanizması içerir.
+- **30 Takımlı ESPN / Rotowire Canlı Beslemesi (`sync_espn_injuries`):** Maç günü olmayan veya hakem raporlarında henüz listelenmeyen haftalık/uzun vadeli sakatlıkları yakalayan genel, sıfır kimlik bilgili REST API beslemesi.
+- **Otomatik İyileşme ve Mutabakat Denetimi (`reconcile_recovered=True`):** Sakat bir oyuncu bir sonraki API yanıtında veya hakem raporunda yer almadığında, motor oyuncunun kaydını `injuries.db` aktif tablosundan otomatik temizler, `injury_snapshots` tablosuna `CLEARED` denetim kaydı düşer ve oyuncuyu aktif kadro projeksiyonlarına geri döndürür.
 
-### 5. IL+ Yuvaları, Yedek Matematiği ve Sağlık Filtreli Transfer (Streaming)
-- **Yahoo 2x IL+ (Sakat Yuvası) Optimizasyonu:** Bir oyuncu resmi olarak OUT olduğunda sistem oyuncuyu 2 adet IL+ yuvasından birine yerleştirir.
-- **Yedek Terfi Matematiği (Bench Promotion):** İlk 10'daki bir oyuncu IL+'a alındığında, yedekteki en iyi oyuncu ilk 10'a yükseltilir; haftalık oynanan maç sayısı ve sayma istatistikleri kadro kuralı ihlal edilmeden matematiksel olarak artırılır.
-- **Sağlık Filtreli Serbest Oyuncu (Waiver) Taraması:** Haftalık serbest oyuncu önerilerinde adaylar canlı sakatlık veri tabanıyla denetlenir. Aşil tendonu kopması veya omuz ameliyatı gibi uzun süreli sakatlığı olan oyuncular karantinaya alınarak haftalık transfer hakkının (maksimum 3) boşa harcanması engellenir.
+### 5. 1-Tıkla Yahoo Tarayıcı Senkronizasyon Köprüsü (`src/yahoo_browser_sync.py`)
+- **Sıfır Cookie / Sıfır Şifre / Sıfır OAuth Onayı:** `http://127.0.0.1:8765` üzerinde çalışan son derece hafif yerel bir köprü sunucusu.
+- **1-Tıkla Yer İmi (Bookmarklet):** Yahoo Fantasy sekmeniz açıkken yer imi çubuğundaki **`🏀 NBA Fantasy Sync`** butonuna tıkladığınızda, tarayıcınız kendi içinde (`same-origin`) yaklaşık ~2 saniyede paralel olarak şunları tarar:
+  1. **14 Takımın Canlı Kadroları ve Yuva Dağılımları:** `/nba/64691/1` .. `/14` sayfalarını okuyarak aktif yuvaları (`PG`..`UTIL`, `BN`), `IL`/`IL+` yerleşimlerini ve yuvasız sakatları eksiksiz çıkarır.
+  2. **Canlı Lig İşlemleri:** `/nba/64691/transactions` sayfasındaki son ekleme, bırakma, waiver ve takas geçmişini çeker.
+  3. **Canlı Skor Tablosu & Kalan Maçlar:** `/nba/64691/matchup` sayfasından her iki takımın 11 kategorideki canlı gerçekleşen istatistiklerini (`FGM`, `FGA`, `FTM`, `FTA`, `3PTM`, `PTS`, `REB`, `AST`, `ST`, `BLK`, `TO`) ve kalan maç sayılarını içeri aktarır.
+  4. **Kesin Boştaki Oyuncu (Free Agent) Havuzunun Tespiti:** 14 takımın kadrosunu tarayarak boştaki havuzu matematiksel olarak kesinleştirir:
+     $$\text{Gerçek Serbest Oyuncu Havuzu (FA)} = \text{Tüm NBA Havuzu} \setminus \bigcup_{t=1}^{14} \text{Kadro}_t$$
 
-### 6. Otonom Bulut Senkronizasyonu ve Ayrılmış Bot Dalı
-- **GitHub Actions Zamanlanmış İş Akışı (`.github/workflows/daily_fantasy_sync.yml`):** NBA takvimine göre günde 3 kez tam senkronize çalışır:
-  - `10:30 TR / 07:30 UTC / 03:30 ET`: Gece maçlarının kapanışı ve Yahoo serbest oyuncu (waiver) iddialarının sonuçlanması.
-  - `21:30 TR / 18:30 UTC / 14:30 ET`: NBA resmi öğleden sonra sakatlık raporunun açıklanması.
-  - `01:15 TR / 22:15 UTC / 18:15 ET`: İlk maçların başlamasından 45 dakika önce kadro kilitlenmesi (son dakika GTD/OUT durumları).
-- **Ayrılmış `nba-fantasy-bot` Dalı (Branch):** Botun oluşturduğu tüm otomatik commit'ler (veri tabanı anlık görüntüleri, lig durumları, raporlar) yalnızca `nba-fantasy-bot` dalına yazılır. `main` dalı tamamen insan yazımı ve tertemiz kalır.
-- **Anlık Mobil Telegram Bildirimleri:** Bilgisayar başında olmasanız dahi Telegram Botu üzerinden kadro sağlık durumları, IL+ yerleşim tavsiyeleri ve en iyi serbest oyuncu önerileri doğrudan telefonunuza zengin HTML formatında iletilir.
+### 6. Koşullu Projeksiyonlar ve Dinamik Add/Drop Optimizasyonu
+- **Canlı Skor Koşullaması (`combine_live_and_remaining_dist`):** Haftalık öngörücü dağılımları gerçekleşen istatistikler $X_{\text{actual}}$ ve kalan maç oranı $f_{\text{rem}}$ ile koşullandırır:
+  $$\mu_{\text{final}} = X_{\text{actual}} + f_{\text{rem}} \cdot \mu_{\text{rem}}, \qquad \sigma^2_{\text{final}} = f_{\text{rem}} \cdot \sigma^2_{\text{rem}}$$
+- **Marjinal Beklenen Galibiyet Maksimizasyonu ($\Delta \sum_{c=1}^9 \Phi_c$):** Serbest oyuncu adaylarını genel maç başı ortalamalara göre değil, o haftaki canlı eşleşmeyi kazanma olasılığına yapacağı doğrudan net marjinal katkıya göre sıralar.
+- **Otomatik IL+ Yuva Tespiti:** Sakat bir oyuncu IL+'a kaydırıldığında oluşan boş kadro kontenjanını (`has_open_slot = True`) algılar ve mevcut kadrodan kimseyi bırakmadan doğrudan `ADD (Boş Yuva / IL+)` önerir.
+- **Çekirdek Korumalı Takas Değerlendirmesi:** Kadro tamamen doluyken yedek oyuncuları karşı-olgusal olarak simüle eder; ancak takımın dokunulmaz yıldız çekirdeğini (Core Stars) kesinlikle korur.
 
-### 7. Kanonik 14 Takımlı 182 Seçimlik Draft Veri Tabanı (`src/draft_data.py`)
-- Canlı snake draft'tan elde edilen tüm 14 takımın ve 182 seçimin doğrulanmış resmi veri tabanı.
-- Sezon içi oyuncu ekleme, bırakma (add/drop) ve takasları dinamik olarak kadrolara yansıtır.
+### 7. Çok Kanallı Zengin Bildirimler (Telegram + Discord)
+- Telegram Bot API (HTML) ve Discord Webhook (Markdown) üzerinden mobil cihazınıza veya sunucunuza anlık özet kartları iletir:
+  - **Canlı Eşleşme Skoru ve Kazanma Olasılığı:** örn. `Berk's Best Team: 4.70 - 4.30 vs SILE BULLS (%52 Kazanma)`.
+  - **Kategori Ayrımı:** Güçlü olunan kategoriler, ortadaki kritik swing kategorileri ve rakibin önde olduğu alanlar.
+  - **Sağlık ve IL+ Uyarıları:** IL+'a taşınması gereken `OUT` oyuncular ve maç saati belirsiz `GTD` riskleri.
+  - **En İyi Add/Drop Önerileri:** $\Delta E[\text{Wins}]$ ve kalan takvim maçlarına göre sıralı en değerli serbest oyuncular.
+  - **Karşılaştırmalı Eşleşme Tablosu:** Canlı gerçekleşen istatistikler ile hafta sonu beklenen final projeksiyonlarını yan yana gösteren karşılaştırma tablosu.
+  - **Son Lig İşlemleri:** 14 menajerin son transfer hareketlerinin denetim dökümü.
+
+### 8. Otonom Bulut CI/CD İş Akışı (`.github/workflows/daily_fantasy_sync.yml`)
+- NBA takviminin kritik operasyonel saatlerine göre günde 3 kez GitHub Actions üzerinde otonom çalışır:
+  - `10:30 TR / 07:30 UTC / 03:30 ET`: Gece maçlarının tamamlanması, skor tablosu güncellemesi ve waiver sonuçları.
+  - `21:30 TR / 18:30 UTC / 14:30 ET`: NBA resmi öğleden sonra sakatlık raporu ve pozisyonel derinlik güncellemeleri.
+  - `01:15 TR / 22:15 UTC / 18:15 ET`: İlk maçların başlamasından 45 dakika önce kadro kilitlenmesi (son dakika GTD/OUT tespiti).
+- **Ayrılmış `nba-fantasy-bot` Dalı:** Otomatik bulut işlemleri güncellenen veri tabanlarını (`injuries.db`), lig durumlarını (`league_state.json`) ve özet raporları yalnızca `nba-fantasy-bot` dalına commit eder (`[skip ci]`). `main` dalı tamamen temiz ve insan yapımı kalır.
+- Yönetici raporları 14 gün boyunca indirilebilir GitHub Actions artefaktı olarak saklanır.
 
 ---
 
@@ -60,45 +79,48 @@ NbaFantasy/
 │   └── workflows/
 │       └── daily_fantasy_sync.yml     # Günde 3 kez çalışan otonom GitHub Actions iş akışı
 ├── config/
+│   ├── telegram.template.json        # Telegram / Discord bildirim yapılandırma şablonu
+│   ├── telegram.json                 # Yerel bot kimlik bilgileri (.gitignore ile korunur)
 │   ├── yahoo_oauth.template.json     # Yahoo OAuth2 yapılandırma şablonu
 │   └── yahoo_oauth.json              # Yerel OAuth kimlik bilgileri (.gitignore ile korunur)
 ├── data/
 │   ├── processed/
 │   │   ├── active_roster_2026_27.parquet    # Kadro ve oyuncu pozisyon bilgileri
-│   │   ├── injuries.db                      # SQLite sakatlık takip ve iyileşme veri tabanı
+│   │   ├── injuries.db                      # SQLite sakatlık takip, iyileşme ve mutabakat veri tabanı
+│   │   ├── league_state.json                # Canlı 14 takım kadroları ve IL yuva atamaları (JSON)
+│   │   ├── live_matchup.json                # Canlı skor tablosu ve kalan maçlar (JSON)
 │   │   ├── player_positions.parquet         # Çoklu pozisyon Yahoo uygunluk tablosu
-│   │   ├── schedule_2026_27.parquet         # Resmi sezon maç takvimi
-│   │   └── Master_Database_*.xlsx           # Geçmiş sezon oyuncu performans veri tabanları
-│   ├── raw/                                 # Ham maç logları ve kutu içi veriler (Parquet)
-│   │   └── injuries/                        # İndirilen sakatlık PDF'leri dizini (.gitkeep)
-│   └── simulations/                         # Monte Carlo lig simülasyon çıktıları
+│   │   └── schedule_2026_27.parquet         # Resmi sezon maç takvimi
+│   └── raw/                                 # Ham maç logları ve kutu içi veriler (Parquet)
+│       └── injuries/                        # İndirilen sakatlık PDF'leri dizini (.gitkeep)
 ├── docs/
 │   ├── README_TR.md                         # Ayrıntılı Türkçe kullanım ve tanıtım kılavuzu
 │   ├── SYSTEM_ARCHITECTURE_TR.md            # Ayrıntılı Türkçe matematiksel mimari dökümanı
 │   └── injury_system_architecture_and_peer_review.md # Akran denetimi ve doğrulama raporu
 ├── reports/
+│   ├── latest_cloud_summary.md              # Yönetici senkronizasyon özeti ve canlı projeksiyonlar
 │   ├── league_draft_overview_and_projections.md    # 14 Takımlı draft ve projeksiyon raporu (EN)
 │   └── league_draft_overview_and_projections.tr.md # 14 Takımlı draft ve projeksiyon raporu (TR)
 ├── src/
-│   ├── auth_yahoo.py                # Yahoo OAuth2 yetkilendirme ve token yöneticisi
-│   ├── bayesian_model.py            # Gamma-Poisson, Beta-Binom ve sezon içi dinamik güncelleyici
-│   ├── cloud_sync.py                # Otonom bulut iş akışı çalıştırıcısı ve Telegram bildiricisi
+│   ├── auth_yahoo.py                # Yahoo OAuth2 yetkilendirme ve otomatik lig keşfi
+│   ├── bayesian_model.py            # Gamma-Poisson, Beta-Binom, dinamik öğrenme ve derinlik takviyeleri
+│   ├── cloud_sync.py                # Otonom bulut iş akışı çalıştırıcısı ve bildirim dağıtıcısı
 │   ├── data_fetcher.py              # NBA API kadro, takvim ve log çekme boru hattı
 │   ├── draft_data.py                # Kanonik 182 seçimlik 14 takım kadro ve draft verisi
-│   ├── injury_tracker.py            # SQLite sakatlık kalıcılığı, iyileşme tespiti ve CRUD motoru
-│   ├── live_draft_assistant.py      # İleriye bakışlı canlı draft öneri motoru
-│   ├── matchup_engine.py            # H2H Gauss CDF, IL+ stashing, yedek matematiği ve waiver filtresi
-│   ├── model_ai.py                  # Yapay zeka waiver ve Bayesçi çekirdek kadro koruma mantığı
+│   ├── injury_tracker.py            # SQLite sakatlık kalıcılığı, ESPN senkronu, mutabakat ve denetim
+│   ├── live_draft_assistant.py      # Canlı asistan, sakatlık senkronu ve derinlik ayarlamaları
+│   ├── matchup_engine.py            # Gauss CDF, kalite-esnek taşma, canlı skor matematiği ve waiver
+│   ├── model_ai.py                  # Çekirdek korumalı Bayesçi karar ve add/drop optimizasyonu
 │   ├── nba_injury_scraper.py        # Resmi 7 sütunlu NBA sakatlık PDF ayrıştırıcısı v2
-│   ├── simulate_slot8_scenarios.py  # 8. Sıra Monte Carlo senaryo değerlendiricisi
 │   ├── simulator.py                 # Sezon öncesi temel veri yükleyicileri ve araçlar
-│   ├── verify_yahoo_names.py        # Oyuncu adı normalizasyonu ve doğrulama testi
-│   ├── yahoo_draft_bridge.user.js   # Canlı Yahoo draft odası için Tampermonkey userscript'i
-│   └── yahoo_draft_sync.py          # Canlı draft WebSocket/HTTP yerel köprü sunucusu
+│   ├── yahoo_browser_sync.py        # 1-Tıkla yer imi yerel köprü sunucusu (Canlı Yahoo senkronu)
+│   └── yahoo_draft_sync.py          # Yahoo OAuth2 REST API istemcisi ve draft odası köprüsü
 ├── tests/
-│   ├── test_ab_validation.py        # A/B karşılaştırmaları, kadro bütünlüğü, yedek matematiği
-│   └── test_injury_system.py        # 22 birim testi: Scraper, SQLite CRUD, iyileşme, karantina
-├── league_simulator.py              # 14 takımlı çoklu sezon H2H lig simülasyon motoru
+│   ├── test_ab_validation.py        # 29 test: A/B doğrulama, yedek matematiği, 14 takım simetrisi
+│   ├── test_browser_sync_and_scoreboard.py # 2 test: Tarayıcı senkronu, FA havuzu ve canlı skor tablosu
+│   ├── test_injury_system.py        # 4 test: Scraper, SQLite CRUD, iyileşme, B2B dinlendirme
+│   ├── test_notifications_and_workflow.py # 3 test: Workflow sentaksı, cron ve bildirim ayrıştırıcıları
+│   └── test_reversible_and_spillover.py   # 3 test: Tersinir iyileşme, ESPN mutabakatı, çapraz pozisyonel taşma
 ├── requirements.txt                 # Python kütüphane bağımlılıkları
 ├── README.md                        # Ana proje dökümantasyonu (İngilizce)
 ├── SYSTEM_ARCHITECTURE.md           # Ana matematiksel mimari dökümantasyonu (İngilizce)
@@ -110,36 +132,93 @@ NbaFantasy/
 ## 🚀 Hızlı Başlangıç
 
 ### 1. Depoyu Klonlayın ve Python Ortamını Kurun
-```bash
+```powershell
 git clone https://github.com/berkbhr/NbaFantasy.git
 cd NbaFantasy
 
 python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
+
+# Windows PowerShell:
+.\.venv\Scripts\Activate.ps1
+# macOS / Linux:
 source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-### 2. Birim Testlerini Doğrulayın
-Tüm sistemi (ayrıştırıcılar, veri tabanı işlemleri, kadro bütünlüğü, Macar algoritması dizilimi ve karşı-olgusal senaryoları doğrulayan 33 birim testi) tek komutla çalıştırın:
-```bash
-python -m unittest discover tests
-```
+> **Windows PowerShell Kullanıcıları İçin Önemli Not:** Windows Store alias sorununu (`Python was not found...`) engellemek için komutları doğrudan `.\.venv\Scripts\python.exe` (ve pip komutlarını `.\.venv\Scripts\pip.exe`) ile çalıştırın. Türkçe karakterlerin ve emojilerin düzgün görüntülenmesi için UTF-8 kodlamasını ayarlayın:
+> ```powershell
+> $env:PYTHONIOENCODING="utf-8"
+> ```
 
-### 3. Otonom Bulut Senkronizasyonunu Yerelde Test Edin
-Son resmi NBA sakatlık raporunu çekmek, `injuries.db` veri tabanını güncellemek, MatchupEngine simülasyonunu çalıştırmak ve özet raporu yazdırmak için:
-```bash
-python src/cloud_sync.py
+### 2. Birim Testlerini Doğrulayın
+Tüm modülleri (ayrıştırıcılar, SQLite mutabakatı, kadro simetrisi, tersinir iyileşme ve bildirim modelleri) kapsayan kapsamlı test paketini çalıştırın:
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
+```
+*(Tüm 41 birim ve entegrasyon testi 0 hata ile başarıyla tamamlanmalıdır).*
+
+---
+
+## 🔄 Sezon İçi Canlı Senkronizasyon Yöntemleri
+
+### Yöntem A: 1-Tıkla Yahoo Tarayıcı Senkronizasyon Köprüsü (En Hızlı, Sıfır Kimlik Bilgisi)
+Yahoo Developer API izinleri ve token yenilemeleri ile uğraşmadan canlı kadroları, IL+ yuvalarını ve canlı skorları senkronize etmenin en pratik yolu:
+
+1. **Yerel köprü sunucusunu başlatın:**
+   ```powershell
+   .\.venv\Scripts\python.exe src/yahoo_browser_sync.py
+   ```
+2. Tarayıcınızda otomatik olarak `http://127.0.0.1:8765/` kontrol paneli açılacaktır.
+3. Paneldeki yeşil **`🏀 NBA Fantasy Sync`** butonunu farenizle tutup tarayıcınızın **Yer İmleri Çubuğuna (Bookmarks Bar)** sürükleyip bırakın *(bunu sadece ilk kurulumda 1 kez yapmanız yeterlidir)*.
+4. Tarayıcınızda oturum açmış olduğunuz **Yahoo Fantasy Matchup** sayfanıza gidin.
+5. Yer imi çubuğundaki **`🏀 NBA Fantasy Sync`** butonuna tıklayın!
+   - Yaklaşık ~2 saniye içinde 14 takımın kadrosunu, IL+ atamalarını ve canlı skorları tarar.
+   - `data/processed/league_state.json` ve `live_matchup.json` dosyalarını günceller.
+   - Karar motorunu tetikler ve Telegram / Discord bildirimlerinizi anında cep telefonunuza iletir.
+
+### Yöntem B: Yahoo OAuth2 REST API (Otomatik)
+Resmi bir Yahoo Developer App kaydınız varsa:
+1. `config/yahoo_oauth.template.json` dosyasını `config/yahoo_oauth.json` olarak kopyalayın; `client_id` ve `client_secret` bilgilerinizi girin.
+2. Otomatik yetkilendirme ve lig keşif betiğini çalıştırın:
+   ```powershell
+   .\.venv\Scripts\python.exe src/auth_yahoo.py
+   ```
+   - Yetkilendirme kodunu otomatik token'a çevirir veya mevcut token'ı yeniler.
+   - Lig anahtarınızı (örn. `454.l.64691`) ve takım anahtarınızı (örn. `454.l.64691.t.8`) otomatik bulur.
+   - Tüm parametreleri `config/yahoo_oauth.json` dosyasına kaydeder.
+
+### Yöntem C: Bulut Senkronizasyonunu Yerelde Manuel Çalıştırma
+Tüm sakatlıkları, derinlik takviyelerini, skor matematiğini ve bildirimleri yerel makinenizde tek seferde çalıştırmak için:
+```powershell
+.\.venv\Scripts\python.exe src/cloud_sync.py
 ```
 
 ---
 
-## ☁️ Bulut Otomasyonu Kurulumu (GitHub Actions + Telegram)
+## 📱 Anlık Bildirim Kurulumu (Telegram & Discord)
 
-Sistem, bilgisayarınızın açık kalmasına gerek kalmadan bulutta günde 3 kez otonom olarak çalışacak şekilde tasarlanmıştır.
+Motor, zengin biçimlendirilmiş özet kartlarını doğrudan telefonunuza veya Discord sunucunuza iletebilir.
+
+1. `config/telegram.template.json` dosyasını `config/telegram.json` olarak kopyalayın:
+   ```json
+   {
+     "bot_token": "TELEGRAM_BOT_TOKEN_BURAYA",
+     "chat_id": "TELEGRAM_CHAT_ID_BURAYA",
+     "discord_webhook_url": "OPSIYONEL_DISCORD_WEBHOOK_URL_BURAYA"
+   }
+   ```
+2. **Telegram Kurulumu:**
+   - `@BotFather` üzerinden bot oluşturup `bot_token` bilginizi alın.
+   - `@userinfobot` botuna mesaj atarak şahsi sayısal `chat_id` bilginizi öğrenin.
+3. **Discord Kurulumu (Opsiyonel):**
+   - Discord kanalınızda Webhook oluşturun (`Kanal Ayarları -> Entegrasyonlar -> Webhook'lar`) ve URL'yi yapıştırın.
+
+---
+
+## ☁️ GitHub Actions Bulut Otomasyonu Kurulumu
+
+Sistem, kişisel bilgisayarınızın açık kalmasına gerek kalmadan bulutta günde 3 kez otonom olarak çalışacak şekilde tasarlanmıştır.
 
 ### 1. GitHub Repository Secrets Tanımlaması
 GitHub Deponuzda **Settings** $\to$ **Secrets and variables** $\to$ **Actions** yolunu izleyin ve şu gizli anahtarları ekleyin:
@@ -148,12 +227,17 @@ GitHub Deponuzda **Settings** $\to$ **Secrets and variables** $\to$ **Actions** 
 |---|---|---|
 | `TELEGRAM_BOT_TOKEN` | Önerilen | Telefona anlık bildirim almak için `@BotFather` bot token'ı. |
 | `TELEGRAM_CHAT_ID` | Önerilen | `@userinfobot` botundan alacağınız şahsi Telegram ID'niz. |
-| `YAHOO_COOKIE` | Opsiyonel | Yahoo API inceleme aşamasındayken özel lig verileri için oturum çerezi. |
+| `DISCORD_WEBHOOK_URL` | Opsiyonel | Discord kanalına bildirim göndermek için webhook URL'si. |
+| `YAHOO_OAUTH_JSON` | Önerilen | Yerel `config/yahoo_oauth.json` dosyanızın tam JSON metni. |
+| `YAHOO_CLIENT_ID` | Opsiyonel | Ayrı ayrı girilmek istenirse Yahoo Developer App Client ID. |
+| `YAHOO_CLIENT_SECRET` | Opsiyonel | Ayrı ayrı girilmek istenirse Yahoo Developer App Client Secret. |
+| `YAHOO_REFRESH_TOKEN` | Opsiyonel | Ayrı ayrı girilmek istenirse Yahoo OAuth2 Refresh Token. |
 
 ### 2. Otonom Dal İzolasyonu (`nba-fantasy-bot`)
 - GitHub Actions iş akışı (`daily_fantasy_sync.yml`) yalıtılmış bir Ubuntu sunucusunda çalışır.
-- Her çalışma sonrasında güncellenen veri tabanı (`injuries.db`), kadro durumu ve özet raporlar **yalnızca `nba-fantasy-bot` dalına** commit edilir.
-- `main` dalınızdaki commit geçmişi tertemiz kalır; bot hareketleri ana geliştirme geçmişini kirletmez.
+- Her çalışma sonrasında güncellenen veri tabanı (`injuries.db`), lig kadroları (`league_state.json`) ve özet raporlar (`reports/latest_cloud_summary.md`) **yalnızca `nba-fantasy-bot` dalına** commit edilir (`[skip ci]`).
+- `main` dalınızdaki commit geçmişi tertemiz ve insan yapımı kalır; bot hareketleri geliştirme geçmişini kirletmez.
+- Detaylı yönetici raporları 14 gün boyunca indirilebilir GitHub Actions artefaktı olarak saklanır.
 
 ---
 
@@ -179,4 +263,4 @@ Tüm matematiksel ispatlar, Dirichlet/Gamma eşlenik formülleri ve yedek optimi
 ---
 
 ## 📄 Lisans
-Bu proje MIT Lisansı altında lisanslanmıştır - ayrıntılar için [LICENSE](LICENSE) dosyasına bakabilirsiniz.
+Bu proje MIT Lisansı altında lisanslanmıştır - ayrıntılar için [LICENSE](../LICENSE) dosyasına bakabilirsiniz.

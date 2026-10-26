@@ -190,6 +190,120 @@ class LiveDraftAssistant:
             flat_stats['ELIGIBLE'] = self.get_eligible_slots(flat_stats['POS'])
             self.projected_stats[pid] = flat_stats
 
+    def apply_current_season_logs(self, df_logs, recent_window=5, recent_k=3.0):
+        """
+        Feeds the games of the season in progress into every BayesianPlayer (in-season posterior update):
+          1. Per-minute production: conjugate update_stats() on top of the prior-season prior. The prior
+             carries 120-650 minutes of pseudo-evidence, so 2-3 hot/cold games move rates only modestly
+             (no overfit), while a sustained breakout keeps compounding (plus daily prior decay).
+             A team change (offseason or in-season) triggers the trade shock (is_event_reset).
+          2. Expected minutes (role): the EWMA in update_stats is slow vs. a hard role change, so the
+             final estimate blends the mean of the last `recent_window` games with weight
+             w = n / (n + recent_k), n = min(games, recent_window)  (3 games -> 50%, 5+ games -> 62.5%).
+          3. Availability: every team game the player missed counts as a DNP (consecutive_dnps).
+          4. Team assignment is refreshed from the latest game (live data, no look-ahead concern).
+        Finally projections and BASE_Z are recomputed so free-agent ranking reflects current form.
+        Returns {pid: team_id} of the latest team for every player that appeared in the logs.
+        """
+        if df_logs is None or df_logs.empty:
+            return {}
+        df = df_logs.copy()
+        df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE']).dt.normalize()
+        df['MIN'] = pd.to_numeric(df['MIN'], errors='coerce').fillna(0.0)
+        df['PLAYER_ID'] = df['PLAYER_ID'].astype(int)
+        df['TEAM_ID'] = df['TEAM_ID'].astype(int)
+        df = df.sort_values(['GAME_DATE', 'GAME_ID', 'PLAYER_ID'])
+
+        team_map = self.engine.team_map if getattr(self, 'engine', None) is not None else {}
+        pre_season_team = dict(team_map)
+        prior_base_mins = {
+            pid: float(getattr(bp, 'base_expected_minutes', bp.expected_minutes))
+            for pid, bp in self.players.items()
+        }
+        # Pre-scan current-season observed MPG per player to detect same-team role breakouts / collapses
+        pos_df = df[df['MIN'] > 0]
+        obs_mpg_map = pos_df.groupby('PLAYER_ID')['MIN'].mean().to_dict() if not pos_df.empty else {}
+        obs_gp_map = pos_df.groupby('PLAYER_ID')['MIN'].count().to_dict() if not pos_df.empty else {}
+
+        last_team = {}
+        first_game_with_team = {}
+        minutes_hist = {}
+        played = set()
+        seen_pids = set()
+
+        for row in df.to_dict('records'):
+            pid = row['PLAYER_ID']
+            tid = row['TEAM_ID']
+            if pid not in self.players:
+                # Unknown player (undrafted rookie / two-way call-up): positional-average prior
+                bp_new = BayesianPlayer(pid, row.get('PLAYER_NAME', str(pid)))
+                bp_new.initialize_priors(self.priors.get(pid), self.pos_averages, pos_str=self.pos_dict.get(pid, 'UTIL'))
+                self.players[pid] = bp_new
+                self.available_player_ids.add(pid)
+                prior_base_mins[pid] = float(bp_new.base_expected_minutes)
+            bp = self.players[pid]
+            prev_tid = last_team.get(pid, pre_season_team.get(pid))
+            is_team_change = bool(prev_tid is not None and int(prev_tid) > 0 and int(prev_tid) != tid)
+            # Trigger role shock on first game if player changed teams OR has a >= 6.5 MPG role jump/collapse
+            is_role_shock = (
+                pid not in seen_pids
+                and obs_gp_map.get(pid, 0) >= 2
+                and abs(float(obs_mpg_map.get(pid, prior_base_mins[pid])) - prior_base_mins[pid]) >= 6.5
+            )
+            seen_pids.add(pid)
+            bp.update_stats(game_date=row['GAME_DATE'], minutes=float(row['MIN']),
+                            stats_dict=row, is_event_reset=(is_team_change or is_role_shock))
+            if pid not in last_team or last_team[pid] != tid:
+                first_game_with_team[pid] = row['GAME_DATE']
+            last_team[pid] = tid
+            played.add((pid, str(row['GAME_ID'])))
+            if row['MIN'] > 0:
+                minutes_hist.setdefault(pid, []).append(float(row['MIN']))
+            abbr = row.get('TEAM_ABBREVIATION')
+            if abbr:
+                self.team_abbr_dict[pid] = str(abbr)
+
+        # Role (minutes) blend: recent observed minutes vs. pre-season prior baseline
+        # Structural role shifts (|recent_mpg - prior_min| >= 6.5 MPG) adapt faster (k = 1.0 -> 75% at 3 GP)
+        for pid, mins in minutes_hist.items():
+            bp = self.players[pid]
+            prior_m = prior_base_mins.get(pid, bp.expected_minutes)
+            n_eff = min(len(mins), recent_window)
+            recent_mpg = float(np.mean(mins[-recent_window:]))
+            k_eff = 1.0 if abs(recent_mpg - prior_m) >= 6.5 else float(recent_k)
+            w = n_eff / (n_eff + k_eff)
+            new_m = float(np.clip(w * recent_mpg + (1.0 - w) * prior_m, 4.0, 40.0))
+            bp.prior_expected_minutes = prior_m
+            bp.expected_minutes = new_m
+            bp.base_expected_minutes = new_m
+            bp.current_season_gp = len(mins)
+            bp.current_season_mpg = float(np.mean(mins))
+
+        # Availability: team games missed since joining the current team (only on complete boxscores >= 5 players)
+        game_player_counts = df.groupby(['TEAM_ID', 'GAME_ID'])['PLAYER_ID'].nunique()
+        valid_team_games = set(game_player_counts[game_player_counts >= 5].index)
+        team_games = df[['TEAM_ID', 'GAME_ID', 'GAME_DATE']].drop_duplicates(subset=['TEAM_ID', 'GAME_ID'])
+        team_games = team_games[
+            team_games.set_index(['TEAM_ID', 'GAME_ID']).index.isin(valid_team_games)
+        ].sort_values('GAME_DATE')
+        games_by_team = {tid: list(zip(g['GAME_ID'].astype(str), g['GAME_DATE'])) for tid, g in team_games.groupby('TEAM_ID')}
+        for pid, bp in self.players.items():
+            tid = last_team.get(pid, pre_season_team.get(pid))
+            if tid is None or int(tid) <= 0 or int(tid) not in games_by_team:
+                continue
+            since = first_game_with_team.get(pid)
+            for gid, gdate in games_by_team[int(tid)]:
+                if since is not None and pid in last_team and gdate < since:
+                    continue
+                bp.record_team_game_availability(played=((pid, gid) in played))
+
+        for pid, tid in last_team.items():
+            team_map[pid] = int(tid)
+
+        self._refresh_projected_stats_dict()
+        self.calculate_baselines()
+        return dict(last_team)
+
     def calculate_baselines(self):
         """
         Calculates Z-Scores on the consistent 9-category draftable reference population (top 156 players)

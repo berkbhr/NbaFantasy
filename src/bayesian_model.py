@@ -440,10 +440,17 @@ class BayesianPlayer:
 
         # 2. Teammate Positional Injury Boost (e.g. Raynaud & Cardwell OUT -> Precious Achiuwa steps up)
         delta_boost = max(0.0, float(vacated_pos_minutes) * float(boost_share))
-        # Cap individual single-game injury boost at +10.0 minutes and role-dependent ceiling
-        delta_boost = min(delta_boost, 10.0)
+        # If player has played >= 2 games this season at deep-bench minutes (< 10 MPG), cap theoretical boost
+        cur_gp = int(getattr(self, 'current_season_gp', 0) or 0)
+        cur_mpg = float(getattr(self, 'current_season_mpg', base_m) or base_m)
+        if cur_gp >= 2 and cur_mpg < 10.0:
+            delta_boost = min(delta_boost, 2.0)
+        else:
+            # Cap individual single-game injury boost at +10.0 minutes and role-dependent ceiling
+            delta_boost = min(delta_boost, 10.0)
         max_ceiling = 35.5 if base_m >= 26.0 else (31.0 if base_m >= 20.0 else 25.0)
-        new_m = float(np.clip(role_m + delta_boost, 8.0, max_ceiling))
+        min_floor = min(6.0, base_m) if cur_gp >= 1 else 8.0
+        new_m = float(np.clip(role_m + delta_boost, min_floor, max_ceiling))
 
         # Role expansion from teammate injuries carries higher minute variance (+0.35 * delta_boost^2)
         new_v = float(np.clip(role_v + 0.35 * (delta_boost ** 2), 9.0, 144.0))

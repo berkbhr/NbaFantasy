@@ -38,6 +38,24 @@ from src.injury_tracker import InjuryTracker
 from src.live_draft_assistant import LiveDraftAssistant, COUNT_STATS, PERCENTAGE_STATS, norm_cdf
 from src.matchup_engine import MatchupEngine
 from src.yahoo_draft_sync import YahooFantasyOAuthClient
+from src.season_logs import fetch_current_season_logs
+
+
+def current_fantasy_week_window(now_utc, live_week_started=True):
+    """
+    Returns (start_date, end_date) as normalized Timestamps (US/Eastern calendar) for the remaining part of
+    the Yahoo Mon-Sun fantasy week. With live_week_started=False the full week (Monday-Sunday) is returned.
+    Cron runs (03:30 / 14:30 / 18:15 ET) all happen before tip-off, so today's games are still remaining.
+    """
+    try:
+        from zoneinfo import ZoneInfo
+        today_et = now_utc.astimezone(ZoneInfo("America/New_York")).date()
+    except Exception:
+        today_et = (now_utc - pd.Timedelta(hours=5)).date()
+    today = pd.Timestamp(today_et).normalize()
+    week_start = today - pd.Timedelta(days=today.weekday())
+    week_end = week_start + pd.Timedelta(days=6)
+    return (today if live_week_started else week_start), week_end
 
 def extract_pdf_lines_pure(pdf_bytes):
     """Pure-Python zero-dependency extraction of text lines from NBA injury report PDF."""
@@ -131,7 +149,17 @@ def run_cloud_sync():
     # STEP 2: INITIALIZE ASSISTANT & RESOLVE PLAYER IDS
     # -------------------------------------------------------------------------
     print("\n[STEP 2] Initializing assistant & draft rosters...")
+    # Fetch current-season game logs BEFORE building the assistant so the engine's team map sees them
+    season_logs_df, season_logs_src = fetch_current_season_logs(season="2026-27")
+    print(f"  Current-season logs: {len(season_logs_df)} player-games (source: {season_logs_src})")
     assistant = LiveDraftAssistant(prior_season="2025_26", my_team_idx=draft_data.MY_TEAM_IDX, num_teams=draft_data.NUM_TEAMS)
+    current_team_map = {}
+    if not season_logs_df.empty:
+        current_team_map = assistant.apply_current_season_logs(season_logs_df)
+        print(f"  Applied in-season Bayesian updates for {len(current_team_map)} players "
+              f"(through {pd.to_datetime(season_logs_df['GAME_DATE']).max().date()}).")
+    else:
+        print("  [WARN] No current-season logs available; projections use prior-season data only.")
     rosters = draft_data.resolve_rosters(assistant)
     berk_pids = rosters[draft_data.MY_TEAM_IDX]
     all_drafted_pids = set(p for slot in rosters for p in rosters[slot])
@@ -429,7 +457,7 @@ def run_cloud_sync():
             healthy_free_agents.append((pid, p.name, z_val, eff_avail, was_dropped))
         else:
             injured_free_agents.append((pid, p.name, z_val, eff_avail, getattr(p, 'injury_desc', 'Injured/Out')))
-        if len(healthy_free_agents) >= 25:
+        if len(healthy_free_agents) >= 60:
             break
 
     print(f"  Top 3 HEALTHY Free Agents: {[x[1] for x in healthy_free_agents[:3]]}")
@@ -439,14 +467,14 @@ def run_cloud_sync():
     # STEP 6: LIVE MATCHUP SCOREBOARD, REMAINING SCHEDULE & ADD/DROP ENGINE
     # -------------------------------------------------------------------------
     print("\n[STEP 6] Running Live Matchup Engine & Remaining-Games Add/Drop Optimizer...")
-    # Load NBA schedule if available for exact remaining games calculation
-    sched_df = pd.DataFrame()
-    for sched_cand in ("schedule_2025_26.parquet", "schedule_2024_25.parquet"):
-        sp = os.path.join(DATA_DIR, "raw", sched_cand)
+    # Load the 2026-27 NBA schedule (processed/) for exact per-player remaining games this week
+    sched_df = getattr(assistant, 'schedule_df', pd.DataFrame())
+    if sched_df is None or sched_df.empty:
+        sched_df = pd.DataFrame()
+        sp = os.path.join(PROCESSED_DIR, f"schedule_{assistant.target_season}.parquet")
         if os.path.exists(sp):
             try:
                 sched_df = pd.read_parquet(sp)
-                break
             except Exception:
                 pass
 
@@ -464,6 +492,9 @@ def run_cloud_sync():
         use_dynamic_add_drop=True,
         use_positional_depth_and_injury_boost=True
     )
+    # Live in-season team assignments (trades / offseason moves) override the file-based team map
+    if current_team_map:
+        engine.team_map.update({int(k): int(v) for k, v in current_team_map.items()})
 
     # Check for live in-week matchup state (data/processed/live_matchup.json)
     # Schema Guard: Reject partial/stale mock files that have games_played > 0 but are missing core counting stats
@@ -495,8 +526,23 @@ def run_cloud_sync():
         opp_team_name = live_data['team_b'].get('name', opp_team_name)
 
     opp_pids = rosters.get(opp_slot_idx, rosters[12])
-    dist_berk = engine.get_expected_weekly_distribution(berk_pids)
-    dist_sile = engine.get_expected_weekly_distribution(opp_pids)
+
+    # Dated window: remaining days of this Mon-Sun week (full week if no live scoreboard yet).
+    # Each player's projection then uses his team's actual games in the window (4 games > 2 games).
+    week_start_d, week_end_d = current_fantasy_week_window(now_utc, live_week_started=bool(live_data))
+    use_dated = False
+    if not engine.schedule.empty:
+        in_window = engine.schedule[(engine.schedule['GAME_DATE'] >= week_start_d) & (engine.schedule['GAME_DATE'] <= week_end_d)]
+        use_dated = not in_window.empty
+    win_start = week_start_d if use_dated else None
+    win_end = week_end_d if use_dated else None
+    if use_dated:
+        print(f"  Schedule window: {week_start_d.date()} -> {week_end_d.date()} (per-player remaining games)")
+    else:
+        print("  [WARN] No schedule games in current week window; falling back to fixed 3.35 games/player.")
+
+    dist_berk = engine.get_expected_weekly_distribution(berk_pids, start_date=win_start, end_date=win_end)
+    dist_sile = engine.get_expected_weekly_distribution(opp_pids, start_date=win_start, end_date=win_end)
 
     fa = 1.0
     fb = 1.0
@@ -506,8 +552,10 @@ def run_cloud_sync():
     if live_data:
         ta = live_data.get('team_a', {})
         tb = live_data.get('team_b', {})
-        fa = ta.get('games_remaining', 26) / max(ta.get('total_scheduled', 37), 1)
-        fb = tb.get('games_remaining', 24) / max(tb.get('total_scheduled', 36), 1)
+        if not use_dated:
+            # Undated full-week distribution must be scaled down to the remaining share of games
+            fa = ta.get('games_remaining', 26) / max(ta.get('total_scheduled', 37), 1)
+            fb = tb.get('games_remaining', 24) / max(tb.get('total_scheduled', 36), 1)
 
         comb_berk = MatchupEngine.combine_live_and_remaining_dist(ta, dist_berk, rem_fraction=fa)
         comb_opp = MatchupEngine.combine_live_and_remaining_dist(tb, dist_sile, rem_fraction=fb)
@@ -573,6 +621,8 @@ def run_cloud_sync():
         my_roster_ids=berk_pids,
         opp_roster_ids=opp_pids,
         candidate_fa_ids=top_fa_ids,
+        start_date=win_start,
+        end_date=win_end,
         my_actual_stats=ta if live_data else None,
         opp_actual_stats=tb if live_data else None,
         my_rem_fraction=fa,
@@ -892,6 +942,15 @@ def run_cloud_sync():
         "🎯 <b>EN İYİ HAMLE ÖNERİLERİ (Kalan Maç & Skor Odaklı)</b>",
     ])
     rank_icons = ["1️⃣", "2️⃣", "3️⃣"]
+
+    def _g_str(g):
+        g = float(g or 0.0)
+        return f"{int(round(g))}" if abs(g - round(g)) < 0.05 else f"{g:.1f}"
+
+    def _season_tag(bp_x):
+        gp_x = int(getattr(bp_x, 'current_season_gp', 0) or 0)
+        return f", sezon: {gp_x}MP {getattr(bp_x, 'current_season_mpg', 0.0):.0f}dk" if gp_x > 0 else ""
+
     for idx_m, rec in enumerate(add_drop_recs[:3]):
         r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
@@ -899,11 +958,18 @@ def run_cloud_sync():
         if bp_add:
             bm_a = getattr(bp_add, 'base_expected_minutes', bp_add.expected_minutes)
             bst = bp_add.expected_minutes - bm_a
-            m_info = f" ({bp_add.expected_minutes:.1f} dk, {bst:+.1f}🔼)" if abs(bst) >= 0.5 else f" ({bp_add.expected_minutes:.1f} dk)"
-        drop_lbl = "Boş Yuva (IL+)" if rec['drop_id'] is None else f"-{rec['drop_name']}"
+            bst_s = f", {bst:+.1f}🔼" if abs(bst) >= 0.5 else ""
+            m_info = f" ({bp_add.expected_minutes:.1f} dk{bst_s}{_season_tag(bp_add)})"
+        g_add = _g_str(rec.get('rem_games_add', 0))
+        if rec['drop_id'] is None:
+            drop_lbl = "Boş Yuva (IL+)"
+            games_lbl = f"🗓 {g_add} maç"
+        else:
+            drop_lbl = f"-{rec['drop_name']}"
+            games_lbl = f"🗓 {g_add} maç vs {_g_str(rec.get('rem_games_drop', 0))} maç"
         clean_gains = rec['key_cat_gains'].replace('_PCT', '%').replace('FG3M', '3PT')
         msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b>{m_info}")
-        msg_lines.append(f"   └ 📥 {drop_lbl} • 📈 <b>{rec['delta_expected_wins']:+.2f} Kat.</b> <i>({clean_gains})</i>")
+        msg_lines.append(f"   └ 📥 {drop_lbl} • {games_lbl} • 📈 <b>{rec['delta_expected_wins']:+.2f} Kat.</b> <i>({clean_gains})</i>")
 
     # Top Free Agents (clean 1-line summary)
     top_fa_strs = []
