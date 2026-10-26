@@ -60,9 +60,11 @@ BOOKMARKLET_JS_RAW = r"""
       const h1El = doc.querySelector('#team-card h1, .TeamName, .Navitem-main, h1');
       if (!teamName && h1El) teamName = h1El.textContent.trim();
 
-      const links = doc.querySelectorAll('a[href*="/nba/players/"]');
+      const links = doc.querySelectorAll('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a, td.player a.name, a.Nowrap[href*="/nba/"]');
       links.forEach(a => {
-        const name = (a.textContent || '').trim();
+        let name = (a.textContent || '').trim();
+        if (name.includes('\n')) name = name.split('\n')[0].trim();
+        name = name.replace(/\s+(PG|SG|G|SF|PF|F|C|UTIL)$/i, '').replace(/\s*\([^)]*\)/g, '').trim();
         if (!name || name.length < 3 || seen.has(name) || /^(View|Note|Player|Stats|Video)$/i.test(name) || /player\s*note/i.test(name)) return;
         const tr = a.closest('tr');
         if (!tr) return;

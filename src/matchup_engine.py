@@ -1024,11 +1024,11 @@ class MatchupEngine:
             rem_g = len(entry['SCHEDULE']) if len(dates) > 0 else 3.35 * my_rem_fraction
             w_dict = base_marg_weights if self.use_dynamic_add_drop else self.default_norm_weights
             prelim_score = self._player_value(entry, w_dict) * (rem_g if self.use_dynamic_add_drop else 1.0) * avail
-            fa_prelim.append((prelim_score, fa_pid, rem_g, avail))
+            fa_prelim.append((prelim_score, fa_pid, rem_g, avail, entry['PROJ']))
 
         fa_prelim.sort(key=lambda x: x[0], reverse=True)
         shortlist_fas = [x[1] for x in fa_prelim[:12]]
-        fa_meta = {x[1]: (x[2], x[3]) for x in fa_prelim[:12]}
+        fa_meta = {x[1]: (x[2], x[3], x[4]) for x in fa_prelim[:12]}
 
         # Disable automatic internal streamer injection during counterfactual roster swap evaluation
         saved_pool = self.free_agent_pool
@@ -1040,8 +1040,16 @@ class MatchupEngine:
             clean_base_wins, clean_base_probs, _ = self.evaluate_h2h_matchup(clean_base_tot, base_opp_tot)
 
             for fa_pid in shortlist_fas:
-                rem_g, fa_avail = fa_meta[fa_pid]
+                rem_g, fa_avail, fa_proj = fa_meta[fa_pid]
                 fa_name = self.players[fa_pid].name
+                exp_stats = {
+                    'PTS': round(fa_proj.get('PTS', 0.0) * rem_g, 1),
+                    'REB': round(fa_proj.get('REB', 0.0) * rem_g, 1),
+                    'AST': round(fa_proj.get('AST', 0.0) * rem_g, 1),
+                    'STL': round(fa_proj.get('STL', 0.0) * rem_g, 1),
+                    'BLK': round(fa_proj.get('BLK', 0.0) * rem_g, 1),
+                    '3PT': round(fa_proj.get('FG3M', 0.0) * rem_g, 1),
+                }
 
                 if has_open_slot:
                     trial_roster = list(my_roster_ids) + [fa_pid]
@@ -1071,6 +1079,7 @@ class MatchupEngine:
                         'target_cats': target_cats,
                         'cat_gains': cat_gains,
                         'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
+                        'exp_stats': exp_stats,
                     })
                 else:
                     best_swap = None
@@ -1103,6 +1112,7 @@ class MatchupEngine:
                                 'target_cats': target_cats,
                                 'cat_gains': cat_gains,
                                 'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
+                                'exp_stats': exp_stats,
                             }
                     if best_swap is not None:
                         recommendations.append(best_swap)

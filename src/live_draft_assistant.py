@@ -882,16 +882,17 @@ class LiveDraftAssistant:
                     s_clean = s_clean[:-len(suffix)].strip()
             return s_clean.replace('.', '').replace("'", "").strip()
 
-        q_norm = _norm(query_str)
+        q_clean = str(query_str).split('\n')[0].split('(')[0].strip()
+        q_norm = _norm(q_clean)
         candidates = []
         for pid in self.df_base.index:
             if only_available and pid not in self.available_player_ids:
                 continue
             name = self.df_base.loc[pid]['NAME']
             n_norm = _norm(name)
-            if q_norm == n_norm or query_str.lower() == str(name).lower():
+            if q_norm == n_norm or query_str.lower() == str(name).lower() or q_clean.lower() == str(name).lower():
                 return int(pid)
-            if q_norm in n_norm:
+            if (len(q_norm) >= 4 and q_norm in n_norm) or (len(n_norm) >= 4 and n_norm in q_norm):
                 candidates.append(int(pid))
 
         if candidates:

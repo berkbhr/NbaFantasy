@@ -337,6 +337,8 @@ def run_cloud_sync():
                 pid = assistant.resolve_player_id(p_name, only_available=False)
                 if pid is not None and pid in assistant.players:
                     resolved_p.append(pid)
+                else:
+                    print(f"  [WARN] Roster player '{p_name}' could not be resolved in slot {s_idx}!")
             if resolved_p:
                 rosters[s_idx] = resolved_p
                 prior_rosters_loaded += 1
@@ -968,13 +970,23 @@ def run_cloud_sync():
         gp_x = int(getattr(bp_x, 'current_season_gp', 0) or 0)
         return f", sezon: {gp_x}MP {getattr(bp_x, 'current_season_mpg', 0.0):.0f}dk" if gp_x > 0 else ""
 
-    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
-    for idx_m, rec in enumerate(add_drop_recs[:10]):
+    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣"]
+    for idx_m, rec in enumerate(add_drop_recs[:5]):
         r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
         pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
         exp_m = int(round(bp_add.expected_minutes)) if bp_add else 25
         g_add = _g_str(rec.get('rem_games_add', 0))
+
+        # Expected weekly stats in remaining games
+        st = rec.get('exp_stats', {})
+        pts = st.get('PTS', 0.0)
+        reb = st.get('REB', 0.0)
+        ast = st.get('AST', 0.0)
+        stl = st.get('STL', 0.0)
+        blk = st.get('BLK', 0.0)
+        fg3 = st.get('3PT', 0.0)
+        stat_str = f"{pts:.1f} PTS • {reb:.1f} REB • {ast:.1f} AST • {stl:.1f} STL • {blk:.1f} BLK • {fg3:.1f} 3PT"
 
         # Target categories with percentage chance increases (e.g. REB (+%22.0), STL (+%12.5))
         cat_gain_parts = []
@@ -983,11 +995,9 @@ def run_cloud_sync():
             cat_gain_parts.append(f"{c_lbl} (+%{d*100:.1f})")
         cat_text = ', '.join(cat_gain_parts) if cat_gain_parts else 'Dengeli Katkı'
 
-        # Action line
+        # Action tag
         if rec['drop_id'] is None:
-            # Drop name holds stash note (e.g. "Boş Yuva (Kawhi Leonard IL+'a)")
-            stash_lbl = rec.get('drop_name', 'IL+ Boş Yuva')
-            action_line = f"⚡ <b>İşlem:</b> {stash_lbl} ➔ Boş yuvaya ekle <i>(Drop Yok!)</i>"
+            action_tag = "➔ <i>Boş Yuva (Drop Yok!)</i>"
         else:
             bp_drop = assistant.players.get(rec['drop_id'])
             is_drop_inj = (
@@ -995,16 +1005,12 @@ def run_cloud_sync():
                 or (bp_drop and bp_drop.get_effective_game_availability(is_b2b=False) <= 0.0)
             )
             g_drop = _g_str(rec.get('rem_games_drop', 0))
-            if is_drop_inj:
-                drop_tag = "Sakat • IL+ Dolu"
-                action_line = f"🔄 <b>İşlem:</b> -{rec['drop_name']} ({drop_tag}) yerine al <i>(Drop)</i>"
-            else:
-                action_line = f"🔄 <b>İşlem:</b> -{rec['drop_name']} ({g_drop} maç) yerine al <i>(Drop)</i>"
+            drop_tag = "Sakat" if is_drop_inj else f"{g_drop} maç"
+            action_tag = f"➔ <i>-{rec['drop_name']} ({drop_tag}) Drop</i>"
 
-        msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç)")
-        msg_lines.append(f"   ├ {action_line}")
-        msg_lines.append(f"   ├ 🎯 <b>Kategori Etkisi:</b> {cat_text} kazanma şansı artışı")
-        msg_lines.append(f"   └ 📈 <b>Skor Katkısı:</b> +{rec['delta_expected_wins']:.2f} Kategori galibiyeti")
+        msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç) {action_tag}")
+        msg_lines.append(f"   ├ 📊 <b>Haftalık:</b> {stat_str}")
+        msg_lines.append(f"   └ 🎯 <b>Etki:</b> {cat_text} artışı <i>(📈 +{rec['delta_expected_wins']:.2f} Kat.)</i>")
 
     # Top Free Agents (clean 1-line summary)
     top_fa_strs = []
