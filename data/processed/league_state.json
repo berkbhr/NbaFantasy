@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-26T10:58:25.365939+00:00",
+  "updated_at": "2026-10-26T11:39:56.441291+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -81,7 +81,8 @@
       "Alex Caruso",
       "Michael Porter Jr.",
       "Cade Cunningham",
-      "Walker Kessler"
+      "Walker Kessler",
+      "Nickeil Alexander-Walker"
     ],
     "5": [
       "LaMelo Ball",
@@ -643,7 +644,6 @@
     "Jeremiah Fears",
     "Gui Santos",
     "Mikel Brown Jr.",
-    "Nickeil Alexander-Walker",
     "Nikola Vu\u010devi\u0107",
     "Kevin Porter Jr.",
     "Scoot Henderson",
