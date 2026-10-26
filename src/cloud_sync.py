@@ -644,7 +644,7 @@ def run_cloud_sync():
         opp_actual_stats=tb if live_data else None,
         my_rem_fraction=fa,
         opp_rem_fraction=fb,
-        top_k=7
+        top_k=12
     )
 
     print(f"  Berk IL+ Stashed: {[assistant.players[p].name for p in dist_berk.get('meta', {}).get('il_stashed_ids', [])]}")
@@ -968,8 +968,8 @@ def run_cloud_sync():
         gp_x = int(getattr(bp_x, 'current_season_gp', 0) or 0)
         return f", sezon: {gp_x}MP {getattr(bp_x, 'current_season_mpg', 0.0):.0f}dk" if gp_x > 0 else ""
 
-    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣"]
-    for idx_m, rec in enumerate(add_drop_recs[:5]):
+    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
+    for idx_m, rec in enumerate(add_drop_recs[:10]):
         r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
         pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
@@ -1034,15 +1034,36 @@ def run_cloud_sync():
             import urllib.parse
             import urllib.request
             tg_url = f"https://api.telegram.org/bot{tg_token}/sendMessage"
-            tg_payload = urllib.parse.urlencode({
-                "chat_id": tg_chat,
-                "text": "\n".join(msg_lines),
-                "parse_mode": "HTML",
-                "disable_web_page_preview": "true"
-            }).encode("utf-8")
-            with urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_payload, method="POST"), timeout=8.0) as resp:
-                if resp.status == 200:
-                    print("  [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!")
+
+            # Auto-split if message exceeds Telegram 4096-character limit
+            full_msg = "\n".join(msg_lines)
+            chunks = []
+            if len(full_msg) <= 4000:
+                chunks = [full_msg]
+            else:
+                current_chunk = []
+                current_len = 0
+                for line in msg_lines:
+                    if current_len + len(line) + 1 > 3900:
+                        chunks.append("\n".join(current_chunk))
+                        current_chunk = [line]
+                        current_len = len(line) + 1
+                    else:
+                        current_chunk.append(line)
+                        current_len += len(line) + 1
+                if current_chunk:
+                    chunks.append("\n".join(current_chunk))
+
+            for chunk in chunks:
+                tg_payload = urllib.parse.urlencode({
+                    "chat_id": tg_chat,
+                    "text": chunk,
+                    "parse_mode": "HTML",
+                    "disable_web_page_preview": "true"
+                }).encode("utf-8")
+                with urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_payload, method="POST"), timeout=8.0) as resp:
+                    if resp.status == 200:
+                        print("  [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!")
         except Exception as e:
             print(f"  [TELEGRAM] Bildirim hatasi: {e}")
 
