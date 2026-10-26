@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-26 17:41:58 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_01_30PM.pdf`  
+**Sync Timestamp:** `2026-10-26 18:47:35 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_02_45PM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
@@ -28,6 +28,7 @@
 | :--- | :--- | :--- | :---: |
 | **#1 MuCa Tandır** | Naji Marshall, Kon Knueppel | — | `0` |
 | **#2 Mordor Tulums** | Cameron Johnson, Tobias Harris | — | `0` |
+| **#3 Philadelphia Sikers** | — | Ivica Zubac (OUT) | `0` |
 | **#4 Houston Buckets** | — | Jalen Williams (O), Nic Claxton (O) | `0` |
 | **#6 abu dhabi camels** | — | AJ Dybantsa (O) | `0` |
 | **#7 Samurai Strikers** | Mark Williams | — | `0` |
@@ -62,18 +63,18 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 
 | Rank | Action | Add Target (FA) | Drop Candidate | Rem Games (Add/Drop) | $\Delta E[\text{Wins}]$ | Key Category Gains |
 | :---: | :---: | :--- | :--- | :---: | :---: | :--- |
-| #1 | `ADD / DROP` | **Nickeil Alexander-Walker** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.276`** | FG3M (+9.9%), PTS (+9.9%) |
-| #2 | `ADD / DROP` | **Moussa Diabaté** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.209`** | REB (+15.4%), FG_PCT (+6.2%) |
-| #3 | `ADD / DROP` | **Ryan Kalkbrenner** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.145`** | BLK (+9.5%), REB (+6.8%) |
-| #4 | `ADD / DROP` | **Ziaire Williams** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.091`** | STL (+3.0%), FG3M (+2.9%) |
-| #5 | `ADD / DROP` | **Sam Merrill** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.071`** | FG3M (+5.3%), PTS (+2.2%) |
+| #1 | `ADD / DROP` | **Nickeil Alexander-Walker** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.289`** | FG3M (+10.6%), PTS (+10.0%) |
+| #2 | `ADD / DROP` | **Moussa Diabaté** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.210`** | REB (+15.3%), FG_PCT (+6.2%) |
+| #3 | `ADD / DROP` | **Ryan Kalkbrenner** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.147`** | BLK (+10.2%), REB (+6.7%) |
+| #4 | `ADD / DROP` | **Ziaire Williams** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.093`** | FG3M (+3.1%), STL (+3.1%) |
+| #5 | `ADD / DROP` | **Sam Merrill** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.073`** | FG3M (+5.7%), PTS (+2.3%) |
 | #6 | `ADD / DROP` | **Jake LaRavia** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.054`** | STL (+2.5%), REB (+1.6%) |
-| #7 | `ADD / DROP` | **Jock Landale** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.042`** | REB (+4.6%), FG_PCT (+3.0%) |
-| #8 | `ADD / DROP` | **Royce O'Neale** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.041`** | FG3M (+3.7%), REB (+1.6%) |
-| #9 | `ADD / DROP` | **Luguentz Dort** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.039`** | FG3M (+3.4%), REB (+1.5%) |
-| #10 | `ADD / DROP` | **Dean Wade** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.039`** | TOV (+4.8%), STL (+3.1%) |
-| #11 | `ADD / DROP` | **Justin Champagnie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.026`** | REB (+2.9%), TOV (+2.4%) |
-| #12 | `ADD / DROP` | **Max Christie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.014`** | FG3M (+3.0%), FT_PCT (+1.6%) |
+| #7 | `ADD / DROP` | **Royce O'Neale** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.042`** | FG3M (+4.1%), REB (+1.6%) |
+| #8 | `ADD / DROP` | **Luguentz Dort** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.040`** | FG3M (+3.6%), REB (+1.4%) |
+| #9 | `ADD / DROP` | **Dean Wade** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.039`** | TOV (+4.8%), STL (+3.1%) |
+| #10 | `ADD / DROP` | **Jarace Walker** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.036`** | REB (+4.7%), FG3M (+2.8%) |
+| #11 | `ADD / DROP` | **Justin Champagnie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.023`** | REB (+2.9%), TOV (+2.4%) |
+| #12 | `ADD / DROP` | **Max Christie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.015`** | FG3M (+3.2%), FT_PCT (+1.6%) |
 
 ### 📋 Available Healthy Free Agents Pool (Top 8)
 | Rank | Free Agent | Source | Exp Min (Boost) | Base Z | Eff Availability |
@@ -85,7 +86,7 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 | #5 | **Max Christie** | `Unrostered FA` | `32.6m (+3.4m)` | `-2.27` | `0.90` |
 | #6 | **Ryan Kalkbrenner** | `Unrostered FA` | `21.6m (+2.1m)` | `-2.44` | `0.86` |
 | #7 | **Ziaire Williams** | `Unrostered FA` | `26.0m` | `-2.84` | `0.82` |
-| #8 | **Jordan Goodwin** | `Unrostered FA` | `21.9m (+0.6m)` | `-2.94` | `0.87` |
+| #8 | **Jordan Goodwin** | `Unrostered FA` | `21.9m (+0.6m)` | `-2.93` | `0.87` |
 
 ---
 
@@ -97,12 +98,12 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 
 | Category | Live Score | Berk Proj Final | Mordor Tulums Proj Final | Berk Win Prob | Projected Winner |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **PTS** | `0 - 0` | `618.9` | `616.9` | `%50.6` | ⚖️ Toss-up |
-| **REB** | `0 - 0` | `225.8` | `222.9` | `%52.3` | 🏆 Berk |
-| **AST** | `0 - 0` | `126.8` | `101.1` | `%82.3` | 🏆 Berk |
-| **STL** | `0 - 0` | `43.4` | `38.2` | `%66.8` | 🏆 Berk |
-| **BLK** | `0 - 0` | `28.3` | `32.9` | `%33.6` | Mordor Tulums |
-| **FG3M** | `0 - 0` | `64.9` | `76.7` | `%27.5` | Mordor Tulums |
-| **TOV** | `0 - 0` | `65.4` | `59.7` | `%36.8` | Mordor Tulums |
-| **FG%** | `.488 - .491` | `.488` | `.491` | `%46.8` | Mordor Tulums |
-| **FT%** | `.802 - .810` | `.802` | `.810` | `%44.7` | Mordor Tulums |
+| **PTS** | `0 - 0` | `618.9` | `610.2` | `%52.7` | 🏆 Berk |
+| **REB** | `0 - 0` | `225.8` | `230.6` | `%46.3` | Mordor Tulums |
+| **AST** | `0 - 0` | `126.8` | `104.2` | `%79.1` | 🏆 Berk |
+| **STL** | `0 - 0` | `43.4` | `40.4` | `%59.7` | 🏆 Berk |
+| **BLK** | `0 - 0` | `28.3` | `30.9` | `%40.6` | Mordor Tulums |
+| **FG3M** | `0 - 0` | `64.9` | `75.0` | `%30.5` | Mordor Tulums |
+| **TOV** | `0 - 0` | `65.4` | `60.2` | `%37.9` | Mordor Tulums |
+| **FG%** | `.488 - .492` | `.488` | `.492` | `%45.3` | Mordor Tulums |
+| **FT%** | `.802 - .803` | `.802` | `.803` | `%49.3` | Mordor Tulums |
