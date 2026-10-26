@@ -646,7 +646,7 @@ def run_cloud_sync():
         opp_actual_stats=tb if live_data else None,
         my_rem_fraction=fa,
         opp_rem_fraction=fb,
-        top_k=12
+        top_k=15
     )
 
     print(f"  Berk IL+ Stashed: {[assistant.players[p].name for p in dist_berk.get('meta', {}).get('il_stashed_ids', [])]}")
@@ -970,8 +970,8 @@ def run_cloud_sync():
         gp_x = int(getattr(bp_x, 'current_season_gp', 0) or 0)
         return f", sezon: {gp_x}MP {getattr(bp_x, 'current_season_mpg', 0.0):.0f}dk" if gp_x > 0 else ""
 
-    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣"]
-    for idx_m, rec in enumerate(add_drop_recs[:5]):
+    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
+    for idx_m, rec in enumerate(add_drop_recs[:10]):
         r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
         pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
