@@ -644,7 +644,7 @@ def run_cloud_sync():
         opp_actual_stats=tb if live_data else None,
         my_rem_fraction=fa,
         opp_rem_fraction=fb,
-        top_k=5
+        top_k=7
     )
 
     print(f"  Berk IL+ Stashed: {[assistant.players[p].name for p in dist_berk.get('meta', {}).get('il_stashed_ids', [])]}")
@@ -968,17 +968,20 @@ def run_cloud_sync():
         gp_x = int(getattr(bp_x, 'current_season_gp', 0) or 0)
         return f", sezon: {gp_x}MP {getattr(bp_x, 'current_season_mpg', 0.0):.0f}dk" if gp_x > 0 else ""
 
-    for idx_m, rec in enumerate(add_drop_recs[:3]):
+    rank_icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣"]
+    for idx_m, rec in enumerate(add_drop_recs[:5]):
         r_ico = rank_icons[idx_m] if idx_m < len(rank_icons) else f"<b>#{idx_m+1}</b>"
         bp_add = assistant.players.get(rec['add_id'])
         pos_s = assistant.pos_dict.get(rec['add_id'], 'UTIL')
         exp_m = int(round(bp_add.expected_minutes)) if bp_add else 25
         g_add = _g_str(rec.get('rem_games_add', 0))
 
-        # Target categories to swing/win (e.g. REB, STL, FG%)
-        target_cats = rec.get('target_cats', [])
-        cat_labels = [c.replace('_PCT', '%').replace('FG3M', '3PT') for c in target_cats]
-        cat_text = ' & '.join(cat_labels) if cat_labels else 'Dengeli Katkı'
+        # Target categories with percentage chance increases (e.g. REB (+%22.0), STL (+%12.5))
+        cat_gain_parts = []
+        for c, d in rec.get('cat_gains', []):
+            c_lbl = c.replace('_PCT', '%').replace('FG3M', '3PT')
+            cat_gain_parts.append(f"{c_lbl} (+%{d*100:.1f})")
+        cat_text = ', '.join(cat_gain_parts) if cat_gain_parts else 'Dengeli Katkı'
 
         # Action line
         if rec['drop_id'] is None:
@@ -986,12 +989,22 @@ def run_cloud_sync():
             stash_lbl = rec.get('drop_name', 'IL+ Boş Yuva')
             action_line = f"⚡ <b>İşlem:</b> {stash_lbl} ➔ Boş yuvaya ekle <i>(Drop Yok!)</i>"
         else:
+            bp_drop = assistant.players.get(rec['drop_id'])
+            is_drop_inj = (
+                getattr(bp_drop, 'injury_status', '') in ('OUT', 'INJ', 'O', 'IL', 'SUSPENDED')
+                or (bp_drop and bp_drop.get_effective_game_availability(is_b2b=False) <= 0.0)
+            )
             g_drop = _g_str(rec.get('rem_games_drop', 0))
-            action_line = f"🔄 <b>İşlem:</b> -{rec['drop_name']} ({g_drop} maç) yerine al"
+            if is_drop_inj:
+                drop_tag = "Sakat • IL+ Dolu"
+                action_line = f"🔄 <b>İşlem:</b> -{rec['drop_name']} ({drop_tag}) yerine al <i>(Drop)</i>"
+            else:
+                action_line = f"🔄 <b>İşlem:</b> -{rec['drop_name']} ({g_drop} maç) yerine al <i>(Drop)</i>"
 
         msg_lines.append(f"{r_ico} <b>+{rec['add_name']}</b> ({pos_s} • {exp_m} dk • 🗓 {g_add} Maç)")
         msg_lines.append(f"   ├ {action_line}")
-        msg_lines.append(f"   └ 🎯 <b>Hedef:</b> {cat_text} kategorilerini lehimize çevirir <i>(📈 {rec['delta_expected_wins']:+.2f} Kat.)</i>")
+        msg_lines.append(f"   ├ 🎯 <b>Kategori Etkisi:</b> {cat_text} kazanma şansı artışı")
+        msg_lines.append(f"   └ 📈 <b>Skor Katkısı:</b> +{rec['delta_expected_wins']:.2f} Kategori galibiyeti")
 
     # Top Free Agents (clean 1-line summary)
     top_fa_strs = []

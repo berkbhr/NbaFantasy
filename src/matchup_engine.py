@@ -583,6 +583,7 @@ class MatchupEngine:
         return {
             'ID': pid,
             'POS': self.pos_dict.get(pid, 'UTIL'),
+            'INJURY_STATUS': getattr(self.players[pid], 'injury_status', '') if pid in self.players else '',
             'PROJ': flat_mean,
             'VAR': flat_var,
             'AVAIL': avail,
@@ -974,7 +975,9 @@ class MatchupEngine:
             if not bp:
                 return False
             bm = float(getattr(bp, 'base_expected_minutes', bp.expected_minutes))
-            if bm >= 24.0 or getattr(bp, 'depth_rank_in_pos', 1) == 1:
+            entry = roster_entries.get(pid) or self._make_entry(pid, ref_date, start_date, end_date, dates, 1.0)
+            val = self._player_value(entry, self.default_norm_weights)
+            if val >= 16.5 or (bm >= 30.0 and val >= 15.0):
                 return True
             return False
 
@@ -982,8 +985,28 @@ class MatchupEngine:
         if not candidate_drops_pool:
             candidate_drops_pool = active_roster
 
-        sorted_active = sorted(candidate_drops_pool, key=lambda pid: roster_entries[pid]['MATCHUP_VAL'])
-        drop_candidates = sorted_active[:3]
+        # Check if there are injured / IL-eligible players occupying active roster slots
+        # (This occurs when IL+ slots are full, e.g. 2-slot limit reached)
+        active_inj_candidates = [
+            pid for pid in active_roster
+            if self._is_il_eligible(roster_entries[pid]) and not _is_cant_cut(pid)
+        ]
+
+        if active_inj_candidates:
+            # When IL+ is full (2/2) and there are injured players taking active roster spots,
+            # we MUST drop the worst unslotted injured player (lowest baseline season value).
+            # We never drop a healthy player while an injured player is wasting an active bench spot!
+            active_inj_candidates.sort(
+                key=lambda pid: self._player_value(roster_entries[pid], self.default_norm_weights)
+            )
+            drop_candidates = active_inj_candidates[:1]
+        else:
+            # All active players are healthy: pick the lowest weekly matchup value bench players
+            sorted_active = sorted(
+                candidate_drops_pool,
+                key=lambda pid: (roster_entries[pid]['MATCHUP_VAL'], self._player_value(roster_entries[pid], self.default_norm_weights))
+            )
+            drop_candidates = sorted_active[:3]
         has_open_slot = len(active_roster) < MAX_ROSTER_SIZE
 
         recommendations = []
@@ -1032,6 +1055,7 @@ class MatchupEngine:
                     )
                     top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
                     target_cats = [c for c, d in best_cats[:2] if d >= 0.005]
+                    cat_gains = [(c, d) for c, d in best_cats if d >= 0.005][:2]
                     recommendations.append({
                         'action': 'ADD (Boş Yuva / IL+)',
                         'add_id': fa_pid,
@@ -1045,6 +1069,7 @@ class MatchupEngine:
                         'new_expected_wins': new_wins,
                         'delta_expected_wins': delta_wins,
                         'target_cats': target_cats,
+                        'cat_gains': cat_gains,
                         'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                     })
                 else:
@@ -1062,6 +1087,7 @@ class MatchupEngine:
                             )
                             top_cat_gains = [f"{c} ({d*100:+.1f}%)" for c, d in best_cats[:2] if abs(d) >= 0.005]
                             target_cats = [c for c, d in best_cats[:2] if d >= 0.005]
+                            cat_gains = [(c, d) for c, d in best_cats if d >= 0.005][:2]
                             best_swap = {
                                 'action': 'ADD / DROP',
                                 'add_id': fa_pid,
@@ -1075,6 +1101,7 @@ class MatchupEngine:
                                 'new_expected_wins': new_wins,
                                 'delta_expected_wins': delta_wins,
                                 'target_cats': target_cats,
+                                'cat_gains': cat_gains,
                                 'key_cat_gains': ', '.join(top_cat_gains) if top_cat_gains else 'Dengeli Katkı',
                             }
                     if best_swap is not None:

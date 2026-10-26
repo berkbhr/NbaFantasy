@@ -177,5 +177,38 @@ class TestInjurySystem(unittest.TestCase):
         self.assertIn('PTS', dist['mean'])
         self.assertGreater(dist['mean']['PTS'], 0.0)
 
+    def test_recommend_add_drop_when_il_slots_full(self):
+        players = {}
+        for pid in range(1, 17):
+            bp = BayesianPlayer(player_id=pid, name=f"Player_{pid}")
+            bp.expected_minutes = 12.0 + (pid * 0.5)
+            bp.alphas = {s: 1.0 for s in COUNT_STATS + PERCENTAGE_STATS}
+            bp.betas = {s: 100.0 for s in COUNT_STATS + PERCENTAGE_STATS}
+            bp.att_alphas = {'FG': 1.0, 'FT': 1.0}
+            bp.att_betas = {'FG': 25.0, 'FT': 10.0}
+            players[pid] = bp
+
+        # 3 players OUT
+        players[1].update_injury_status('OUT')
+        players[2].update_injury_status('OUT')
+        players[3].update_injury_status('OUT')
+
+        roster_ids = list(range(1, 16))  # 15 players
+        opp_roster = list(range(1, 14))
+        free_agent_pool = [16]
+
+        engine = MatchupEngine(
+            bayesian_players_dict=players,
+            df_schedule=pd.DataFrame(),
+            df_positions=pd.DataFrame(),
+            num_il_slots=2
+        )
+        engine.yahoo_already_stashed_ids = {1, 2}
+
+        recs = engine.recommend_add_drop_moves(roster_ids, opp_roster, candidate_fa_ids=free_agent_pool, top_k=5)
+        self.assertGreaterEqual(len(recs), 1)
+        # Must recommend dropping Player 3 (worst injured player taking active slot, IL+ is full)
+        self.assertEqual(recs[0]['drop_id'], 3)
+
 if __name__ == '__main__':
     unittest.main()
