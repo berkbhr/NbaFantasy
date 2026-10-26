@@ -1,13 +1,13 @@
 {
   "week": 1,
-  "updated_at": "2026-10-26T10:57:09.468833+00:00",
+  "updated_at": "2026-10-26T17:40:54.741701+00:00",
   "matchup": {
     "team_a": {
       "name": "Berk's Best Team",
       "slot": 14,
       "games_played": 0,
-      "games_remaining": 41,
-      "total_scheduled": 41,
+      "games_remaining": 43,
+      "total_scheduled": 43,
       "FGM": 0,
       "FGA": 0,
       "FTM": 0,
