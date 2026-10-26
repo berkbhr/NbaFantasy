@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-26T22:12:43.063959+00:00",
+  "updated_at": "2026-10-26T22:27:53.246763+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -90,14 +90,15 @@
       "Aaron Nesmith",
       "Dyson Daniels",
       "Giannis Antetokounmpo",
-      "AJ Dybantsa",
+      "Luke Kennard",
       "Andre Drummond",
       "Daniel Gafford",
       "CJ McCollum",
       "Josh Giddey",
       "Anthony Black",
       "Franz Wagner",
-      "Joel Embiid"
+      "Joel Embiid",
+      "AJ Dybantsa"
     ],
     "6": [
       "Amen Thompson",
@@ -259,7 +260,9 @@
     "2": [],
     "3": [],
     "4": [],
-    "5": [],
+    "5": [
+      "AJ Dybantsa"
+    ],
     "6": [
       "Mark Williams"
     ],
@@ -310,19 +313,18 @@
         "slot": "SF"
       },
       {
+        "name": "Keegan Murray",
+        "status": "O",
+        "slot": "F"
+      },
+      {
         "name": "Nic Claxton",
         "status": "O",
         "slot": "C"
       }
     ],
     "4": [],
-    "5": [
-      {
-        "name": "AJ Dybantsa",
-        "status": "O",
-        "slot": "F"
-      }
-    ],
+    "5": [],
     "6": [],
     "7": [],
     "8": [],
@@ -352,7 +354,19 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793046097,
+      "timestamp": 1793053591,
+      "added": [
+        {
+          "player_name": "Luke Kennard",
+          "team_name": "abu dhabi camels"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793053590,
       "added": [
         {
           "player_name": "Justin Champagnie",
@@ -362,9 +376,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_2",
       "type": "add/drop",
-      "timestamp": 1793046096,
+      "timestamp": 1793053589,
       "added": [
         {
           "player_name": "Daniss Jenkins",
@@ -379,9 +393,9 @@
       ]
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793046095,
+      "timestamp": 1793053588,
       "added": [
         {
           "player_name": "Ja'Kobe Walter",
@@ -391,9 +405,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793046094,
+      "timestamp": 1793053587,
       "added": [
         {
           "player_name": "Trevon Brazile",
@@ -408,9 +422,9 @@
       ]
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793046093,
+      "timestamp": 1793053586,
       "added": [
         {
           "player_name": "Reed Sheppard",
@@ -420,9 +434,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793046092,
+      "timestamp": 1793053585,
       "added": [
         {
           "player_name": "Jay Huff",
@@ -437,9 +451,9 @@
       ]
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793046091,
+      "timestamp": 1793053584,
       "added": [
         {
           "player_name": "Alex Caruso",
@@ -454,9 +468,9 @@
       ]
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793046090,
+      "timestamp": 1793053583,
       "added": [
         {
           "player_name": "Jeremiah Fears",
@@ -466,9 +480,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793046089,
+      "timestamp": 1793053582,
       "added": [
         {
           "player_name": "Kyle Kuzma",
@@ -483,9 +497,9 @@
       ]
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793046088,
+      "timestamp": 1793053581,
       "added": [
         {
           "player_name": "Ziaire Williams",
@@ -495,9 +509,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793046087,
+      "timestamp": 1793053580,
       "added": [
         {
           "player_name": "Marcus Smart",
@@ -507,9 +521,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793046086,
+      "timestamp": 1793053579,
       "added": [
         {
           "player_name": "Miles McBride",
@@ -519,9 +533,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793046085,
+      "timestamp": 1793053578,
       "added": [
         {
           "player_name": "Derrick Jones Jr.",
@@ -536,9 +550,9 @@
       ]
     },
     {
-      "transaction_id": "dom_13",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793046084,
+      "timestamp": 1793053577,
       "added": [
         {
           "player_name": "Khaman Maluach",
@@ -548,9 +562,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_14",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793046083,
+      "timestamp": 1793053576,
       "added": [
         {
           "player_name": "Moussa Diabat\u00e9",
@@ -560,9 +574,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_15",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793046082,
+      "timestamp": 1793053575,
       "added": [
         {
           "player_name": "Gui Santos",
@@ -572,9 +586,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_16",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793046081,
+      "timestamp": 1793053574,
       "added": [
         {
           "player_name": "Tristan da Silva",
@@ -589,9 +603,9 @@
       ]
     },
     {
-      "transaction_id": "dom_17",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793046080,
+      "timestamp": 1793053573,
       "added": [
         {
           "player_name": "Noah Clowney",
@@ -601,9 +615,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_18",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793046079,
+      "timestamp": 1793053572,
       "added": [
         {
           "player_name": "Marcus Smart",
@@ -611,23 +625,6 @@
         }
       ],
       "dropped": []
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793046078,
-      "added": [
-        {
-          "player_name": "Kasparas Jaku\u010dionis",
-          "team_name": "SILE BULLS"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Pelle Larsson",
-          "team_name": "SILE BULLS"
-        }
-      ]
     }
   ],
   "dropped_free_agents": [
@@ -649,6 +646,7 @@
     "Kris Dunn",
     "Dennis Schr\u00f6der",
     "Jusuf Nurki\u0107",
+    "Luke Kennard",
     "Kristaps Porzi\u0146\u0123is",
     "Derrick Jones Jr.",
     "Kyle Kuzma",

@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-26 22:12:43 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_06_00PM.pdf`  
+**Sync Timestamp:** `2026-10-26 22:27:53 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_06_15PM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
@@ -29,8 +29,8 @@
 | **#1 MuCa Tandır** | Naji Marshall, Kon Knueppel | Cason Wallace (O) | `0` |
 | **#2 Mordor Tulums** | Chet Holmgren, Tobias Harris | — | `0` |
 | **#3 Philadelphia Sikers** | — | Ivica Zubac (O) | `0` |
-| **#4 Houston Buckets** | — | Jalen Williams (O), Nic Claxton (O) | `0` |
-| **#6 abu dhabi camels** | — | AJ Dybantsa (O) | `0` |
+| **#4 Houston Buckets** | — | Jalen Williams (O), Keegan Murray (O), Nic Claxton (O) | `0` |
+| **#6 abu dhabi camels** | AJ Dybantsa | — | `0` |
 | **#7 Samurai Strikers** | Mark Williams | — | `0` |
 | **#8 Berk's Best Team** | Brandon Ingram | — | `0` |
 | **#9 FatihTerimSpor** | Jalen Duren, Paolo Banchero | — | `0` |
@@ -44,6 +44,7 @@
 ## 2. 🔄 Recent League Transactions (Who Added / Dropped Whom)
 | Transaction | Team | Added Player(s) | Dropped Player(s) |
 | :---: | :--- | :--- | :--- |
+| `ADD/DROP` | **abu dhabi camels** | ➕ **Luke Kennard** | — |
 | `ADD/DROP` | **YearOne Tyrants** | ➕ **Justin Champagnie** | — |
 | `ADD/DROP` | **Fikirtepe Warriors** | ➕ **Daniss Jenkins** | ➖ Egor Dëmin |
 | `ADD/DROP` | **SILE BULLS** | ➕ **Ja'Kobe Walter** | — |
@@ -55,7 +56,6 @@
 | `ADD/DROP` | **FatihTerimSpor** | ➕ **Kyle Kuzma** | ➖ Ryan Kalkbrenner |
 | `ADD/DROP` | **Kuvâ-yi Milfiye** | ➕ **Ziaire Williams** | — |
 | `ADD/DROP` | **Redeem Team** | ➕ **Marcus Smart** | — |
-| `ADD/DROP` | **Samurai Strikers** | ➕ **Miles McBride** | — |
 
 ---
 
