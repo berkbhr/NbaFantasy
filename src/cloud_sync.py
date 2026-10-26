@@ -16,7 +16,7 @@ import zlib
 import re
 import json
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta, date
 
 # Ensure project root and src/ are in sys.path
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -675,34 +675,46 @@ def run_cloud_sync():
         header_table = f"| Category | Berk's Expected | {opp_team_name} Expected | Berk Win Prob | Projected Winner |\n| :--- | :---: | :---: | :---: | :---: |"
 
     # -------------------------------------------------------------------------
-    # Build Waivers Dictionary (Live Browser Scrape + Recent 48h Drop Transactions)
+    # Build Waivers Dictionary (Live Browser Scrape + Calendar-Day Transaction Tracker)
     # -------------------------------------------------------------------------
+    today_str = now_utc.strftime("%Y-%m-%d")
     waivers_dict = {}
     raw_waivers = league_state.get("waivers", {}) or league_state.get("waiver_players", {})
     if isinstance(raw_waivers, dict):
         for p_name, w_val in raw_waivers.items():
             pid = assistant.resolve_player_id(p_name, only_available=False)
             if pid is not None:
-                if isinstance(w_val, dict):
-                    waivers_dict[pid] = w_val
-                elif isinstance(w_val, str):
-                    waivers_dict[pid] = {"date": w_val, "display": w_val}
+                w_date_str = w_val.get("date", w_val) if isinstance(w_val, dict) else str(w_val)
+                # If waiver date has arrived or passed, the player is an active FREE AGENT!
+                if w_date_str > today_str:
+                    w_disp = w_val.get("display", w_date_str) if isinstance(w_val, dict) else w_date_str
+                    waivers_dict[pid] = {"date": w_date_str, "display": w_disp}
 
-    # Automatically mark players dropped in transactions within 48 hours as on waivers
-    now_ts = now_utc.timestamp()
+    # Enrich from recent transactions using calendar-day shift (NOT floating relative time)
     for tx in recent_transactions:
         if isinstance(tx, dict):
+            date_txt = str(tx.get("date_text", "")).lower()
             tx_ts = float(tx.get("timestamp", 0) or 0)
-            # Default Yahoo waiver duration is 48 hours (172800s)
-            if tx_ts > 0 and (now_ts - tx_ts) < 172800:
-                expire_dt = datetime.fromtimestamp(tx_ts + 172800, tz=timezone.utc)
-                expire_str = expire_dt.strftime("%Y-%m-%d")
-                expire_disp = expire_dt.strftime("%d/%m")
+
+            # Determine the exact calendar date of the drop
+            drop_date = now_utc.date()
+            if "yesterday" in date_txt or "dün" in date_txt:
+                drop_date = now_utc.date() - timedelta(days=1)
+            elif tx_ts > 0:
+                drop_date = datetime.fromtimestamp(tx_ts, tz=timezone.utc).date()
+
+            # Yahoo standard rule: player clears on drop_date + 2 calendar days
+            clear_date = drop_date + timedelta(days=2)
+            clear_str = clear_date.strftime("%Y-%m-%d")
+            clear_disp = clear_date.strftime("%d/%m")
+
+            # Only treat as active waiver if clear date is strictly in the future!
+            if clear_str > today_str:
                 for d in tx.get("dropped", []):
                     pn = d.get("player_name", "").strip()
                     pid = assistant.resolve_player_id(pn, only_available=False)
                     if pid is not None and pid not in waivers_dict:
-                        waivers_dict[pid] = {"date": expire_str, "display": expire_disp}
+                        waivers_dict[pid] = {"date": clear_str, "display": clear_disp}
 
     # Compute Remaining-Games Marginal Add/Drop Recommendations (accounting for waiver clear dates)
     add_drop_recs = engine.recommend_add_drop_moves(

@@ -186,8 +186,10 @@ BOOKMARKLET_JS_RAW = r"""
             dropped.push({ player_name: pName, team_name: teamName });
           }
         });
+        const dateEl = tr.querySelector('td.date, td.time, td:first-child');
+        const dateText = dateEl ? dateEl.textContent.trim() : '';
         if (added.length || dropped.length) {
-          txs.push({ transaction_id: 'dom_' + idx, type: 'add/drop', timestamp: Math.floor(Date.now()/1000) - idx, added, dropped });
+          txs.push({ transaction_id: 'dom_' + idx, type: 'add/drop', timestamp: Math.floor(Date.now()/1000) - idx, date_text: dateText, added, dropped });
         }
       });
       return txs.slice(0, 20);
@@ -444,6 +446,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                 "transaction_id": tx.get("transaction_id", ""),
                 "type": tx.get("type", "add/drop"),
                 "timestamp": tx.get("timestamp", 0),
+                "date_text": tx.get("date_text", ""),
                 "added": adds,
                 "dropped": drops,
             })
