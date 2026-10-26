@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-26 22:27:53 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_06_15PM.pdf`  
+**Sync Timestamp:** `2026-10-26 22:47:46 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-26_06_45PM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
@@ -74,7 +74,7 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 | #8 | `ADD / DROP` | **Moussa Diabaté** | Jaxson Hayes | `3.0 / 3.0` | **`+0.044`** | STL (%49 ➔ %52), REB (%38 ➔ %45) |
 | #9 | `ADD / DROP` | **Will Richard** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.030`** | STL (%49 ➔ %51), FG_PCT (%44 ➔ %45) |
 | #10 | `ADD / DROP` | **Gary Payton II** | Bilal Coulibaly | `4.0 / 3.0` | **`+0.026`** | FG_PCT (%44 ➔ %47), REB (%38 ➔ %39) |
-| #11 | `ADD / DROP` | **Max Christie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.025`** | PTS (%49 ➔ %50), FT_PCT (%53 ➔ %55) |
+| #11 | `ADD / DROP` | **Max Christie** | Bilal Coulibaly | `3.0 / 3.0` | **`+0.022`** | PTS (%49 ➔ %50), FT_PCT (%53 ➔ %55) |
 | #12 | `ADD / DROP` | **Kevin Huerter** | Jaxson Hayes | `3.0 / 3.0` | **`+0.020`** | STL (%49 ➔ %51), FT_PCT (%53 ➔ %56) |
 | #13 | `ADD / DROP` | **Ziaire Williams** | Jaxson Hayes | `3.0 / 3.0` | **`+0.010`** | STL (%49 ➔ %53), FT_PCT (%53 ➔ %56) |
 | #14 | `ADD / DROP` | **Keldon Johnson** | Jaxson Hayes | `3.0 / 3.0` | **`+0.009`** | PTS (%49 ➔ %51), FT_PCT (%53 ➔ %56) |
@@ -85,7 +85,7 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 | :---: | :--- | :---: | :---: | :---: | :---: |
 | #1 | **Dean Wade** | `Unrostered FA` | `29.0m` | `-1.33` | `0.81` |
 | #2 | **Moussa Diabaté** | `🔥 Dropped by Team` | `25.6m (+0.8m)` | `-1.58` | `0.88` |
-| #3 | **Max Christie** | `Unrostered FA` | `32.6m (+3.4m)` | `-2.27` | `0.90` |
+| #3 | **Max Christie** | `Unrostered FA` | `32.2m (+3.0m)` | `-2.38` | `0.90` |
 | #4 | **Ziaire Williams** | `Unrostered FA` | `26.0m` | `-2.84` | `0.82` |
 | #5 | **Jordan Goodwin** | `Unrostered FA` | `21.9m (+0.6m)` | `-2.93` | `0.87` |
 | #6 | **Kevin Huerter** | `Unrostered FA` | `25.6m (+3.6m)` | `-2.96` | `0.86` |
