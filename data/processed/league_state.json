@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-27T12:30:52.724969+00:00",
+  "updated_at": "2026-10-27T15:58:54.946157+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -9,7 +9,7 @@
       "Jalen Brunson",
       "Jared McCain",
       "Norman Powell",
-      "Kelly Oubre Jr.",
+      "Josh Minott",
       "Sandro Mamukelashvili",
       "Cameron Boozer",
       "Evan Mobley",
@@ -267,6 +267,7 @@
       "Mark Williams"
     ],
     "7": [
+      "Kawhi Leonard",
       "Brandon Ingram"
     ],
     "8": [
@@ -342,7 +343,25 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793101583,
+      "timestamp": 1793116671,
+      "date_text": "",
+      "added": [
+        {
+          "player_name": "Josh Minott",
+          "team_name": "MuCa Tand\u0131rs"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "Kelly Oubre Jr.",
+          "team_name": "MuCa Tand\u0131rs"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793116670,
       "date_text": "",
       "added": [
         {
@@ -358,9 +377,9 @@
       ]
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_2",
       "type": "add/drop",
-      "timestamp": 1793101582,
+      "timestamp": 1793116669,
       "date_text": "",
       "added": [
         {
@@ -371,9 +390,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793101581,
+      "timestamp": 1793116668,
       "date_text": "",
       "added": [
         {
@@ -384,9 +403,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793101580,
+      "timestamp": 1793116667,
       "date_text": "",
       "added": [
         {
@@ -402,9 +421,9 @@
       ]
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793101579,
+      "timestamp": 1793116666,
       "date_text": "",
       "added": [
         {
@@ -415,9 +434,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793101578,
+      "timestamp": 1793116665,
       "date_text": "",
       "added": [
         {
@@ -433,9 +452,9 @@
       ]
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793101577,
+      "timestamp": 1793116664,
       "date_text": "",
       "added": [
         {
@@ -446,9 +465,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793101576,
+      "timestamp": 1793116663,
       "date_text": "",
       "added": [
         {
@@ -464,9 +483,9 @@
       ]
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793101575,
+      "timestamp": 1793116662,
       "date_text": "",
       "added": [
         {
@@ -482,9 +501,9 @@
       ]
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793101574,
+      "timestamp": 1793116661,
       "date_text": "",
       "added": [
         {
@@ -495,9 +514,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793101573,
+      "timestamp": 1793116660,
       "date_text": "",
       "added": [
         {
@@ -513,9 +532,9 @@
       ]
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793101572,
+      "timestamp": 1793116659,
       "date_text": "",
       "added": [
         {
@@ -526,9 +545,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793101571,
+      "timestamp": 1793116658,
       "date_text": "",
       "added": [
         {
@@ -539,9 +558,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_13",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793101570,
+      "timestamp": 1793116657,
       "date_text": "",
       "added": [
         {
@@ -552,9 +571,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_14",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793101569,
+      "timestamp": 1793116656,
       "date_text": "",
       "added": [
         {
@@ -570,9 +589,9 @@
       ]
     },
     {
-      "transaction_id": "dom_15",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793101568,
+      "timestamp": 1793116655,
       "date_text": "",
       "added": [
         {
@@ -583,9 +602,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_16",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793101567,
+      "timestamp": 1793116654,
       "date_text": "",
       "added": [
         {
@@ -596,9 +615,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_17",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793101566,
+      "timestamp": 1793116653,
       "date_text": "",
       "added": [
         {
@@ -609,9 +628,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_18",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793101565,
+      "timestamp": 1793116652,
       "date_text": "",
       "added": [
         {
@@ -625,22 +644,10 @@
           "team_name": "YearOne Tyrants"
         }
       ]
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793101564,
-      "date_text": "",
-      "added": [
-        {
-          "player_name": "Noah Clowney",
-          "team_name": "FatihTerimSpor"
-        }
-      ],
-      "dropped": []
     }
   ],
   "dropped_free_agents": [
+    "Kelly Oubre Jr.",
     "Ben Simmons",
     "Herbert Jones",
     "Jeremiah Fears",
@@ -676,6 +683,7 @@
     "Aaron Wiggins",
     "Keaton Wagler",
     "Keon Ellis",
+    "Josh Minott",
     "Jaxson Hayes",
     "Duncan Robinson",
     "Daniss Jenkins",
