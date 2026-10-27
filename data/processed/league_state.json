@@ -1,61 +1,61 @@
 {
-  "updated_at": "2026-10-27T06:20:43.540004+00:00",
+  "updated_at": "2026-10-27T11:47:39.063554+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
   "sync_status": "Taray\u0131c\u0131 K\u00f6pr\u00fcs\u00fc Aktif (14 Tak\u0131m Canl\u0131 Kadro & Skor)",
   "rosters": {
     "0": [
-      "Scotty Pippen Jr.",
+      "Jalen Brunson",
       "Jared McCain",
       "Norman Powell",
       "Kelly Oubre Jr.",
-      "Caleb Wilson",
+      "Sandro Mamukelashvili",
       "Cameron Boozer",
       "Evan Mobley",
       "Nikola Joki\u0107",
-      "Cason Wallace",
       "Reed Sheppard",
-      "Derrick Jones Jr.",
-      "Jalen Brunson",
-      "Sandro Mamukelashvili",
       "Naji Marshall",
+      "Scotty Pippen Jr.",
+      "Caleb Wilson",
+      "Derrick Jones Jr.",
+      "Cason Wallace",
       "Kon Knueppel"
     ],
     "1": [
       "Ty Jerome",
       "Trey Murphy III",
-      "Aaron Wiggins",
+      "Damian Lillard",
       "Peyton Watson",
       "OG Anunoby",
-      "Obi Toppin",
       "John Collins",
-      "Mitchell Robinson",
-      "Sam Hauser",
-      "Cameron Johnson",
-      "Damian Lillard",
       "Robert Williams III",
       "Victor Wembanyama",
-      "Chet Holmgren",
-      "Tobias Harris"
+      "Mitchell Robinson",
+      "Sam Hauser",
+      "Aaron Wiggins",
+      "Obi Toppin",
+      "Cameron Johnson",
+      "Tobias Harris",
+      "Chet Holmgren"
     ],
     "2": [
       "Luka Don\u010di\u0107",
       "Jalen Green",
       "Trae Young",
-      "Lauri Markkanen",
+      "Toumani Camara",
       "Jerami Grant",
       "Jonathan Kuminga",
       "Ivica Zubac",
       "Alex Sarr",
       "Darius Garland",
       "Jakob Poeltl",
+      "Lauri Markkanen",
       "Immanuel Quickley",
-      "Bennedict Mathurin",
-      "Toumani Camara"
+      "Bennedict Mathurin"
     ],
     "3": [
-      "Shai Gilgeous-Alexander",
+      "Jrue Holiday",
       "Jaylen Brown",
       "Stephen Curry",
       "Jalen Williams",
@@ -65,23 +65,23 @@
       "Brook Lopez",
       "Andrew Wiggins",
       "Tim Hardaway Jr.",
+      "Shai Gilgeous-Alexander",
       "DeMar DeRozan",
-      "Jrue Holiday",
       "Tre Jones"
     ],
     "4": [
-      "Devin Booker",
+      "Cade Cunningham",
       "Darryn Peterson",
-      "Cedric Coward",
+      "Michael Porter Jr.",
       "Ace Bailey",
       "Miles Bridges",
       "Paul Reed",
-      "Naz Reid",
+      "Walker Kessler",
       "Dennis Schr\u00f6der",
       "Alex Caruso",
-      "Michael Porter Jr.",
-      "Cade Cunningham",
-      "Walker Kessler",
+      "Devin Booker",
+      "Cedric Coward",
+      "Naz Reid",
       "Nickeil Alexander-Walker"
     ],
     "5": [
@@ -106,14 +106,14 @@
       "Andrew Nembhard",
       "Ausar Thompson",
       "Jayson Tatum",
-      "Grayson Allen",
+      "Domantas Sabonis",
+      "Day'Ron Sharpe",
       "Jalen Smith",
-      "Jay Huff",
       "Donovan Clingan",
       "Brandin Podziemski",
-      "Domantas Sabonis",
+      "Grayson Allen",
       "LeBron James",
-      "Day'Ron Sharpe",
+      "Pelle Larsson",
       "Mark Williams"
     ],
     "7": [
@@ -121,20 +121,20 @@
       "Ayo Dosunmu",
       "James Harden",
       "Bilal Coulibaly",
-      "Jabari Smith Jr.",
+      "Precious Achiuwa",
       "Josh Hart",
       "Jaxson Hayes",
       "Jarrett Allen",
       "Julian Champagnie",
       "Neemias Queta",
+      "Jabari Smith Jr.",
       "Desmond Bane",
-      "Precious Achiuwa",
       "Kawhi Leonard",
       "Brandon Ingram"
     ],
     "8": [
-      "Anthony Edwards",
-      "Keyonte George",
+      "Ja Morant",
+      "Stephon Castle",
       "Quentin Grimes",
       "Dillon Brooks",
       "Trevon Brazile",
@@ -143,58 +143,58 @@
       "Deandre Ayton",
       "Paul George",
       "Kyle Kuzma",
+      "Anthony Edwards",
+      "Keyonte George",
       "RJ Barrett",
-      "Ja Morant",
-      "Stephon Castle",
       "Jalen Duren",
       "Paolo Banchero"
     ],
     "9": [
       "Tyrese Haliburton",
-      "Keaton Wagler",
-      "Fred VanVleet",
+      "Devin Vassell",
+      "Duncan Robinson",
       "Austin Reaves",
-      "Pascal Siakam",
+      "Mikal Bridges",
       "Draymond Green",
       "Onyeka Okongwu",
       "Rudy Gobert",
       "Wendell Carter Jr.",
       "Zion Williamson",
-      "Duncan Robinson",
-      "Mikal Bridges",
-      "Devin Vassell"
+      "Keaton Wagler",
+      "Pascal Siakam",
+      "Fred VanVleet"
     ],
     "10": [
       "Dejounte Murray",
       "Cooper Flagg",
       "Daniss Jenkins",
-      "Jaden McDaniels",
-      "Zaccharie Risacher",
+      "Deni Avdija",
       "Karl-Anthony Towns",
-      "Myles Turner",
       "Bam Adebayo",
+      "Isaiah Jackson",
+      "Myles Turner",
       "Yaxel Lendeborg",
       "Jaylon Tyson",
+      "Zaccharie Risacher",
+      "Jaden McDaniels",
       "Saddiq Bey",
-      "Isaiah Jackson",
-      "Deni Avdija",
       "Jusuf Nurki\u0107",
       "Coby White"
     ],
     "11": [
-      "Kyrie Irving",
-      "Jaylen Wells",
+      "Darius Acuff Jr.",
+      "Dylan Harper",
       "Zach LaVine",
       "Keon Ellis",
       "Anthony Davis",
       "Kevin Durant",
-      "Khaman Maluach",
       "Zach Edey",
+      "Khaman Maluach",
       "Jalen Johnson",
       "Ryan Rollins",
-      "Darius Acuff Jr.",
+      "Kyrie Irving",
+      "Jaylen Wells",
       "Rui Hachimura",
-      "Dylan Harper",
       "Kristaps Porzi\u0146\u0123is",
       "Yves Missi"
     ],
@@ -220,15 +220,15 @@
       "Jaime Jaquez Jr.",
       "Christian Braun",
       "Matas Buzelis",
-      "Tari Eason",
+      "Collin Murray-Boyles",
       "Brandon Miller",
       "Alperen Sengun",
       "Kel'el Ware",
       "Davion Mitchell",
+      "De'Aaron Fox",
+      "Tari Eason",
       "Justin Champagnie",
       "Tristan da Silva",
-      "De'Aaron Fox",
-      "Collin Murray-Boyles",
       "Jalen Suggs"
     ]
   },
@@ -237,25 +237,25 @@
     "Ayo Dosunmu",
     "James Harden",
     "Bilal Coulibaly",
-    "Jabari Smith Jr.",
+    "Precious Achiuwa",
     "Josh Hart",
     "Jaxson Hayes",
     "Jarrett Allen",
     "Julian Champagnie",
     "Neemias Queta",
+    "Jabari Smith Jr.",
     "Desmond Bane",
-    "Precious Achiuwa",
     "Kawhi Leonard",
     "Brandon Ingram"
   ],
   "il_slots": {
     "0": [
-      "Naji Marshall",
+      "Cason Wallace",
       "Kon Knueppel"
     ],
     "1": [
-      "Chet Holmgren",
-      "Tobias Harris"
+      "Tobias Harris",
+      "Chet Holmgren"
     ],
     "2": [],
     "3": [],
@@ -291,13 +291,7 @@
     ]
   },
   "unslotted_injured": {
-    "0": [
-      {
-        "name": "Cason Wallace",
-        "status": "O",
-        "slot": "UTIL"
-      }
-    ],
+    "0": [],
     "1": [],
     "2": [],
     "3": [
@@ -348,7 +342,25 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793081985,
+      "timestamp": 1793101583,
+      "date_text": "",
+      "added": [
+        {
+          "player_name": "Pelle Larsson",
+          "team_name": "Samurai Strikers"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "Jay Huff",
+          "team_name": "Samurai Strikers"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793101582,
       "date_text": "",
       "added": [
         {
@@ -359,9 +371,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_2",
       "type": "add/drop",
-      "timestamp": 1793081984,
+      "timestamp": 1793101581,
       "date_text": "",
       "added": [
         {
@@ -372,9 +384,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793081983,
+      "timestamp": 1793101580,
       "date_text": "",
       "added": [
         {
@@ -390,9 +402,9 @@
       ]
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793081982,
+      "timestamp": 1793101579,
       "date_text": "",
       "added": [
         {
@@ -403,9 +415,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793081981,
+      "timestamp": 1793101578,
       "date_text": "",
       "added": [
         {
@@ -421,9 +433,9 @@
       ]
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793081980,
+      "timestamp": 1793101577,
       "date_text": "",
       "added": [
         {
@@ -434,9 +446,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793081979,
+      "timestamp": 1793101576,
       "date_text": "",
       "added": [
         {
@@ -452,9 +464,9 @@
       ]
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793081978,
+      "timestamp": 1793101575,
       "date_text": "",
       "added": [
         {
@@ -470,9 +482,9 @@
       ]
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793081977,
+      "timestamp": 1793101574,
       "date_text": "",
       "added": [
         {
@@ -483,9 +495,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793081976,
+      "timestamp": 1793101573,
       "date_text": "",
       "added": [
         {
@@ -501,9 +513,9 @@
       ]
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793081975,
+      "timestamp": 1793101572,
       "date_text": "",
       "added": [
         {
@@ -514,9 +526,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793081974,
+      "timestamp": 1793101571,
       "date_text": "",
       "added": [
         {
@@ -527,9 +539,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793081973,
+      "timestamp": 1793101570,
       "date_text": "",
       "added": [
         {
@@ -540,9 +552,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_13",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793081972,
+      "timestamp": 1793101569,
       "date_text": "",
       "added": [
         {
@@ -558,9 +570,9 @@
       ]
     },
     {
-      "transaction_id": "dom_14",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793081971,
+      "timestamp": 1793101568,
       "date_text": "",
       "added": [
         {
@@ -571,9 +583,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_15",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793081970,
+      "timestamp": 1793101567,
       "date_text": "",
       "added": [
         {
@@ -584,9 +596,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_16",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793081969,
+      "timestamp": 1793101566,
       "date_text": "",
       "added": [
         {
@@ -597,9 +609,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_17",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793081968,
+      "timestamp": 1793101565,
       "date_text": "",
       "added": [
         {
@@ -615,9 +627,9 @@
       ]
     },
     {
-      "transaction_id": "dom_18",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793081967,
+      "timestamp": 1793101564,
       "date_text": "",
       "added": [
         {
@@ -626,29 +638,16 @@
         }
       ],
       "dropped": []
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793081966,
-      "date_text": "",
-      "added": [
-        {
-          "player_name": "Marcus Smart",
-          "team_name": "Redeem Team"
-        }
-      ],
-      "dropped": []
     }
   ],
   "dropped_free_agents": [
     "Ben Simmons",
     "Herbert Jones",
-    "Pelle Larsson",
     "Jeremiah Fears",
     "Egor D\u00ebmin",
     "Gui Santos",
     "Mikel Brown Jr.",
+    "Jay Huff",
     "Nikola Vu\u010devi\u0107",
     "Kevin Porter Jr.",
     "Scoot Henderson",
