@@ -1,6 +1,6 @@
 # 🏀 NBA Fantasy Autonomous Cloud Sync Report
-**Sync Timestamp:** `2026-10-27 15:58:54 UTC`  
-**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-27_11_45AM.pdf`  
+**Sync Timestamp:** `2026-10-27 18:09:47 UTC`  
+**Official NBA Ingestion:** `https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-10-27_02_00PM.pdf`  
 **Yahoo League Status:** `Tarayıcı Köprüsü Aktif (14 Takım Canlı Kadro & Skor)`  
 
 ---
@@ -63,21 +63,21 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 
 | Rank | Action | Add Target (FA) | Drop Candidate | Rem Games (Add/Drop) | $\Delta E[\text{Wins}]$ | Key Category Gains |
 | :---: | :---: | :--- | :--- | :---: | :---: | :--- |
-| #1 | `ADD (Boş Yuva / IL+)` | **Moussa Diabaté** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.435`** | REB (%42 ➔ %60), STL (%51 ➔ %61) |
-| #2 | `ADD (Boş Yuva / IL+)` | **Dean Wade** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.420`** | REB (%42 ➔ %52), STL (%51 ➔ %64) |
-| #3 | `ADD (Boş Yuva / IL+)` | **Jake LaRavia** | Boş Yuva (IL+ Boş Yuva) | `4.0 / 0.0` | **`+0.410`** | REB (%42 ➔ %52), STL (%51 ➔ %65) |
-| #4 | `ADD (Boş Yuva / IL+)` | **Kevin Huerter** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.378`** | REB (%42 ➔ %51), STL (%51 ➔ %60) |
-| #5 | `ADD (Boş Yuva / IL+)` | **Keldon Johnson** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.372`** | REB (%42 ➔ %54), STL (%51 ➔ %57) |
-| #6 | `ADD (Boş Yuva / IL+)` | **Ryan Kalkbrenner** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.371`** | REB (%42 ➔ %54), FG_PCT (%46 ➔ %51) |
-| #7 | `ADD (Boş Yuva / IL+)` | **De'Andre Hunter** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.349`** | REB (%42 ➔ %52), STL (%51 ➔ %57) |
-| #8 | `ADD (Boş Yuva / IL+)` | **Gui Santos** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.328`** | REB (%42 ➔ %52), STL (%51 ➔ %59) |
-| #9 | `ADD (Boş Yuva / IL+)` | **Jordan Poole** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.237`** | STL (%51 ➔ %56), REB (%42 ➔ %45) |
-| #10 | `ADD (Boş Yuva / IL+)` | **Jeremiah Fears** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.227`** | STL (%51 ➔ %58), REB (%42 ➔ %48) |
-| #11 | `ADD (Boş Yuva / IL+)` | **Sam Merrill** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.223`** | STL (%51 ➔ %55), REB (%42 ➔ %46) |
-| #12 | `ADD (Boş Yuva / IL+)` | **Luguentz Dort** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.201`** | STL (%51 ➔ %56), REB (%42 ➔ %47) |
-| #13 | `ADD (Boş Yuva / IL+)` | **Kentavious Caldwell-Pope** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.113`** | STL (%51 ➔ %54), REB (%42 ➔ %44) |
-| #14 | `ADD (Boş Yuva / IL+)` | **Javonte Green** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.108`** | STL (%51 ➔ %54), REB (%42 ➔ %44) |
-| #15 | `ADD (Boş Yuva / IL+)` | **Anfernee Simons** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.104`** | STL (%51 ➔ %53), REB (%42 ➔ %44) |
+| #1 | `ADD (Boş Yuva / IL+)` | **Moussa Diabaté** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.435`** | REB (%41 ➔ %60), STL (%50 ➔ %60) |
+| #2 | `ADD (Boş Yuva / IL+)` | **Dean Wade** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.419`** | REB (%41 ➔ %52), STL (%50 ➔ %63) |
+| #3 | `ADD (Boş Yuva / IL+)` | **Jake LaRavia** | Boş Yuva (IL+ Boş Yuva) | `4.0 / 0.0` | **`+0.410`** | REB (%41 ➔ %52), STL (%50 ➔ %64) |
+| #4 | `ADD (Boş Yuva / IL+)` | **Kevin Huerter** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.378`** | REB (%41 ➔ %51), STL (%50 ➔ %60) |
+| #5 | `ADD (Boş Yuva / IL+)` | **Keldon Johnson** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.371`** | REB (%41 ➔ %53), STL (%50 ➔ %57) |
+| #6 | `ADD (Boş Yuva / IL+)` | **Ryan Kalkbrenner** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.370`** | REB (%41 ➔ %53), FG_PCT (%46 ➔ %51) |
+| #7 | `ADD (Boş Yuva / IL+)` | **De'Andre Hunter** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.348`** | REB (%41 ➔ %52), STL (%50 ➔ %57) |
+| #8 | `ADD (Boş Yuva / IL+)` | **Gui Santos** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.327`** | REB (%41 ➔ %52), STL (%50 ➔ %59) |
+| #9 | `ADD (Boş Yuva / IL+)` | **Jordan Poole** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.236`** | STL (%50 ➔ %56), REB (%41 ➔ %45) |
+| #10 | `ADD (Boş Yuva / IL+)` | **Jeremiah Fears** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.227`** | STL (%50 ➔ %58), REB (%41 ➔ %47) |
+| #11 | `ADD (Boş Yuva / IL+)` | **Sam Merrill** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.223`** | STL (%50 ➔ %55), REB (%41 ➔ %45) |
+| #12 | `ADD (Boş Yuva / IL+)` | **Luguentz Dort** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.200`** | STL (%50 ➔ %56), REB (%41 ➔ %47) |
+| #13 | `ADD (Boş Yuva / IL+)` | **Kentavious Caldwell-Pope** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.113`** | STL (%50 ➔ %54), REB (%41 ➔ %44) |
+| #14 | `ADD (Boş Yuva / IL+)` | **Javonte Green** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.108`** | STL (%50 ➔ %54), REB (%41 ➔ %44) |
+| #15 | `ADD (Boş Yuva / IL+)` | **Anfernee Simons** | Boş Yuva (IL+ Boş Yuva) | `3.0 / 0.0` | **`+0.104`** | STL (%50 ➔ %52), REB (%41 ➔ %43) |
 
 ### 📋 Available Healthy Free Agents Pool (Top 8)
 | Rank | Free Agent | Source | Exp Min (Boost) | Base Z | Eff Availability |
@@ -97,16 +97,16 @@ Optimized via $\Delta \sum_{c=1}^{9} \Phi_c$ conditioned on live category margin
 * **IL+ Stash:** `Kawhi Leonard, Brandon Ingram`
 * **Top Auto-Streamer:** `Dean Wade, Jay Huff`
 * **Remaining Games Multiplier:** `Berk: 100% remaining | Mordor Tulums: 100% remaining`
-* **Expected Matchup Outcome:** **4.51 - 4.49** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%50.2`** (Berk favori)
+* **Expected Matchup Outcome:** **4.50 - 4.50** | **Matchup Win Prob $P(\ge 5\text{ cats})$:** **`%49.9`** (Mordor Tulums favori)
 
 | Category | Live Score | Berk Proj Final | Mordor Tulums Proj Final | Berk Win Prob | Projected Winner |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **PTS** | `64 - 74` | `541.8` | `550.8` | `%46.7` | Mordor Tulums |
-| **REB** | `37 - 30` | `225.0` | `215.0` | `%58.7` | 🏆 Berk |
-| **AST** | `18 - 15` | `118.2` | `92.4` | `%86.1` | 🏆 Berk |
-| **STL** | `6 - 5` | `41.6` | `36.9` | `%66.7` | 🏆 Berk |
-| **BLK** | `6 - 5` | `32.0` | `32.3` | `%48.6` | ⚖️ Toss-up |
-| **FG3M** | `6 - 8` | `57.7` | `67.1` | `%29.0` | Mordor Tulums |
-| **TOV** | `8 - 4` | `58.1` | `49.7` | `%28.1` | Mordor Tulums |
+| **PTS** | `64 - 74` | `542.0` | `551.7` | `%46.4` | Mordor Tulums |
+| **REB** | `37 - 30` | `225.2` | `215.7` | `%58.3` | 🏆 Berk |
+| **AST** | `18 - 15` | `118.2` | `92.5` | `%86.0` | 🏆 Berk |
+| **STL** | `6 - 5` | `41.6` | `37.0` | `%66.5` | 🏆 Berk |
+| **BLK** | `6 - 5` | `32.0` | `32.4` | `%48.4` | ⚖️ Toss-up |
+| **FG3M** | `6 - 8` | `57.7` | `67.2` | `%28.8` | Mordor Tulums |
+| **TOV** | `8 - 4` | `58.1` | `49.8` | `%28.2` | Mordor Tulums |
 | **FG%** | `.421 - .429` | `.478` | `.482` | `%45.0` | Mordor Tulums |
-| **FT%** | `.769 - .800` | `.791` | `.802` | `%42.0` | Mordor Tulums |
+| **FT%** | `.769 - .800` | `.790` | `.802` | `%42.1` | Mordor Tulums |
