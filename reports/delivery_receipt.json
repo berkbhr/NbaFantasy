@@ -1,17 +1,9 @@
 {
-  "forecast_id": "20261028T193217235299Z",
-  "status": "api_accepted",
-  "receipts": [
-    {
-      "part": 1,
-      "message_id": 53,
-      "api_date": 1793215956,
-      "accepted_at": "2026-10-28T19:32:36.948842+00:00",
-      "text_sha256": "26bfb17d3e8d58dd7da779f527ca3e1b61d3ff8ff48d7e6ff9c9664a53ac1703"
-    }
-  ],
-  "prediction_sha256": "af3fda6b3f9ddf6abccfb122062160acfbbd619b7593b80678914a7dc24a5d56",
-  "rendered_text_sha256": "26bfb17d3e8d58dd7da779f527ca3e1b61d3ff8ff48d7e6ff9c9664a53ac1703",
-  "source_revision": "742b9ebb91ac09aa5b45fa477a099fba9a696c1f",
-  "renderer_sha256_LF": "40c3d08affbdd12e53d472754ccaa0468a28cc0f3d0c9dd522e3f670ac8d5221"
+  "forecast_id": "20261028T201642420077Z",
+  "status": "disabled_for_validation",
+  "receipts": [],
+  "prediction_sha256": "e0d690762074a8bbb3e5b0d2afd7df40d1e61d16a37b192cd42594385499005a",
+  "rendered_text_sha256": "056b0000641c57455cd56802d81765244aead647652646b383715dd154fe3269",
+  "source_revision": "be712823282cdda8fd84531ba259326cc995ff35",
+  "renderer_sha256_LF": "447869ed37753adc1c940036f137bde34ec5dc145d1631911e250fc09f06d7e3"
 }

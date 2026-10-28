@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28T19:29:56.968357+00:00",
+  "updated_at": "2026-10-28T20:16:17.793086+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -4702,5 +4702,6 @@
         "status": "O"
       }
     ]
-  }
+  },
+  "capture_metrics": {}
 }
