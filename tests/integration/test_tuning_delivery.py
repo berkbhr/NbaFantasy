@@ -13,7 +13,7 @@ from src.probability import CategoryProbabilities
 from src.rotation import adjust_rotations
 from src.rotation_policy import RotationPolicy
 from src.tune_rotation import replay
-from tests.test_model import player
+from tests.helpers import player
 
 
 class TuningDeliveryTests(unittest.TestCase):

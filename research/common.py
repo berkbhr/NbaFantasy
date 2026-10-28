@@ -13,9 +13,9 @@ from time import perf_counter
 import numpy as np
 import pandas as pd
 
-from .calibrate import metrics, replay
-from .model_policy import load_model_policy
-from .snapshots import validate_live_snapshot
+from src.calibrate import metrics, replay
+from src.model_policy import load_model_policy
+from src.snapshots import validate_live_snapshot
 
 ROOT = Path(__file__).resolve().parents[1]
 SEASONS = ("2022_23", "2023_24", "2024_25", "2025_26")
@@ -161,14 +161,10 @@ def pilot(frame, policy):
 def run(days=14, output=None):
     started = perf_counter()
     now = datetime.now(timezone.utc)
-    output = (
-        Path(output)
-        if output
-        else ROOT / "reports/research_stage1" / now.strftime("%Y%m%dT%H%M%SZ")
-    )
+    output = Path(output) if output else ROOT / "research/runs" / now.strftime("%Y%m%dT%H%M%SZ")
     output.mkdir(parents=True, exist_ok=False)
     policy = load_model_policy()
-    sources = sorted((ROOT / "src").glob("*.py"))
+    sources = sorted((ROOT / "src").glob("*.py")) + sorted((ROOT / "research").glob("*.py"))
     sources += [
         ROOT / "config" / n
         for n in (
@@ -179,7 +175,7 @@ def run(days=14, output=None):
         )
     ]
     sources += [ROOT / "data/raw" / f"player_logs_{s}.parquet" for s in SEASONS]
-    hashes = {str(p.relative_to(ROOT)): sha(p) for p in sources if p.exists()}
+    hashes = {p.relative_to(ROOT).as_posix(): sha(p) for p in sources if p.exists()}
     manifest = {
         "created_at": now.isoformat(),
         "code_revision": subprocess.check_output(

@@ -3,7 +3,7 @@ import unittest
 import pandas as pd
 
 from src.matchup_engine import MatchupEngine, get_optimal_daily_lineup, map_position_to_slots
-from tests.test_model import player
+from tests.helpers import player
 
 
 class TestDecisions(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from src.research import audit_logs, protocol
+from research.common import audit_logs, protocol
 
 
 class ResearchTests(unittest.TestCase):

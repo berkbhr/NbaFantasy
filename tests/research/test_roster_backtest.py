@@ -1,8 +1,8 @@
 import unittest
 
+from research.roster_backtest import calibration, make_rosters, score_lineups
 from src.matchup_engine import ALL_CATEGORIES
 from src.probability import CategoryProbabilities
-from src.roster_backtest import calibration, make_rosters, score_lineups
 
 
 class RosterBacktestTests(unittest.TestCase):

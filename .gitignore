@@ -30,6 +30,7 @@ config/league.json
 reports/validation/player_forecasts.parquet
 reports/latest_forecast.json
 reports/forecasts/
+research/runs/
 
 # Raw injury PDF downloads & scratch files
 data/raw/injuries/*.pdf

@@ -9,13 +9,14 @@ from time import perf_counter
 
 import pandas as pd
 
-from .bayesian_model import BayesianPlayer
-from .injury_tracker import normalize_name
-from .matchup_engine import MatchupEngine
-from .model_policy import load_model_policy, update_role
-from .priors import get_positional_averages, load_prior_season
-from .research import ROOT, sha
-from .validation import previous_season
+from src.bayesian_model import BayesianPlayer
+from src.injury_tracker import normalize_name
+from src.matchup_engine import MatchupEngine
+from src.model_policy import load_model_policy, update_role
+from src.priors import get_positional_averages, load_prior_season
+from src.validation import previous_season
+
+from .common import ROOT, sha
 
 
 def run(
@@ -39,8 +40,10 @@ def run(
         for p in (ROOT / "data/archive/historical_labels_v2" / season).glob("*.gz")
         if pd.Timestamp(p.name.split(".")[0]) < cutoff
     )
-    paths += label_paths + sorted((ROOT / "src").glob("*.py"))
-    hashes = {str(p.relative_to(ROOT)): sha(p) for p in paths}
+    paths += (
+        label_paths + sorted((ROOT / "src").glob("*.py")) + sorted((ROOT / "research").glob("*.py"))
+    )
+    hashes = {p.relative_to(ROOT).as_posix(): sha(p) for p in paths}
     logs = pd.read_parquet(paths[2])
     logs = logs[pd.to_datetime(logs.GAME_DATE) < cutoff].sort_values(
         ["GAME_DATE", "GAME_ID", "PLAYER_ID"]

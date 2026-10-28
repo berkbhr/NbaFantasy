@@ -8,7 +8,7 @@ from src.bayesian_model import COUNT_STATS, BayesianPlayer
 from src.calibrate import gate, replay
 from src.model_policy import ModelPolicy
 from src.priors import get_positional_averages
-from tests.test_live_ingestion import assistant, logs
+from tests.helpers import assistant, logs
 
 
 class CalibrationTests(unittest.TestCase):

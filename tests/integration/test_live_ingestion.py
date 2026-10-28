@@ -1,51 +1,6 @@
 import unittest
 
-import pandas as pd
-
-from src.live_draft_assistant import LiveDraftAssistant
-from src.matchup_engine import ALL_CATEGORIES, MatchupEngine
-from tests.test_model import player
-
-
-def assistant():
-    """Minimal in-memory session; no user DB, current roster or network."""
-    result = LiveDraftAssistant.__new__(LiveDraftAssistant)
-    result.players = {i: player(i) for i in range(1, 7)}
-    result.engine = MatchupEngine(
-        result.players, pd.DataFrame(), pd.DataFrame(), team_map=dict.fromkeys(result.players, 10)
-    )
-    result._ingested_games = set()
-    result._availability_games = set()
-    result._role_history = {}
-    result._role_prior_minutes = {}
-    result.priors = {}
-    result.pos_averages = {}
-    result.pos_dict = {}
-    result.available_player_ids = set(result.players)
-    result.team_abbr_dict = {}
-    result._suggestion_cache = {}
-    result._refresh_projected_stats_dict = lambda: None
-    result.calculate_baselines = lambda: None
-    return result
-
-
-def logs(days=3):
-    rows = []
-    for d in range(days):
-        for pid in range(1, 6):
-            rows.append(
-                {
-                    **dict.fromkeys(ALL_CATEGORIES, 0),
-                    "PLAYER_ID": pid,
-                    "PLAYER_NAME": str(pid),
-                    "TEAM_ID": 10,
-                    "GAME_ID": str(d),
-                    "GAME_DATE": pd.Timestamp("2026-10-20") + pd.Timedelta(days=d),
-                    "MIN": 20 + pid,
-                    "PTS": 10 + pid,
-                }
-            )
-    return pd.DataFrame(rows)
+from tests.helpers import assistant, logs
 
 
 class TestLiveIngestion(unittest.TestCase):

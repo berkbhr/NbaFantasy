@@ -13,6 +13,18 @@ def future(blocks, variance):
 
 
 class TestScoreUpdates(unittest.TestCase):
+    def test_shifted_score_columns_fail_even_when_all_values_are_nonnegative(self):
+        stats = dict.fromkeys(ALL_CATEGORIES, 0)
+        stats.update(FGM=10, FGA=20, FTM=2, FTA=3, FG3M=3, PTS=25)
+        snapshot = {
+            "updated_at": "2026-10-28T12:00Z",
+            "matchup": {"team_a": stats.copy(), "team_b": stats.copy()},
+        }
+        validate_live_snapshot(snapshot, "2026-10-28T13:00Z")
+        snapshot["matchup"]["team_a"]["PTS"] = 26
+        with self.assertRaisesRegex(ValueError, "identity"):
+            validate_live_snapshot(snapshot, "2026-10-28T13:00Z")
+
     def test_yesterdays_score_is_rejected_even_when_less_than_24_hours_old(self):
         stats = dict.fromkeys(ALL_CATEGORIES, 0)
         snapshot = {

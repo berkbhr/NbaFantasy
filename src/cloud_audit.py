@@ -191,6 +191,7 @@ def audit(dispatch=False):
                     live=primary["live_score"],
                     objective=primary["objective"],
                     ownership_audit=primary.get("ownership_audit"),
+                    live_score_block_reason=primary.get("live_score_block_reason"),
                 )
                 report["notification_reproduces_from_archived_forecast"] = (
                     (

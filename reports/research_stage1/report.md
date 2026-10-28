@@ -407,3 +407,76 @@ Güven aralıkları takvim haftası blokları içindir; bir haftadan uzun sakatl
 oyuncu bağımlılığının tamamını modelledikleri varsayılmamalıdır. Kaynak
 hash'leri koşunun gerçek dosya baytlarını kaydeder; platformlar arası
 satır sonu farkları da raw SHA256'yı değiştirebilir.
+
+### 28 Ekim 2026 — İngilizce test düzeni, Yahoo yakalama ve sakatlık/IL pilotu
+
+Testler İngilizce adlarla `tests/unit/`, `tests/integration/` ve
+`tests/research/` altında toplandı. Ortak geçici fixture'lar `tests/helpers.py`
+içinde; test modülleri birbirinden fixture ithal etmiyor. Deney çalıştırıcıları
+`research/` paketine taşındı. CI ve kullanım komutları buna göre güncellendi;
+`unittest discover -s tests -t .` komutundaki `-t .`, iki research paketinin
+karışmasını önler. Eski deneylerin kaynak hash'leri ve dosyaları değiştirilmedi;
+aynı koşuyu yeniden üretmek için o koşunun kod revizyonu kullanılmalıdır.
+
+Regresyon testleri, deney kodu ve seçilmiş küçük protokol/kanıtlar GitHub'da
+kalmalıdır. Her tekrar, geçici log ve türetilebilir büyük çıktı gerekli değildir.
+Yeni çıktılar Git tarafından yok sayılan `research/runs/` altında tutulur.
+Önceden sabitlenmiş arşivler bu düzenleme sırasında silinmedi.
+
+**Yahoo teşhisi:** Yerel kadro kaydı 18:44:38 UTC'deki yeni sync_id'ye
+aitken skor 18:28:57 UTC'de kalmış ve sync_id içermiyordu. Bu yüzden
+“aynı senkronizasyon sürümü değil” kontrolü doğru şekilde önerileri durdurdu.
+Yeni kadro yakalamak, skorun da yakalandığını tek başına göstermiyordu.
+
+Güncel köprü gerçek matchup sorgu parametrelerini korur, ayrık HTML'de
+`textContent` yolunu destekler, takım bağlantısını kimliğe göre seçer ve
+dinamik sayfa için yeni bir aynı-origin belgeyi bekleyebilir. Eksik skor içeren
+istek yeni kadroyu yazmadan reddedilir. Eski skorun kimliği/zamanı uydurularak
+uyumlu hale getirilmedi. FG/FT sınırlarına ek olarak
+`PTS = 2*FGM + FG3M + FTM` ve `FG3M <= FGM` denetlenir.
+FA sayfalamasında ilerleyen `start` bağlantıları da izlenir; 25 satırlık tek
+sayfada sonraki bağlantının bulunmaması artık otomatik tam tarama sayılmaz.
+Bildirim artık kadro/skor sürüm uyuşmazlığını açıkça belirtir.
+
+Otomatik kontroller gerçek üretim JavaScript ayrıştırıcısını Node fixture'ında,
+eksik skorda eski kayıtların korunmasını, kaymış skor sütunlarının reddini ve
+açıklayıcı bildirimi doğruladı. **Gerçek Yahoo hesabından yeni uçtan uca
+yakalama henüz doğrulanmadı.** Bilgisayar kullanım aracı kernel başlatma
+hatası verdi; iframe'in Yahoo sayfasında başarıyla çalıştığı iddia edilmiyor.
+Çalışan köprü ve kayıtlı bookmarklet yeni kodla yenilenip yeni bir eşzamanlı
+kadro/skor kaydı alınmalıdır. Önizleme gönderim yapılmadan yenilendi.
+
+**Sakatlık/IL mühendislik pilotu:** `research.injury_depth`, 14 takım x 13 aktif
+kadro ve takım başına en fazla 2 uygun sakat stash'i ile iki sezonun erken
+haftasında, 9000/9001 seed'leriyle çalıştırıldı. Tıbbi OUT, bu sınırlı deneyde
+Yahoo IL uygunluğunun yaklaşık karşılığıdır. Kesim saati 09:00 Eastern;
+seçilen raporlar kesimden önceki güne aittir. Gelecek tarihli rapor başlığını
+reddeden ve iki ücretsiz sağlıklı kadro yeri yaratılmasını önleyen testler eklendi.
+
+| Sezon / kesim | Rapor zamanı UTC | Sahipli oyuncu | IL stash |
+|---|---|---:|---:|
+| 2024_25 / 11 Kasım | 10 Kasım 16:30 | 197 ve 199 | 15 ve 17 |
+| 2025_26 / 10 Kasım | 9 Kasım 16:30 | 187 ve 187 | 5 ve 5 |
+
+Her durumda aktif ve yalnızca araştırmada tutulan rotasyon politikası için
+12 FA adayı değerlendirildi: toplam 8 çağrı, her birinde bir öneri döndü;
+hiçbir ekleme zaten sahipli bir oyuncu değildi. Çağrı süreleri yaklaşık
+1,1–2,4 saniyeydi. Kadrolar benzersiz sahiplik, 13 stash dışı oyuncu ve
+en fazla iki OUT stash koşullarını geçti. Bütün takımları yapay olarak 15
+oyuncuya veya ligi 210 sahipli oyuncuya tamamlamadık.
+
+Bu pilot **gerçekleşen sonuçları skorlamadı; performans üstünlüğü veya tuning
+başarısı göstermiyor.** Daha önce hiç gözlenmemiş uzun süreli sakatlar kapsamda
+değil. 2024_25'te 61, 2025_26'da 38 rapor satırı bilinmeyen oyuncu veya
+G League nedeniyle kullanılmadı; bunlar yalnızca çözülemeyen NBA oyuncusu
+sayısı olarak yorumlanmamalıdır. Gerçek Yahoo IL uygunluğu, ilerideki dönüş
+tarihleri ve sezon boyunca eksiksiz sakatlık kapsamı doğrulanmış değildir.
+Tam sonuç karşılaştırmasından önce bunlar ayrıca çözülmelidir.
+
+Seçilmiş pilotun küçük protokol ve sonuç kayıtları
+`research/evidence/injury_depth_20261028T191547Z/` altında; tekrarlar yerel
+`research/runs/` dizininde. Yeni paket yolu ile 14 günlük oyuncu pilotu da
+başarıyla çalıştı (yaklaşık 5,8 saniye); bu bir refactor kontrolüdür.
+Toplam **113 otomatik test**, Ruff lint ve 71 dosyalık biçim kontrolü başarılı.
+Ana Bayesian/rotasyon politika dosyalarında değişiklik yok; bildirim
+gönderilmedi ve kullanıcı kadrosunda hamle yapılmadı.

@@ -22,8 +22,8 @@ Python 3.11 veya üzeri, proje kök dizininde:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
-.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
-.\.venv\Scripts\python.exe -m ruff check src tests
+.\.venv\Scripts\python.exe -m unittest discover -s tests -t . -p "test_*.py"
+.\.venv\Scripts\python.exe -m ruff check src tests research
 ```
 
 **Yerel önbelleklerden rapor üretmek** ağ erişimi veya bildirim gönderimi yapmaz:
@@ -55,6 +55,10 @@ data/raw/               Geçmiş ve güncel maç günlükleri
 data/processed/         Fikstür, pozisyon, kadro, skor ve sakatlık verileri
 docs/                   Model, işletim ve doğrulama açıklamaları
 reports/                Güncel rapor ve doğrulama özetleri
+research/               Ağsız deney çalıştırıcıları; geçici çıktılar research/runs/
+tests/unit/             Birim testleri
+tests/integration/      Senkronizasyon ve arşiv entegrasyon testleri
+tests/research/         Kalibrasyon ve backtest kontrolleri
 src/
   bayesian_model.py     Oyuncu önselleri, güncellemeler ve tahmin momentleri
   priors.py             Geçmiş sezon önselleri ve popülasyon shrinkage tahmini

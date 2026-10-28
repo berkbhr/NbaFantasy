@@ -8,13 +8,14 @@ from time import perf_counter
 import numpy as np
 import pandas as pd
 
-from .calibrate import gate, replay
-from .matchup_engine import ALL_CATEGORIES, MatchupEngine
-from .model_policy import load_model_policy
-from .prospective import weekly_category_outcome, write_once
-from .research import ROOT, sha
-from .roster_pilot import run as build_state
-from .validation import previous_season
+from src.calibrate import gate, replay
+from src.matchup_engine import ALL_CATEGORIES, MatchupEngine
+from src.model_policy import load_model_policy
+from src.prospective import weekly_category_outcome, write_once
+from src.validation import previous_season
+
+from .common import ROOT, sha
+from .pilot import run as build_state
 
 
 def score_lineups(lineups, actual):
@@ -89,15 +90,15 @@ def run(seeds=20, max_weeks=None):
         raise ValueError("Use1..20 seeds and a positive week limit")
     start = perf_counter()
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    output = ROOT / "data/archive/experiments" / ("roster_" + run_id)
+    output = ROOT / "research/runs" / ("roster_" + run_id)
     output.mkdir(parents=True, exist_ok=False)
     baseline = load_model_policy()
-    paths = sorted((ROOT / "src").glob("*.py"))
+    paths = sorted((ROOT / "src").glob("*.py")) + sorted((ROOT / "research").glob("*.py"))
     paths += [ROOT / "config" / name for name in ("model_policy.json", "rotation_policy.json")]
     paths += sorted((ROOT / "data/raw").glob("player_logs_202[2345]*.parquet"))
     paths += [ROOT / "data/processed" / f"schedule_{s}.parquet" for s in ("2024_25", "2025_26")]
     paths += sorted((ROOT / "data/archive/historical_labels_v2").rglob("*.gz"))
-    hashes = {str(p.relative_to(ROOT)): sha(p) for p in paths}
+    hashes = {p.relative_to(ROOT).as_posix(): sha(p) for p in paths}
     protocol = {
         "version": 1,
         "baseline": baseline.to_dict(),

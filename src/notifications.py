@@ -89,6 +89,7 @@ def render_telegram(
     objective="category_points",
     provisional=True,
     ownership_audit=None,
+    live_score_block_reason=None,
 ):
     def label(category):
         return category.replace("_PCT", "%").replace("FG3M", "3PT")
@@ -156,7 +157,25 @@ def render_telegram(
         else []
     )
     if not live:
-        lines.append("Canlı skor güncellenene kadar öneriler bekletiliyor.")
+        reason = str(live_score_block_reason or "")
+        if "different synchronization" in reason:
+            lines.append(
+                "Kadro yenilendi, skor aynı senkronizasyonda alınamadı. Hamle önerileri bekletiliyor."
+            )
+        elif "games have started" in reason:
+            lines.append(
+                "NBA maçları başladı; kısmi skorun kalan süresi doğrulanamadığı için hamleler bekletiliyor."
+            )
+        elif "clock" in reason.lower() or "tipoff" in reason.lower():
+            lines.append("Kesin NBA maç saati kaydı doğrulanamadı; hamleler bekletiliyor.")
+        elif "Eastern game date" in reason or "stale" in reason.lower():
+            lines.append("Skor güncel Eastern oyun gününe ait değil; hamleler bekletiliyor.")
+        elif "identity invalid" in reason or "exceed" in reason:
+            lines.append(
+                "Skor sütunları birbiriyle tutarlı değil; hatalı tabloyla hamle önerilmedi."
+            )
+        else:
+            lines.append("Canlı skor güncellenene kadar öneriler bekletiliyor.")
     elif ownership_audit and ownership_audit.get("reason"):
         lines.append(
             "Güncel Yahoo boşta oyuncu listesi doğrulanmadı; hamle önerileri bekletiliyor. Yahoo senkronizasyonunu yenile."

@@ -47,6 +47,37 @@ BOOKMARKLET_JS_RAW = r"""
     const leagueId = mPath ? mPath[1] : '64691';
     const parser = new DOMParser();
 
+    function matchupReady(value) {
+      return value && ['team_a','team_b'].every(side => {
+        const team = value[side];
+        return team && ['games_played','games_remaining','total_scheduled'].every(k => Number.isInteger(team[k]) && team[k] >= 0)
+          && team.games_played + team.games_remaining === team.total_scheduled
+          && ['FGM','FGA','FTM','FTA','PTS','REB','AST','STL','BLK','TOV','FG3M'].every(k => Number.isFinite(team[k]));
+      });
+    }
+
+    async function renderedMatchup(url) {
+      // Some Yahoo responses contain only a client-rendered shell. A fresh
+      // same-origin document can hydrate it without relabeling the old tab.
+      const target = new URL(url, location.origin);
+      if (target.origin !== location.origin) return null;
+      const frame = document.createElement('iframe');
+      frame.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';
+      frame.src = target.href;
+      document.body.appendChild(frame);
+      const until = Date.now() + 15000;
+      try {
+        while (Date.now() < until) {
+          await new Promise(resolve => setTimeout(resolve, 300));
+          const doc = frame.contentDocument;
+          if (!doc || doc.readyState !== 'complete' || doc.URL === 'about:blank') continue;
+          const parsed = parseMatchupDoc(doc);
+          if (matchupReady(parsed)) return parsed;
+        }
+      } finally { frame.remove(); }
+      return null;
+    }
+
     function parseRosterDoc(doc, slotNum) {
       const players = [];
       const ilList = [];
@@ -101,7 +132,7 @@ BOOKMARKLET_JS_RAW = r"""
     }
 
     function parseMatchupDoc(doc) {
-      const bodyTxt = (doc.body && doc.body.innerText) ? doc.body.innerText : '';
+      const bodyTxt = doc.body ? (doc.body.innerText || doc.body.textContent || '') : '';
       let remA = null, gpA = null, totA = null, gpB = null, totB = null, remB = null;
       const mGames = bodyTxt.match(/(\d+)\s*Remaining[\s\S]{0,180}?(\d+)\s*\/\s*(\d+)\s*Games\s*Played\s*(\d+)\s*\/\s*(\d+)[\s\S]{0,180}?Remaining\s*(\d+)/i);
       if (mGames) {
@@ -128,7 +159,10 @@ BOOKMARKLET_JS_RAW = r"""
                 games_remaining: isFirst ? remA : remB,
                 total_scheduled: isFirst ? totA : totB
               };
-              const tLink = tr.querySelector('a[href*="/nba/' + leagueId + '/"]');
+              const tLink = Array.from(tr.querySelectorAll('a[href*="/nba/' + leagueId + '/"]')).find(a => {
+                const path = new URL(a.getAttribute('href'), location.origin).pathname;
+                return new RegExp('^/nba/' + leagueId + '/[0-9]+(?:/|$)').test(path) && a.textContent.trim();
+              });
               if (tLink && tLink.textContent.trim()) {
                 obj.name = tLink.textContent.trim();
                 const idMatch = new URL(tLink.getAttribute('href'), location.origin).pathname.match(/\/nba\/\d+\/(\d+)(?:\/|$)/);
@@ -202,7 +236,7 @@ BOOKMARKLET_JS_RAW = r"""
       return txs.slice(0, 20);
     }
 
-    function parseAvailablePlayersDoc(doc) {
+    function parseAvailablePlayersDoc(doc, pageUrl=location.href) {
       const waivers = {};
       const players = [];
       const rows = Array.from(doc.querySelectorAll('table tbody tr'));
@@ -227,9 +261,16 @@ BOOKMARKLET_JS_RAW = r"""
           players.push({ name, status: 'FA', yahoo_player_id });
         }
       });
-      const next = Array.from(doc.querySelectorAll('a[href]')).find(a =>
-        a.rel === 'next' || /^(Next|Next Page|Sonraki)\s*[»›>]?$/i.test(a.textContent.trim()));
-      return { waivers, players, next: next ? next.getAttribute('href') : null };
+      const currentStart = Number(new URL(pageUrl, location.origin).searchParams.get('start') || 0);
+      const pageLinks = Array.from(doc.querySelectorAll('a[href]')).filter(a => {
+        const url = new URL(a.getAttribute('href'), pageUrl);
+        return url.origin === location.origin && url.pathname === `/nba/${leagueId}/players`;
+      });
+      const next = pageLinks.find(a => a.rel === 'next' || /next|sonraki/i.test(a.getAttribute('aria-label') || a.getAttribute('title') || a.textContent.trim()))
+        || pageLinks.filter(a => Number(new URL(a.getAttribute('href'), pageUrl).searchParams.get('start')) > currentStart)
+          .sort((a,b) => Number(new URL(a.getAttribute('href'), pageUrl).searchParams.get('start')) - Number(new URL(b.getAttribute('href'), pageUrl).searchParams.get('start')))[0];
+      const rowCount = rows.filter(tr => tr.querySelector('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a')).length;
+      return { waivers, players, rowCount, next: next ? next.getAttribute('href') : null };
     }
 
     // 1. Check current page for matchup first
@@ -267,14 +308,23 @@ BOOKMARKLET_JS_RAW = r"""
     // 3. Fetch Matchup & Transactions pages if needed
     banner.textContent = '🏀 (2/3) Canlı Skor Tablosu ve Son Add/Drop İşlemleri Çekiliyor...';
     if (!matchup) {
-      for (const mUrl of [`/nba/${leagueId}/matchup`, `/nba/${leagueId}`]) {
-        const mHtml = await fetch(mUrl, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
+      // Preserve the actual matchup query (mid1/mid2/week). The generic URL
+      // may return a league landing page rather than the user's score table.
+      const urls = [];
+      if (location.pathname.includes(`/nba/${leagueId}/matchup`)) urls.push(location.href);
+      document.querySelectorAll(`a[href*="/nba/${leagueId}/matchup"]`).forEach(a => urls.push(a.href));
+      urls.push(`/nba/${leagueId}/matchup`, `/nba/${leagueId}`);
+      for (const mUrl of [...new Set(urls)]) {
+        if (new URL(mUrl, location.origin).origin !== location.origin) continue;
+        const mHtml = await fetch(mUrl, { credentials: 'same-origin', cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => '');
         if (mHtml) {
-          matchup = parseMatchupDoc(parser.parseFromString(mHtml, 'text/html'));
-          if (matchup) break;
+          const parsed = parseMatchupDoc(parser.parseFromString(mHtml, 'text/html'));
+          if (matchupReady(parsed)) { matchup = parsed; break; }
         }
       }
+      if (!matchup) matchup = await renderedMatchup(urls[0]);
     }
+    if (!matchup) throw new Error('Güncel matchup skoru ayrıştırılamadı. Kadro kaydı yenilenmedi; Yahoo Matchup sayfasından tekrar deneyin.');
 
     let transactions = [];
     const txHtml = await fetch(`/nba/${leagueId}/transactions`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
@@ -291,10 +341,10 @@ BOOKMARKLET_JS_RAW = r"""
       seenAvailablePages.add(url.href);
       const pHtml = await fetch(url.href, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
       if (!pHtml) break;
-      const available = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'));
+      const available = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'), url.href);
       Object.assign(waivers, available.waivers);
       availablePlayers.push(...available.players);
-      if (!available.next) { availableScanComplete = true; break; }
+      if (!available.next) { availableScanComplete = available.rowCount < 25; break; }
       availableUrl = available.next;
     }
 
@@ -326,7 +376,7 @@ BOOKMARKLET_JS_RAW = r"""
     const resJson = await resp.json();
     if (!resp.ok || !resJson.ok) throw new Error(resJson.error || 'Sync rejected');
     banner.style.background = '#047857';
-    banner.textContent = `✅ Senkron Tamamlandı! (${resJson.teams_synced} Takım Kadrosu, ${resJson.total_players} Oyuncu). Telegram Bildirimi Gönderildi!`;
+    banner.textContent = `✅ Skor ve kadro kaydedildi (${resJson.teams_synced} takım, ${resJson.total_players} oyuncu). Rapor ve bildirim işlemi başlatıldı.`;
     setTimeout(() => banner.remove(), 7000);
   } catch (err) {
     banner.style.background = '#b91c1c';
@@ -460,6 +510,10 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         and "FGM" in matchup_obj["team_a"]
         and "PTS" in matchup_obj["team_a"]
     )
+    if "matchup" in payload and not has_valid_matchup:
+        raise ValueError(
+            "Sync rejected: current matchup scoreboard missing; existing coherent snapshot preserved"
+        )
     if has_valid_matchup:
         matchup_obj = validate_browser_matchup(matchup_obj, slot_map, now_iso)
         live_matchup_path = os.path.join(PROCESSED_DIR, "live_matchup.json")
@@ -645,7 +699,7 @@ def build_setup_html():
     <p><a class="bm-btn" href="{bookmarklet_href}">🏀 NBA Fantasy Sync</a></p>
     <ol start="2">
       <li>Tarayıcınızda <b>Yahoo Fantasy Matchup</b> sayfanızı açın ve yer imi çubuğundaki <b>🏀 NBA Fantasy Sync</b> butonuna tıklayın!</li>
-      <li>Yaklaşık 2 saniye içinde 14 takımın kadrosu, boştaki FA havuzu ve canlı skorlar çekilip <b>Telegram</b>'a güncel tablo olarak gönderilecektir.</li>
+      <li>Skor ve kadrolar doğrulanınca rapor/bildirim işlemi başlatılır. Yahoo'nun dinamik sayfası ve sayfalama nedeniyle süre değişebilir; hata olursa sayfadaki bantta gösterilir.</li>
     </ol>
   </div>
   <div class="card">

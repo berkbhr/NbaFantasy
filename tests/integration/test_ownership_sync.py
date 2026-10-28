@@ -10,7 +10,9 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from src import draft_data
+from src.notifications import render_telegram
 from src.ownership import free_agent_ids
+from src.probability import CategoryProbabilities
 from src.yahoo_browser_sync import (
     BOOKMARKLET_JS_RAW,
     apply_browser_sync_payload,
@@ -91,6 +93,34 @@ class OwnershipSyncTests(unittest.TestCase):
         self.assertNotIn("dropped_free_agents", state)
         self.assertFalse(state["availability_snapshot"]["players"])
 
+    def test_failed_score_capture_does_not_publish_new_version_over_old_score(self):
+        names = draft_data.build_rosters()[4]
+        payload = {"rosters_by_slot": {"4": [{"name": n} for n in names]}, "matchup": None}
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            state = Path(tmp) / "league_state.json"
+            score = Path(tmp) / "live_matchup.json"
+            state.write_text('{"sync_id":"old"}')
+            score.write_text('{"sync_id":"old"}')
+            with patch("src.yahoo_browser_sync.PROCESSED_DIR", tmp), patch("threading.Thread"):
+                with self.assertRaisesRegex(ValueError, "scoreboard missing"):
+                    apply_browser_sync_payload(payload)
+            self.assertEqual(json.loads(state.read_text())["sync_id"], "old")
+            self.assertEqual(json.loads(score.read_text())["sync_id"], "old")
+
+    def test_notification_explains_failed_score_capture_instead_of_generic_refresh(self):
+        message = render_telegram(
+            now=self.now,
+            opponent="Other",
+            points=4.5,
+            probabilities=CategoryProbabilities({"PTS": 0.5}),
+            health=[],
+            recommendations=[],
+            live=None,
+            live_score_block_reason="Yahoo roster and score belong to different synchronization versions",
+        )
+        self.assertIn("Kadro yenilendi, skor aynı senkronizasyonda alınamadı", message)
+        self.assertNotIn("Canlı skor güncellenene kadar", message)
+
     def matchup(self):
         stats = {
             "FGM": 12,
@@ -149,7 +179,7 @@ const location = {origin: 'https://basketball.fantasysports.yahoo.com'};
 function row(name, teamId, blocks) {
   const cells = [name,'20/50','.400','8/10','.800','5','53','22','12','3',String(blocks),'4'];
   return {
-    querySelectorAll: () => cells.map(textContent => ({textContent})),
+    querySelectorAll: selector => selector.startsWith('a[') ? (teamId ? [{textContent: name, getAttribute: () => '/nba/64691/' + teamId}] : []) : cells.map(textContent => ({textContent})),
     querySelector: () => teamId ? {
       textContent: name, getAttribute: () => '/nba/64691/' + teamId
     } : null
@@ -164,7 +194,9 @@ const tables = [table([row('Player One', null, 99), row('Player Two', null, 88)]
 function doc(text) { return {body:{innerText:text}, querySelectorAll:()=>tables}; }
 const valid = parseMatchupDoc(doc('32 Remaining 12 / 44 Games Played 14 / 42 Remaining 28'));
 const missing = parseMatchupDoc(doc('Counters are not present'));
-process.stdout.write(JSON.stringify({valid, missing}));
+const detached = doc(''); detached.body = {textContent:'32 Remaining 12 / 44 Games Played 14 / 42 Remaining 28'};
+const detachedResult = parseMatchupDoc(detached);
+process.stdout.write(JSON.stringify({valid, missing, detachedResult}));
 """
         result = subprocess.run(
             [shutil.which("node"), "-e", parser + fixture],
@@ -178,6 +210,7 @@ process.stdout.write(JSON.stringify({valid, missing}));
         self.assertEqual(result["valid"]["team_b"]["BLK"], 16)
         self.assertEqual(result["valid"]["team_a"]["yahoo_team_id"], 10)
         self.assertEqual(result["valid"]["team_a"]["games_played"], 12)
+        self.assertEqual(result["detachedResult"]["team_a"]["games_played"], 12)
         self.assertIsNone(result["missing"]["team_a"]["games_played"])
 
 

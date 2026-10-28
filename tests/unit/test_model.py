@@ -3,32 +3,9 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from src.bayesian_model import BayesianPlayer
 from src.matchup_engine import MatchupEngine
 from src.rotation import adjust_rotations
-
-
-def player(pid=1, minutes=30):
-    bp = BayesianPlayer(pid, str(pid))
-    bp.initialize_priors(
-        {
-            "MIN": 2100,
-            "GP": 70,
-            "PTS": 1400,
-            "REB": 600,
-            "AST": 250,
-            "STL": 70,
-            "BLK": 50,
-            "TOV": 150,
-            "FG3M": 100,
-            "FGM": 550,
-            "FGA": 1100,
-            "FTM": 200,
-            "FTA": 250,
-        }
-    )
-    bp.expected_minutes = bp.base_expected_minutes = minutes
-    return bp
+from tests.helpers import player
 
 
 class TestModel(unittest.TestCase):

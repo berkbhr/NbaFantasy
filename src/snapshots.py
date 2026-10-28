@@ -69,6 +69,10 @@ def validate_live_snapshot(snapshot, now, max_age_hours=24):
         for stat in ("FG", "FT"):
             if float(team[stat + "M"]) > float(team[stat + "A"]):
                 raise ValueError("Makes cannot exceed attempts")
+        if float(team["FG3M"]) > float(team["FGM"]):
+            raise ValueError("Live scoreboard three-pointers exceed field goals")
+        if float(team["PTS"]) != 2 * float(team["FGM"]) + float(team["FG3M"]) + float(team["FTM"]):
+            raise ValueError("Live scoreboard points identity invalid; possible shifted columns")
     return matchup
 
 

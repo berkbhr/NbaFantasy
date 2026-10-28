@@ -104,6 +104,26 @@ sonuçları ve haftalar bağımsız varsayılır. Veri sağlanmadan ilk dört y�
 
 ## Otomasyon ve geliştirme
 
+Yahoo köprüsünde kadro ve skor aynı senkronizasyon kimliğine ait olmalıdır.
+Yeni kadro kaydıyla eski skor eşleşirse öneriler bekletilir; bildirim bunun
+nedenini ayrıca yazar. Güncel bookmarklet, matchup adresinin sorgu
+parametrelerini korur ve yeni alınan HTML'i ayrıştırır; gerekirse aynı
+origin içinde yeni yüklenen bir belgeyi bekler. Skor yakalanamazsa yeni
+tarayıcı isteği mevcut kadro/skor kaydını değiştirmeden reddedilir.
+Eski skorun zamanını veya kimliğini elle yenileyerek bu kontrol aşılmamalıdır.
+
+Köprü kodu güncellendiğinde çalışan Python sürecini yeniden başlatmak ve
+kurulum sayfasındaki yeni bookmarklet'i yer imine yeniden kaydetmek gerekir.
+Ardından güncel Yahoo Matchup sayfasından çalıştırılır. Başarı bandı verinin
+kaydedilip rapor işleminin başlatıldığını bildirir; Telegram teslim alındısı
+anlamına gelmez. Maç başladıysa kısmi süre kontrolü ayrıca önerileri engelleyebilir.
+
+Otomatik testler `tests/unit`, `tests/integration`, `tests/research`;
+ayrı deney çalıştırıcıları `research/` altındadır. Komutlar ve çıktı saklama
+kuralları `tests/README.md` ve `research/README.md` içinde. Yeni deneme
+çıktıları `research/runs/` altında yerelde tutulur; Git'e bütün tekrarlar
+yerine seçilmiş küçük protokol/kanıt dosyaları eklenir.
+
 `python -m src.calibrate` ağsız kalibrasyonu yeniden çalıştırır. Önce
 `reports/calibration/protocol.json` yazılır; 2024–25'te aşamalı aday seçilir,
 seçim dondurulur ve 2025–26'da başlangıç politikasıyla karşılaştırılır.
@@ -154,7 +174,7 @@ saklanır; yeni deneyin kanıtı değildir. Büyük tahmin Parquet çıktısı G
 
 ```powershell
 .\.venv\Scripts\python.exe -m src.validation --validation 2024_25 --test 2025_26
-.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py"
-.\.venv\Scripts\python.exe -m ruff check src tests
-.\.venv\Scripts\python.exe -m ruff format --check src tests
+.\.venv\Scripts\python.exe -m unittest discover -s tests -t . -p "test_*.py"
+.\.venv\Scripts\python.exe -m ruff check src tests research
+.\.venv\Scripts\python.exe -m ruff format --check src tests research
 ```

@@ -103,6 +103,7 @@ def build_local_forecast(
     live_path = ROOT / "data" / "processed" / "live_matchup.json"
     live = None
     notes = []
+    live_block_reason = "Live scoreboard unavailable"
     if live_path.exists():
         try:
             snapshot = json.loads(live_path.read_text(encoding="utf-8"))
@@ -112,8 +113,10 @@ def build_local_forecast(
                 )
             live = validate_live_snapshot(snapshot, now)
             validate_pregame_window(assistant.schedule_df, now)
+            live_block_reason = None
         except ValueError as exc:
             live = None
+            live_block_reason = str(exc)
             notes.append(str(exc))
     my_slot = draft_data.MY_TEAM_IDX
     opponent = int(live["team_b"].get("slot", 13)) - 1 if live else 12
@@ -195,6 +198,7 @@ def build_local_forecast(
         "forecast_at": now.isoformat(),
         "live_score_valid": live is not None,
         "live_score": live,
+        "live_score_block_reason": live_block_reason,
         "ownership_audit": ownership_audit,
         "category_diagnostics": engine.category_diagnostics(my, opp, a, b),
         "rotation_policy": engine.rotation_policy.to_dict(),

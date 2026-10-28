@@ -1048,6 +1048,7 @@ def run_cloud_sync():
         live=prospective["live_score"],
         objective=prospective["objective"],
         ownership_audit=prospective.get("ownership_audit"),
+        live_score_block_reason=prospective.get("live_score_block_reason"),
     )
     msg_lines = notification.splitlines()
     preview_path = os.path.join(REPORTS_DIR, "telegram_preview.html")

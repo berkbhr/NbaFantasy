@@ -6,26 +6,32 @@ from time import perf_counter
 
 import pandas as pd
 
-from .matchup_engine import MatchupEngine
-from .model_policy import ModelPolicy
-from .prospective import weekly_category_outcome, write_once
-from .research import ROOT, sha
+from src.matchup_engine import MatchupEngine
+from src.model_policy import ModelPolicy
+from src.prospective import weekly_category_outcome, write_once
+from src.validation import previous_season
+
+from .common import ROOT, sha
+from .pilot import run as build_state
 from .roster_backtest import make_rosters, paired_summary, score_lineups
-from .roster_pilot import run as build_state
-from .validation import previous_season
 
 
 def run(experiment):
-    output = ROOT / "data/archive/experiments" / experiment
+    output = ROOT / "research/runs" / experiment
+    if not output.exists():
+        output = ROOT / "data/archive/experiments" / experiment
     original = json.loads(gzip.decompress((output / "protocol.json.gz").read_bytes()))
     if (output / "streaming_sensitivity_protocol.json.gz").exists():
         raise FileExistsError("Sensitivity already recorded; use a new explicit version")
     for path, digest in original["source_sha256"].items():
-        if sha(ROOT / path) != digest:
-            raise ValueError("Original baseline data/source changed")
+        source = ROOT / path.replace("\\", "/")
+        if not source.exists() or sha(source) != digest:
+            raise ValueError(
+                "Original baseline data/source changed. Historical pinned runs require their recorded Git revision; create a fresh run for current code."
+            )
     hashes = {
         **original["source_sha256"],
-        "src/streaming_sensitivity.py": sha(ROOT / "src/streaming_sensitivity.py"),
+        "research/streaming_sensitivity.py": sha(ROOT / "research/streaming_sensitivity.py"),
     }
     write_once(
         output / "streaming_sensitivity_protocol.json.gz",
