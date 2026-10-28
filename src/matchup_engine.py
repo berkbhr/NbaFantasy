@@ -757,6 +757,24 @@ class MatchupEngine:
         }
 
     @staticmethod
+    def category_diagnostics(my_dist, opp_dist, my_actual=None, opp_actual=None):
+        """Expose the realized/future split without treating realized scores as uncertain."""
+        a, b = my_actual or {}, opp_actual or {}
+        return {
+            cat: {
+                "my_actual": float(a.get(cat, 0)),
+                "opponent_actual": float(b.get(cat, 0)),
+                "my_remaining_mean": float(my_dist["mean"].get(cat, 0)) - float(a.get(cat, 0)),
+                "opponent_remaining_mean": float(opp_dist["mean"].get(cat, 0))
+                - float(b.get(cat, 0)),
+                "difference_sd": math.sqrt(
+                    my_dist["var"].get(cat, 0) + opp_dist["var"].get(cat, 0)
+                ),
+            }
+            for cat in COUNT_STATS
+        }
+
+    @staticmethod
     def _compute_cat_details(base, new):
         rows = []
         for c, p in new.items():

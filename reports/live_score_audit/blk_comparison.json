@@ -1,0 +1,38 @@
+{
+  "snapshots": [
+    {
+      "snapshot": "previous",
+      "forecast_at": "2026-10-28T12:34:26.057498+00:00",
+      "actual_my": 6,
+      "actual_opponent": 5,
+      "remaining_my": 16.871563921387295,
+      "remaining_opponent": 18.60138598305108,
+      "final_my": 22.871563921387295,
+      "final_opponent": 23.60138598305108,
+      "win": 0.43039804210950733,
+      "difference_sd_inferred": 7.013092782790896
+    },
+    {
+      "snapshot": "updated",
+      "forecast_at": "2026-10-28T13:11:13.634468+00:00",
+      "actual_my": 6,
+      "actual_opponent": 16,
+      "remaining_my": 17.58359730535843,
+      "remaining_opponent": 18.679103196105793,
+      "final_my": 23.58359730535843,
+      "final_opponent": 34.67910319610579,
+      "win": 0.05080127628410101,
+      "difference_sd_inferred": 7.082809692003712
+    }
+  ],
+  "variance_note": "Legacy SD inferred from stored Normal-category probability; directly re-evaluated current SD separately.",
+  "current_diagnostics": {
+    "my_actual": 6.0,
+    "opponent_actual": 16.0,
+    "my_remaining_mean": 17.58359730535843,
+    "opponent_remaining_mean": 18.679103196105793,
+    "difference_sd": 7.08280969200371
+  },
+  "current_difference_sd_direct": 7.08280969200371,
+  "counterfactual_old_score_current_future": 0.46649735302701845
+}

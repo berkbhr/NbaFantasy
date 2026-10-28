@@ -88,6 +88,7 @@ def render_telegram(
     live=None,
     objective="category_points",
     provisional=True,
+    ownership_audit=None,
 ):
     def label(category):
         return category.replace("_PCT", "%").replace("FG3M", "3PT")
@@ -156,6 +157,10 @@ def render_telegram(
     )
     if not live:
         lines.append("Canlı skor güncellenene kadar öneriler bekletiliyor.")
+    elif ownership_audit and ownership_audit.get("reason"):
+        lines.append(
+            "Güncel Yahoo boşta oyuncu listesi doğrulanmadı; hamle önerileri bekletiliyor. Yahoo senkronizasyonunu yenile."
+        )
     elif not moves:
         lines.append("Belirgin kazanç sağlayan bir hamle görünmüyor.")
     for rank, row in enumerate(moves[:6], 1):

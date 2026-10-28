@@ -27,6 +27,23 @@ yeniler. Yeni sezon için bu adaptörün sezonu açıkça güncellenmelidir.
 bookmarklet giriş yapılmış Yahoo sekmesinden kadro, IL, işlem ve skoru yerel
 köprüye iletir. Bu işlem canlı pipeline ve ayarlı bildirimleri tetikleyebilir.
 
+Add/drop adayları artık yalnızca Yahoo boşta oyuncu sayfasında açıkça
+FA/waiver olarak doğrulanan oyunculardır. Kadroda görünmemek, 13 oyuncu
+sayılması veya eski bir bırakma işlemi boşta olma kanıtı değildir. Köprü,
+sayfaları tarayıp `availability_snapshot` kaydını tutar; eksik taramada
+yalnızca doğrulanan oyuncular kullanılabilir. Kanıt 24 saatten eskiyse veya
+yoksa hamle önerileri bekletilir; kategori tahmini devam eder. Eski köprüden
+geçişte sunucuyu yeniden başlatıp arayüzdeki güncel bookmarklet ile tekrar
+senkronize edin. Kullanıcı girdisi ve eski tahmin arşivleri otomatik
+değiştirilmez.
+
+Skor ayrıştırıcısı gerçek Yahoo takım kimliği ve tutarlı oynanan/kalan/toplam
+sayılarını ister; eksik alanlara uydurma maç sayısı veya rakip atamaz.
+`latest_cloud_summary.md` ve `latest_forecast.json` içindeki kategori
+tanıları gerçekleşen skor, kalan beklenti ve farkın standart sapmasını
+ayrı gösterir. Yahoo'nun ham maç sayısı, seçilecek aktif kadronun kesin
+oyuncu-maç sayısı değildir.
+
 OAuth için `config/yahoo_oauth.template.json` dosyasını `config/yahoo_oauth.json`
 olarak kopyalayıp `python -m src.auth_yahoo` kullanın. Bildirim ayarları
 `config/telegram.template.json` şablonundan oluşturulur. Gerçek kimlik bilgileri

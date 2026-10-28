@@ -372,55 +372,21 @@ def run_cloud_sync():
     if not recent_transactions and prior_state.get("transactions"):
         recent_transactions = prior_state.get("transactions", [])
 
-    # ROSTER PROTECTION: A drafted player can NEVER be dropped to FA unless:
-    # 1. They were explicitly dropped in transactions, OR
-    # 2. Their drafting team's roster is fully filled (>= 13 players) without them.
-    # If a team has < 13 players (e.g. temporary scraper/DOM missing player like NAW in slot 4):
-    # the un-dropped drafted player MUST be preserved on the team's roster!
+    # Missing roster rows, including IL/IL+, do not prove a player was dropped.
     initial_draft_rosters = draft_data.resolve_rosters(assistant)
-    initial_draft_pids = set(
-        p for slot in initial_draft_rosters for p in initial_draft_rosters[slot]
-    )
+    initial_draft_pids = {p for roster in initial_draft_rosters.values() for p in roster}
+    from src.ownership import free_agent_ids
 
-    dropped_tx_names = set()
-    for tx in recent_transactions:
-        if isinstance(tx, dict):
-            for d in tx.get("dropped", []):
-                pn = d.get("player_name", "").strip().lower()
-                if pn:
-                    dropped_tx_names.add(pn)
-
-    all_current_pids = set(p for slot in rosters for p in rosters[slot])
-    for s_idx, d_pids in initial_draft_rosters.items():
-        curr_pids = rosters.get(s_idx, [])
-        if len(curr_pids) < 13:
-            for d_pid in d_pids:
-                if len(curr_pids) >= 13:
-                    break
-                if d_pid not in all_current_pids and d_pid in assistant.players:
-                    p_name = assistant.players[d_pid].name
-                    if p_name.lower() not in dropped_tx_names:
-                        print(
-                            f"  [ROSTER PROTECTION] Preserving drafted player '{p_name}' in slot {s_idx} ({len(curr_pids)}/13 players)."
-                        )
-                        curr_pids.append(d_pid)
-                        all_current_pids.add(d_pid)
-            rosters[s_idx] = curr_pids
+    verified_fa_pids, ownership_audit = free_agent_ids(assistant, prior_state, rosters, now_utc)
+    if ownership_audit["reason"]:
+        print("  [OWNERSHIP] " + ownership_audit["reason"])
 
     # Refresh Berk's roster & all_rostered_pids after live roster / transaction updates
     berk_pids = rosters[draft_data.MY_TEAM_IDX]
     all_drafted_pids = set(p for slot in rosters for p in rosters[slot])
 
-    # Identify newly dropped players who are now Free Agents
-    dropped_to_fa_pids = []
-    for pid in initial_draft_pids:
-        if pid not in all_drafted_pids:
-            bp = assistant.players.get(pid)
-            p_name = bp.name if bp else ""
-            drafting_slot = next((s for s, dp in initial_draft_rosters.items() if pid in dp), None)
-            team_size = len(rosters.get(drafting_slot, [])) if drafting_slot is not None else 0
-            if p_name.lower() in dropped_tx_names or team_size >= 13:
-                dropped_to_fa_pids.append(pid)
+    # A roster disappearance is not a confirmed drop/free-agent event.
+    dropped_to_fa_pids = sorted(initial_draft_pids & verified_fa_pids, key=str)
 
     newly_added_from_fa_pids = [pid for pid in all_drafted_pids if pid not in initial_draft_pids]
 
@@ -450,6 +416,8 @@ def run_cloud_sync():
             assistant.players[p].name for p in newly_added_from_fa_pids if p in assistant.players
         ],
         "waivers": prior_state.get("waivers", {}),
+        "availability_snapshot": prior_state.get("availability_snapshot", {}),
+        "ownership_audit": ownership_audit,
     }
 
     # Save state JSON
@@ -502,7 +470,7 @@ def run_cloud_sync():
     all_candidate_fa_pids = [
         pid
         for pid in assistant.df_base.index
-        if pid not in all_drafted_pids and pid in assistant.players
+        if pid in verified_fa_pids and pid not in all_drafted_pids and pid in assistant.players
     ]
     avail_df = assistant.df_base.loc[all_candidate_fa_pids]
     ranked_fa_pids = list(avail_df.sort_values("BASE_Z", ascending=False).index)
@@ -1040,6 +1008,7 @@ def run_cloud_sync():
         recommendations=prospective["recommendations"],
         live=prospective["live_score"],
         objective=prospective["objective"],
+        ownership_audit=prospective.get("ownership_audit"),
     )
     msg_lines = notification.splitlines()
     preview_path = os.path.join(REPORTS_DIR, "telegram_preview.html")

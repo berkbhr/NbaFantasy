@@ -12,6 +12,7 @@ import pandas as pd
 from . import draft_data
 from .live_draft_assistant import LiveDraftAssistant
 from .matchup_engine import MatchupEngine
+from .ownership import free_agent_ids
 from .settings import load_settings
 from .snapshots import fantasy_week_window, validate_live_snapshot
 
@@ -145,8 +146,10 @@ def build_local_forecast(
     }
     engine.protected_player_ids = protected - {None}
     recommendations = []
+    candidate_ids, ownership_audit = free_agent_ids(assistant, state, rosters, now=now)
+    if ownership_audit.get("reason"):
+        notes.append(ownership_audit["reason"])
     if include_recommendations and live:
-        occupied = {pid for roster in rosters.values() for pid in roster}
         # Cached waiver dates remain constraints, never guessed from drop time.
         waivers = {}
         for name, info in state.get("waivers", {}).items():
@@ -156,7 +159,7 @@ def build_local_forecast(
         recommendations = engine.recommend_add_drop_moves(
             rosters[my_slot],
             rosters[opponent],
-            sorted(assistant.available_player_ids - occupied),
+            sorted(candidate_ids),
             start,
             end,
             my_actual_stats=a,
@@ -185,6 +188,8 @@ def build_local_forecast(
         "forecast_at": now.isoformat(),
         "live_score_valid": live is not None,
         "live_score": live,
+        "ownership_audit": ownership_audit,
+        "category_diagnostics": engine.category_diagnostics(my, opp, a, b),
         "rotation_policy": engine.rotation_policy.to_dict(),
         "roster_health": [
             {
@@ -212,6 +217,7 @@ def build_local_forecast(
                 "rotation_policy.py",
                 "prospective.py",
                 "snapshots.py",
+                "ownership.py",
             )
         },
         "week_start": str(start.date()),
@@ -262,6 +268,25 @@ def render_report(result):
     ]
     for category, p in result["categories"].items():
         lines.append(f"| {category} | {p['win']:.1%} | {p['tie']:.1%} | {p['loss']:.1%} |")
+    if result.get("category_diagnostics"):
+        lines.extend(
+            [
+                "",
+                "## Realized scores and remaining projections",
+                "",
+                "Scores are fixed observations; uncertainty belongs to future games. "
+                "Remaining values reflect projected active lineups, not Yahoo's raw game counts.",
+                "",
+                "| Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |",
+                "|---|---:|---:|---:|",
+            ]
+        )
+        for category, item in result["category_diagnostics"].items():
+            lines.append(
+                f"| {category} | {item['my_actual']:g} / {item['opponent_actual']:g} | "
+                f"{item['my_remaining_mean']:.2f} / {item['opponent_remaining_mean']:.2f} | "
+                f"{item['difference_sd']:.2f} |"
+            )
     lines.extend(
         [
             "",

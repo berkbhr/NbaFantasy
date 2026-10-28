@@ -116,47 +116,53 @@ BOOKMARKLET_JS_RAW = r"""
       for (const tbl of tables) {
         const ths = Array.from(tbl.querySelectorAll('thead th, tr:first-child th')).map(x => (x.textContent || '').trim().toUpperCase());
         if (ths.includes('PTS') && ths.includes('REB') && ths.includes('AST')) {
-          const rows = Array.from(tbl.querySelectorAll('tbody tr')).filter(r => r.querySelectorAll('td, th').length >= 9);
+          const rows = Array.from(tbl.querySelectorAll('tbody tr')).filter(r =>
+            r.querySelectorAll('td, th').length >= 9 && r.querySelector('a[href*="/nba/' + leagueId + '/"]'));
           if (rows.length >= 2) {
             const parseRow = (tr, isFirst) => {
               const cells = Array.from(tr.querySelectorAll('th, td')).map(c => (c.textContent || '').trim());
               const obj = {
-                name: cells.find(c => c.length > 2 && !/^\d/.test(c)) || (isFirst ? "Berk's Best Team" : "SILE BULLS"),
-                slot: isFirst ? 8 : 13,
-                games_played: (isFirst ? gpA : gpB) ?? 30,
-                games_remaining: (isFirst ? remA : remB) ?? 7,
-                total_scheduled: (isFirst ? totA : totB) ?? 37
+                name: '',
+                games_played: isFirst ? gpA : gpB,
+                games_remaining: isFirst ? remA : remB,
+                total_scheduled: isFirst ? totA : totB
               };
               const tLink = tr.querySelector('a[href*="/nba/' + leagueId + '/"]');
               if (tLink && tLink.textContent.trim()) {
                 obj.name = tLink.textContent.trim();
+                const idMatch = new URL(tLink.getAttribute('href'), location.origin).pathname.match(/\/nba\/\d+\/(\d+)(?:\/|$)/);
+                if (!idMatch) return null;
+                obj.yahoo_team_id = Number(idMatch[1]);
+              } else {
+                return null;
               }
               // Anchor on first fraction cell (`FGM/FGA`, e.g. `145/316`) so colspan never shifts columns!
               const idxFgm = cells.findIndex(c => /^\d+\s*\/\s*\d+$/.test(c));
               if (idxFgm >= 0 && cells.length >= idxFgm + 11) {
                 const pFg = cells[idxFgm].split('/');
-                obj.FGM = parseFloat(pFg[0]) || 0;
-                obj.FGA = parseFloat(pFg[1]) || 0;
-                const pFt = (cells[idxFgm + 2] || '0/0').split('/');
-                obj.FTM = parseFloat(pFt[0]) || 0;
-                obj.FTA = parseFloat(pFt[1]) || 0;
-                obj.FG3M = parseFloat(cells[idxFgm + 4]) || 0;
-                obj.PTS  = parseFloat(cells[idxFgm + 5]) || 0;
-                obj.REB  = parseFloat(cells[idxFgm + 6]) || 0;
-                obj.AST  = parseFloat(cells[idxFgm + 7]) || 0;
-                obj.STL  = parseFloat(cells[idxFgm + 8]) || 0;
-                obj.BLK  = parseFloat(cells[idxFgm + 9]) || 0;
-                obj.TOV  = parseFloat(cells[idxFgm + 10]) || 0;
+                obj.FGM = Number(pFg[0]);
+                obj.FGA = Number(pFg[1]);
+                const pFt = (cells[idxFgm + 2] || '').split('/');
+                obj.FTM = Number(pFt[0]);
+                obj.FTA = Number(pFt[1]);
+                obj.FG3M = Number(cells[idxFgm + 4]);
+                obj.PTS  = Number(cells[idxFgm + 5]);
+                obj.REB  = Number(cells[idxFgm + 6]);
+                obj.AST  = Number(cells[idxFgm + 7]);
+                obj.STL  = Number(cells[idxFgm + 8]);
+                obj.BLK  = Number(cells[idxFgm + 9]);
+                obj.TOV  = Number(cells[idxFgm + 10]);
+              } else {
+                return null;
               }
               return obj;
             };
             let tA = parseRow(rows[0], true);
             let tB = parseRow(rows[1], false);
+            if (!tA || !tB || tA.yahoo_team_id === tB.yahoo_team_id) continue;
             if (!tA.name.toLowerCase().includes('berk') && tB.name.toLowerCase().includes('berk')) {
               const tmp = tA; tA = tB; tB = tmp;
             }
-            tA.slot = 8;
-            tB.slot = 13;
             return { team_a: tA, team_b: tB };
           }
         }
@@ -197,6 +203,7 @@ BOOKMARKLET_JS_RAW = r"""
 
     function parseAvailablePlayersDoc(doc) {
       const waivers = {};
+      const players = [];
       const rows = Array.from(doc.querySelectorAll('table tbody tr'));
       rows.forEach(tr => {
         const pLink = tr.querySelector('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a');
@@ -209,11 +216,17 @@ BOOKMARKLET_JS_RAW = r"""
         const trTxt = tr.textContent;
         const m = trTxt.match(/\bW\s*\(([A-Za-z0-9\/.]+)\)/i) || trTxt.match(/Off\s+Waivers\s+([A-Za-z0-9\/.]+)/i);
         const isClaim = trTxt.includes('Claim') || tr.querySelector('a[href*="claim"], button[title*="Claim"], .claim-player');
+        const isAdd = tr.querySelector('a[href*="addplayer"], a[href*="add?"], button[title*="Add"], a[title*="Add"], .add-player');
         if (m || isClaim) {
           waivers[name] = m ? m[1] : 'Waiver';
+          players.push({ name, status: 'W' });
+        } else if (isAdd || /\bFA\b/.test(trTxt)) {
+          players.push({ name, status: 'FA' });
         }
       });
-      return waivers;
+      const next = Array.from(doc.querySelectorAll('a[href]')).find(a =>
+        a.rel === 'next' || /^(Next|Next Page|Sonraki)\s*[»›>]?$/i.test(a.textContent.trim()));
+      return { waivers, players, next: next ? next.getAttribute('href') : null };
     }
 
     // 1. Check current page for matchup first
@@ -264,10 +277,20 @@ BOOKMARKLET_JS_RAW = r"""
       transactions = parseTransactionsDoc(parser.parseFromString(txHtml, 'text/html'));
     }
 
-    let waivers = {};
-    const pHtml = await fetch(`/nba/${leagueId}/players?status=A&sort=OR`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
-    if (pHtml) {
-      waivers = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'));
+    let waivers = {}, availablePlayers = [], availableScanComplete = false;
+    let availableUrl = `/nba/${leagueId}/players?status=A&sort=OR`;
+    const seenAvailablePages = new Set();
+    for (let page = 0; availableUrl && page < 30; page++) {
+      const url = new URL(availableUrl, location.origin);
+      if (url.origin !== location.origin || !url.pathname.startsWith(`/nba/${leagueId}/players`) || seenAvailablePages.has(url.href)) break;
+      seenAvailablePages.add(url.href);
+      const pHtml = await fetch(url.href, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
+      if (!pHtml) break;
+      const available = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'));
+      Object.assign(waivers, available.waivers);
+      availablePlayers.push(...available.players);
+      if (!available.next) { availableScanComplete = true; break; }
+      availableUrl = available.next;
     }
 
     // 4. Send to local bridge (`http://127.0.0.1:8765/sync_league`)
@@ -281,7 +304,13 @@ BOOKMARKLET_JS_RAW = r"""
       empty_active_slots_by_slot: emptyBySlot,
       transactions: transactions,
       matchup: matchup,
-      waivers: waivers
+      waivers: waivers,
+      availability_snapshot: {
+        source: 'yahoo_available_players',
+        players: availablePlayers,
+        scan_complete: availableScanComplete,
+        pages_scanned: seenAvailablePages.size
+      }
     };
 
     const resp = await fetch('http://127.0.0.1:8765/sync_league', {
@@ -290,6 +319,7 @@ BOOKMARKLET_JS_RAW = r"""
       body: JSON.stringify(payload)
     });
     const resJson = await resp.json();
+    if (!resp.ok || !resJson.ok) throw new Error(resJson.error || 'Sync rejected');
     banner.style.background = '#047857';
     banner.textContent = `✅ Senkron Tamamlandı! (${resJson.teams_synced} Takım Kadrosu, ${resJson.total_players} Oyuncu). Telegram Bildirimi Gönderildi!`;
     setTimeout(() => banner.remove(), 7000);
@@ -326,6 +356,36 @@ def _resolve_canonical_draft_slot(player_names, fallback_slot):
     return str(best_slot)
 
 
+def validate_browser_matchup(matchup, slot_map, captured_at):
+    """Resolve real Yahoo team identities and reject missing/invented counters."""
+    from copy import deepcopy
+
+    from src.snapshots import BOX_SCORE_KEYS, validate_live_snapshot
+
+    result = deepcopy(matchup)
+    for side in ("team_a", "team_b"):
+        team = result.get(side, {})
+        yahoo_id = team.get("yahoo_team_id")
+        if type(yahoo_id) is not int or str(yahoo_id - 1) not in slot_map:
+            raise ValueError("Matchup requires a Yahoo team ID mapped by this roster sync")
+        team["slot"] = int(slot_map[str(yahoo_id - 1)]) + 1
+        counters = [team.get(k) for k in ("games_played", "games_remaining", "total_scheduled")]
+        if any(type(value) is not int or value < 0 for value in counters):
+            raise ValueError("Yahoo played/remaining/total game counters are missing or invalid")
+        if counters[0] + counters[1] != counters[2]:
+            raise ValueError("Yahoo played plus remaining games must equal total scheduled")
+        if any(type(team.get(k)) not in (int, float) for k in BOX_SCORE_KEYS):
+            raise ValueError("Matchup counting statistics must be numeric")
+    if result["team_a"]["slot"] == result["team_b"]["slot"]:
+        raise ValueError("Matchup teams must be different")
+    if result["team_b"]["slot"] == draft_data.MY_TEAM_IDX + 1:
+        result["team_a"], result["team_b"] = result["team_b"], result["team_a"]
+    if result["team_a"]["slot"] != draft_data.MY_TEAM_IDX + 1:
+        raise ValueError("Matchup does not include the configured fantasy team")
+    validate_live_snapshot({"updated_at": captured_at, "matchup": result}, captured_at)
+    return result
+
+
 def apply_browser_sync_payload(payload, run_async_cloud=True):
     """
     Processes the JSON payload received from the Browser Bookmarklet:
@@ -350,6 +410,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     unslotted_clean = {}
     empty_clean = {}
     total_players = 0
+    slot_map = {}
 
     for s_key, p_list in rosters_by_slot.items():
         names = [
@@ -361,35 +422,11 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         ]
         if names:
             canon_key = _resolve_canonical_draft_slot(names, s_key)
+            if canon_key in rosters_clean:
+                raise ValueError("Two Yahoo teams resolved to the same league slot; sync rejected")
             rosters_clean[canon_key] = names
+            slot_map[str(s_key)] = canon_key
             total_players += len(names)
-
-    # Protect against missing drafted players on incomplete team scrapes (< 13 players)
-    try:
-        from src.live_draft_assistant import LiveDraftAssistant
-
-        _temp_ast = LiveDraftAssistant()
-        initial_draft_rosters = draft_data.resolve_rosters(_temp_ast)
-        all_seen_names = set(n.lower() for s, p_names in rosters_clean.items() for n in p_names)
-        for s_k, p_names in rosters_clean.items():
-            try:
-                s_idx = int(s_k)
-            except ValueError:
-                continue
-            if len(p_names) < 13 and s_idx in initial_draft_rosters:
-                for d_pid in initial_draft_rosters[s_idx]:
-                    if len(p_names) >= 13:
-                        break
-                    d_name = _temp_ast.players[d_pid].name if d_pid in _temp_ast.players else ""
-                    if d_name and d_name.lower() not in all_seen_names:
-                        print(
-                            f"  [BROWSER SYNC PROTECTION] Preserving drafted player '{d_name}' in slot {s_idx} ({len(p_names)}/13)."
-                        )
-                        p_names.append(d_name)
-                        all_seen_names.add(d_name.lower())
-                rosters_clean[s_k] = p_names
-    except Exception as e_p:
-        print(f"  [WARN] Roster protection check: {e_p}")
 
     for s_key in rosters_by_slot:
         names = [
@@ -423,6 +460,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         and "PTS" in matchup_obj["team_a"]
     )
     if has_valid_matchup:
+        matchup_obj = validate_browser_matchup(matchup_obj, slot_map, now_iso)
         live_matchup_path = os.path.join(PROCESSED_DIR, "live_matchup.json")
         with open(live_matchup_path, "w", encoding="utf-8") as f:
             json.dump(
@@ -481,6 +519,20 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         merged_waivers.update(payload["waivers"])
 
     berk_slot_str = str(draft_data.MY_TEAM_IDX)
+    availability_snapshot = payload.get("availability_snapshot", {})
+    if not isinstance(availability_snapshot, dict):
+        availability_snapshot = {}
+    availability_snapshot = {
+        "source": availability_snapshot.get("source"),
+        "updated_at": now_iso,
+        "players": [
+            {"name": str(p["name"]).strip(), "status": p["status"]}
+            for p in availability_snapshot.get("players", [])
+            if isinstance(p, dict) and p.get("name") and p.get("status") in ("FA", "W")
+        ],
+        "scan_complete": bool(availability_snapshot.get("scan_complete")),
+        "pages_scanned": availability_snapshot.get("pages_scanned", 0),
+    }
     state_data = {
         "updated_at": now_iso,
         "league_id": str(payload.get("league_id", "64691")),
@@ -494,6 +546,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         "empty_active_slots": empty_clean or prior_state.get("empty_active_slots", {}),
         "transactions": clean_txs,
         "waivers": merged_waivers,
+        "availability_snapshot": availability_snapshot,
     }
     with open(state_json_path, "w", encoding="utf-8") as f:
         json.dump(state_data, f, indent=2)
