@@ -202,10 +202,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backfill", action="store_true")
     parser.add_argument("--labels", action="store_true")
+    parser.add_argument("--labels-full", action="store_true")
     parser.add_argument("--experiments", action="store_true")
     args = parser.parse_args()
     if args.backfill:
         backfill()
+    elif args.labels_full:
+        from .historical_labels import backfill as backfill_labels
+
+        backfill_labels(ROOT, OUT, full=True)
     elif args.labels:
         from .historical_labels import backfill as backfill_labels
 

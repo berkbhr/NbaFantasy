@@ -84,9 +84,11 @@ jobs:
             reports/telegram_preview.html
             reports/prospective_status.json
             reports/latest_forecast.json
+            reports/delivery_receipt.json
           retention-days: 14
 
       - name: Persist runtime history on nba-fantasy-bot
+        if: always()
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -97,7 +99,7 @@ jobs:
           else
             git worktree add --detach "$runtime_dir" HEAD
           fi
-          for path in data/archive data/processed/injuries.db data/processed/league_state.json data/processed/live_matchup.json data/raw/player_logs_2026_27.parquet reports/latest_cloud_summary.md reports/latest_forecast.json reports/prospective_status.json reports/telegram_preview.html; do
+          for path in data/archive data/processed/injuries.db data/processed/league_state.json data/processed/live_matchup.json data/raw/player_logs_2026_27.parquet reports/latest_cloud_summary.md reports/latest_forecast.json reports/prospective_status.json reports/telegram_preview.html reports/delivery_receipt.json; do
             if [ -e "$path" ]; then
               mkdir -p "$runtime_dir/$(dirname "$path")"
               if [ -d "$path" ]; then

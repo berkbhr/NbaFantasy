@@ -28,9 +28,9 @@ def load_reports(root, season):
     return reports
 
 
-def availability_labels(root, season, reports):
+def availability_labels(root, season, reports, label_folder="historical_labels"):
     rows, seen = [], set()
-    for path in sorted((root / "data/archive/historical_labels" / season).glob("*.json.gz")):
+    for path in sorted((root / "data/archive" / label_folder / season).glob("*.json.gz")):
         label_file = json.loads(gzip.decompress(path.read_bytes()))
         day = label_file["date"]
         report = reports.get(day)

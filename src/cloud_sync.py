@@ -11,10 +11,12 @@ Features:
   6. Outputs Markdown Report to `reports/latest_cloud_summary.md` and `$GITHUB_STEP_SUMMARY`.
 """
 
+import hashlib
 import json
 import os
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 # Ensure project root and src/ are in sys.path
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1015,65 +1017,64 @@ def run_cloud_sync():
             except Exception:
                 pass
 
-    from src.notifications import render_preview, render_telegram
+    from src.forecast import render_report
+    from src.notifications import DeliveryError, render_preview, render_telegram, send_telegram
+    from src.probability import CategoryProbabilities
+    from src.prospective import ARCHIVE, write_once
+
+    canonical_probs = CategoryProbabilities(
+        {c: v["win"] for c, v in prospective["categories"].items()}
+    )
+    canonical_probs.ties.update({c: v["tie"] for c, v in prospective["categories"].items()})
+    with open(os.path.join(REPORTS_DIR, "latest_forecast.json"), "w", encoding="utf-8") as handle:
+        json.dump(prospective, handle, indent=2, ensure_ascii=False, default=str)
+    with open(summary_path, "w", encoding="utf-8") as handle:
+        handle.write(render_report(prospective))
 
     notification = render_telegram(
-        now=now_utc,
-        opponent=opp_team_name,
-        points=exp_score,
-        probabilities=active_win_probs,
-        health=roster_health,
-        recommendations=add_drop_recs,
-        live=live_data,
-        objective=settings.objective,
+        now=pd.Timestamp(prospective["forecast_at"]).to_pydatetime(),
+        opponent=prospective["opponent"],
+        points=prospective["objective_value"],
+        probabilities=canonical_probs,
+        health=prospective["roster_health"],
+        recommendations=prospective["recommendations"],
+        live=prospective["live_score"],
+        objective=prospective["objective"],
     )
     msg_lines = notification.splitlines()
     preview_path = os.path.join(REPORTS_DIR, "telegram_preview.html")
     with open(preview_path, "w", encoding="utf-8") as handle:
         handle.write(render_preview(notification))
 
+    prediction_file = (
+        ARCHIVE / "predictions" / (prospective["prospective_forecast_id"] + ".json.gz")
+    )
+    delivery = {
+        "forecast_id": prospective["prospective_forecast_id"],
+        "status": "not_configured",
+        "receipts": [],
+        "prediction_sha256": hashlib.sha256(prediction_file.read_bytes()).hexdigest(),
+        "rendered_text_sha256": hashlib.sha256(notification.encode()).hexdigest(),
+        "source_revision": os.environ.get("GITHUB_SHA"),
+        "renderer_sha256_LF": hashlib.sha256(
+            (Path(SRC_DIR) / "notifications.py").read_text(encoding="utf-8").encode()
+        ).hexdigest(),
+    }
     if tg_token and tg_chat:
         try:
-            import urllib.parse
-            import urllib.request
-
-            tg_url = f"https://api.telegram.org/bot{tg_token}/sendMessage"
-
-            # Auto-split if message exceeds Telegram 4096-character limit
-            full_msg = "\n".join(msg_lines)
-            chunks = []
-            if len(full_msg) <= 4000:
-                chunks = [full_msg]
-            else:
-                current_chunk = []
-                current_len = 0
-                for line in msg_lines:
-                    if current_len + len(line) + 1 > 3900:
-                        chunks.append("\n".join(current_chunk))
-                        current_chunk = [line]
-                        current_len = len(line) + 1
-                    else:
-                        current_chunk.append(line)
-                        current_len += len(line) + 1
-                if current_chunk:
-                    chunks.append("\n".join(current_chunk))
-
-            for chunk in chunks:
-                tg_payload = urllib.parse.urlencode(
-                    {
-                        "chat_id": tg_chat,
-                        "text": chunk,
-                        "parse_mode": "HTML",
-                        "disable_web_page_preview": "true",
-                    }
-                ).encode("utf-8")
-                with urllib.request.urlopen(
-                    urllib.request.Request(tg_url, data=tg_payload, method="POST"), timeout=8.0
-                ) as resp:
-                    if resp.status == 200:
-                        print("  [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!")
-        except Exception as e:
-            print(f"  [TELEGRAM] Bildirim hatasi: {e}")
+            delivery["receipts"] = send_telegram(tg_token, tg_chat, notification)
+            delivery["status"] = "api_accepted"
+            print(
+                f"  [TELEGRAM] API accepted {len(delivery['receipts'])} message part(s); forecast={delivery['forecast_id']}"
+            )
+        except DeliveryError as exc:
+            delivery["status"] = "failed"
+            delivery["receipts"] = exc.receipts
+            delivery["error"] = str(exc)
+            print("  [TELEGRAM] Delivery failed; safe receipt saved")
+    write_once(ARCHIVE / "notifications" / (delivery["forecast_id"] + ".json.gz"), delivery)
+    with open(os.path.join(REPORTS_DIR, "delivery_receipt.json"), "w", encoding="utf-8") as handle:
+        json.dump(delivery, handle, indent=2)
 
     if discord_webhook:
         try:
@@ -1103,6 +1104,8 @@ def run_cloud_sync():
         except Exception as e:
             print(f"  [DISCORD] Webhook hatasi: {e}")
 
+    if delivery["status"] == "failed":
+        raise RuntimeError("Telegram delivery failed; forecast and receipt retained")
     print("\n✅ CLOUD SYNC RUN COMPLETED SUCCESSFULLY.")
 
 

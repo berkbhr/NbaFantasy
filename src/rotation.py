@@ -5,6 +5,11 @@ fitted causal model of coaching decisions. Unobserved rotation minutes remain
 unallocated rather than being assigned to unproven players.
 """
 
+try:
+    from .rotation_policy import RotationPolicy
+except ImportError:
+    from rotation_policy import RotationPolicy
+
 
 def position_buckets(position):
     value = str(position).upper()
@@ -19,7 +24,9 @@ def adjust_rotations(
     game_date=None,
     as_of_date=None,
     low_role_boost_cap=None,
+    policy=None,
 ):
+    policy = policy or RotationPolicy()
     if low_role_boost_cap is not None and not 0 <= low_role_boost_cap <= 10:
         raise ValueError("Experimental low-role boost cap must be in [0,10]")
     teams = {}
@@ -89,6 +96,7 @@ def adjust_rotations(
                     for b, _, _ in candidates
                 )
                 remaining = min(remaining, base[missing] * novel)
+            remaining *= policy.redistribution_fraction
             while remaining > 1e-8:
                 active = [row for row in candidates if row[2] > 1e-8]
                 if not active:
@@ -107,13 +115,18 @@ def adjust_rotations(
                 remaining -= used
                 if used <= 1e-10:
                     break
+        for pid in ids:
+            delta[pid] *= policy.evidence_factor(players[pid])
         expected_total = sum(avail[i] * (base[i] + delta[i]) for i in ids)
         scale = min(1.0, 240.0 / expected_total) if expected_total > 0 else 1.0
         for pid in ids:
             bp = players[pid]
             new_minutes = (base[pid] + delta[pid]) * scale
             bp.expected_minutes = new_minutes
-            bp.minutes_var = min(144.0, bp.base_minutes_var + 0.35 * delta[pid] ** 2)
+            bp.minutes_var = (
+                min(144.0, bp.base_minutes_var + 0.35 * delta[pid] ** 2)
+                * policy.minute_variance_scale
+            )
             if delta[pid] > 0:
                 summaries.append(
                     {

@@ -105,3 +105,19 @@ sakatlık artışı varsayımı ve temel maç başı model istatistikleri yer al
 Eski +2 düşük-rol artış sınırı `low_role_cap2` adıyla ayrı deney koludur;
 ana modelde varsayılan olarak etkinleştirilmez. Fazla ve eksik dakika
 tahmini ayrı izlenir; bu iki risk tek bir oyuncuya göre ayarlanmaz.
+
+Kontrollü tuning'in seçtiği ama bütün belirsizlik denetimlerini geçemeyen
+aday `rotation_candidate` adıyla ayrıca saklanır. `rotation_untuned`
+sabit başlangıcı korur. Aynı tahminler tekrar çoğaltılmasın diye dosyada
+`arm_aliases` bulunabilir; `read_record` bunları açar. Araştırma kolunda
+ilk 10 gözlemin NLL ve aralık kapsamı da izlenir. Ana ayar kendiliğinden
+araştırma adayına dönüşmez. Yıldız incelemesi rotasyon politikası sürümüne
+göre ayrılır; farklı politikaların sonuçları tek bir sabit modelmiş gibi
+terfi hesabına katılmaz.
+
+Bulut bildirimi artık arşivlenen tek kanonik tahminden üretilir. Telegram
+HTTP200 tek başına başarı sayılmaz: API `ok=true` ve `message_id`
+döndürmelidir. Güvenli alındı kaydı `notifications/` altında tahmin dosyası
+ve mesaj hash'leriyle tutulur; token/chat kimliği saklanmaz. Bildirim
+başarısız olsa da arşiv kalıcılık adımı çalışır. Telegram'da saat Berlin
+saatidir; bilimsel kesim ve arşiv zamanları UTC kalır.

@@ -1,0 +1,13 @@
+{
+  "policy": {
+    "redistribution_fraction": 0.25,
+    "role_evidence_prior_games": 3.0,
+    "minute_variance_scale": 1.2504017103009992
+  },
+  "accepted_for_primary": false,
+  "reasons": [
+    "coverage95_early_vs_raw_baseline"
+  ],
+  "fit_season": "2024_25",
+  "assessment_season": "2025_26"
+}

@@ -100,6 +100,21 @@ etiket örneklemi `--labels`, yerel tekrar `--experiments` ile üretilir.
 PDF'ler kalıcı tutulmaz; metin, rapor zamanı ve kaynak hash'i sıkıştırılır.
 Bu komutlar canlı sakatlık veritabanına geçmiş kayıt yazmaz.
 
+`python -m src.injury_backtest --labels-full` tüm maç günleri için açık
+final kadro/DNP ve pozisyon kayıtlarını `historical_labels_v2/` altında
+tamamlar. Başarılı eski kayıtlar tekrar indirilmez; eksik maçlar yeniden
+denenir. İlk arşiv değiştirilmez.
+
+Yeni tuning akışı: `python -m src.tune_rotation`, ardından
+`python -m src.check_rotation_safety`. İlk adım tek başına ana ayarı
+değiştirmez. `python -m src.tune_availability` ayrı, öğlen kesimine
+özgü değerlendirmedir. Sonuç ve sınırlar ilgili raporlardadır.
+
+`python -m src.cloud_audit` GitHub koşuları ve bot arşivini salt okunur
+inceler. `--dispatch` eklenirse gerçek bulut koşusu başlatır ve mevcut
+Telegram yapılandırmasına bildirim gider. Alındı hash'i, arşivden yeniden
+üretilen mesaj ve önceki tahmin blob'larının korunması denetlenir.
+
 Eski 12 takımlı simülatörler, kendi tahminlerinden üretilmiş sezon sonuçları,
 yinelenen Excel veritabanları, türetilebilir DNP/trade dosyaları ve eski
 “tam doğrulanmış” raporlar kaldırıldı. Ham maçlar ve canlı veriler korundu.

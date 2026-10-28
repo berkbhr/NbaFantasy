@@ -157,6 +157,7 @@ class MatchupEngine:
         protected_player_ids=None,
         objective="category_points",
         low_role_boost_cap=None,
+        rotation_policy=None,
     ):
         self.players = bayesian_players_dict
         self.schedule = df_schedule.copy() if df_schedule is not None else pd.DataFrame()
@@ -195,6 +196,11 @@ class MatchupEngine:
         self.use_dynamic_add_drop = use_dynamic_add_drop
         self.use_positional_depth_and_injury_boost = use_positional_depth_and_injury_boost
         self.low_role_boost_cap = low_role_boost_cap
+        try:
+            from .rotation_policy import load_rotation_policy
+        except ImportError:
+            from rotation_policy import load_rotation_policy
+        self.rotation_policy = rotation_policy or load_rotation_policy()
         if not 0 <= draw_value <= 1 or not 0 <= availability_correlation <= 1:
             raise ValueError("Invalid utility/availability configuration")
         self.draw_value, self.availability_correlation = draw_value, availability_correlation
@@ -219,7 +225,14 @@ class MatchupEngine:
             self.recompute_team_depth_and_injury_minutes()
 
     def _daily_projections(self, day, as_of, live, eligible):
-        key = (day, as_of, live)
+        key = (
+            day,
+            as_of,
+            live,
+            self.rotation_policy,
+            self.low_role_boost_cap,
+            self.use_positional_depth_and_injury_boost,
+        )
         if self._projection_cache is not None and key in self._projection_cache:
             return self._projection_cache[key]
         self.recompute_team_depth_and_injury_minutes(live, game_date=day, as_of_date=as_of)
@@ -286,6 +299,7 @@ class MatchupEngine:
             game_date=game_date,
             as_of_date=as_of_date,
             low_role_boost_cap=self.low_role_boost_cap,
+            policy=self.rotation_policy,
         )
         return self.last_injury_boost_summary
 

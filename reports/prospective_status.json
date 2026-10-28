@@ -11,7 +11,9 @@
     "n": 0,
     "game_dates": 0
   },
+  "star_rotation_policy_groups": {},
   "review_ready": false,
+  "review_rotation_policy": "{\"minute_variance_scale\": 1.0, \"redistribution_fraction\": 1.0, \"role_evidence_prior_games\": null}",
   "spillover_descriptive": {
     "n": 0
   },
@@ -21,5 +23,12 @@
   },
   "availability_descriptive": {
     "n": 0
+  },
+  "rotation_tuning_descriptive": {
+    "n": 0
+  },
+  "rotation_research_candidate": {
+    "n": 0,
+    "adoption": "not_automatic"
   }
 }

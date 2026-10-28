@@ -35,7 +35,10 @@ def write_once(path, value):
 
 
 def read_record(path):
-    return json.loads(gzip.decompress(path.read_bytes()))
+    record = json.loads(gzip.decompress(path.read_bytes()))
+    for name, target in record.get("arm_aliases", {}).items():
+        record["player_predictions"][name] = record["player_predictions"][target]
+    return record
 
 
 def archive_official_snapshot(parsed, source_url, pdf_bytes, accepted_for_live=None):
@@ -161,6 +164,15 @@ def record_run(include_recommendations=True, fetch_results=False):
         inputs["active_injuries"] = [dict(r) for r in conn.execute("select * from active_injuries")]
     primary_rows = future_rows(assistant, engine, cutoff)
     shadow_rows = future_rows(shadow_assistant, shadow_engine, cutoff)
+    from .rotation_policy import RotationPolicy
+
+    active_rotation_policy = engine.rotation_policy
+    engine.rotation_policy = RotationPolicy()
+    untuned_rows = (
+        future_rows(assistant, engine, cutoff)
+        if active_rotation_policy != RotationPolicy()
+        else None
+    )
     enabled = engine.use_positional_depth_and_injury_boost
     engine.use_positional_depth_and_injury_boost = False
     spillover_off = future_rows(assistant, engine, cutoff)
@@ -168,6 +180,16 @@ def record_run(include_recommendations=True, fetch_results=False):
     engine.low_role_boost_cap = 2
     low_role_cap2 = future_rows(assistant, engine, cutoff)
     engine.low_role_boost_cap = None
+    engine.rotation_policy = active_rotation_policy
+    research_path = ROOT / "config/rotation_candidate.json"
+    research_rows = None
+    research = (
+        json.loads(research_path.read_text(encoding="utf-8")) if research_path.exists() else None
+    )
+    if research and RotationPolicy(**research["policy"]) != active_rotation_policy:
+        engine.rotation_policy = RotationPolicy(**research["policy"])
+        research_rows = future_rows(assistant, engine, cutoff)
+        engine.rotation_policy = active_rotation_policy
     stamp = cutoff.strftime("%Y%m%dT%H%M%S%fZ")
     bundle = {
         "schema_version": 2,
@@ -184,9 +206,20 @@ def record_run(include_recommendations=True, fetch_results=False):
             "spillover_off": spillover_off,
             "low_role_cap2": low_role_cap2,
         },
+        "arm_aliases": {},
         "role_status": "provisional",
         "horizon": "next_ET_calendar_day",
     }
+    if untuned_rows is None:
+        bundle["arm_aliases"]["rotation_untuned"] = "primary"
+    else:
+        bundle["player_predictions"]["rotation_untuned"] = untuned_rows
+    if research:
+        bundle["rotation_candidate"] = research
+        if research_rows is None:
+            bundle["arm_aliases"]["rotation_candidate"] = "primary"
+        else:
+            bundle["player_predictions"]["rotation_candidate"] = research_rows
     write_once(ARCHIVE / "predictions" / f"{stamp}.json.gz", bundle)
     settle(fetch_results=fetch_results)
     monitor()
@@ -307,6 +340,14 @@ def monitor():
     selected = {}
     spill_selected = {}
     cap_selected = {}
+    rotation_selected = {}
+    research_selected = {}
+    from .rotation_policy import RotationPolicy, load_rotation_policy
+
+    def policy_key(value):
+        return json.dumps(RotationPolicy(**value).to_dict(), sort_keys=True)
+
+    current_policy_key = policy_key(load_rotation_policy().to_dict())
     for path in sorted((ARCHIVE / "predictions").glob("*.json.gz")):
         bundle = read_record(path)
         outcomes = sorted(
@@ -325,11 +366,31 @@ def monitor():
             (r["player_id"], r["game_id"]): r
             for r in bundle["player_predictions"].get("low_role_cap2", [])
         }
+        untuned = {
+            (r["player_id"], r["game_id"]): r
+            for r in bundle["player_predictions"].get("rotation_untuned", [])
+        }
+        research = {
+            (r["player_id"], r["game_id"]): r
+            for r in bundle["player_predictions"].get("rotation_candidate", [])
+        }
         for pred in bundle["player_predictions"]["primary"]:
             key = (pred["player_id"], pred["game_id"])
+            if key not in research_selected and key in labels and key in research:
+                research_selected[key] = {
+                    "prediction": pred,
+                    "candidate": research[key],
+                    "label": labels[key],
+                }
+            if key not in rotation_selected and key in labels and key in untuned:
+                rotation_selected[key] = {
+                    "prediction": pred,
+                    "untuned": untuned[key],
+                    "label": labels[key],
+                }
             if key not in cap_selected and key in labels and key in capped:
                 cap_selected[key] = {
-                    "prediction": pred,
+                    "prediction": untuned.get(key, pred),
                     "capped": capped[key],
                     "label": labels[key],
                 }
@@ -337,7 +398,14 @@ def monitor():
                 spill_selected[key] = {"prediction": pred, "off": off[key], "label": labels[key]}
             if key in selected or key not in labels or key not in shadow:
                 continue
-            selected[key] = {"prediction": pred, "shadow": shadow[key], "label": labels[key]}
+            selected[key] = {
+                "prediction": pred,
+                "shadow": shadow[key],
+                "label": labels[key],
+                "policy": policy_key(
+                    bundle.get("primary", {}).get("rotation_policy", RotationPolicy().to_dict())
+                ),
+            }
     result = {
         "status": "provisional",
         "unique_player_games": len(selected),
@@ -358,7 +426,21 @@ def monitor():
                     for r in records
                 ) / len(records)
         result[name] = metrics
-    result["review_ready"] = result["stars"]["n"] >= 1000 and result["stars"]["game_dates"] >= 42
+    groups = {}
+    for policy in sorted({r["policy"] for r in selected.values()}):
+        records = [
+            r
+            for r in selected.values()
+            if r["policy"] == policy and r["label"]["played"] and r["prediction"]["star"]
+        ]
+        groups[policy] = {
+            "n": len(records),
+            "game_dates": len({r["label"]["game_date"] for r in records}),
+        }
+    result["star_rotation_policy_groups"] = groups
+    active_group = groups.get(current_policy_key, {"n": 0, "game_dates": 0})
+    result["review_ready"] = active_group["n"] >= 1000 and active_group["game_dates"] >= 42
+    result["review_rotation_policy"] = current_policy_key
     spill = [r for r in spill_selected.values() if r["label"]["played"]]
     result["spillover_descriptive"] = {"n": len(spill)}
     if spill:
@@ -387,6 +469,61 @@ def monitor():
                 "underprediction": sum(max(-v, 0) for v in error) / len(error),
             }
     result["availability_descriptive"] = {"n": len(availability)}
+    rotation_records = [r for r in rotation_selected.values() if r["label"]["played"]]
+    result["rotation_tuning_descriptive"] = {"n": len(rotation_records)}
+    research_records = [r for r in research_selected.values() if r["label"]["played"]]
+    result["rotation_research_candidate"] = {
+        "n": len(research_records),
+        "adoption": "not_automatic",
+    }
+    for arm in ("prediction", "candidate"):
+        if research_records:
+            errors = [
+                r[arm]["prediction"]["MIN"]["mean"] - r["label"]["actual"]["MIN"]
+                for r in research_records
+            ]
+            result["rotation_research_candidate"][arm] = {
+                "mse": sum(v * v for v in errors) / len(errors),
+                "mae": sum(abs(v) for v in errors) / len(errors),
+            }
+            import math
+
+            for cohort, rows in (
+                ("all", research_records),
+                (
+                    "early",
+                    [r for r in research_records if r["prediction"].get("observed_gp", 0) < 10],
+                ),
+            ):
+                scored = []
+                for record in rows:
+                    variance = record[arm]["prediction"]["MIN"].get("variance")
+                    if variance is not None and variance > 0:
+                        error = (
+                            record[arm]["prediction"]["MIN"]["mean"]
+                            - record["label"]["actual"]["MIN"]
+                        )
+                        scored.append(
+                            (
+                                0.5 * (math.log(2 * math.pi * variance) + error * error / variance),
+                                abs(error) <= 1.95996398454 * math.sqrt(variance),
+                            )
+                        )
+                result["rotation_research_candidate"][arm][cohort + "_uncertainty"] = {
+                    "n": len(scored),
+                    "nll": sum(v[0] for v in scored) / len(scored) if scored else None,
+                    "coverage95": sum(v[1] for v in scored) / len(scored) if scored else None,
+                }
+    for arm in ("prediction", "untuned"):
+        if rotation_records:
+            errors = [
+                r[arm]["prediction"]["MIN"]["mean"] - r["label"]["actual"]["MIN"]
+                for r in rotation_records
+            ]
+            result["rotation_tuning_descriptive"][arm] = {
+                "mse": sum(v * v for v in errors) / len(errors),
+                "mae": sum(abs(v) for v in errors) / len(errors),
+            }
     if availability:
         result["availability_descriptive"]["brier"] = sum(
             (r["prediction"]["availability"] - r["label"]["played"]) ** 2 for r in availability

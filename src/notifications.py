@@ -1,7 +1,71 @@
 """Short HTML notification; the detailed tables stay in the report."""
 
+import hashlib
 from collections.abc import Mapping
+from datetime import datetime, timezone
 from html import escape
+from zoneinfo import ZoneInfo
+
+
+class DeliveryError(RuntimeError):
+    def __init__(self, reason, receipts):
+        super().__init__(reason)
+        self.receipts = receipts
+
+
+def send_telegram(token, chat, message, post=None):
+    """Return API receipts; never expose token, chat ID or response payload."""
+    if post is None:
+        import requests
+
+        post = requests.post
+    chunks, lines, size = [], [], 0
+    for line in message.splitlines():
+        units = len((line + "\n").encode("utf-16-le")) // 2
+        if units > 3800:
+            raise DeliveryError("Single Telegram line exceeds safe limit", [])
+        if size + units > 3800:
+            chunks.append("\n".join(lines))
+            lines, size = [], 0
+        lines.append(line)
+        size += units
+    if lines:
+        chunks.append("\n".join(lines))
+    receipts = []
+    for index, chunk in enumerate(chunks, 1):
+        try:
+            response = post(
+                f"https://api.telegram.org/bot{token}/sendMessage",
+                timeout=12,
+                json={
+                    "chat_id": chat,
+                    "text": chunk,
+                    "parse_mode": "HTML",
+                    "disable_web_page_preview": True,
+                },
+            )
+            payload = response.json()
+            result = payload.get("result", {})
+            if (
+                response.status_code != 200
+                or payload.get("ok") is not True
+                or type(result.get("message_id")) is not int
+            ):
+                raise ValueError("API did not acknowledge message")
+        except Exception as exc:
+            raise DeliveryError(
+                "Telegram delivery failed: " + type(exc).__name__, receipts
+            ) from None
+        receipts.append(
+            {
+                "part": index,
+                "message_id": result["message_id"],
+                "api_date": result.get("date"),
+                "accepted_at": datetime.now(timezone.utc).isoformat(),
+                "text_sha256": hashlib.sha256(chunk.encode()).hexdigest(),
+            }
+        )
+    return receipts
 
 
 def render_preview(message):
@@ -30,7 +94,9 @@ def render_telegram(
 
     lines = [
         "🏀 <b>NBA Fantasy</b>",
-        escape(now.strftime("%d.%m · %H:%M UTC")) + " · " + escape(str(opponent)[:65]),
+        escape(now.astimezone(ZoneInfo("Europe/Berlin")).strftime("%d.%m · %H:%M %Z"))
+        + " · "
+        + escape(str(opponent)[:65]),
         "",
     ]
     if live:
@@ -67,7 +133,11 @@ def render_telegram(
     lines.append("Sen: " + games(snapshot.get("team_a", {})))
     lines.append("Rakip: " + games(snapshot.get("team_b", {})))
     lines.extend(["", "<b>Kategori kazanma ihtimalleri</b>"])
-    items = [f"{label(c)} %{100 * p:.0f}" for c, p in probabilities.items()]
+    display_order = ["FG_PCT", "FT_PCT", "FG3M", "PTS", "REB", "AST", "STL", "BLK", "TOV"]
+    ordered = [c for c in display_order if c in probabilities] + sorted(
+        set(probabilities) - set(display_order)
+    )
+    items = [f"{label(c)} %{100 * probabilities[c]:.0f}" for c in ordered]
     lines.extend(" · ".join(items[i : i + 3]) for i in range(0, len(items), 3))
     alerts = [r for r in health if r.get("is_out") or r.get("eff_avail", 1) < 0.8]
     if alerts:

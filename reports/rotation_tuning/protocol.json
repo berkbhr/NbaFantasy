@@ -1,0 +1,105 @@
+{
+  "selection_season": "2024_25",
+  "assessment_season": "2025_26",
+  "candidate_budget": 13,
+  "candidates": {
+    "fraction0_evidence_none": {
+      "redistribution_fraction": 0,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.25_evidence_none": {
+      "redistribution_fraction": 0.25,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.25_evidence_3": {
+      "redistribution_fraction": 0.25,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.25_evidence_8": {
+      "redistribution_fraction": 0.25,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.5_evidence_none": {
+      "redistribution_fraction": 0.5,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.5_evidence_3": {
+      "redistribution_fraction": 0.5,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.5_evidence_8": {
+      "redistribution_fraction": 0.5,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.75_evidence_none": {
+      "redistribution_fraction": 0.75,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.75_evidence_3": {
+      "redistribution_fraction": 0.75,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction0.75_evidence_8": {
+      "redistribution_fraction": 0.75,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction1_evidence_none": {
+      "redistribution_fraction": 1.0,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "fraction1_evidence_3": {
+      "redistribution_fraction": 1.0,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "fraction1_evidence_8": {
+      "redistribution_fraction": 1.0,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    }
+  },
+  "baseline": "fraction1_evidence_none",
+  "role_policy": {
+    "blend": "dynamic",
+    "primary_weight": 0.8,
+    "legacy_total_rates": false,
+    "fixed_kappa": false,
+    "exposure_minutes": null,
+    "shot_precision_multiplier": 1.0,
+    "role": "adaptive_anchor"
+  },
+  "objective": "Minute MSE targets the conditional mean; MAE targets the median and is a guard",
+  "features": "Previous final-roster membership/positions, prior seasons, past game logs, same-day pre-noon report",
+  "evaluation": "All archived regular-season days; target final roster only gates/scorers, never predictor eligibility",
+  "eligibility": "At least8 past/current-report known teammates, >=3 previous played games for scored players, final tipoff strictly after noon cutoff",
+  "selection_gate": {
+    "min_rows": 1000,
+    "relative_mse_gain": 0.0025,
+    "paired_week_ci95_lower": ">0, 2000 draws seed42",
+    "both_chronological_halves": "nonnegative MSE gain",
+    "mae_max_harm": 0.01,
+    "pts_mse_max_harm": 0.01,
+    "mean_underprediction_max_increase_minutes": 0.25,
+    "cohort_mse_max_harm": 0.01,
+    "cohort_min_rows": 200
+  },
+  "quality_gate": {
+    "mean_past_position_coverage_min": 0.9,
+    "observed_weeks_min": 20
+  },
+  "assessment": "Freeze a single selection winner; assess it and baseline only. No runner-up selection on assessment.",
+  "deployment": "Only if selection and assessment gates pass, using the same rotation function. Otherwise baseline.",
+  "limits": "Retrospective, played-game conditional; historical Yahoo eligibility and transactions unavailable. No claim of causal injury effects or category-win lift.",
+  "rare_strong_prior_guard": "Even below200 rows, reject >5% MSE harm in observed strong-prior low-role cohort; conservative point-estimate guard, not statistical proof"
+}

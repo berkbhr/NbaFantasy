@@ -1,6 +1,6 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-28T06:36:20.275185+00:00
+Generated: 2026-10-28T12:34:26.057498+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-28 – 2026-11-01
 

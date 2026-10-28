@@ -1,0 +1,982 @@
+[
+  {
+    "candidate": "fraction0_evidence_none",
+    "policy": {
+      "redistribution_fraction": 0,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 43.13581864761706,
+      "mae": 4.9667476826516515,
+      "under": 2.746575696598774,
+      "pts_mse": 36.99271706873536,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": false,
+      "relative_mse_gain": 0.12146576771481066,
+      "mse_gain_ci95": [
+        3.734161490633136,
+        7.60641081994031
+      ],
+      "half_gains": [
+        8.076365792656302,
+        3.943180779268291
+      ],
+      "reasons": [
+        "underprediction_guard"
+      ],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 54.51691463384553,
+            "mae": 5.282003549407862,
+            "under": 3.0520101193693066,
+            "pts_mse": 17.37061566000293,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 45.65795071737569,
+            "mae": 5.0380096284379645,
+            "under": 2.8650244831811555,
+            "pts_mse": 33.008131630708235,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.25_evidence_none",
+    "policy": {
+      "redistribution_fraction": 0.25,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 43.043771682974935,
+      "mae": 4.985562629158475,
+      "under": 2.3111743245223226,
+      "pts_mse": 36.54931770337963,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.123340460532783,
+      "mse_gain_ci95": [
+        5.156703466705847,
+        6.884344969431466
+      ],
+      "half_gains": [
+        7.244630926676508,
+        4.918922882075875
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 52.58381326038026,
+            "mae": 5.3717383309959885,
+            "under": 2.5768624232660313,
+            "pts_mse": 16.99857116578962,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 45.7437193587864,
+            "mae": 5.100388565447264,
+            "under": 2.2019119148626403,
+            "pts_mse": 32.767051498164236,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.25_evidence_3",
+    "policy": {
+      "redistribution_fraction": 0.25,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 42.87400817647473,
+      "mae": 4.968784550903195,
+      "under": 2.3335792547211907,
+      "pts_mse": 36.53320744159229,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.1267979827620831,
+      "mse_gain_ci95": [
+        5.096530052863848,
+        7.188299217972495
+      ],
+      "half_gains": [
+        7.551800014901989,
+        4.95724340008854
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 52.000141479045276,
+            "mae": 5.291000088809957,
+            "under": 2.7192592343322333,
+            "pts_mse": 16.950396941953915,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 45.1990718293541,
+            "mae": 5.053752078893428,
+            "under": 2.24092639125752,
+            "pts_mse": 32.729182354667,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.25_evidence_8",
+    "policy": {
+      "redistribution_fraction": 0.25,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 42.909343326927875,
+      "mae": 4.9729797873030055,
+      "under": 2.329359957453646,
+      "pts_mse": 36.53626251556562,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.12607832239051073,
+      "mse_gain_ci95": [
+        5.122024766059259,
+        7.119241878965348
+      ],
+      "half_gains": [
+        7.470580210296031,
+        4.965801779955183
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 52.11706003373024,
+            "mae": 5.313828536420454,
+            "under": 2.6853350443449715,
+            "pts_mse": 16.959939089416654,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 45.37822032481045,
+            "mae": 5.070230256121293,
+            "under": 2.2257299396157593,
+            "pts_mse": 32.74197858129195,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.5_evidence_none",
+    "policy": {
+      "redistribution_fraction": 0.5,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 45.5377412130331,
+      "mae": 5.161432531365018,
+      "under": 2.164217578901444,
+      "pts_mse": 36.95215069538278,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.07254653392781432,
+      "mse_gain_ci95": [
+        3.0596934591630496,
+        4.05170617221455
+      ],
+      "half_gains": [
+        4.2086233267572055,
+        2.9434701610292238
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 56.308861855055746,
+            "mae": 5.659435707252677,
+            "under": 2.284171281782426,
+            "pts_mse": 17.78925357002304,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 50.004105711215345,
+            "mae": 5.385811031484148,
+            "under": 1.9490393941849917,
+            "pts_mse": 33.53100720644844,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.5_evidence_3",
+    "policy": {
+      "redistribution_fraction": 0.5,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 44.863248454366904,
+      "mae": 5.112000941913141,
+      "under": 2.1706377156241516,
+      "pts_mse": 36.832084388650074,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.08628372488638808,
+      "mse_gain_ci95": [
+        3.4376252850781324,
+        4.908099991231523
+      ],
+      "half_gains": [
+        5.0886701620868005,
+        3.4213286797090654
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 52.901334502583545,
+            "mae": 5.417177615797618,
+            "under": 2.4992703970275647,
+            "pts_mse": 17.240931405647526,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 48.46410049894525,
+            "mae": 5.277454185364407,
+            "under": 1.9886910331023928,
+            "pts_mse": 33.351175602376344,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.5_evidence_8",
+    "policy": {
+      "redistribution_fraction": 0.5,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 44.987304242440246,
+      "mae": 5.1229246063052,
+      "under": 2.1701869253000945,
+      "pts_mse": 36.85299126554399,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.08375711799790214,
+      "mse_gain_ci95": [
+        3.3862836333868835,
+        4.726191383358398
+      ],
+      "half_gains": [
+        4.879350715400325,
+        3.3788366094757842
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 53.60251876057798,
+            "mae": 5.479564303746442,
+            "under": 2.447008081484858,
+            "pts_mse": 17.358914407517442,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 48.97117898707324,
+            "mae": 5.316644173331766,
+            "under": 1.971847597370244,
+            "pts_mse": 33.4105227543278,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.75_evidence_none",
+    "policy": {
+      "redistribution_fraction": 0.75,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 47.52441011467211,
+      "mae": 5.313772229519593,
+      "under": 2.1715246590747843,
+      "pts_mse": 37.347945320291906,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.03208464649815005,
+      "mse_gain_ci95": [
+        1.3204843778553763,
+        1.82829832524384
+      ],
+      "half_gains": [
+        1.9715912133372082,
+        1.1963001818548276
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 60.31100816681471,
+            "mae": 5.9195289505534605,
+            "under": 2.11075255475686,
+            "pts_mse": 18.600200134517426,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 52.72129195790322,
+            "mae": 5.5869422771771085,
+            "under": 1.9012483299408331,
+            "pts_mse": 34.0044278090186,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.75_evidence_3",
+    "policy": {
+      "redistribution_fraction": 0.75,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 46.39931332177953,
+      "mae": 5.235174947247389,
+      "under": 2.1487676602359644,
+      "pts_mse": 37.11749213939077,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.05499915416670963,
+      "mse_gain_ci95": [
+        2.100833601495189,
+        3.184628598865789
+      ],
+      "half_gains": [
+        3.2381604454382837,
+        2.1860636064468197
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 54.3584901106064,
+            "mae": 5.541754835836897,
+            "under": 2.3648253154626055,
+            "pts_mse": 17.618165992609523,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 50.551567351742385,
+            "mae": 5.441152653568882,
+            "under": 1.9243567521398637,
+            "pts_mse": 33.72645920634087,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction0.75_evidence_8",
+    "policy": {
+      "redistribution_fraction": 0.75,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 46.59224522893867,
+      "mae": 5.251283655174478,
+      "under": 2.1552388329992116,
+      "pts_mse": 37.156360775263636,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.05106976809607479,
+      "mse_gain_ci95": [
+        2.0027871487230917,
+        2.9340669889333335
+      ],
+      "half_gains": [
+        2.9626267701158917,
+        2.072149037050846
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 55.58204364218988,
+            "mae": 5.635328317450381,
+            "under": 2.3008240889163734,
+            "pts_mse": 17.8289227673257,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 51.26303807677184,
+            "mae": 5.49384444354985,
+            "under": 1.9130513283657078,
+            "pts_mse": 33.815318101329986,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction1_evidence_none",
+    "policy": {
+      "redistribution_fraction": 1.0,
+      "role_evidence_prior_games": null,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 49.09975850959707,
+      "mae": 5.433824687635036,
+      "under": 2.218690749121147,
+      "pts_mse": 37.69503468622908,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": false,
+      "relative_mse_gain": 0.0,
+      "mse_gain_ci95": [
+        0.0,
+        0.0
+      ],
+      "half_gains": [
+        0.0,
+        0.0
+      ],
+      "reasons": [
+        "gain_below_0.25_percent",
+        "weekly_ci_includes_zero"
+      ],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction1_evidence_3",
+    "policy": {
+      "redistribution_fraction": 1.0,
+      "role_evidence_prior_games": 3.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 47.60497526525213,
+      "mae": 5.331043885001397,
+      "under": 2.17345522399043,
+      "pts_mse": 37.380220599738806,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.03044380033056117,
+      "mse_gain_ci95": [
+        1.0433129144265014,
+        1.832664154709301
+      ],
+      "half_gains": [
+        1.703092868587783,
+        1.2955130313201426
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 56.187604307693896,
+            "mae": 5.6835094456115085,
+            "under": 2.2864798831081177,
+            "pts_mse": 17.898927158051386,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 52.1368514524599,
+            "mae": 5.559762695854685,
+            "under": 1.9326416388280225,
+            "pts_mse": 33.974581550692065,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  },
+  {
+    "candidate": "fraction1_evidence_8",
+    "policy": {
+      "redistribution_fraction": 1.0,
+      "role_evidence_prior_games": 8.0,
+      "minute_variance_scale": 1.0
+    },
+    "metrics": {
+      "n": 19208,
+      "mse": 47.86392431720883,
+      "mae": 5.352500092706558,
+      "under": 2.185497375644271,
+      "pts_mse": 37.435032920724964,
+      "position_coverage": 0.9816744247312755
+    },
+    "gate": {
+      "accepted": true,
+      "relative_mse_gain": 0.025169862946407086,
+      "mse_gain_ci95": [
+        0.883851392802429,
+        1.5061111826428222
+      ],
+      "half_gains": [
+        1.3415567519134,
+        1.1346993694789287
+      ],
+      "reasons": [],
+      "cohorts": {
+        "low_role": {
+          "baseline": {
+            "n": 2086,
+            "mse": 64.23480317854111,
+            "mae": 6.190129870196359,
+            "under": 2.0171816389417607,
+            "pts_mse": 19.177880476526063,
+            "position_coverage": 0.9809887804762786
+          },
+          "candidate": {
+            "n": 2086,
+            "mse": 57.87859837838423,
+            "mae": 5.811374716259985,
+            "under": 2.2183470771352436,
+            "pts_mse": 18.18226393766301,
+            "position_coverage": 0.9809887804762786
+          }
+        },
+        "strong_prior_low_role": {
+          "baseline": {
+            "n": 0
+          },
+          "candidate": {
+            "n": 0
+          }
+        },
+        "early": {
+          "baseline": {
+            "n": 3227,
+            "mse": 54.91589185835322,
+            "mae": 5.745867930780587,
+            "under": 1.9244787997482078,
+            "pts_mse": 34.36499382975383,
+            "position_coverage": 0.9578949883031952
+          },
+          "candidate": {
+            "n": 3227,
+            "mse": 53.04637489848854,
+            "mae": 5.627075991711664,
+            "under": 1.92658248945563,
+            "pts_mse": 34.09886759074515,
+            "position_coverage": 0.9578949883031952
+          }
+        }
+      }
+    }
+  }
+]

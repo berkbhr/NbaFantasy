@@ -1,0 +1,117 @@
+{
+  "accepted": false,
+  "reasons": [
+    "coverage95_all",
+    "coverage95_low_role"
+  ],
+  "scores": {
+    "all": {
+      "baseline": {
+        "n": 19555,
+        "nll": 3.355443434549229,
+        "coverage95": 0.9401687547941703,
+        "coverage80": 0.7994374840194324
+      },
+      "candidate": {
+        "n": 19555,
+        "nll": 3.3052735899028765,
+        "coverage95": 0.9326514957811302,
+        "coverage80": 0.7982101764254667
+      }
+    },
+    "low_role": {
+      "baseline": {
+        "n": 1799,
+        "nll": 3.4132194961059263,
+        "coverage95": 0.9583101723179545,
+        "coverage80": 0.7943301834352418
+      },
+      "candidate": {
+        "n": 1799,
+        "nll": 3.3645072555621782,
+        "coverage95": 0.9366314619232907,
+        "coverage80": 0.8237909949972206
+      }
+    },
+    "strong_prior_low_role": {
+      "baseline": {
+        "n": 100,
+        "nll": 3.4069325692134425,
+        "coverage95": 0.98,
+        "coverage80": 0.83
+      },
+      "candidate": {
+        "n": 100,
+        "nll": 3.3379142343380517,
+        "coverage95": 0.95,
+        "coverage80": 0.87
+      }
+    },
+    "early": {
+      "baseline": {
+        "n": 3221,
+        "nll": 3.3682253635544916,
+        "coverage95": 0.9602607885749768,
+        "coverage80": 0.8227258615336852
+      },
+      "candidate": {
+        "n": 3221,
+        "nll": 3.279037807518449,
+        "coverage95": 0.9521887612542689,
+        "coverage80": 0.8314188140329091
+      }
+    }
+  },
+  "source_sha256_LF": {
+    "src\\auth_yahoo.py": "a7ad805ac75bfd5d476e57526a54bfc994ce50425d4303a450f2bab580929e5f",
+    "src\\bayesian_model.py": "ca207500df256570af930c9d01e9b88e291c93f69614e6e908a931ff12137635",
+    "src\\boxscores.py": "ce0002e477a637bc428ef6dfd69ae58c17f401f16e1121830bc1b7327bfaaf55",
+    "src\\calibrate.py": "86619094747dfa552651a131d3d6d163af1f58441f4e4619e430c32cd5ac8c27",
+    "src\\check_rotation_safety.py": "b1add5f2060a94b39ee79c8fe65d6628cfdc585e54f852f38a9395145afc5ccb",
+    "src\\cloud_audit.py": "da2fb3d1b9b2e605ad435cd4f46bc05e98a50573736c6c10fe2c8b783468d44e",
+    "src\\cloud_sync.py": "d32691f6501ceccd17fff0c719f55fb67994b575a5748b27ed0b17a18b892aee",
+    "src\\compare_versions.py": "5c3c1020c1dfecb72b17b76d5a17a643d641eb03dd3ac251ad1ffc2c4950f287",
+    "src\\data_fetcher.py": "5341f7c8bf39ed1c17a844cb171a28a68c2bc188b699bd1300f74cbfcacd4230",
+    "src\\draft_data.py": "4de01cafdc2eea2ed4795edc86d8336319838edb12ac28b9088b03c1805c503c",
+    "src\\forecast.py": "f3bb2458c95f91e78e21d95417c95d5d076200479fa734f9a9e81655bd83fc00",
+    "src\\historical_labels.py": "72923395ca5668474ab259df27926800ee92ec1feb0d77525e79acc5ab6efe67",
+    "src\\injury_backtest.py": "98dd9afb2b76b9bb9125ba3188e13a7f1121aa4d20b27a9f32e6a4f9358488c2",
+    "src\\injury_experiments.py": "7fe51c4323ec78137ad8823313d29f34e7c446eef768eb09b8f0703555049494",
+    "src\\injury_tracker.py": "faca106c389696ce44cb0efcfd6246a32075e5350605a69b7aacee7098346e72",
+    "src\\live_draft_assistant.py": "8af79cfe07e89b1577c0746f24666ff5ce0af93667c01692ec2c75b05799ec6c",
+    "src\\matchup_engine.py": "908ead2022a2f5d5c23c8849cd38b2f6e22c2c3ffb982698f5bc43312992bfaa",
+    "src\\mathematical_audit.py": "258817445a1c064c1b79b2cbd70bbb848d2d6c3b5b0649c680101b31002a9eb1",
+    "src\\model_policy.py": "417b7bb37980af3b40472e57623489fb59a537c17c574595711c3de14fbc5e1f",
+    "src\\nba_injury_scraper.py": "6f5c4c0449281ed2948a2b6c96bae765e99e8d60b08627068b70bca470fbf7bd",
+    "src\\notifications.py": "d940f8753d4c96bf6d74009fc5df3feabc15d1b8163a3cdc25cdeb90ffc8e972",
+    "src\\playoffs.py": "a1c84795b793a473f36b408feee31db7eece34f2094a5173b46760de8e6c6019",
+    "src\\priors.py": "2edbde3b9aaf0d6fffeb516e61529ad9307806c5d08933d403cdd815d7633a87",
+    "src\\probability.py": "59d1abe8ed8e3b6e34296abe8bb28547a387fd2ce743326244c0a471cb918db3",
+    "src\\prospective.py": "cf298c079e68c70a34b1213867a001c87b3ca055802fadab97b09e0ee0fa011b",
+    "src\\role_opportunity_audit.py": "ad1f5dd47c2f0a83bdb08ec8d2b5d1579659b24f9a485adfa8b2c9b5104d129e",
+    "src\\rotation.py": "2a3ae17a2812d3ce3b3cd6382db3f24003ec01a2301164462836a698011af979",
+    "src\\rotation_policy.py": "37e63f953c77accadf3b4a6eb16e48de4d852b2e92224f8d64721daf00031052",
+    "src\\season_logs.py": "2922eddda5321f9009920515f58428163f262f3f9b46686f1606e3120a339538",
+    "src\\settings.py": "b3a4537794c7dc953f561fe016306791b314f15027ea04b26e99fad365d6c7b5",
+    "src\\snapshots.py": "88723b8f8d56de064ae285603ade64c12e5d89a6ac4166f7526215d928872d00",
+    "src\\tune_availability.py": "15f924949a4aa39af3ba87694c738ad435022a99d4fa42886d22ba70a3629971",
+    "src\\tune_rotation.py": "b3e09ea37fa7cfe28f38e79f8cd30cb26d80bdc22cff38a5ad7d46cc8ebac3a9",
+    "src\\validation.py": "794940d6c7e7a2b317a53d77d1d1d49df005d28c76e9d5fedd0689098930642d",
+    "src\\yahoo_browser_sync.py": "ceb5bf214a7ff0985746b28337e3ed547165cba0ef0dcf0ab1f67d86c3f7db5d",
+    "src\\yahoo_draft_sync.py": "03b44cec2bdecaca966dc52e585bdcaf1c46aa9e68169962420cdc5c5aba6162",
+    "src\\__init__.py": "b18fc46e31ebf07baf0fc0d2154b2a853f6a4c32180c7066c92afbc646b98d97"
+  },
+  "python": "3.14.3",
+  "numpy": "2.5.2",
+  "protocol": {
+    "candidate": "Existing frozen mean-policy winner only; no new parameter search",
+    "primary_no_refit": true,
+    "normal_moment_nll_max_relative_harm": 0.01,
+    "coverage95_max_absolute_drop": 0.005,
+    "cohort_min_rows": 200,
+    "cohort_nll_max_relative_harm": 0.02,
+    "cohort_coverage95_max_absolute_drop": 0.01,
+    "decision": "Keep selected parameters only if these additional gates pass; otherwise baseline, no runner-up",
+    "interpretation": "Continuous Normal moment diagnostic for conditional minutes; not a proof of full weekly probability calibration"
+  }
+}

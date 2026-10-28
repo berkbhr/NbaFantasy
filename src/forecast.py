@@ -37,7 +37,13 @@ def local_source_paths():
     ]
     paths += [
         ROOT / "config" / name
-        for name in ("model_policy.json", "league.json", "prospective_protocol.json")
+        for name in (
+            "model_policy.json",
+            "rotation_policy.json",
+            "rotation_candidate.json",
+            "league.json",
+            "prospective_protocol.json",
+        )
     ]
     return paths
 
@@ -55,9 +61,17 @@ def build_local_forecast(
     )
     logs_path = ROOT / "data" / "raw" / "player_logs_2026_27.parquet"
     logs = pd.read_parquet(logs_path) if logs_path.exists() else pd.DataFrame()
+    known_completed_ids = set()
     if not logs.empty:
         # A historical as-of run may never consume future cached observations.
         day = pd.Timestamp(now).tz_convert("America/New_York").tz_localize(None).normalize()
+        known_dates = pd.to_datetime(logs.GAME_DATE)
+        cached_before_cutoff = logs_path.stat().st_mtime <= pd.Timestamp(now).timestamp()
+        known_completed_ids = set(
+            logs.loc[
+                (known_dates < day) | ((known_dates == day) & cached_before_cutoff), "GAME_ID"
+            ].astype(str)
+        )
         logs = logs[pd.to_datetime(logs.GAME_DATE) < day].copy()
         assistant.apply_current_season_logs(logs)
     db = ROOT / "data" / "processed" / "injuries.db"
@@ -113,7 +127,7 @@ def build_local_forecast(
         draw_value=settings.draw_value,
         max_weekly_adds=settings.max_weekly_adds,
     )
-    engine.completed_game_ids = set(logs.GAME_ID.astype(str)) if not logs.empty else set()
+    engine.completed_game_ids = known_completed_ids
     for names in state.get("il_slots", {}).values():
         for name in names:
             pid = assistant.resolve_player_id(name, only_available=False)
@@ -170,6 +184,19 @@ def build_local_forecast(
     result = {
         "forecast_at": now.isoformat(),
         "live_score_valid": live is not None,
+        "live_score": live,
+        "rotation_policy": engine.rotation_policy.to_dict(),
+        "roster_health": [
+            {
+                "name": assistant.players[pid].name,
+                "status": assistant.players[pid].injury_status,
+                "eff_avail": assistant.players[pid].get_effective_game_availability(),
+                "is_out": assistant.players[pid].get_effective_game_availability() == 0,
+                "slot_state": "IL+" if pid in engine.yahoo_already_stashed_ids else "Active/BN",
+            }
+            for pid in rosters[my_slot]
+            if pid in assistant.players
+        ],
         "model_policy": assistant.model_policy.to_dict(),
         "id": f"{fantasy_week_window(now, False)[0].date()}:{my_slot}:{opponent}",
         "model_source_sha256": {
@@ -182,6 +209,7 @@ def build_local_forecast(
                 "matchup_engine.py",
                 "probability.py",
                 "rotation.py",
+                "rotation_policy.py",
                 "prospective.py",
                 "snapshots.py",
             )
