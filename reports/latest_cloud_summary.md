@@ -1,26 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-28T18:48:49.597070+00:00
-Matchup: **Berk's Best Team vs SILE BULLS**
+Generated: 2026-10-28T19:32:17.235299+00:00
+Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-28 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.404**.
-Expected category points: **5.40 / 9**.
-Expected category wins: 5.30; ties: 0.20.
-Secondary weekly W/L/D: 72.7% / 23.2% / 4.1%.
+Objective value: **4.584**.
+Expected category points: **4.58 / 9**.
+Expected category wins: 4.52; ties: 0.12.
+Secondary weekly W/L/D: 51.0% / 45.4% / 3.6%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 81.4% | 0.4% | 18.1% |
-| REB | 83.3% | 1.0% | 15.7% |
-| AST | 32.1% | 2.0% | 66.0% |
-| STL | 42.8% | 4.6% | 52.6% |
-| BLK | 70.2% | 5.1% | 24.6% |
-| TOV | 51.5% | 3.5% | 45.0% |
-| FG3M | 51.3% | 3.6% | 45.1% |
-| FG_PCT | 69.9% | 0.0% | 30.1% |
-| FT_PCT | 47.8% | 0.0% | 52.2% |
+| PTS | 50.9% | 0.6% | 48.5% |
+| REB | 39.8% | 1.5% | 58.7% |
+| AST | 97.6% | 0.3% | 2.1% |
+| STL | 84.2% | 2.8% | 13.0% |
+| BLK | 6.5% | 2.0% | 91.5% |
+| TOV | 9.4% | 1.7% | 88.9% |
+| FG3M | 45.8% | 3.5% | 50.7% |
+| FG_PCT | 56.4% | 0.0% | 43.6% |
+| FT_PCT | 61.6% | 0.0% | 38.4% |
 
 ## Realized scores and remaining projections
 
@@ -28,19 +28,26 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 0 / 0 | 394.20 / 339.69 | 60.46 |
-| REB | 0 / 0 | 148.45 / 123.29 | 25.49 |
-| AST | 0 / 0 | 85.41 / 93.42 | 18.27 |
-| STL | 0 / 0 | 27.71 / 28.78 | 8.66 |
-| BLK | 0 / 0 | 17.92 / 13.99 | 6.45 |
-| TOV | 0 / 0 | 43.26 / 44.19 | 11.43 |
-| FG3M | 0 / 0 | 40.12 / 39.26 | 10.99 |
+| PTS | 112 / 171 | 394.20 / 333.29 | 62.84 |
+| REB | 49 / 80 | 148.45 / 123.58 | 25.65 |
+| AST | 28 / 25 | 85.41 / 55.50 | 16.38 |
+| STL | 14 / 12 | 27.71 / 21.17 | 8.03 |
+| BLK | 6 / 16 | 17.92 / 18.10 | 7.06 |
+| TOV | 14 / 10 | 43.26 / 33.71 | 10.70 |
+| FG3M | 17 / 16 | 40.12 / 41.83 | 11.44 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Δ category_points |
 |---|---|---:|
-| No eligible recommendation | — | — |
+| Jay Huff | Bilal Coulibaly | +0.322 |
+| Nikola Vučević | Bilal Coulibaly | +0.267 |
+| Jarace Walker | Bilal Coulibaly | +0.201 |
+| Ziaire Williams | Bilal Coulibaly | +0.193 |
+| Goga Bitadze | Bilal Coulibaly | +0.192 |
+| Dean Wade | Bilal Coulibaly | +0.189 |
+| Isaiah Jackson | Bilal Coulibaly | +0.184 |
+| Clint Capela | Bilal Coulibaly | +0.174 |
 
 ## Forecast active lineups
 
@@ -52,8 +59,6 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 ## Assumptions and data quality
 
-- Yahoo roster and score belong to different synchronization versions
-- No valid live scoreboard: totals describe remaining games only; in-week add/drop recommendations withheld.
 - Local caches only; no data fetched and no notifications sent.
 - Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.
 - Return dates, rotations and future lineup choices remain model assumptions.
