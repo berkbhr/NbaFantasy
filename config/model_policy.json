@@ -1,0 +1,9 @@
+{
+  "blend": "dynamic",
+  "primary_weight": 0.8,
+  "legacy_total_rates": false,
+  "fixed_kappa": false,
+  "exposure_minutes": null,
+  "shot_precision_multiplier": 1.0,
+  "role": "adaptive_anchor"
+}

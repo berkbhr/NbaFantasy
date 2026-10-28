@@ -1,0 +1,21 @@
+{
+  "status": "provisional",
+  "unique_player_games": 0,
+  "review": "pending",
+  "note": "Earliest next-day forecast only; no causal category-gain claim",
+  "all": {
+    "n": 0,
+    "game_dates": 0
+  },
+  "stars": {
+    "n": 0,
+    "game_dates": 0
+  },
+  "review_ready": false,
+  "spillover_descriptive": {
+    "n": 0
+  },
+  "availability_descriptive": {
+    "n": 0
+  }
+}

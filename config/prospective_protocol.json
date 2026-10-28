@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "started_on": "2026-10-28",
+  "role_change_status": "provisional",
+  "primary": "adaptive_anchor",
+  "shadow": "recent_blend",
+  "spillover_shadow": "Same primary player state, injury minute redistribution disabled; descriptive until fixed review",
+  "target": "Per-player conditional minutes and category production; availability separately",
+  "evaluation": "Use earliest recorded prediction per player-game-horizon; do not count repeated runs as independent samples",
+  "horizon": "Next calendar day in America/New_York; same-day games excluded until exact tipoff timestamps are available",
+  "star_definition": "Projected prior MPG >=25, fixed from completed-season prior at forecast time",
+  "promotion": {
+    "first_review_after_completed_game_dates": 42,
+    "minimum_star_player_games": 1000,
+    "primary": "star conditional-minute MAE",
+    "minimum_relative_gain": 0.0025,
+    "paired_calendar_week_bootstrap_draws": 2000,
+    "seed": 42,
+    "lower_95_percent_gain_must_exceed_zero": true,
+    "guard_max_relative_count_mae_harm": 0.01,
+    "reviews": "Single preregistered review; no daily significance peeking; no automatic promotion or rollback"
+  },
+  "interpretation": "No randomized add/drop control: forecasting accuracy does not establish causal gains in won categories"
+}

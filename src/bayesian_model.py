@@ -1,50 +1,50 @@
 import numpy as np
-import datetime
+import pandas as pd
 
 # Categories and their groupings
-COUNT_STATS = ['PTS', 'REB', 'AST', 'STL', 'BLK', 'FG3M', 'TOV']
-PERCENTAGE_STATS = ['FG', 'FT']  # Handled via FGM/FGA and FTM/FTA
+COUNT_STATS = ["PTS", "REB", "AST", "STL", "BLK", "FG3M", "TOV"]
+PERCENTAGE_STATS = ["FG", "FT"]  # Handled via FGM/FGA and FTM/FTA
 
 # Empirical Bayes hyperparameter kappa_c (within-to-between variance ratio in minutes):
-# weight_player = prior_min / (prior_min + kappa_c)  (fixes Rapor 1 / K9)
+# weight_player = prior_min / (prior_min + kappa_c)
 EB_KAPPA_MINUTES_BY_STAT = {
-    'PTS': 350.0,
-    'REB': 320.0,
-    'AST': 320.0,
-    'FG3M': 420.0,
-    'STL': 550.0,
-    'BLK': 500.0,
-    'TOV': 420.0,
-    'FGA': 350.0,
-    'FTA': 400.0,
+    "PTS": 350.0,
+    "REB": 320.0,
+    "AST": 320.0,
+    "FG3M": 420.0,
+    "STL": 550.0,
+    "BLK": 500.0,
+    "TOV": 420.0,
+    "FGA": 350.0,
+    "FTA": 400.0,
 }
 
-# Compound-Poisson / Overdispersion multipliers phi_c (fixes Rapor 1 / K1):
+# Compound-Poisson / Overdispersion multipliers phi_c:
 # PTS comes in 2- and 3-point clusters (E[V^2]/E[V] ≈ 2.15), FTA in 2-3 shot trips (≈ 1.85), FGA in rhythm bursts
 DISPERSION_PHI_BY_STAT = {
-    'PTS': 2.05,
-    'REB': 1.02,
-    'AST': 1.02,
-    'STL': 1.00,
-    'BLK': 1.02,
-    'FG3M': 1.08,
-    'TOV': 1.02,
-    'FG': 1.25,
-    'FT': 1.85,
+    "PTS": 2.05,
+    "REB": 1.02,
+    "AST": 1.02,
+    "STL": 1.00,
+    "BLK": 1.02,
+    "FG3M": 1.08,
+    "TOV": 1.02,
+    "FG": 1.25,
+    "FT": 1.85,
 }
 
-# Category-specific daily forgetting rates lambda_c (fixes Rapor 1 / K11):
+# Category-specific daily forgetting rates lambda_c:
 # Skill rates like FT% are much more stable than role-dependent count rates
 DECAY_LAMBDA_BY_STAT = {
-    'PTS': 0.015,
-    'REB': 0.012,
-    'AST': 0.015,
-    'STL': 0.010,
-    'BLK': 0.010,
-    'FG3M': 0.012,
-    'TOV': 0.014,
-    'FG': 0.008,
-    'FT': 0.004,
+    "PTS": 0.015,
+    "REB": 0.012,
+    "AST": 0.015,
+    "STL": 0.010,
+    "BLK": 0.010,
+    "FG3M": 0.012,
+    "TOV": 0.014,
+    "FG": 0.008,
+    "FT": 0.004,
 }
 
 MIN_BETA_MINUTES = 60.0
@@ -52,9 +52,10 @@ MIN_BETA_ATTEMPTS = 15.0
 
 
 class BayesianPlayer:
-    def __init__(self, player_id, name):
+    def __init__(self, player_id, name, policy=None):
         self.player_id = player_id
         self.name = name
+        self.policy = policy
 
         self.alphas = {}
         self.betas = {}
@@ -62,7 +63,7 @@ class BayesianPlayer:
         self.att_alphas = {}
         self.att_betas = {}
 
-        # Player-specific role & Beta-Bernoulli availability state (fixes Rapor 1 / K7 & K8)
+        # Player-specific role & Beta-Bernoulli availability state
         self.expected_minutes = 20.0
         self.base_expected_minutes = 20.0
         self.prior_min = 0.0
@@ -74,22 +75,24 @@ class BayesianPlayer:
         self.avail_beta = 6.0
         self.availability_rate = 0.85
         self.consecutive_dnps = 0
-        self.injury_status = 'HEALTHY'
-        self.injury_desc = ''
+        self.injury_status = "HEALTHY"
+        self.injury_desc = ""
         self.is_b2b_rest = False
         self.expected_return = None
+        self.injury_report_date = None
+        self.applied_game_ids = set()
 
         self.last_game_date = None
         self.decay_lambda = 0.015
         self.delta_event = 0.2
 
-    def _resolve_pos_rates(self, positional_averages, pos_str='UTIL'):
+    def _resolve_pos_rates(self, positional_averages, pos_str="UTIL"):
         if not positional_averages:
             return {}
-        by_pos = positional_averages.get('BY_POS', {})
+        by_pos = positional_averages.get("BY_POS", {})
         pos_upper = str(pos_str).upper()
         matched = []
-        for pk in ('G', 'F', 'C'):
+        for pk in ("G", "F", "C"):
             if pk in pos_upper and pk in by_pos:
                 matched.append(by_pos[pk])
         if not matched:
@@ -99,20 +102,29 @@ class BayesianPlayer:
         # Average across multi-positional eligibility (e.g. 'G-F' or 'F-C')
         blended = {}
         for k in matched[0].keys():
-            blended[k] = float(np.mean([m.get(k, 0.0) for m in matched]))
+            if k == "KAPPA":
+                blended[k] = {
+                    s: float(
+                        np.mean([m.get(k, {}).get(s, EB_KAPPA_MINUTES_BY_STAT[s]) for m in matched])
+                    )
+                    for s in COUNT_STATS
+                }
+            else:
+                blended[k] = float(np.mean([m.get(k, 0.0) for m in matched]))
         return blended
 
-    def initialize_priors(self, prior_data, positional_averages=None, pos_str='UTIL'):
+    def initialize_priors(self, prior_data, positional_averages=None, pos_str="UTIL"):
         """
         Initializes Empirical Bayes conjugate priors with:
           1. Position-specific target rates ('G', 'F', 'C', fixes K10)
-          2. True Empirical Bayes shrinkage w = n / (n + kappa_c) and information-scaled ESS (fixes K9)
-          3. Beta-Binomial availability tracking updated in-season (fixes K8)
+          2. Population-rate shrinkage w = n / (n + kappa_c) and information-scaled ESS
+          3. Beta-Binomial availability tracking updated in-season
         """
-        has_valid_prior = bool(prior_data and prior_data.get('MIN', 0) >= 50)
-        prior_min = float(prior_data['MIN']) if has_valid_prior else 0.0
-        self.prior_min = prior_min
-        prior_gp = float(prior_data.get('GP', 0)) if has_valid_prior else 0.0
+        has_valid_prior = bool(prior_data and prior_data.get("MIN", 0) >= 50)
+        prior_min = float(prior_data["MIN"]) if has_valid_prior else 0.0
+        evidence_min = float(prior_data.get("EVIDENCE_MIN", prior_min)) if has_valid_prior else 0.0
+        self.prior_min = evidence_min
+        prior_gp = float(prior_data.get("GP", 0)) if has_valid_prior else 0.0
 
         pos_rates = self._resolve_pos_rates(positional_averages, pos_str=pos_str)
 
@@ -121,17 +133,23 @@ class BayesianPlayer:
         if prior_min > 0 and prior_gp > 0:
             obs_mpg = prior_min / prior_gp
             w_min = prior_gp / (prior_gp + 8.0)
-            self.expected_minutes = float(np.clip(w_min * obs_mpg + (1.0 - w_min) * replacement_mpg, 8.0, 38.0))
+            self.expected_minutes = float(
+                np.clip(w_min * obs_mpg + (1.0 - w_min) * replacement_mpg, 8.0, 38.0)
+            )
             self.base_expected_minutes = self.expected_minutes
 
             # Beta(alpha, beta) prior for game availability based on prior season out of 82 games
-            avail_gp_ref = float(prior_data.get('ROOKIE_AVAIL_GP', prior_gp))
+            avail_gp_ref = float(
+                prior_data.get("ROOKIE_AVAIL_GP", prior_data.get("AVAIL_GP", prior_gp))
+            )
             obs_played = min(82.0, avail_gp_ref)
             obs_missed = max(0.0, 82.0 - obs_played)
             # Blend 25 pseudo-games of league average (0.80) with 0.5x prior season games
             self.avail_alpha = 20.0 + 0.5 * obs_played
             self.avail_beta = 5.0 + 0.5 * obs_missed
-            self.availability_rate = float(np.clip(self.avail_alpha / (self.avail_alpha + self.avail_beta), 0.35, 0.96))
+            self.availability_rate = float(
+                np.clip(self.avail_alpha / (self.avail_alpha + self.avail_beta), 0.35, 0.96)
+            )
         else:
             self.expected_minutes = replacement_mpg
             self.base_expected_minutes = replacement_mpg
@@ -141,8 +159,10 @@ class BayesianPlayer:
 
         # 2. Count Stats Initialization (Empirical Bayes w = n / (n + kappa_c), ESS scaled by prior_min)
         for stat in COUNT_STATS:
-            kappa = EB_KAPPA_MINUTES_BY_STAT.get(stat, 400.0)
-            weight_player = (prior_min / (prior_min + kappa)) if prior_min > 0 else 0.0
+            kappa = pos_rates.get("KAPPA", {}).get(stat, EB_KAPPA_MINUTES_BY_STAT.get(stat, 400.0))
+            if self.policy is not None and self.policy.fixed_kappa:
+                kappa = EB_KAPPA_MINUTES_BY_STAT[stat]
+            weight_player = (evidence_min / (evidence_min + kappa)) if evidence_min > 0 else 0.0
             weight_pos = 1.0 - weight_player
 
             player_rate = (prior_data.get(stat, 0.0) / prior_min) if prior_min > 0 else 0.0
@@ -150,8 +170,10 @@ class BayesianPlayer:
 
             blended_rate = (player_rate * weight_player) + (pos_rate * weight_pos)
 
-            # Scale prior confidence (ESS) with actual observed minutes: rookies get 120m, veterans up to 650m (fixes K9)
-            init_beta = float(np.clip(120.0 + 0.25 * prior_min, 120.0, 650.0))
+            # Scale prior confidence (ESS) with actual observed minutes: minimum 120m, veterans up to 650m
+            init_beta = float(np.clip(120.0 + 0.25 * evidence_min, 120.0, 650.0))
+            if self.policy is not None and self.policy.exposure_minutes is not None:
+                init_beta = self.policy.exposure_minutes
             self.alphas[stat] = max(blended_rate * init_beta, 1e-3)
             self.betas[stat] = init_beta
 
@@ -162,12 +184,14 @@ class BayesianPlayer:
 
             made_pos = pos_rates.get(made_key, 0.0)
             att_pos = pos_rates.get(att_key, 0.0)
-            pos_rate = (made_pos / att_pos) if att_pos > 0 else (0.47 if stat == 'FG' else 0.78)
-            pos_att_per_min = att_pos if att_pos > 0 else (0.38 if stat == 'FG' else 0.10)
+            pos_rate = (made_pos / att_pos) if att_pos > 0 else (0.47 if stat == "FG" else 0.78)
+            pos_att_per_min = att_pos if att_pos > 0 else (0.38 if stat == "FG" else 0.10)
 
             kappa_att = EB_KAPPA_MINUTES_BY_STAT.get(att_key, 380.0)
-            w_att = (prior_min / (prior_min + kappa_att)) if prior_min > 0 else 0.0
-            init_att_beta = float(np.clip(120.0 + 0.25 * prior_min, 120.0, 650.0))
+            w_att = (evidence_min / (evidence_min + kappa_att)) if evidence_min > 0 else 0.0
+            init_att_beta = float(np.clip(120.0 + 0.25 * evidence_min, 120.0, 650.0))
+            if self.policy is not None and self.policy.exposure_minutes is not None:
+                init_att_beta = self.policy.exposure_minutes
 
             if prior_min > 0 and prior_data.get(att_key, 0) > 0:
                 obs_att = float(prior_data[att_key])
@@ -175,14 +199,17 @@ class BayesianPlayer:
                 player_rate = obs_made / obs_att
                 player_att_per_min = obs_att / prior_min
 
-                kappa_shot = 250.0 if stat == 'FG' else 100.0
-                w_rate = obs_att / (obs_att + kappa_shot)
-                prior_ess_attempts = float(np.clip(kappa_shot * 0.5 + 0.35 * obs_att, MIN_BETA_ATTEMPTS, 450.0))
+                kappa_shot = 250.0 if stat == "FG" else 100.0
+                evidence_att = float(prior_data.get("EVIDENCE_" + att_key, obs_att))
+                w_rate = evidence_att / (evidence_att + kappa_shot)
+                prior_ess_attempts = float(
+                    np.clip(kappa_shot * 0.5 + 0.35 * evidence_att, MIN_BETA_ATTEMPTS, 450.0)
+                )
             else:
                 player_rate = pos_rate
                 player_att_per_min = 0.0
                 w_rate = 0.0
-                prior_ess_attempts = 40.0 if stat == 'FG' else 25.0
+                prior_ess_attempts = 40.0 if stat == "FG" else 25.0
 
             blended_rate = (player_rate * w_rate) + (pos_rate * (1.0 - w_rate))
             blended_att_per_min = (player_att_per_min * w_att) + (pos_att_per_min * (1.0 - w_att))
@@ -190,30 +217,37 @@ class BayesianPlayer:
             self.att_alphas[stat] = max(blended_att_per_min * init_att_beta, 1.0)
             self.att_betas[stat] = init_att_beta
 
+            if self.policy is not None:
+                prior_ess_attempts *= self.policy.shot_precision_multiplier
             self.alphas[stat] = max(prior_ess_attempts * blended_rate, 1.0)
             self.betas[stat] = max(prior_ess_attempts * (1.0 - blended_rate), 1.0)
 
     def record_team_game_availability(self, played: bool):
         """
         Updates the player's Beta-Bernoulli availability posterior and consecutive_dnps counter
-        whenever their NBA team plays a scheduled game (fixes Rapor 1 / K8).
+        whenever their NBA team plays a scheduled game.
         """
         # Mild exponential discounting on availability history so recent health dominates
         self.avail_alpha = max(2.0, self.avail_alpha * 0.985 + (1.0 if played else 0.0))
         self.avail_beta = max(0.5, self.avail_beta * 0.985 + (0.0 if played else 1.0))
-        self.availability_rate = float(np.clip(self.avail_alpha / (self.avail_alpha + self.avail_beta), 0.15, 0.98))
+        self.availability_rate = float(
+            np.clip(self.avail_alpha / (self.avail_alpha + self.avail_beta), 0.15, 0.98)
+        )
         if played:
             self.consecutive_dnps = 0
         else:
             self.consecutive_dnps += 1
 
-    def update_injury_status(self, status='HEALTHY', desc='', is_b2b_rest=False, expected_return=None):
-        self.injury_status = str(status).upper().strip() if status else 'HEALTHY'
-        self.injury_desc = desc or ''
+    def update_injury_status(
+        self, status="HEALTHY", desc="", is_b2b_rest=False, expected_return=None, report_date=None
+    ):
+        self.injury_status = str(status).upper().strip() if status else "HEALTHY"
+        self.injury_desc = desc or ""
         self.is_b2b_rest = bool(is_b2b_rest)
         self.expected_return = expected_return
+        self.injury_report_date = report_date
 
-    def get_effective_game_availability(self, is_b2b=False):
+    def get_effective_game_availability(self, is_b2b=False, game_date=None, as_of_date=None):
         """
         Returns the conditional probability the player plays in an upcoming game this week,
         conditioned on:
@@ -221,16 +255,49 @@ class BayesianPlayer:
           2. Multi-game DNP streak (consecutive_dnps).
           3. Long-term Bayesian baseline availability rate.
         """
-        st = getattr(self, 'injury_status', 'HEALTHY')
-        if st in ('OUT', 'INJ', 'SUSPENDED', 'REST'):
+        st = getattr(self, "injury_status", "HEALTHY")
+        baseline = float(np.clip(0.35 * 0.92 + 0.65 * self.availability_rate, 0.35, 0.96))
+        # Estimated return is a forecast, not a guarantee of clearance. Before
+        # that date OUT stays unavailable; on return day use 52%, then ramp
+        # toward the baseline over a week. This policy is not fitted to injuries.
+        if game_date is not None and self.expected_return:
+            ret = pd.to_datetime(self.expected_return, errors="coerce", utc=True)
+            day = pd.to_datetime(game_date, utc=True)
+            reported = pd.to_datetime(
+                self.injury_report_date or as_of_date, errors="coerce", utc=True
+            )
+            stale_return = (
+                not pd.isna(ret)
+                and reported is not None
+                and not pd.isna(reported)
+                and ret.normalize() <= reported.normalize()
+            )
+            if not pd.isna(ret) and not stale_return:
+                days = (day.normalize() - ret.normalize()).days
+                if days >= 0 and st in (
+                    "OUT",
+                    "INJ",
+                    "O",
+                    "IL",
+                    "DOUBTFUL",
+                    "QUESTIONABLE",
+                    "GTD",
+                    "DTD",
+                ):
+                    return min(baseline, 0.52 + max(0, days) * max(0, baseline - 0.52) / 7)
+        if st == "REST" and game_date is not None:
+            report = self.injury_report_date or as_of_date
+            if report is not None and pd.Timestamp(game_date).date() > pd.Timestamp(report).date():
+                return baseline
+        if st in ("OUT", "INJ", "O", "IL", "SUSPENDED", "REST"):
             return 0.0
-        if getattr(self, 'is_b2b_rest', False) and is_b2b:
+        if (getattr(self, "is_b2b_rest", False) or st == "B2B_REST") and is_b2b:
             return 0.05
-        if st == 'DOUBTFUL':
+        if st == "DOUBTFUL":
             return 0.15
-        if st in ('QUESTIONABLE', 'GTD', 'DTD'):
+        if st in ("QUESTIONABLE", "GTD", "DTD"):
             return 0.52
-        if st == 'PROBABLE':
+        if st == "PROBABLE":
             return 0.90
 
         if self.consecutive_dnps >= 5:
@@ -242,12 +309,12 @@ class BayesianPlayer:
         elif self.consecutive_dnps == 1:
             return min(self.availability_rate, 0.72)
         # Preserve player-specific availability prior blended with healthy entry streak
-        return float(np.clip(0.35 * 0.92 + 0.65 * self.availability_rate, 0.35, 0.96))
+        return baseline
 
     def _apply_floored_decay(self, delta_days, is_event_reset=False):
         """
         Applies category-specific exponential discounting exp(-lambda_c * delta_days)
-        and multiplicative trade shock delta_event (fixes Rapor 1 / K11 & 1.7).
+        and multiplicative trade shock delta_event.
         """
         event_mult = self.delta_event if is_event_reset else 1.0
 
@@ -279,14 +346,37 @@ class BayesianPlayer:
                 self.alphas[stat] = max(p * new_total, 0.5)
                 self.betas[stat] = max((1.0 - p) * new_total, 0.5)
 
-    def update_stats(self, game_date, minutes, stats_dict, is_event_reset=False):
+    def update_stats(self, game_date, minutes, stats_dict, is_event_reset=False, game_id=None):
         """
         Updates the player's Bayesian belief state and expected minutes based on a new game.
         """
-        delta_days = 1
+        game_date = pd.Timestamp(game_date).normalize() if game_date is not None else None
+        identity = str(game_id or stats_dict.get("GAME_ID") or game_date)
+        if identity in self.applied_game_ids:
+            return False
+        if minutes < 0 or not np.isfinite(minutes):
+            raise ValueError("Minutes must be finite and nonnegative")
+        if (
+            self.last_game_date is not None
+            and game_date is not None
+            and game_date < self.last_game_date
+        ):
+            raise ValueError("Game updates must be chronological")
+        for stat in COUNT_STATS:
+            value = float(stats_dict.get(stat, 0.0))
+            if not np.isfinite(value) or value < 0:
+                raise ValueError(f"Invalid {stat}")
+        for stat in PERCENTAGE_STATS:
+            made, att = float(stats_dict.get(f"{stat}M", 0)), float(stats_dict.get(f"{stat}A", 0))
+            if not np.isfinite(made + att) or made < 0 or att < made:
+                raise ValueError(f"Invalid {stat} makes/attempts")
+        # Temporary injury projections must never become new learning baselines.
+        self.expected_minutes = self.base_expected_minutes
+        self.minutes_var = self.base_minutes_var
+        delta_days = 0
         if self.last_game_date is not None and game_date is not None:
             delta_days = (game_date - self.last_game_date).days
-            delta_days = min(max(delta_days, 1), 180)
+            delta_days = min(max(delta_days, 0), 180)
 
         self._apply_floored_decay(delta_days, is_event_reset=is_event_reset)
 
@@ -294,10 +384,16 @@ class BayesianPlayer:
             self.consecutive_dnps = 0
             ewma_alpha = 0.45 if is_event_reset else 0.18
             diff_min = minutes - self.expected_minutes
-            self.expected_minutes = float(np.clip(self.expected_minutes + ewma_alpha * diff_min, 6.0, 40.0))
+            self.expected_minutes = float(
+                np.clip(self.expected_minutes + ewma_alpha * diff_min, 6.0, 40.0)
+            )
             self.base_expected_minutes = self.expected_minutes
-            # Unclipped up to 144.0 (SD = 12 mins) to capture rotation/foul-trouble/blowout variance (fixes Rapor 1 / K7)
-            self.minutes_var = float(np.clip((1.0 - ewma_alpha) * self.minutes_var + ewma_alpha * (diff_min ** 2), 9.0, 144.0))
+            # Unclipped up to 144.0 (SD = 12 mins) to capture rotation/foul-trouble/blowout variance
+            self.minutes_var = float(
+                np.clip(
+                    (1.0 - ewma_alpha) * self.minutes_var + ewma_alpha * (diff_min**2), 9.0, 144.0
+                )
+            )
             self.base_minutes_var = self.minutes_var
 
             for stat in COUNT_STATS:
@@ -319,12 +415,14 @@ class BayesianPlayer:
                 self.betas[stat] += misses
 
         self.last_game_date = game_date
+        self.applied_game_ids.add(identity)
+        return True
 
     def predict_next_game(self, projected_minutes=None, projected_attempts=None, current_date=None):
         """
-        Returns Expected Value E[X] and Calibrated Predictive Variance Var_pred for the next game:
-          - Incorporates compound-Poisson overdispersion phi_c for PTS/FTA/FGA (fixes Rapor 1 / K1)
-          - Incorporates full Law of Total Variance minutes term r^2 * Var(M) without arbitrary 0.25 scaling (fixes Rapor 1 / K7)
+        Returns Expected Value E[X] and Predictive moment variance Var_pred for the next game:
+          - Incorporates compound-Poisson overdispersion phi_c for PTS/FTA/FGA
+          - Incorporates full Law of Total Variance minutes term r^2 * Var(M) without arbitrary 0.25 scaling
         """
         m = float(projected_minutes) if projected_minutes is not None else self.expected_minutes
         # If exact minutes are passed (e.g. conditional oracle test), minutes uncertainty is 0; otherwise use self.minutes_var
@@ -334,7 +432,9 @@ class BayesianPlayer:
         if current_date is not None and self.last_game_date is not None:
             idle_days = max(0, min((current_date - self.last_game_date).days, 180))
 
-        predictions = {'MIN': {'mean': m, 'variance': self.minutes_var}}
+        if m < 0 or not np.isfinite(m):
+            raise ValueError("Projected minutes must be finite and nonnegative")
+        predictions = {"MIN": {"mean": m, "variance": min_var}}
 
         # 1. Count Stats (Overdispersed Negative Binomial + Full Minutes Variance)
         for stat in COUNT_STATS:
@@ -342,17 +442,27 @@ class BayesianPlayer:
             idle_delta = float(np.exp(-lam * idle_days)) if idle_days > 2 else 1.0
 
             beta_eff = max(self.betas.get(stat, 0.0) * idle_delta, MIN_BETA_MINUTES)
-            rate = (self.alphas.get(stat, 0.0) / self.betas[stat]) if self.betas.get(stat, 0.0) > 0 else 0.0
+            rate = (
+                (self.alphas.get(stat, 0.0) / self.betas[stat])
+                if self.betas.get(stat, 0.0) > 0
+                else 0.0
+            )
             alpha_eff = max(rate * beta_eff, 1e-4)
 
             expected_val = rate * m
             phi_c = DISPERSION_PHI_BY_STAT.get(stat, 1.0)
 
             # Quasi-Negative Binomial count variance given minutes + full Law of Total Variance across minutes
-            nb_var = phi_c * expected_val + (expected_val ** 2 / alpha_eff)
-            variance = nb_var + (rate ** 2) * min_var
+            nb_var = phi_c * expected_val + (expected_val**2 / alpha_eff)
+            rate_var = rate / beta_eff
+            variance = nb_var + ((rate**2) + rate_var) * min_var
 
-            predictions[stat] = {'mean': expected_val, 'variance': variance, 'rate_per_min': rate}
+            predictions[stat] = {
+                "mean": expected_val,
+                "variance": variance,
+                "rate_per_min": rate,
+                "shared_covariance": rate_var * m**2,
+            }
 
         # 2. Percentage Stats (Overdispersed Gamma-Poisson Attempts + Minutes Variance + Beta-Binomial Accuracy)
         for stat in PERCENTAGE_STATS:
@@ -362,48 +472,63 @@ class BayesianPlayer:
             alpha = self.alphas.get(stat, 1.0)
             beta = self.betas.get(stat, 1.0)
             total_ab = max((alpha + beta) * idle_delta_pct, MIN_BETA_ATTEMPTS)
-            p = alpha / (alpha + beta) if (alpha + beta) > 0 else (0.47 if stat == 'FG' else 0.78)
+            p = alpha / (alpha + beta) if (alpha + beta) > 0 else (0.47 if stat == "FG" else 0.78)
 
             phi_att = DISPERSION_PHI_BY_STAT.get(stat, 1.25)
 
             if projected_attempts and stat in projected_attempts:
                 n = float(projected_attempts[stat])
-                var_att = phi_att * n
+                if n < 0 or not np.isfinite(n):
+                    raise ValueError("Projected attempts must be finite and nonnegative")
+                var_att = 0.0
+                shared_att_cov = 0.0
             else:
                 lam_att = DECAY_LAMBDA_BY_STAT.get(stat, 0.012)
                 idle_delta_att = float(np.exp(-lam_att * idle_days)) if idle_days > 2 else 1.0
-                att_beta_eff = max(self.att_betas.get(stat, 400.0) * idle_delta_att, MIN_BETA_MINUTES)
+                att_beta_eff = max(
+                    self.att_betas.get(stat, 400.0) * idle_delta_att, MIN_BETA_MINUTES
+                )
                 att_rate = (
                     self.att_alphas[stat] / self.att_betas[stat]
                     if self.att_betas.get(stat, 0.0) > 0
-                    else (0.38 if stat == 'FG' else 0.10)
+                    else (0.38 if stat == "FG" else 0.10)
                 )
-                att_alpha_eff = max(att_rate * att_beta_eff, 0.5)
-                n = max(att_rate * m, 0.1)
-                # Include both overdispersion phi_att and minutes uncertainty att_rate^2 * min_var (fixes Rapor 1 / K1 & K7)
-                var_att = phi_att * n + (n ** 2 / att_alpha_eff) + (att_rate ** 2) * min_var
+                n = att_rate * m
+                # Include both overdispersion phi_att and minutes uncertainty att_rate^2 * min_var
+                att_rate_var = att_rate / att_beta_eff
+                shared_att_cov = (m**2) * att_rate_var
+                var_att = phi_att * n + shared_att_cov + ((att_rate**2) + att_rate_var) * min_var
 
             expected_makes = n * p
 
             # Conditional Beta-Binomial variance E[Var(M | A)]
-            cond_var = n * p * (1.0 - p) * (total_ab + n) / (total_ab + 1.0)
+            cond_var = p * (1.0 - p) * (n * (total_ab + n) + var_att) / (total_ab + 1.0)
             # Unconditional variance via Law of Total Variance: E[Var(M|A)] + p^2 * Var(A)
-            total_var = cond_var + (p ** 2) * var_att
+            total_var = cond_var + (p**2) * var_att
 
             predictions[stat] = {
-                'mean': expected_makes,
-                'attempts': n,
-                'attempts_var': var_att,
-                'variance': total_var,
-                'cond_variance': cond_var,
-                'rate': p,
+                "mean": expected_makes,
+                "attempts": n,
+                "attempts_var": var_att,
+                "variance": total_var,
+                "cond_variance": cond_var,
+                "rate": p,
+                "rate_variance": p * (1 - p) / (total_ab + 1),
+                "shared_attempts_covariance": shared_att_cov,
+                "shared_covariance": (n**2 + shared_att_cov) * p * (1 - p) / (total_ab + 1)
+                + p**2 * shared_att_cov,
             }
 
         return predictions
 
-    def apply_positional_depth_and_injury_boost(self, depth_rank=1, is_new_transfer=False,
-                                                competing_Starter_minutes=0.0, vacated_pos_minutes=0.0,
-                                                boost_share=0.0):
+    def apply_positional_depth_and_injury_boost(
+        self,
+        depth_rank=1,
+        is_new_transfer=False,
+        competing_Starter_minutes=0.0,
+        vacated_pos_minutes=0.0,
+        boost_share=0.0,
+    ):
         """
         Updates expected_minutes and minutes_var dynamically based on:
           1. Post-transfer positional depth chart rank k in {1, 2, 3, ...}:
@@ -416,8 +541,8 @@ class BayesianPlayer:
         """
         self.depth_rank_in_pos = max(1, int(depth_rank))
         self.is_recent_transfer = bool(is_new_transfer)
-        base_m = float(getattr(self, 'base_expected_minutes', self.expected_minutes))
-        base_v = float(getattr(self, 'base_minutes_var', 42.0))
+        base_m = float(getattr(self, "base_expected_minutes", self.expected_minutes))
+        base_v = float(getattr(self, "base_minutes_var", 42.0))
 
         # 1. Transfer Positional Depth Adjustment (when joining a new team)
         if self.is_recent_transfer:
@@ -441,19 +566,23 @@ class BayesianPlayer:
         # 2. Teammate Positional Injury Boost (e.g. Raynaud & Cardwell OUT -> Precious Achiuwa steps up)
         delta_boost = max(0.0, float(vacated_pos_minutes) * float(boost_share))
         # If player has played >= 2 games this season at deep-bench minutes (< 10 MPG), cap theoretical boost
-        cur_gp = int(getattr(self, 'current_season_gp', 0) or 0)
-        cur_mpg = float(getattr(self, 'current_season_mpg', base_m) or base_m)
+        cur_gp = int(getattr(self, "current_season_gp", 0) or 0)
+        cur_mpg = float(getattr(self, "current_season_mpg", base_m) or base_m)
         if cur_gp >= 2 and cur_mpg < 10.0:
             delta_boost = min(delta_boost, 2.0)
         else:
             # Cap individual single-game injury boost at +10.0 minutes and role-dependent ceiling
             delta_boost = min(delta_boost, 10.0)
-        max_ceiling = 35.5 if base_m >= 26.0 else (31.0 if base_m >= 20.0 else 25.0)
+        max_ceiling = max(base_m, 35.5 if base_m >= 26.0 else (31.0 if base_m >= 20.0 else 25.0))
         min_floor = min(6.0, base_m) if cur_gp >= 1 else 8.0
-        new_m = float(np.clip(role_m + delta_boost, min_floor, max_ceiling))
+        new_m = (
+            base_m
+            if not self.is_recent_transfer and delta_boost == 0
+            else float(np.clip(role_m + delta_boost, min_floor, max_ceiling))
+        )
 
         # Role expansion from teammate injuries carries higher minute variance (+0.35 * delta_boost^2)
-        new_v = float(np.clip(role_v + 0.35 * (delta_boost ** 2), 9.0, 144.0))
+        new_v = float(np.clip(role_v + 0.35 * (delta_boost**2), 9.0, 144.0))
 
         self.expected_minutes = new_m
         self.minutes_var = new_v

@@ -1,0 +1,103 @@
+{
+  "old_model_sha256": "9e33b88844c746b4b02ea3e9ae52dd6b7db3a6e95826b3c69e61587749fcb2c5",
+  "old_prior_sha256": "75a26933f0a1bcea9f0142addd7e19b2efe0cacc760a6c4529ee2594cb05ed31",
+  "old_ref": "d4120fa58808dccdb07e2760f905af0031549900",
+  "scope": "Paired, predict-before-update comparison against a historical Git revision.\n\nThis evaluates player-level moments conditional on playing, not the complete\nlive decision pipeline. Both versions use identical game rows, past-only\npriors and pooled positions. No hyperparameters are fitted by this experiment.\n",
+  "new_model_sha256": "bae183dbd48b3d06c3d97b614113ca78bf474f976bfaba5c7707bfebd91c78a4",
+  "new_prior_sha256": "3d1e2463e849bbb087148de5d5f4297760696cc6b10e5f8c639ce620d1375f2d",
+  "positions": "Pooled in both arms; no current position snapshot",
+  "tuning": "None; this is additional evaluation on previously inspected seasons",
+  "accuracy_scoring": "Actual attempts used only as scoring exposure for conditional shooting accuracy, never as a prediction input",
+  "runner_sha256": "5c3c1020c1dfecb72b17b76d5a17a643d641eb03dd3ac251ad1ffc2c4950f287",
+  "bootstrap": "Paired calendar-week blocks, seed 42, 2000 resamples; does not capture all cross-week dependence",
+  "data_sha256": {
+    "2024_25": "f1f393badb7d3ed5d87ed4a9504abf79dc10b0a72da5021d850db1abd19b88c0",
+    "2025_26": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062"
+  },
+  "leakage_checks": [
+    {
+      "version": "old",
+      "season": "2024_25",
+      "blend": false,
+      "first_evaluation_date": "2024-10-22",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2024-04-14\", \"path\": \"data\\\\raw\\\\player_logs_2023_24.parquet\"}"
+      ]
+    },
+    {
+      "version": "new",
+      "season": "2024_25",
+      "blend": false,
+      "first_evaluation_date": "2024-10-22",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2024-04-14\", \"path\": \"data\\\\raw\\\\player_logs_2023_24.parquet\"}"
+      ]
+    },
+    {
+      "version": "old",
+      "season": "2024_25",
+      "blend": true,
+      "first_evaluation_date": "2024-10-22",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2023-04-09\", \"path\": \"data\\\\raw\\\\player_logs_2022_23.parquet\"}",
+        "{\"max_date\": \"2024-04-14\", \"path\": \"data\\\\raw\\\\player_logs_2023_24.parquet\"}"
+      ]
+    },
+    {
+      "version": "new",
+      "season": "2024_25",
+      "blend": true,
+      "first_evaluation_date": "2024-10-22",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2023-04-09\", \"path\": \"data\\\\raw\\\\player_logs_2022_23.parquet\"}",
+        "{\"max_date\": \"2024-04-14\", \"path\": \"data\\\\raw\\\\player_logs_2023_24.parquet\"}"
+      ]
+    },
+    {
+      "version": "old",
+      "season": "2025_26",
+      "blend": false,
+      "first_evaluation_date": "2025-10-21",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2025-04-13\", \"path\": \"data\\\\raw\\\\player_logs_2024_25.parquet\"}"
+      ]
+    },
+    {
+      "version": "new",
+      "season": "2025_26",
+      "blend": false,
+      "first_evaluation_date": "2025-10-21",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2025-04-13\", \"path\": \"data\\\\raw\\\\player_logs_2024_25.parquet\"}"
+      ]
+    },
+    {
+      "version": "old",
+      "season": "2025_26",
+      "blend": true,
+      "first_evaluation_date": "2025-10-21",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2024-04-14\", \"path\": \"data\\\\raw\\\\player_logs_2023_24.parquet\"}",
+        "{\"max_date\": \"2025-04-13\", \"path\": \"data\\\\raw\\\\player_logs_2024_25.parquet\"}"
+      ]
+    },
+    {
+      "version": "new",
+      "season": "2025_26",
+      "blend": true,
+      "first_evaluation_date": "2025-10-21",
+      "future_boxscore_perturbation": "passed for all three pre-game forecasts",
+      "prior_reads": [
+        "{\"max_date\": \"2024-04-14\", \"path\": \"data\\\\raw\\\\player_logs_2023_24.parquet\"}",
+        "{\"max_date\": \"2025-04-13\", \"path\": \"data\\\\raw\\\\player_logs_2024_25.parquet\"}"
+      ]
+    }
+  ]
+}

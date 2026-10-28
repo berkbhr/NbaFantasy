@@ -5,15 +5,16 @@ Reads credentials from config/yahoo_oauth.json, generates authorization URL,
 exchanges verification code for permanent refresh_token, discovers league_key,
 and verifies real-time roster ingestion.
 """
-import os
-import sys
-import json
-import time
+
 import base64
+import json
+import os
 import re
-import urllib.request
-import urllib.parse
+import sys
+import time
 import urllib.error
+import urllib.parse
+import urllib.request
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATH = os.path.join(PROJECT_ROOT, "config", "yahoo_oauth.json")
@@ -25,6 +26,7 @@ AUTH_URL_TEMPLATE = (
 TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
 API_BASE = "https://fantasysports.yahooapis.com/fantasy/v2"
 
+
 def load_config():
     if not os.path.exists(CONFIG_PATH):
         print(f"[HATA] {CONFIG_PATH} dosyasi bulunamadi!")
@@ -32,9 +34,11 @@ def load_config():
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
+
 def save_config(cfg):
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(cfg, f, indent=2)
+
 
 def main():
     print("=" * 75)
@@ -56,23 +60,26 @@ def main():
     if cfg.get("refresh_token"):
         sys.path.insert(0, PROJECT_ROOT)
         from src.yahoo_draft_sync import YahooFantasyOAuthClient
+
         client = YahooFantasyOAuthClient(config_path=CONFIG_PATH)
         if client.refresh_access_token():
             if client.discover_league_and_team(target_league_id="64691"):
-                print(f"\n✅ Mevcut refresh_token ile baglanti dogrulandi!")
+                print("\n✅ Mevcut refresh_token ile baglanti dogrulandi!")
                 print(f"  League Key: {client.league_key}")
                 print(f"  Team Key:   {client.team_key}")
                 print(f"🎉 '{CONFIG_PATH}' guncellendi!")
                 return
             else:
                 print(f"\n[DETAY] Mevcut token gecerli ancak lig kesfi hatasi: {client.last_error}")
-                custom_lid = input("\nYahoo lig sayfanizin URL'sini veya Lig ID numaranizi girin (Yeni token almak icin 'yeni' yazin, cikmak icin Enter): ").strip()
+                custom_lid = input(
+                    "\nYahoo lig sayfanizin URL'sini veya Lig ID numaranizi girin (Yeni token almak icin 'yeni' yazin, cikmak icin Enter): "
+                ).strip()
                 if not custom_lid:
                     return
                 if custom_lid.lower() != "yeni":
-                    m_lid = re.search(r'(\d{3,8})', custom_lid)
+                    m_lid = re.search(r"(\d{3,8})", custom_lid)
                     if m_lid and client.discover_league_and_team(target_league_id=m_lid.group(1)):
-                        print(f"\n✅ Lig basariyla bulundu!")
+                        print("\n✅ Lig basariyla bulundu!")
                         print(f"  League Key: {client.league_key}")
                         print(f"  Team Key:   {client.team_key}")
                         print(f"🎉 '{CONFIG_PATH}' guncellendi!")
@@ -82,17 +89,20 @@ def main():
 
     # 1. Generate Auth URL
     auth_url = AUTH_URL_TEMPLATE.format(
-        client_id=urllib.parse.quote(client_id),
-        redirect_uri=urllib.parse.quote(redirect_uri)
+        client_id=urllib.parse.quote(client_id), redirect_uri=urllib.parse.quote(redirect_uri)
     )
 
     print("\nAdim 1: Asagidaki baglantiya tarayicinizda (Chrome/Edge) gidin:\n")
     print(auth_url)
     print("\nAdim 2: Yahoo hesabinizla giris yapip 'Agree / Izin Ver' butonuna tiklayin.")
     print("Adim 3: Tarayiciniz 'https://localhost:8080/?code=XXXXX' sayfasina yonlenecektir.")
-    print("        (Sayfa acilmasa bile onemli degil, adres cubugundaki linki veya 'code=' sonrasindaki degeri kopyalayin).\n")
+    print(
+        "        (Sayfa acilmasa bile onemli degil, adres cubugundaki linki veya 'code=' sonrasindaki degeri kopyalayin).\n"
+    )
 
-    user_input = input("Tarayicinin adres cubugundaki URL'yi veya onay kodunu buraya yapistirin: ").strip()
+    user_input = input(
+        "Tarayicinin adres cubugundaki URL'yi veya onay kodunu buraya yapistirin: "
+    ).strip()
     if not user_input:
         print("[IPTAL] Kod girilmedi.")
         return
@@ -110,11 +120,13 @@ def main():
     creds = f"{client_id}:{client_secret}".encode("utf-8")
     b64_auth = base64.b64encode(creds).decode("ascii")
 
-    post_data = urllib.parse.urlencode({
-        "grant_type": "authorization_code",
-        "redirect_uri": redirect_uri,
-        "code": code,
-    }).encode("utf-8")
+    post_data = urllib.parse.urlencode(
+        {
+            "grant_type": "authorization_code",
+            "redirect_uri": redirect_uri,
+            "code": code,
+        }
+    ).encode("utf-8")
 
     req = urllib.request.Request(
         TOKEN_URL,
@@ -124,7 +136,7 @@ def main():
             "Content-Type": "application/x-www-form-urlencoded",
             "User-Agent": "Mozilla/5.0",
         },
-        method="POST"
+        method="POST",
     )
 
     try:
@@ -157,6 +169,7 @@ def main():
     print("\n[BILGI] Yahoo Fantasy ligleriniz taranıyor...")
     sys.path.insert(0, PROJECT_ROOT)
     from src.yahoo_draft_sync import YahooFantasyOAuthClient
+
     client = YahooFantasyOAuthClient(config_path=CONFIG_PATH)
     if client.discover_league_and_team(target_league_id="64691"):
         print(f"  Bulunan Lig Key: {client.league_key}")
@@ -166,6 +179,7 @@ def main():
 
     print(f"\n🎉 Baglanti tamamlandi ve '{CONFIG_PATH}' dosyasina kalici olarak kaydedildi!")
     print("Artik sistem her calistiginda arka planda liginizi otomatik olarak senkronize edebilir.")
+
 
 if __name__ == "__main__":
     main()

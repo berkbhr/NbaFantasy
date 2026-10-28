@@ -1,0 +1,101 @@
+{
+  "selection_season": "2024_25",
+  "assessment_season": "2025_26",
+  "status": "Retrospective: both seasons have been inspected in earlier comparisons",
+  "scope": "Per played game; no availability, weekly roster utility or playoff claim",
+  "baseline": {
+    "blend": "dynamic",
+    "primary_weight": 0.8,
+    "legacy_total_rates": false,
+    "fixed_kappa": false,
+    "exposure_minutes": null,
+    "shot_precision_multiplier": 1.0,
+    "role": "recent_blend"
+  },
+  "stages": [
+    {
+      "name": "blend",
+      "metric": "count_nll",
+      "candidates": [
+        {
+          "blend": "single"
+        },
+        {
+          "blend": "fixed",
+          "primary_weight": 0.6
+        },
+        {
+          "blend": "fixed",
+          "primary_weight": 0.8
+        },
+        {
+          "blend": "fixed",
+          "primary_weight": 0.9
+        }
+      ]
+    },
+    {
+      "name": "count_ess",
+      "metric": "count_nll",
+      "candidates": [
+        {
+          "exposure_minutes": 120.0
+        },
+        {
+          "exposure_minutes": 360.0
+        },
+        {
+          "exposure_minutes": 650.0
+        }
+      ]
+    },
+    {
+      "name": "legacy",
+      "metric": "count_nll",
+      "candidates": [
+        {
+          "fixed_kappa": true
+        },
+        {
+          "legacy_total_rates": true
+        }
+      ]
+    },
+    {
+      "name": "role",
+      "metric": "minute_mae",
+      "candidates": [
+        {
+          "role": "ewma"
+        },
+        {
+          "role": "adaptive_anchor"
+        }
+      ]
+    },
+    {
+      "name": "shot_ess",
+      "metric": "shot_nll",
+      "candidates": [
+        {
+          "shot_precision_multiplier": 0.5
+        },
+        {
+          "shot_precision_multiplier": 1.5
+        }
+      ]
+    }
+  ],
+  "acceptance": {
+    "relative_primary_gain_min": 0.0025,
+    "paired_calendar_week_bootstrap": "2000 draws, seed42; lower95% gain >0",
+    "temporal_halves": "Neither half worse on primary metric",
+    "guards": "count NLL, shot NLL and minute MAE <=0.5% worse; each stat MAE <=1% worse",
+    "cohorts": "Prior >=25 MPG, 15-25, <15/new; observed games1-10/11+; n>=500: primary <=1% worse",
+    "final": "Freeze one selection winner; compare to original baseline on assessment once. No runner-up search.",
+    "deployment": "All selected primary targets must pass assessment gates. Otherwise retain baseline."
+  },
+  "uncertainty": "Count/attempt exposure and Beta shot precision only; corrected predictive moments retained. No weekly variance multipliers fitted.",
+  "search_budget": "Baseline +13 stage candidates + final two-policy assessment; no Cartesian sweep",
+  "predictors": "Pooled completed-season population, no contemporary positions. Predict BEFORE updating each row."
+}

@@ -14,14 +14,15 @@ Zero-Cookie, Zero-Password, Zero-OAuth-Approval Solution:
     `data/processed/league_state.json` and `data/processed/live_matchup.json` and immediately
     triggers `run_cloud_sync()` (including the Telegram comparative scoreboard notification).
 """
+
+import json
 import os
 import sys
-import json
 import webbrowser
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding="utf-8")
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(PROJECT_ROOT, "src")
@@ -32,7 +33,6 @@ sys.path.insert(0, SRC_DIR)
 
 from src import draft_data
 from src.cloud_sync import run_cloud_sync
-
 
 # The client-side JavaScript executed inside the Yahoo Fantasy tab when the Bookmarklet is clicked.
 BOOKMARKLET_JS_RAW = r"""
@@ -309,6 +309,7 @@ def _resolve_canonical_draft_slot(player_names, fallback_slot):
     initial drafted rosters (`DRAFT_PICKS_BY_ROUND`).
     """
     from src.injury_tracker import normalize_name
+
     norm_roster = {normalize_name(n) for n in player_names if n}
     best_slot = int(fallback_slot)
     best_overlap = -1
@@ -335,6 +336,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
          browser receives an immediate `<1s` confirmation banner.
     """
     import threading
+
     os.makedirs(PROCESSED_DIR, exist_ok=True)
     now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -353,7 +355,9 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         names = [
             str(p.get("name", "")).strip()
             for p in p_list
-            if isinstance(p, dict) and p.get("name") and "player note" not in str(p.get("name", "")).lower()
+            if isinstance(p, dict)
+            and p.get("name")
+            and "player note" not in str(p.get("name", "")).lower()
         ]
         if names:
             canon_key = _resolve_canonical_draft_slot(names, s_key)
@@ -363,6 +367,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     # Protect against missing drafted players on incomplete team scrapes (< 13 players)
     try:
         from src.live_draft_assistant import LiveDraftAssistant
+
         _temp_ast = LiveDraftAssistant()
         initial_draft_rosters = draft_data.resolve_rosters(_temp_ast)
         all_seen_names = set(n.lower() for s, p_names in rosters_clean.items() for n in p_names)
@@ -377,7 +382,9 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                         break
                     d_name = _temp_ast.players[d_pid].name if d_pid in _temp_ast.players else ""
                     if d_name and d_name.lower() not in all_seen_names:
-                        print(f"  [BROWSER SYNC PROTECTION] Preserving drafted player '{d_name}' in slot {s_idx} ({len(p_names)}/13).")
+                        print(
+                            f"  [BROWSER SYNC PROTECTION] Preserving drafted player '{d_name}' in slot {s_idx} ({len(p_names)}/13)."
+                        )
                         p_names.append(d_name)
                         all_seen_names.add(d_name.lower())
                 rosters_clean[s_k] = p_names
@@ -388,16 +395,20 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         names = [
             str(p.get("name", "")).strip()
             for p in rosters_by_slot[s_key]
-            if isinstance(p, dict) and p.get("name") and "player note" not in str(p.get("name", "")).lower()
+            if isinstance(p, dict)
+            and p.get("name")
+            and "player note" not in str(p.get("name", "")).lower()
         ]
         if names:
             canon_key = _resolve_canonical_draft_slot(names, s_key)
             il_clean[canon_key] = [
-                n for n in raw_il.get(s_key, raw_il.get(str(s_key), []))
+                n
+                for n in raw_il.get(s_key, raw_il.get(str(s_key), []))
                 if "player note" not in str(n).lower()
             ]
             unslotted_clean[canon_key] = [
-                it for it in raw_unslotted.get(s_key, raw_unslotted.get(str(s_key), []))
+                it
+                for it in raw_unslotted.get(s_key, raw_unslotted.get(str(s_key), []))
                 if isinstance(it, dict) and "player note" not in str(it.get("name", "")).lower()
             ]
             empty_clean[canon_key] = int(raw_empty.get(s_key, raw_empty.get(str(s_key), 0)))
@@ -414,11 +425,15 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     if has_valid_matchup:
         live_matchup_path = os.path.join(PROCESSED_DIR, "live_matchup.json")
         with open(live_matchup_path, "w", encoding="utf-8") as f:
-            json.dump({
-                "week": int(payload.get("week", 1)),
-                "updated_at": now_iso,
-                "matchup": matchup_obj,
-            }, f, indent=2)
+            json.dump(
+                {
+                    "week": int(payload.get("week", 1)),
+                    "updated_at": now_iso,
+                    "matchup": matchup_obj,
+                },
+                f,
+                indent=2,
+            )
 
     # Save league_state.json with `live_synced: True` so `run_cloud_sync()` loads the 14 live rosters
     state_json_path = os.path.join(PROCESSED_DIR, "league_state.json")
@@ -439,17 +454,27 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     for tx in raw_txs:
         if not isinstance(tx, dict):
             continue
-        adds = [a for a in tx.get("added", []) if isinstance(a, dict) and a.get("player_name", "").strip()]
-        drops = [d for d in tx.get("dropped", []) if isinstance(d, dict) and d.get("player_name", "").strip()]
+        adds = [
+            a
+            for a in tx.get("added", [])
+            if isinstance(a, dict) and a.get("player_name", "").strip()
+        ]
+        drops = [
+            d
+            for d in tx.get("dropped", [])
+            if isinstance(d, dict) and d.get("player_name", "").strip()
+        ]
         if adds or drops:
-            clean_txs.append({
-                "transaction_id": tx.get("transaction_id", ""),
-                "type": tx.get("type", "add/drop"),
-                "timestamp": tx.get("timestamp", 0),
-                "date_text": tx.get("date_text", ""),
-                "added": adds,
-                "dropped": drops,
-            })
+            clean_txs.append(
+                {
+                    "transaction_id": tx.get("transaction_id", ""),
+                    "type": tx.get("type", "add/drop"),
+                    "timestamp": tx.get("timestamp", 0),
+                    "date_text": tx.get("date_text", ""),
+                    "added": adds,
+                    "dropped": drops,
+                }
+            )
 
     merged_waivers = dict(prior_state.get("waivers", {}))
     if payload.get("waivers"):
@@ -480,20 +505,39 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
             print(f"[WARN] Cloud sync error: {e}")
         try:
             import subprocess
+
             subprocess.run(
-                ["git", "add", "-f", "data/processed/league_state.json", "data/processed/live_matchup.json"],
-                cwd=PROJECT_ROOT, check=False, capture_output=True, timeout=10
+                [
+                    "git",
+                    "add",
+                    "-f",
+                    "data/processed/league_state.json",
+                    "data/processed/live_matchup.json",
+                ],
+                cwd=PROJECT_ROOT,
+                check=False,
+                capture_output=True,
+                timeout=10,
             )
             commit_res = subprocess.run(
-                ["git", "commit", "-m", "🔄 [Browser Bridge] Sync live 14-team Yahoo rosters, FA pool & matchup"],
-                cwd=PROJECT_ROOT, check=False, capture_output=True, timeout=10
+                [
+                    "git",
+                    "commit",
+                    "-m",
+                    "🔄 [Browser Bridge] Sync live 14-team Yahoo rosters, FA pool & matchup",
+                ],
+                cwd=PROJECT_ROOT,
+                check=False,
+                capture_output=True,
+                timeout=10,
             )
             if commit_res.returncode == 0:
                 subprocess.run(
-                    ["git", "push"],
-                    cwd=PROJECT_ROOT, check=False, capture_output=True, timeout=25
+                    ["git", "push"], cwd=PROJECT_ROOT, check=False, capture_output=True, timeout=25
                 )
-                print("  [GIT] Guncel 14 takim kadrosu ve canli skor GitHub'a pushlandi (GitHub Actions tetiklendi)!")
+                print(
+                    "  [GIT] Guncel 14 takim kadrosu ve canli skor GitHub'a pushlandi (GitHub Actions tetiklendi)!"
+                )
         except Exception as e:
             print(f"[WARN] Git push error: {e}")
 
@@ -612,9 +656,13 @@ def run_browser_sync_server(port=8765):
     print("=" * 78)
     print(f"🏀 YAHOO FANTASY 1-TIKLA TARAYICI SENKRON KÖPRÜSÜ AKTİF: {url}")
     print("=" * 78)
-    print("1. Tarayıcınızda otomatik açılan sayfadan '🏀 NBA Fantasy Sync' butonunu Yer İmlerinize sürükleyin.")
+    print(
+        "1. Tarayıcınızda otomatik açılan sayfadan '🏀 NBA Fantasy Sync' butonunu Yer İmlerinize sürükleyin."
+    )
     print("2. Yahoo Fantasy sayfanızdayken o yer imine tıklayın.")
-    print("3. 14 takımın güncel kadroları, FA havuzu ve canlı skorlar anında senkronize edilip Telegram'a düşecektir!")
+    print(
+        "3. 14 takımın güncel kadroları, FA havuzu ve canlı skorlar anında senkronize edilip Telegram'a düşecektir!"
+    )
     print("(Durdurmak için Ctrl+C)\n")
     try:
         webbrowser.open(url)

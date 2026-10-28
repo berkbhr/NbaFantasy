@@ -1,0 +1,27 @@
+{
+  "validation_season": "2024_25",
+  "test_season": "2025_26",
+  "validation_sha256": "f1f393badb7d3ed5d87ed4a9504abf79dc10b0a72da5021d850db1abd19b88c0",
+  "test_sha256": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
+  "variance_scales": {
+    "AST": 1.0662592506026833,
+    "BLK": 1.037791666218638,
+    "FG3M": 1.0181466095796385,
+    "MIN": 1.2992805017183953,
+    "PTS": 1.2667702759770054,
+    "REB": 1.0895702385502364,
+    "STL": 1.0826959218198033,
+    "TOV": 0.9703534783094553
+  },
+  "scope": "Per-game conditional on playing; not weekly matchup calibration",
+  "positions": "Prior-season snapshot when available, otherwise pooled prior",
+  "model": "Discounted gamma/beta moments, full minutes uncertainty, predict before update",
+  "python": "3.14.3",
+  "numpy": "2.5.2",
+  "pandas": "3.0.5",
+  "source_sha256": {
+    "bayesian_model.py": "bae183dbd48b3d06c3d97b614113ca78bf474f976bfaba5c7707bfebd91c78a4",
+    "priors.py": "3d1e2463e849bbb087148de5d5f4297760696cc6b10e5f8c639ce620d1375f2d",
+    "validation.py": "794940d6c7e7a2b317a53d77d1d1d49df005d28c76e9d5fedd0689098930642d"
+  }
+}

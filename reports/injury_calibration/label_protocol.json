@@ -1,0 +1,8 @@
+{
+  "sampling": "Monday and Thursday game dates, fixed before fetching labels",
+  "scope": "Explicit completed ESPN final boxscore roster members; missing is unknown",
+  "seasons": [
+    "2024_25",
+    "2025_26"
+  ]
+}

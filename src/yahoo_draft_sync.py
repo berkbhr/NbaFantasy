@@ -1,19 +1,19 @@
+import base64
+import json
 import os
 import sys
-import json
-import time
-import base64
 import threading
-import urllib.request
-import urllib.parse
+import time
 import urllib.error
+import urllib.parse
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding="utf-8")
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONFIG_DIR = os.path.join(PROJECT_ROOT, 'config')
-OAUTH_CONFIG_PATH = os.path.join(CONFIG_DIR, 'yahoo_oauth.json')
+CONFIG_DIR = os.path.join(PROJECT_ROOT, "config")
+OAUTH_CONFIG_PATH = os.path.join(CONFIG_DIR, "yahoo_oauth.json")
 
 
 def _merge_yahoo_meta(node):
@@ -120,7 +120,7 @@ class YahooFantasyOAuthClient:
         data = {}
         if os.path.exists(self.config_path):
             try:
-                with open(self.config_path, 'r', encoding='utf-8') as f:
+                with open(self.config_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
                 if data:
                     self.config_source = "file"
@@ -136,83 +136,102 @@ class YahooFantasyOAuthClient:
             except Exception:
                 # Fallback regex extraction in case secret has multiline/quoting formatting issues
                 import re as _re
+
                 parsed_env = {}
-                for m in _re.finditer(r'"(client_id|client_secret|refresh_token|access_token|league_key|team_key)"\s*:\s*"([^"]*)"', env_oauth_json):
+                for m in _re.finditer(
+                    r'"(client_id|client_secret|refresh_token|access_token|league_key|team_key)"\s*:\s*"([^"]*)"',
+                    env_oauth_json,
+                ):
                     parsed_env[m.group(1)] = m.group(2).strip()
             if isinstance(parsed_env, dict) and parsed_env:
                 data.update({k: v for k, v in parsed_env.items() if v})
                 self.config_source = "env_json"
 
-        if os.environ.get('YAHOO_CLIENT_ID') or os.environ.get('YAHOO_REFRESH_TOKEN'):
+        if os.environ.get("YAHOO_CLIENT_ID") or os.environ.get("YAHOO_REFRESH_TOKEN"):
             self.config_source = "env_vars"
 
-        self.client_id = str(os.environ.get('YAHOO_CLIENT_ID') or data.get('client_id', '')).strip()
-        self.client_secret = str(os.environ.get('YAHOO_CLIENT_SECRET') or data.get('client_secret', '')).strip()
-        self.refresh_token = str(os.environ.get('YAHOO_REFRESH_TOKEN') or data.get('refresh_token', '')).strip()
-        self.access_token = str(os.environ.get('YAHOO_ACCESS_TOKEN') or data.get('access_token', '')).strip()
+        self.client_id = str(os.environ.get("YAHOO_CLIENT_ID") or data.get("client_id", "")).strip()
+        self.client_secret = str(
+            os.environ.get("YAHOO_CLIENT_SECRET") or data.get("client_secret", "")
+        ).strip()
+        self.refresh_token = str(
+            os.environ.get("YAHOO_REFRESH_TOKEN") or data.get("refresh_token", "")
+        ).strip()
+        self.access_token = str(
+            os.environ.get("YAHOO_ACCESS_TOKEN") or data.get("access_token", "")
+        ).strip()
         try:
-            self.token_expiry = float(data.get('token_expiry', 0.0))
+            self.token_expiry = float(data.get("token_expiry", 0.0))
         except (TypeError, ValueError):
             self.token_expiry = 0.0
-        self.league_key = str(os.environ.get('YAHOO_LEAGUE_KEY') or data.get('league_key', '')).strip()
-        self.team_key = str(os.environ.get('YAHOO_TEAM_KEY') or data.get('team_key', '')).strip()
-        return bool(self.client_id and self.client_secret and (self.refresh_token or self.access_token))
+        self.league_key = str(
+            os.environ.get("YAHOO_LEAGUE_KEY") or data.get("league_key", "")
+        ).strip()
+        self.team_key = str(os.environ.get("YAHOO_TEAM_KEY") or data.get("team_key", "")).strip()
+        return bool(
+            self.client_id and self.client_secret and (self.refresh_token or self.access_token)
+        )
 
     def save_config(self):
         os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
         payload = {
-            'client_id': self.client_id,
-            'client_secret': self.client_secret,
-            'refresh_token': self.refresh_token,
-            'access_token': self.access_token,
-            'token_expiry': self.token_expiry,
-            'league_key': self.league_key,
-            'team_key': self.team_key,
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "refresh_token": self.refresh_token,
+            "access_token": self.access_token,
+            "token_expiry": self.token_expiry,
+            "league_key": self.league_key,
+            "team_key": self.team_key,
         }
         try:
-            with open(self.config_path, 'w', encoding='utf-8') as f:
+            with open(self.config_path, "w", encoding="utf-8") as f:
                 json.dump(payload, f, indent=2)
         except Exception as e:
             self.last_error = f"Config yazma hatası: {e}"
 
     def is_configured(self):
-        return bool(self.league_key and (self.access_token or (self.client_id and self.client_secret and self.refresh_token)))
+        return bool(
+            self.league_key
+            and (
+                self.access_token or (self.client_id and self.client_secret and self.refresh_token)
+            )
+        )
 
     def refresh_access_token(self):
         if not (self.client_id and self.client_secret and self.refresh_token):
             self.last_error = "OAuth2 refresh_token veya client_id/secret eksik."
             return False
 
-        creds = f"{self.client_id}:{self.client_secret}".encode('utf-8')
-        b64_auth = base64.b64encode(creds).decode('ascii')
+        creds = f"{self.client_id}:{self.client_secret}".encode("utf-8")
+        b64_auth = base64.b64encode(creds).decode("ascii")
 
         # Try redirect_uri matching auth_yahoo.py ('https://localhost:8080'), then 'oob', then omitted
         last_err_detail = ""
         for redir in ("https://localhost:8080", "oob", None):
             try:
                 params = {
-                    'grant_type': 'refresh_token',
-                    'refresh_token': self.refresh_token,
+                    "grant_type": "refresh_token",
+                    "refresh_token": self.refresh_token,
                 }
                 if redir:
-                    params['redirect_uri'] = redir
-                body = urllib.parse.urlencode(params).encode('utf-8')
+                    params["redirect_uri"] = redir
+                body = urllib.parse.urlencode(params).encode("utf-8")
                 req = urllib.request.Request(
                     self.TOKEN_URL,
                     data=body,
                     headers={
-                        'Authorization': f'Basic {b64_auth}',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'User-Agent': 'Mozilla/5.0',
+                        "Authorization": f"Basic {b64_auth}",
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "User-Agent": "Mozilla/5.0",
                     },
-                    method='POST',
+                    method="POST",
                 )
                 with urllib.request.urlopen(req, timeout=6.0) as resp:
-                    resp_data = json.loads(resp.read().decode('utf-8'))
-                if resp_data.get('access_token'):
-                    self.access_token = resp_data.get('access_token', self.access_token)
-                    self.refresh_token = resp_data.get('refresh_token', self.refresh_token)
-                    expires_in = float(resp_data.get('expires_in', 3600))
+                    resp_data = json.loads(resp.read().decode("utf-8"))
+                if resp_data.get("access_token"):
+                    self.access_token = resp_data.get("access_token", self.access_token)
+                    self.refresh_token = resp_data.get("refresh_token", self.refresh_token)
+                    expires_in = float(resp_data.get("expires_in", 3600))
                     self.token_expiry = time.time() + expires_in - 60.0
                     self.save_config()
                     self.last_error = None
@@ -220,7 +239,7 @@ class YahooFantasyOAuthClient:
             except urllib.error.HTTPError as he:
                 err_body = ""
                 try:
-                    err_body = he.read().decode('utf-8', errors='ignore')[:120]
+                    err_body = he.read().decode("utf-8", errors="ignore")[:120]
                 except Exception:
                     pass
                 last_err_detail = f"HTTP {he.code} ({err_body})"
@@ -235,9 +254,9 @@ class YahooFantasyOAuthClient:
             self.refresh_access_token()
 
         url = f"{self.API_BASE}/{endpoint_path.lstrip('/')}"
-        if '?' not in url:
+        if "?" not in url:
             url += "?format=json"
-        elif 'format=json' not in url:
+        elif "format=json" not in url:
             url += "&format=json"
 
         for attempt in range(2):
@@ -245,14 +264,14 @@ class YahooFantasyOAuthClient:
                 req = urllib.request.Request(
                     url,
                     headers={
-                        'Authorization': f'Bearer {self.access_token}',
-                        'Accept': 'application/json',
-                        'User-Agent': 'Mozilla/5.0',
+                        "Authorization": f"Bearer {self.access_token}",
+                        "Accept": "application/json",
+                        "User-Agent": "Mozilla/5.0",
                     },
-                    method='GET',
+                    method="GET",
                 )
                 with urllib.request.urlopen(req, timeout=timeout) as resp:
-                    raw = resp.read().decode('utf-8')
+                    raw = resp.read().decode("utf-8")
                     self.last_error = None
                     return json.loads(raw)
             except urllib.error.HTTPError as he:
@@ -261,7 +280,7 @@ class YahooFantasyOAuthClient:
                         continue
                 err_desc = ""
                 try:
-                    raw_err = he.read().decode('utf-8', errors='ignore')
+                    raw_err = he.read().decode("utf-8", errors="ignore")
                     try:
                         err_json = json.loads(raw_err)
                         err_desc = str(err_json.get("error", {}).get("description", "")).strip()
@@ -269,11 +288,14 @@ class YahooFantasyOAuthClient:
                         pass
                     if not err_desc:
                         import re as _re
+
                         m_d = _re.search(r'"description"\s*:\s*"([^"]+)"', raw_err)
                         err_desc = m_d.group(1) if m_d else raw_err.strip()[:220]
                 except Exception:
                     pass
-                self.last_error = f"Yahoo HTTP {he.code} ({ endpoint_path }): {err_desc or he.reason}".strip()
+                self.last_error = (
+                    f"Yahoo HTTP {he.code} ({endpoint_path}): {err_desc or he.reason}".strip()
+                )
                 return None
             except Exception as e:
                 self.last_error = f"Yahoo bağlantı hatası: {e}"
@@ -293,38 +315,40 @@ class YahooFantasyOAuthClient:
 
         picks_out = []
         try:
-            fc = data.get('fantasy_content', {})
-            league_arr = fc.get('league', [])
+            fc = data.get("fantasy_content", {})
+            league_arr = fc.get("league", [])
             if len(league_arr) < 2:
                 return []
-            draft_res = league_arr[1].get('draft_results', {})
+            draft_res = league_arr[1].get("draft_results", {})
             for k, v in draft_res.items():
-                if k == 'count' or not isinstance(v, dict):
+                if k == "count" or not isinstance(v, dict):
                     continue
-                dr = v.get('draft_result', {})
-                pick_num = int(dr.get('pick', 0))
+                dr = v.get("draft_result", {})
+                pick_num = int(dr.get("pick", 0))
                 player_name = None
 
                 # Extract player full name if `;out=players` subresource is included
-                players_sub = dr.get('players', {})
-                if isinstance(players_sub, dict) and '0' in players_sub:
-                    p_arr = players_sub['0'].get('player', [])
+                players_sub = dr.get("players", {})
+                if isinstance(players_sub, dict) and "0" in players_sub:
+                    p_arr = players_sub["0"].get("player", [])
                     if p_arr and isinstance(p_arr[0], list):
                         for item in p_arr[0]:
-                            if isinstance(item, dict) and 'name' in item:
-                                player_name = item['name'].get('full')
+                            if isinstance(item, dict) and "name" in item:
+                                player_name = item["name"].get("full")
                                 break
 
-                if not player_name and 'player_name' in dr:
-                    player_name = dr.get('player_name')
+                if not player_name and "player_name" in dr:
+                    player_name = dr.get("player_name")
 
                 if pick_num > 0 and player_name:
-                    picks_out.append({
-                        'pick': pick_num,
-                        'player_name': str(player_name).strip(),
-                        'team_key': dr.get('team_key', ''),
-                    })
-            picks_out.sort(key=lambda x: x['pick'])
+                    picks_out.append(
+                        {
+                            "pick": pick_num,
+                            "player_name": str(player_name).strip(),
+                            "team_key": dr.get("team_key", ""),
+                        }
+                    )
+            picks_out.sort(key=lambda x: x["pick"])
         except Exception as e:
             self.last_error = f"Draft JSON ayrıştırma hatası: {e}"
         return picks_out
@@ -338,6 +362,7 @@ class YahooFantasyOAuthClient:
             return True
 
         import re as _re
+
         stage1_errors = []
 
         # Stage 1: Query all NBA teams & leagues associated with the logged-in Yahoo user
@@ -358,8 +383,12 @@ class YahooFantasyOAuthClient:
                 continue
             try:
                 raw_dump = json.dumps(data)
-                found_team_keys = sorted(set(_re.findall(r'\b(\d+\.l\.\d+\.t\.\d+)\b', raw_dump)), reverse=True)
-                found_league_keys = sorted(set(_re.findall(r'\b(\d+\.l\.\d+)\b', raw_dump)), reverse=True)
+                found_team_keys = sorted(
+                    set(_re.findall(r"\b(\d+\.l\.\d+\.t\.\d+)\b", raw_dump)), reverse=True
+                )
+                found_league_keys = sorted(
+                    set(_re.findall(r"\b(\d+\.l\.\d+)\b", raw_dump)), reverse=True
+                )
 
                 for meta in _collect_league_metas(data):
                     lk = str(meta.get("league_key", "")).strip()
@@ -368,14 +397,22 @@ class YahooFantasyOAuthClient:
 
                 # Prioritize target_league_id if present among user's leagues/teams, otherwise take user's newest NBA league
                 if found_team_keys:
-                    target_tks = [tk for tk in found_team_keys if target_league_id and f".l.{target_league_id}." in tk]
+                    target_tks = [
+                        tk
+                        for tk in found_team_keys
+                        if target_league_id and f".l.{target_league_id}." in tk
+                    ]
                     chosen_tk = target_tks[0] if target_tks else found_team_keys[0]
                     self.team_key = chosen_tk
                     self.league_key = chosen_tk.split(".t.")[0]
                     break
 
                 if found_league_keys:
-                    target_lks = [lk for lk in found_league_keys if target_league_id and lk.endswith(f".l.{target_league_id}")]
+                    target_lks = [
+                        lk
+                        for lk in found_league_keys
+                        if target_league_id and lk.endswith(f".l.{target_league_id}")
+                    ]
                     self.league_key = target_lks[0] if target_lks else found_league_keys[0]
                     break
             except Exception as e:
@@ -397,7 +434,7 @@ class YahooFantasyOAuthClient:
                 probe = self._api_get(f"league/{cand_key}/teams")
                 if probe and "fantasy_content" in probe:
                     raw_p = json.dumps(probe)
-                    m_lk = _re.search(r'\b(\d+\.l\.\d+)\b', raw_p)
+                    m_lk = _re.search(r"\b(\d+\.l\.\d+)\b", raw_p)
                     self.league_key = m_lk.group(1) if m_lk else cand_key
                     break
                 elif self.last_error:
@@ -457,12 +494,12 @@ class YahooFantasyOAuthClient:
             return None
 
         result = {
-            'rosters_by_slot': {},
-            'team_names_by_slot': {},
-            'team_keys_by_slot': {},
-            'il_players_by_slot': {},
-            'unslotted_injured_by_slot': {},
-            'empty_active_slots_by_slot': {},
+            "rosters_by_slot": {},
+            "team_names_by_slot": {},
+            "team_keys_by_slot": {},
+            "il_players_by_slot": {},
+            "unslotted_injured_by_slot": {},
+            "empty_active_slots_by_slot": {},
         }
         try:
             teams_obj = _find_subresource(data, "teams")
@@ -475,7 +512,9 @@ class YahooFantasyOAuthClient:
                 team_node = tv.get("team", [])
                 if not team_node:
                     continue
-                t_meta = _merge_yahoo_meta(team_node[0] if isinstance(team_node, list) else team_node)
+                t_meta = _merge_yahoo_meta(
+                    team_node[0] if isinstance(team_node, list) else team_node
+                )
                 t_id_raw = t_meta.get("team_id")
                 if t_id_raw is None:
                     continue
@@ -483,8 +522,8 @@ class YahooFantasyOAuthClient:
                 t_key = str(t_meta.get("team_key", ""))
                 t_name = str(t_meta.get("name", ""))
                 slot_idx = t_id - 1
-                result['team_names_by_slot'][slot_idx] = t_name
-                result['team_keys_by_slot'][slot_idx] = t_key
+                result["team_names_by_slot"][slot_idx] = t_name
+                result["team_keys_by_slot"][slot_idx] = t_key
 
                 roster_obj = _find_subresource(team_node, "roster") or {}
                 players_container = _find_subresource(roster_obj, "players") or {}
@@ -506,9 +545,13 @@ class YahooFantasyOAuthClient:
                         p_node = pv.get("player", [])
                         if not p_node:
                             continue
-                        p_meta = _merge_yahoo_meta(p_node[0] if isinstance(p_node, list) else p_node)
+                        p_meta = _merge_yahoo_meta(
+                            p_node[0] if isinstance(p_node, list) else p_node
+                        )
                         name_obj = p_meta.get("name", {})
-                        p_name = str(name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj).strip()
+                        p_name = str(
+                            name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj
+                        ).strip()
                         p_status = str(p_meta.get("status", "HEALTHY") or "HEALTHY").upper().strip()
 
                         sel_pos = "BN"
@@ -520,29 +563,35 @@ class YahooFantasyOAuthClient:
 
                         if not p_name:
                             continue
-                        team_players.append({
-                            'name': p_name,
-                            'selected_position': sel_pos,
-                            'status': p_status,
-                        })
-                        if sel_pos in ('IL', 'IL+'):
+                        team_players.append(
+                            {
+                                "name": p_name,
+                                "selected_position": sel_pos,
+                                "status": p_status,
+                            }
+                        )
+                        if sel_pos in ("IL", "IL+"):
                             il_list.append(p_name)
                         else:
-                            if sel_pos not in ('BN', 'IL', 'IL+'):
+                            if sel_pos not in ("BN", "IL", "IL+"):
                                 active_filled_count += 1
-                            if p_status in ('INJ', 'O', 'OUT', 'IL', 'GTD', 'DTD'):
-                                unslotted_inj.append({
-                                    'name': p_name,
-                                    'status': p_status,
-                                    'slot': sel_pos,
-                                })
+                            if p_status in ("INJ", "O", "OUT", "IL", "GTD", "DTD"):
+                                unslotted_inj.append(
+                                    {
+                                        "name": p_name,
+                                        "status": p_status,
+                                        "slot": sel_pos,
+                                    }
+                                )
 
-                result['rosters_by_slot'][slot_idx] = team_players
-                result['il_players_by_slot'][slot_idx] = il_list
-                result['unslotted_injured_by_slot'][slot_idx] = unslotted_inj
+                result["rosters_by_slot"][slot_idx] = team_players
+                result["il_players_by_slot"][slot_idx] = il_list
+                result["unslotted_injured_by_slot"][slot_idx] = unslotted_inj
                 # Standard 10 active slots; if total non-IL players < 13, empty roster spot exists
-                non_il_count = len([x for x in team_players if x['selected_position'] not in ('IL', 'IL+')])
-                result['empty_active_slots_by_slot'][slot_idx] = max(0, 13 - non_il_count)
+                non_il_count = len(
+                    [x for x in team_players if x["selected_position"] not in ("IL", "IL+")]
+                )
+                result["empty_active_slots_by_slot"][slot_idx] = max(0, 13 - non_il_count)
             return result
         except Exception as e:
             self.last_error = f"Kadro/IL ayrıştırma hatası: {e}"
@@ -559,7 +608,10 @@ class YahooFantasyOAuthClient:
         if not self.league_key:
             return []
 
-        data = self._api_get(f"league/{self.league_key}/transactions;types=add,drop,trade;count={int(count)}", timeout=5.0)
+        data = self._api_get(
+            f"league/{self.league_key}/transactions;types=add,drop,trade;count={int(count)}",
+            timeout=5.0,
+        )
         if not data:
             return []
 
@@ -587,35 +639,45 @@ class YahooFantasyOAuthClient:
                         p_node = pv.get("player", [])
                         if not p_node:
                             continue
-                        p_meta = _merge_yahoo_meta(p_node[0] if isinstance(p_node, list) else p_node)
+                        p_meta = _merge_yahoo_meta(
+                            p_node[0] if isinstance(p_node, list) else p_node
+                        )
                         name_obj = p_meta.get("name", {})
-                        p_name = str(name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj).strip()
+                        p_name = str(
+                            name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj
+                        ).strip()
                         td_raw = _find_subresource(p_node, "transaction_data")
                         tx_data = _merge_yahoo_meta(td_raw) if td_raw is not None else {}
                         action_type = str(tx_data.get("type", "")).lower()
                         if action_type == "add":
-                            added.append({
-                                'player_name': p_name,
-                                'team_key': str(tx_data.get("destination_team_key", "")),
-                                'team_name': str(tx_data.get("destination_team_name", "")),
-                                'source_type': str(tx_data.get("source_type", "")),
-                            })
+                            added.append(
+                                {
+                                    "player_name": p_name,
+                                    "team_key": str(tx_data.get("destination_team_key", "")),
+                                    "team_name": str(tx_data.get("destination_team_name", "")),
+                                    "source_type": str(tx_data.get("source_type", "")),
+                                }
+                            )
                         elif action_type == "drop":
-                            dropped.append({
-                                'player_name': p_name,
-                                'team_key': str(tx_data.get("source_team_key", "")),
-                                'team_name': str(tx_data.get("source_team_name", "")),
-                                'destination_type': str(tx_data.get("destination_type", "")),
-                            })
+                            dropped.append(
+                                {
+                                    "player_name": p_name,
+                                    "team_key": str(tx_data.get("source_team_key", "")),
+                                    "team_name": str(tx_data.get("source_team_name", "")),
+                                    "destination_type": str(tx_data.get("destination_type", "")),
+                                }
+                            )
                 if added or dropped:
-                    tx_list.append({
-                        'transaction_id': tx_id,
-                        'type': tx_type,
-                        'timestamp': tx_time,
-                        'added': added,
-                        'dropped': dropped,
-                    })
-            tx_list.sort(key=lambda x: x['timestamp'], reverse=True)
+                    tx_list.append(
+                        {
+                            "transaction_id": tx_id,
+                            "type": tx_type,
+                            "timestamp": tx_time,
+                            "added": added,
+                            "dropped": dropped,
+                        }
+                    )
+            tx_list.sort(key=lambda x: x["timestamp"], reverse=True)
         except Exception as e:
             self.last_error = f"Transaction ayrıştırma hatası: {e}"
         return tx_list
@@ -639,19 +701,19 @@ class YahooFantasyOAuthClient:
             return None
 
         STAT_ID_MAP = {
-            '3': 'FGA',
-            '4': 'FGM',
-            '5': 'FG_PCT',
-            '6': 'FTA',
-            '7': 'FTM',
-            '8': 'FT_PCT',
-            '10': 'FG3M',
-            '12': 'PTS',
-            '15': 'REB',
-            '16': 'AST',
-            '17': 'STL',
-            '18': 'BLK',
-            '19': 'TOV',
+            "3": "FGA",
+            "4": "FGM",
+            "5": "FG_PCT",
+            "6": "FTA",
+            "7": "FTM",
+            "8": "FT_PCT",
+            "10": "FG3M",
+            "12": "PTS",
+            "15": "REB",
+            "16": "AST",
+            "17": "STL",
+            "18": "BLK",
+            "19": "TOV",
         }
         try:
             sb = _find_subresource(data, "scoreboard")
@@ -664,6 +726,7 @@ class YahooFantasyOAuthClient:
                 return None
 
             parsed_matchups = []
+            matchup_states = []
             for mk, mv in matchups_obj.items():
                 if mk == "count" or not isinstance(mv, dict):
                     continue
@@ -688,53 +751,84 @@ class YahooFantasyOAuthClient:
                         or _find_subresource(t_node, "remaining_games")
                         or {}
                     )
-                    rg_total = _find_subresource(rg_wrapper, "total") or _merge_yahoo_meta(rg_wrapper)
+                    rg_total = _find_subresource(rg_wrapper, "total") or _merge_yahoo_meta(
+                        rg_wrapper
+                    )
                     rg_meta = _merge_yahoo_meta(rg_total)
 
                     gp = int(rg_meta.get("completed_games", 0) or 0)
-                    g_rem = int(rg_meta.get("remaining_games", 0) or 0) + int(rg_meta.get("live_games", 0) or 0)
+                    g_rem = int(rg_meta.get("remaining_games", 0) or 0) + int(
+                        rg_meta.get("live_games", 0) or 0
+                    )
 
                     stats_dict = {
-                        'name': t_name,
-                        'slot': t_id,
-                        'team_key': t_key,
-                        'games_played': gp,
-                        'games_remaining': g_rem,
-                        'total_scheduled': max(gp + g_rem, 1),
+                        "name": t_name,
+                        "slot": t_id,
+                        "team_key": t_key,
+                        "games_played": gp,
+                        "games_remaining": g_rem,
+                        "total_scheduled": max(gp + g_rem, 1),
                     }
                     ts_obj = _find_subresource(t_node, "team_stats") or {}
                     raw_stats = _find_subresource(ts_obj, "stats") or []
                     if isinstance(raw_stats, list):
                         for s_entry in raw_stats:
-                            st_obj = _find_subresource(s_entry, "stat") if isinstance(s_entry, (dict, list)) else {}
+                            st_obj = (
+                                _find_subresource(s_entry, "stat")
+                                if isinstance(s_entry, (dict, list))
+                                else {}
+                            )
                             st_meta = _merge_yahoo_meta(st_obj)
                             sid = str(st_meta.get("stat_id", ""))
                             val_str = str(st_meta.get("value", "0")).strip()
-                            if sid == '9004003' or ('/' in val_str and 'FGM' not in stats_dict):
-                                parts = val_str.split('/')
+                            if sid == "9004003" or ("/" in val_str and "FGM" not in stats_dict):
+                                parts = val_str.split("/")
                                 if len(parts) == 2:
                                     try:
-                                        stats_dict['FGM'] = float(parts[0]) if parts[0] != '-' else 0.0
-                                        stats_dict['FGA'] = float(parts[1]) if parts[1] != '-' else 0.0
+                                        stats_dict["FGM"] = (
+                                            float(parts[0]) if parts[0] != "-" else 0.0
+                                        )
+                                        stats_dict["FGA"] = (
+                                            float(parts[1]) if parts[1] != "-" else 0.0
+                                        )
                                     except ValueError:
                                         pass
-                            elif sid == '9007006' or ('/' in val_str and 'FTM' not in stats_dict):
-                                parts = val_str.split('/')
+                            elif sid == "9007006" or ("/" in val_str and "FTM" not in stats_dict):
+                                parts = val_str.split("/")
                                 if len(parts) == 2:
                                     try:
-                                        stats_dict['FTM'] = float(parts[0]) if parts[0] != '-' else 0.0
-                                        stats_dict['FTA'] = float(parts[1]) if parts[1] != '-' else 0.0
+                                        stats_dict["FTM"] = (
+                                            float(parts[0]) if parts[0] != "-" else 0.0
+                                        )
+                                        stats_dict["FTA"] = (
+                                            float(parts[1]) if parts[1] != "-" else 0.0
+                                        )
                                     except ValueError:
                                         pass
                             elif sid in STAT_ID_MAP:
                                 try:
-                                    stats_dict[STAT_ID_MAP[sid]] = float(val_str) if val_str and val_str != '-' else 0.0
+                                    stats_dict[STAT_ID_MAP[sid]] = (
+                                        float(val_str) if val_str and val_str != "-" else 0.0
+                                    )
                                 except ValueError:
                                     stats_dict[STAT_ID_MAP[sid]] = 0.0
                     pair.append(stats_dict)
                 if len(pair) == 2:
                     parsed_matchups.append(pair)
-            return {'week': curr_week, 'matchups': parsed_matchups}
+                    metadata = _merge_yahoo_meta(m_node)
+                    matchup_states.append(
+                        {
+                            "slots": [p["slot"] for p in pair],
+                            "status": metadata.get("status"),
+                            "week_start": metadata.get("week_start"),
+                            "week_end": metadata.get("week_end"),
+                        }
+                    )
+            return {
+                "week": curr_week,
+                "matchups": parsed_matchups,
+                "matchup_states": matchup_states,
+            }
         except Exception as e:
             self.last_error = f"Scoreboard ayrıştırma hatası: {e}"
             return None
@@ -890,68 +984,82 @@ class YahooLiveDraftBridgeManager:
             elapsed_ms = (time.perf_counter() - t0) * 1000.0
             recs = []
             for _, row in df_sug.iterrows():
-                recs.append({
-                    'ID': int(row['ID']),
-                    'NAME': str(row['NAME']),
-                    'TEAM': str(row.get('TEAM', 'NBA')),
-                    'POS': str(row['POS']),
-                    'WIN_PROB_SCORE': float(row.get('FAST_SCORE', 0.0)),
-                    'FAST_SCORE': float(row.get('FAST_SCORE', 0.0)),
-                    'BASE_Z': float(row.get('BASE_Z', 0.0)),
-                    'Active_Punts': str(row.get('Active_Punts', 'Dengeli')),
-                })
+                recs.append(
+                    {
+                        "ID": int(row["ID"]),
+                        "NAME": str(row["NAME"]),
+                        "TEAM": str(row.get("TEAM", "NBA")),
+                        "POS": str(row["POS"]),
+                        "WIN_PROB_SCORE": float(row.get("FAST_SCORE", 0.0)),
+                        "FAST_SCORE": float(row.get("FAST_SCORE", 0.0)),
+                        "BASE_Z": float(row.get("BASE_Z", 0.0)),
+                        "Active_Punts": str(row.get("Active_Punts", "Dengeli")),
+                    }
+                )
         else:
             df_sug = self.assistant.rank_available_players(
                 enable_logging=False, timeout_budget_sec=2.2, use_cache=True
             )
-            elapsed_ms = float(df_sug.attrs.get('elapsed_ms', (time.perf_counter() - t0) * 1000.0))
+            elapsed_ms = float(df_sug.attrs.get("elapsed_ms", (time.perf_counter() - t0) * 1000.0))
             recs = []
             for _, row in df_sug.head(8).iterrows():
-                recs.append({
-                    'ID': int(row['ID']),
-                    'NAME': str(row['NAME']),
-                    'TEAM': str(row.get('TEAM', 'NBA')),
-                    'POS': str(row['POS']),
-                    'WIN_PROB_SCORE': float(row['WIN_PROB_SCORE']),
-                    'FAST_SCORE': float(row['FAST_SCORE']),
-                    'BASE_Z': float(row['BASE_Z']),
-                    'Active_Punts': str(row['Active_Punts']),
-                    'Predicted_Picks': str(row.get('Predicted_Picks', '')),
-                })
+                recs.append(
+                    {
+                        "ID": int(row["ID"]),
+                        "NAME": str(row["NAME"]),
+                        "TEAM": str(row.get("TEAM", "NBA")),
+                        "POS": str(row["POS"]),
+                        "WIN_PROB_SCORE": float(row["WIN_PROB_SCORE"]),
+                        "FAST_SCORE": float(row["FAST_SCORE"]),
+                        "BASE_Z": float(row["BASE_Z"]),
+                        "Active_Punts": str(row["Active_Punts"]),
+                        "Predicted_Picks": str(row.get("Predicted_Picks", "")),
+                    }
+                )
 
         with self.assistant.lock:
             my_roster_info = []
             for pid in self.assistant.my_roster:
-                my_roster_info.append({
-                    'id': int(pid),
-                    'name': self.assistant.players[pid].name if pid in self.assistant.players else str(pid),
-                    'team': self.assistant.team_abbr_dict.get(pid, 'NBA'),
-                    'pos': self.assistant.pos_dict.get(pid, 'UTIL'),
-                })
-            _, cat_win_probs = self.assistant._compute_marginal_category_weights(self.assistant.my_roster)
+                my_roster_info.append(
+                    {
+                        "id": int(pid),
+                        "name": self.assistant.players[pid].name
+                        if pid in self.assistant.players
+                        else str(pid),
+                        "team": self.assistant.team_abbr_dict.get(pid, "NBA"),
+                        "pos": self.assistant.pos_dict.get(pid, "UTIL"),
+                    }
+                )
+            _, cat_win_probs = self.assistant._compute_marginal_category_weights(
+                self.assistant.my_roster
+            )
 
             recent_picks = []
             total_hist = len(self.assistant.pick_history)
             for idx_h in range(max(0, total_hist - 8), total_hist):
                 pid, t_idx, is_mine = self.assistant.pick_history[idx_h]
-                recent_picks.append({
-                    'overall': idx_h + 1,
-                    'id': int(pid),
-                    'name': self.assistant.players[pid].name if pid in self.assistant.players else str(pid),
-                    'slot': t_idx + 1,
-                    'is_mine': bool(is_mine),
-                })
+                recent_picks.append(
+                    {
+                        "overall": idx_h + 1,
+                        "id": int(pid),
+                        "name": self.assistant.players[pid].name
+                        if pid in self.assistant.players
+                        else str(pid),
+                        "slot": t_idx + 1,
+                        "is_mine": bool(is_mine),
+                    }
+                )
             recent_picks.reverse()
 
         return {
-            'status': st,
-            'elapsed_ms': elapsed_ms,
-            'recommendations': recs,
-            'my_roster': my_roster_info,
-            'category_win_probs': {k: round(float(v), 3) for k, v in cat_win_probs.items()},
-            'recent_picks': recent_picks,
-            'oauth_configured': self.oauth_client.is_configured(),
-            'oauth_last_error': self.oauth_client.last_error,
+            "status": st,
+            "elapsed_ms": elapsed_ms,
+            "recommendations": recs,
+            "my_roster": my_roster_info,
+            "category_win_probs": {k: round(float(v), 3) for k, v in cat_win_probs.items()},
+            "recent_picks": recent_picks,
+            "oauth_configured": self.oauth_client.is_configured(),
+            "oauth_last_error": self.oauth_client.last_error,
         }
 
     def notify_console_on_new_picks(self, applied_events):
@@ -962,15 +1070,32 @@ class YahooLiveDraftBridgeManager:
             print(f"\n🔄 [YAHOO CANLI SENKRON] Pick #{overall_num}: {p_name} ({tag})")
 
         st = self.assistant.get_draft_status()
-        if st['is_my_turn']:
-            df_sug = self.assistant.rank_available_players(enable_logging=False, timeout_budget_sec=2.2, use_cache=True)
-            elapsed_ms = df_sug.attrs.get('elapsed_ms', 0.0)
-            print(f"\n⚡ >>> SIRA SENDE (SLOT #{st['my_slot']} | Tur {st['round']})! [Hesaplama: {elapsed_ms:.0f} ms] <<<")
-            cols = ['ID', 'NAME', 'TEAM', 'POS', 'WIN_PROB_SCORE', 'FAST_SCORE', 'BASE_Z', 'Active_Punts']
+        if st["is_my_turn"]:
+            df_sug = self.assistant.rank_available_players(
+                enable_logging=False, timeout_budget_sec=2.2, use_cache=True
+            )
+            elapsed_ms = df_sug.attrs.get("elapsed_ms", 0.0)
+            print(
+                f"\n⚡ >>> SIRA SENDE (SLOT #{st['my_slot']} | Tur {st['round']})! [Hesaplama: {elapsed_ms:.0f} ms] <<<"
+            )
+            cols = [
+                "ID",
+                "NAME",
+                "TEAM",
+                "POS",
+                "WIN_PROB_SCORE",
+                "FAST_SCORE",
+                "BASE_Z",
+                "Active_Punts",
+            ]
             print(df_sug[cols].head(6).to_string(index=False))
             print("\nDraft> ", end="", flush=True)
         else:
-            print(f"[Sıradaki: Slot #{st['on_clock_slot']} | {st['picks_until_mine']} seçim sonra sen]\nDraft> ", end="", flush=True)
+            print(
+                f"[Sıradaki: Slot #{st['on_clock_slot']} | {st['picks_until_mine']} seçim sonra sen]\nDraft> ",
+                end="",
+                flush=True,
+            )
 
     def _start_http_server(self):
         manager = self
@@ -980,143 +1105,179 @@ class YahooLiveDraftBridgeManager:
                 pass  # Keep CLI prompt clean
 
             def _send_json(self, data, status=200):
-                raw = json.dumps(data, ensure_ascii=False).encode('utf-8')
+                raw = json.dumps(data, ensure_ascii=False).encode("utf-8")
                 self.send_response(status)
-                self.send_header('Content-Type', 'application/json; charset=utf-8')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Request-Private-Network')
-                self.send_header('Access-Control-Allow-Private-Network', 'true')
-                self.send_header('Content-Length', str(len(raw)))
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                self.send_header(
+                    "Access-Control-Allow-Headers",
+                    "Content-Type, Access-Control-Request-Private-Network",
+                )
+                self.send_header("Access-Control-Allow-Private-Network", "true")
+                self.send_header("Content-Length", str(len(raw)))
                 self.end_headers()
                 self.wfile.write(raw)
 
             def do_OPTIONS(self):
                 self.send_response(200)
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-                self.send_header('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Request-Private-Network')
-                self.send_header('Access-Control-Allow-Private-Network', 'true')
-                self.send_header('Content-Length', '0')
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                self.send_header(
+                    "Access-Control-Allow-Headers",
+                    "Content-Type, Access-Control-Request-Private-Network",
+                )
+                self.send_header("Access-Control-Allow-Private-Network", "true")
+                self.send_header("Content-Length", "0")
                 self.end_headers()
 
             def do_GET(self):
                 parsed = urllib.parse.urlparse(self.path)
-                if parsed.path in ('/', '/dashboard'):
-                    raw = DASHBOARD_HTML.encode('utf-8')
+                if parsed.path in ("/", "/dashboard"):
+                    raw = DASHBOARD_HTML.encode("utf-8")
                     self.send_response(200)
-                    self.send_header('Content-Type', 'text/html; charset=utf-8')
-                    self.send_header('Access-Control-Allow-Origin', '*')
-                    self.send_header('Access-Control-Allow-Private-Network', 'true')
-                    self.send_header('Content-Length', str(len(raw)))
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.send_header("Access-Control-Allow-Origin", "*")
+                    self.send_header("Access-Control-Allow-Private-Network", "true")
+                    self.send_header("Content-Length", str(len(raw)))
                     self.end_headers()
                     self.wfile.write(raw)
                     return
-                if parsed.path in ('/bridge.js', '/userscript.js'):
-                    script_path = os.path.join(PROJECT_ROOT, 'src', 'yahoo_draft_bridge.user.js')
+                if parsed.path in ("/bridge.js", "/userscript.js"):
+                    script_path = os.path.join(PROJECT_ROOT, "src", "yahoo_draft_bridge.user.js")
                     if os.path.exists(script_path):
-                        with open(script_path, 'r', encoding='utf-8') as f:
-                            raw = f.read().encode('utf-8')
+                        with open(script_path, "r", encoding="utf-8") as f:
+                            raw = f.read().encode("utf-8")
                         self.send_response(200)
-                        self.send_header('Content-Type', 'application/javascript; charset=utf-8')
-                        self.send_header('Access-Control-Allow-Origin', '*')
-                        self.send_header('Access-Control-Allow-Private-Network', 'true')
-                        self.send_header('Content-Length', str(len(raw)))
+                        self.send_header("Content-Type", "application/javascript; charset=utf-8")
+                        self.send_header("Access-Control-Allow-Origin", "*")
+                        self.send_header("Access-Control-Allow-Private-Network", "true")
+                        self.send_header("Content-Length", str(len(raw)))
                         self.end_headers()
                         self.wfile.write(raw)
                         return
-                if parsed.path in ('/api/state', '/api/recommendations'):
+                if parsed.path in ("/api/state", "/api/recommendations"):
                     qs = urllib.parse.parse_qs(parsed.query)
-                    fast_only = qs.get('mode', [''])[0] == 'fast'
+                    fast_only = qs.get("mode", [""])[0] == "fast"
                     payload = manager.build_state_payload(fast_only=fast_only)
                     self._send_json(payload)
                     return
-                if parsed.path == '/api/injuries':
-                    tracker = getattr(manager.assistant, 'injury_tracker', None)
+                if parsed.path == "/api/injuries":
+                    tracker = getattr(manager.assistant, "injury_tracker", None)
                     injuries = tracker.get_all_active_injuries() if tracker else []
-                    self._send_json({'ok': True, 'injuries': injuries})
+                    self._send_json({"ok": True, "injuries": injuries})
                     return
-                self._send_json({'error': 'Not found'}, status=404)
+                self._send_json({"error": "Not found"}, status=404)
 
             def do_POST(self):
                 parsed = urllib.parse.urlparse(self.path)
-                length = int(self.headers.get('Content-Length', 0))
-                body_raw = self.rfile.read(length).decode('utf-8') if length > 0 else '{}'
+                length = int(self.headers.get("Content-Length", 0))
+                body_raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
                 try:
                     body = json.loads(body_raw)
                 except Exception:
                     body = {}
 
-                if parsed.path == '/api/sync_picks':
-                    picks = body.get('picks', [])
-                    my_slot = body.get('my_slot')
-                    if isinstance(my_slot, int) and 1 <= my_slot <= manager.assistant.num_teams and not manager.assistant.pick_history:
+                if parsed.path == "/api/sync_picks":
+                    picks = body.get("picks", [])
+                    my_slot = body.get("my_slot")
+                    if (
+                        isinstance(my_slot, int)
+                        and 1 <= my_slot <= manager.assistant.num_teams
+                        and not manager.assistant.pick_history
+                    ):
                         manager.assistant.my_team_idx = my_slot - 1
                     applied = manager.assistant.sync_external_picks(picks, source="browser_bridge")
                     if applied:
                         manager.notify_console_on_new_picks(applied)
                     payload = manager.build_state_payload(fast_only=False)
-                    payload['newly_applied'] = len(applied)
+                    payload["newly_applied"] = len(applied)
                     self._send_json(payload)
                     return
 
-                if parsed.path == '/api/manual_pick':
-                    query = str(body.get('query', '')).strip()
-                    is_mine = bool(body.get('is_mine', False))
+                if parsed.path == "/api/manual_pick":
+                    query = str(body.get("query", "")).strip()
+                    is_mine = bool(body.get("is_mine", False))
                     pid = manager.assistant.resolve_player_id(query, only_available=True)
                     if pid is None:
-                        self._send_json({'ok': False, 'error': f"Oyuncu bulunamadı: {query}"}, status=400)
+                        self._send_json(
+                            {"ok": False, "error": f"Oyuncu bulunamadı: {query}"}, status=400
+                        )
                         return
                     if is_mine:
                         manager.assistant.draft_player(pid, source="web_manual")
                     else:
                         manager.assistant.pick_player(pid, source="web_manual")
-                    self._send_json({'ok': True, 'state': manager.build_state_payload(fast_only=False)})
+                    self._send_json(
+                        {"ok": True, "state": manager.build_state_payload(fast_only=False)}
+                    )
                     return
 
-                if parsed.path == '/api/undo':
+                if parsed.path == "/api/undo":
                     manager.assistant.undo_last_pick()
-                    self._send_json({'ok': True, 'state': manager.build_state_payload(fast_only=False)})
+                    self._send_json(
+                        {"ok": True, "state": manager.build_state_payload(fast_only=False)}
+                    )
                     return
 
-                if parsed.path == '/api/injuries/update':
-                    player_query = str(body.get('player', '')).strip()
-                    status = str(body.get('status', 'OUT')).upper().strip()
-                    desc = str(body.get('desc', ''))
-                    is_b2b = bool(body.get('is_b2b_rest', False))
-                    tracker = getattr(manager.assistant, 'injury_tracker', None)
+                if parsed.path == "/api/injuries/update":
+                    player_query = str(body.get("player", "")).strip()
+                    status = str(body.get("status", "OUT")).upper().strip()
+                    desc = str(body.get("desc", ""))
+                    is_b2b = bool(body.get("is_b2b_rest", False))
+                    tracker = getattr(manager.assistant, "injury_tracker", None)
                     pid = manager.assistant.resolve_player_id(player_query, only_available=False)
                     if pid is None or tracker is None:
-                        self._send_json({'ok': False, 'error': f"Oyuncu bulunamadı: {player_query}"}, status=400)
+                        self._send_json(
+                            {"ok": False, "error": f"Oyuncu bulunamadı: {player_query}"}, status=400
+                        )
                         return
-                    p_name = manager.assistant.players[pid].name if pid in manager.assistant.players else player_query
-                    team_name = manager.assistant.team_abbr_dict.get(pid, 'NBA')
-                    if status in ('HEALTHY', 'CLEAR', 'ACT'):
+                    p_name = (
+                        manager.assistant.players[pid].name
+                        if pid in manager.assistant.players
+                        else player_query
+                    )
+                    team_name = manager.assistant.team_abbr_dict.get(pid, "NBA")
+                    if status in ("HEALTHY", "CLEAR", "ACT"):
                         tracker.clear_injury(pid)
                         if pid in manager.assistant.players:
-                            manager.assistant.players[pid].update_injury_status('HEALTHY')
+                            manager.assistant.players[pid].update_injury_status("HEALTHY")
                     else:
-                        tracker.set_injury(pid, p_name, status, team=team_name, desc=desc, is_b2b_rest=is_b2b, source="api")
+                        tracker.set_injury(
+                            pid,
+                            p_name,
+                            status,
+                            team=team_name,
+                            desc=desc,
+                            is_b2b_rest=is_b2b,
+                            source="api",
+                        )
                         if pid in manager.assistant.players:
-                            manager.assistant.players[pid].update_injury_status(status, desc, is_b2b_rest=is_b2b)
-                    self._send_json({'ok': True, 'player_id': pid, 'name': p_name, 'status': status})
+                            manager.assistant.players[pid].update_injury_status(
+                                status, desc, is_b2b_rest=is_b2b
+                            )
+                    self._send_json(
+                        {"ok": True, "player_id": pid, "name": p_name, "status": status}
+                    )
                     return
 
-                if parsed.path == '/api/sync_injuries':
-                    records = body.get('injuries', [])
-                    tracker = getattr(manager.assistant, 'injury_tracker', None)
+                if parsed.path == "/api/sync_injuries":
+                    records = body.get("injuries", [])
+                    tracker = getattr(manager.assistant, "injury_tracker", None)
                     if not tracker:
-                        self._send_json({'ok': False, 'error': "InjuryTracker aktif değil"}, status=500)
+                        self._send_json(
+                            {"ok": False, "error": "InjuryTracker aktif değil"}, status=500
+                        )
                         return
                     updated_cnt = tracker.bulk_sync_yahoo_statuses(
                         records,
-                        lambda q: manager.assistant.resolve_player_id(q, only_available=False)
+                        lambda q: manager.assistant.resolve_player_id(q, only_available=False),
                     )
                     manager.assistant._sync_injuries_into_players()
-                    self._send_json({'ok': True, 'updated': updated_cnt})
+                    self._send_json({"ok": True, "updated": updated_cnt})
                     return
 
-                self._send_json({'error': 'Unknown endpoint'}, status=404)
+                self._send_json({"error": "Unknown endpoint"}, status=404)
 
         try:
             self.http_server = ThreadingHTTPServer((self.host, self.port), BridgeHandler)
@@ -1130,7 +1291,9 @@ class YahooLiveDraftBridgeManager:
                 if self.oauth_client.is_configured():
                     api_picks = self.oauth_client.fetch_live_draft_picks()
                     if api_picks:
-                        applied = self.assistant.sync_external_picks(api_picks, source="yahoo_oauth_api")
+                        applied = self.assistant.sync_external_picks(
+                            api_picks, source="yahoo_oauth_api"
+                        )
                         if applied:
                             self.notify_console_on_new_picks(applied)
             except Exception as e:

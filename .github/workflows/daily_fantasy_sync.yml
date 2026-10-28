@@ -7,11 +7,11 @@ on:
       - 'data/processed/league_state.json'
       - 'data/processed/live_matchup.json'
   schedule:
-    # 4 Strategic Daily Run Times (Germany CET / TR / UTC / ET synchronized):
-    - cron: '30 6 * * *'   # 07:30 Germany (CET) / 09:30 TR / 06:30 UTC / 02:30 ET (Morning final scoreboard & overnight adds)
-    - cron: '30 12 * * *'  # 13:30 Germany (CET) / 15:30 TR / 12:30 UTC / 08:30 ET (Post-Waiver Wire clearance & new free agents)
-    - cron: '30 18 * * *'  # 19:30 Germany (CET) / 21:30 TR / 18:30 UTC / 14:30 ET (NBA Afternoon Official Injury Report & minute boosts)
-    - cron: '15 23 * * *'  # 00:15 Germany (CET) / 02:15 TR / 23:15 UTC / 19:15 ET (Game Lock: 45 min before tip-off, IL+ & late scratch alert)
+    # UTC schedules; local Germany/Eastern times change with DST.
+    - cron: '30 6 * * *'
+    - cron: '30 12 * * *'
+    - cron: '30 18 * * *'
+    - cron: '15 23 * * *'
   workflow_dispatch:        # Allows manual 1-click execution anytime from GitHub Actions UI
 
 permissions:
@@ -41,17 +41,22 @@ jobs:
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy pandas pyarrow scipy scikit-learn requests beautifulsoup4 pulp nba_api pypdf
+          python -m pip install -r requirements.txt
 
-      - name: Restore Cached Current-Season Game Logs (fallback if stats.nba.com throttles the runner)
+      - name: Restore runtime history and season cache
+        shell: bash
         run: |
-          mkdir -p data/raw
-          if git ls-remote --heads origin nba-fantasy-bot | grep -q nba-fantasy-bot; then
-            git fetch origin nba-fantasy-bot || true
-            git show origin/nba-fantasy-bot:data/raw/player_logs_2026_27.parquet > /tmp/player_logs_2026_27.parquet 2>/dev/null \
-              && [ -s /tmp/player_logs_2026_27.parquet ] \
-              && cp -f /tmp/player_logs_2026_27.parquet data/raw/player_logs_2026_27.parquet \
-              && echo "Restored cached season logs." || echo "No cached season logs yet."
+          if git ls-remote --exit-code --heads origin nba-fantasy-bot >/dev/null 2>&1; then
+            git fetch origin nba-fantasy-bot
+            for path in data/raw/player_logs_2026_27.parquet data/processed/injuries.db; do
+              if git cat-file -e "origin/nba-fantasy-bot:$path" 2>/dev/null; then
+                mkdir -p "$(dirname "$path")"
+                git show "origin/nba-fantasy-bot:$path" > "$path"
+              fi
+            done
+            if git cat-file -e origin/nba-fantasy-bot:data/archive 2>/dev/null; then
+              git archive origin/nba-fantasy-bot data/archive | tar -x
+            fi
           fi
 
       - name: Run NBA Fantasy Autonomous Cloud Sync & Notifications
@@ -66,7 +71,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          python src/cloud_sync.py
+          python -m src.cloud_sync
 
       - name: Upload Latest Executive Report Artifact
         uses: actions/upload-artifact@v4
@@ -76,55 +81,35 @@ jobs:
           path: |
             reports/latest_cloud_summary.md
             data/processed/league_state.json
+            reports/telegram_preview.html
+            reports/prospective_status.json
+            reports/latest_forecast.json
           retention-days: 14
 
-      - name: Commit & Push Updated State to Dedicated 'nba-fantasy-bot' Branch
+      - name: Persist runtime history on nba-fantasy-bot
+        shell: bash
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Back up newly generated runtime files before switching branches so git checkout never aborts!
-          mkdir -p /tmp/nba_sync_out
-          cp -f data/processed/injuries.db /tmp/nba_sync_out/injuries.db 2>/dev/null || true
-          cp -f data/processed/league_state.json /tmp/nba_sync_out/league_state.json 2>/dev/null || true
-          cp -f reports/latest_cloud_summary.md /tmp/nba_sync_out/latest_cloud_summary.md 2>/dev/null || true
-          cp -f data/raw/player_logs_2026_27.parquet /tmp/nba_sync_out/player_logs_2026_27.parquet 2>/dev/null || true
-          if [ -f data/processed/live_matchup.json ]; then
-            cp -f data/processed/live_matchup.json /tmp/nba_sync_out/live_matchup.json
-          fi
-
-          # Clean working tree before switching to 'nba-fantasy-bot' branch
-          git reset --hard HEAD
-          git clean -fd
-
-          if git ls-remote --heads origin nba-fantasy-bot | grep -q nba-fantasy-bot; then
-            git fetch origin nba-fantasy-bot
-            git checkout -B nba-fantasy-bot origin/nba-fantasy-bot
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          runtime_dir="$RUNNER_TEMP/nba-runtime"
+          if git show-ref --verify --quiet refs/remotes/origin/nba-fantasy-bot; then
+            git worktree add --detach "$runtime_dir" origin/nba-fantasy-bot
           else
-            git checkout -b nba-fantasy-bot
+            git worktree add --detach "$runtime_dir" HEAD
           fi
-
-          # Restore newly generated files onto 'nba-fantasy-bot' branch
-          mkdir -p data/processed reports
-          cp -f /tmp/nba_sync_out/injuries.db data/processed/injuries.db 2>/dev/null || true
-          cp -f /tmp/nba_sync_out/league_state.json data/processed/league_state.json 2>/dev/null || true
-          cp -f /tmp/nba_sync_out/latest_cloud_summary.md reports/latest_cloud_summary.md 2>/dev/null || true
-          if [ -f /tmp/nba_sync_out/live_matchup.json ]; then
-            cp -f /tmp/nba_sync_out/live_matchup.json data/processed/live_matchup.json
-            git add -f data/processed/live_matchup.json
-          fi
-          if [ -s /tmp/nba_sync_out/player_logs_2026_27.parquet ]; then
-            mkdir -p data/raw
-            cp -f /tmp/nba_sync_out/player_logs_2026_27.parquet data/raw/player_logs_2026_27.parquet
-            git add -f data/raw/player_logs_2026_27.parquet
-          fi
-
-          git add -f data/processed/injuries.db data/processed/league_state.json reports/latest_cloud_summary.md
-
-          if ! git diff --quiet || ! git diff --staged --quiet; then
-            git commit -m "🤖 [nba-fantasy-bot] Auto-Sync: Live Matchup, Add/Drop & Injury Boosts [skip ci]"
-            git push origin nba-fantasy-bot
-            echo "Changes pushed to branch nba-fantasy-bot successfully."
-          else
-            echo "No database or projection changes to commit."
+          for path in data/archive data/processed/injuries.db data/processed/league_state.json data/processed/live_matchup.json data/raw/player_logs_2026_27.parquet reports/latest_cloud_summary.md reports/latest_forecast.json reports/prospective_status.json reports/telegram_preview.html; do
+            if [ -e "$path" ]; then
+              mkdir -p "$runtime_dir/$(dirname "$path")"
+              if [ -d "$path" ]; then
+                mkdir -p "$runtime_dir/$path"
+                cp -a "$path/." "$runtime_dir/$path/"
+              else
+                cp -f "$path" "$runtime_dir/$path"
+              fi
+              git -C "$runtime_dir" add -f "$path"
+            fi
+          done
+          if ! git -C "$runtime_dir" diff --staged --quiet; then
+            git -C "$runtime_dir" commit -m "Archive prospective forecasts, outcomes and injury history [skip ci]"
+            git -C "$runtime_dir" push origin HEAD:nba-fantasy-bot
           fi

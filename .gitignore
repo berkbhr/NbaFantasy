@@ -24,8 +24,12 @@ Thumbs.db
 .system_generated/
 scratch/
 
-# Legacy root duplicate (moved to docs/)
-/injury_system_architecture_and_peer_review.md
+.pytest_cache/
+.ruff_cache/
+config/league.json
+reports/validation/player_forecasts.parquet
+reports/latest_forecast.json
+reports/forecasts/
 
 # Raw injury PDF downloads & scratch files
 data/raw/injuries/*.pdf
