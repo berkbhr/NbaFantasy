@@ -1,99 +1,62 @@
 {
-  "forecast_at": "2026-10-28T18:28:56.918353+00:00",
-  "live_score_valid": true,
-  "live_score": {
-    "team_a": {
-      "name": "Berk's Best Team",
-      "slot": 14,
-      "games_played": 12,
-      "games_remaining": 32,
-      "total_scheduled": 44,
-      "FGM": 42,
-      "FGA": 84,
-      "FTM": 11,
-      "FTA": 15,
-      "FG3M": 17,
-      "PTS": 112,
-      "REB": 49,
-      "AST": 28,
-      "STL": 14,
-      "BLK": 6,
-      "TOV": 14
-    },
-    "team_b": {
-      "name": "Mordor Tulums",
-      "slot": 2,
-      "games_played": 14,
-      "games_remaining": 28,
-      "total_scheduled": 42,
-      "FGM": 65,
-      "FGA": 136,
-      "FTM": 25,
-      "FTA": 35,
-      "FG3M": 16,
-      "PTS": 171,
-      "REB": 80,
-      "AST": 25,
-      "STL": 12,
-      "BLK": 16,
-      "TOV": 10
-    }
-  },
+  "forecast_at": "2026-10-28T18:48:49.597070+00:00",
+  "live_score_valid": false,
+  "live_score": null,
   "ownership_audit": {
-    "source": null,
-    "verified_candidates": 0,
-    "reason": "Fresh Yahoo free-agent/waiver evidence unavailable; add recommendations withheld. Sync the browser bridge again. Missing roster names do not prove free agency.",
-    "scan_complete": false
+    "source": "yahoo_available_players",
+    "verified_candidates": 25,
+    "reason": null,
+    "scan_complete": true
   },
   "category_diagnostics": {
     "PTS": {
-      "my_actual": 112.0,
-      "opponent_actual": 171.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 394.2033639169195,
-      "opponent_remaining_mean": 333.28743546830566,
-      "difference_sd": 62.83903610131853
+      "opponent_remaining_mean": 339.68787683001227,
+      "difference_sd": 60.46351592978023
     },
     "REB": {
-      "my_actual": 49.0,
-      "opponent_actual": 80.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 148.44524986044152,
-      "opponent_remaining_mean": 123.5825027360678,
-      "difference_sd": 25.647510388500574
+      "opponent_remaining_mean": 123.28992405340445,
+      "difference_sd": 25.489652335656643
     },
     "AST": {
-      "my_actual": 28.0,
-      "opponent_actual": 25.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 85.4083096105867,
-      "opponent_remaining_mean": 55.49856021237852,
-      "difference_sd": 16.38474652370522
+      "opponent_remaining_mean": 93.42142707768338,
+      "difference_sd": 18.2688116630507
     },
     "STL": {
-      "my_actual": 14.0,
-      "opponent_actual": 12.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 27.707677347452773,
-      "opponent_remaining_mean": 21.167817994586365,
-      "difference_sd": 8.025033786629242
+      "opponent_remaining_mean": 28.780709563869994,
+      "difference_sd": 8.66482732606666
     },
     "BLK": {
-      "my_actual": 6.0,
-      "opponent_actual": 16.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 17.921712503414334,
-      "opponent_remaining_mean": 18.103166796935554,
-      "difference_sd": 7.055985496673909
+      "opponent_remaining_mean": 13.994559153127122,
+      "difference_sd": 6.449224914434031
     },
     "TOV": {
-      "my_actual": 14.0,
-      "opponent_actual": 10.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 43.260348916794165,
-      "opponent_remaining_mean": 33.707420780350034,
-      "difference_sd": 10.697311760218856
+      "opponent_remaining_mean": 44.18861270852774,
+      "difference_sd": 11.429286794680854
     },
     "FG3M": {
-      "my_actual": 17.0,
-      "opponent_actual": 16.0,
+      "my_actual": 0.0,
+      "opponent_actual": 0.0,
       "my_remaining_mean": 40.12157362401285,
-      "opponent_remaining_mean": 41.826712039863,
-      "difference_sd": 11.436965768680599
+      "opponent_remaining_mean": 39.25641713693325,
+      "difference_sd": 10.99002673607218
     }
   },
   "rotation_policy": {
@@ -217,7 +180,7 @@
     "shot_precision_multiplier": 1.0,
     "role": "adaptive_anchor"
   },
-  "id": "2026-10-26:7:1",
+  "id": "2026-10-26:7:12",
   "model_source_sha256": {
     "bayesian_model.py": "ca207500df256570af930c9d01e9b88e291c93f69614e6e908a931ff12137635",
     "priors.py": "2edbde3b9aaf0d6fffeb516e61529ad9307806c5d08933d403cdd815d7633a87",
@@ -236,88 +199,88 @@
   "week_start": "2026-10-28",
   "week_end": "2026-11-01",
   "my_team": "Berk's Best Team",
-  "opponent": "Mordor Tulums",
+  "opponent": "SILE BULLS",
   "phase": "regular_season",
   "objective": "category_points",
-  "objective_value": 4.58409774260403,
-  "expected_category_points": 4.58409774260403,
-  "expected_category_wins": 4.521884134316576,
-  "expected_category_ties": 0.12442721657490992,
-  "win": 0.5097047601737273,
-  "loss": 0.45398341045219803,
-  "draw": 0.03631182937407438,
+  "objective_value": 5.404268147396768,
+  "expected_category_points": 5.404268147396768,
+  "expected_category_wins": 5.303356915783686,
+  "expected_category_ties": 0.20182246322616337,
+  "win": 0.7272909265897853,
+  "loss": 0.23181280365656778,
+  "draw": 0.04089626975364675,
   "categories": {
     "PTS": {
-      "win": 0.50898845627367,
-      "tie": 0.006345620727348011,
-      "loss": 0.48466592299898203
+      "win": 0.8141669086732117,
+      "tie": 0.004394306016645755,
+      "loss": 0.18143878531014251
     },
     "REB": {
-      "win": 0.39789963486849705,
-      "tie": 0.015114886398032268,
-      "loss": 0.5869854787334706
+      "win": 0.8332949694129972,
+      "tie": 0.009617387353403228,
+      "loss": 0.15708764323359958
     },
     "AST": {
-      "win": 0.9760381278927154,
-      "tie": 0.003240668828574284,
-      "loss": 0.020721203278710337
+      "win": 0.32061066471591587,
+      "tie": 0.0198325715747234,
+      "loss": 0.6595567637093607
     },
     "STL": {
-      "win": 0.8417913534519463,
-      "tie": 0.02822268268414707,
-      "loss": 0.1299859638639066
+      "win": 0.42797098813905116,
+      "tie": 0.04566492622629603,
+      "loss": 0.5263640856346528
     },
     "BLK": {
-      "win": 0.06503642654403244,
-      "tie": 0.01998112673797936,
-      "loss": 0.9149824467179882
+      "win": 0.7024310816053165,
+      "tie": 0.05135827849887287,
+      "loss": 0.2462106398958106
     },
     "TOV": {
-      "win": 0.09447564120124274,
-      "tie": 0.016717681876365575,
-      "loss": 0.8888066769223917
+      "win": 0.5149451636034034,
+      "tie": 0.03477930965090037,
+      "loss": 0.45027552674569626
     },
     "FG3M": {
-      "win": 0.45804023126292764,
-      "tie": 0.03480454932246324,
-      "loss": 0.5071552194146091
+      "win": 0.5132528851540337,
+      "tie": 0.03617568390532172,
+      "loss": 0.4505714309406446
     },
     "FG_PCT": {
-      "win": 0.5640479778849712,
-      "tie": 5.551115123125783e-17,
-      "loss": 0.43595202211502876
+      "win": 0.6990331528263499,
+      "tie": 0.0,
+      "loss": 0.3009668471736501
     },
     "FT_PCT": {
-      "win": 0.6155662849365727,
-      "tie": 5.551115123125783e-17,
-      "loss": 0.3844337150634272
+      "win": 0.47765110165340635,
+      "tie": 0.0,
+      "loss": 0.5223488983465936
     }
   },
   "my_projected_stats": {
-    "PTS": 506.2033639169195,
-    "REB": 197.44524986044152,
-    "AST": 113.4083096105867,
-    "STL": 41.70767734745277,
-    "BLK": 23.921712503414334,
-    "TOV": 57.260348916794165,
-    "FG3M": 57.12157362401285,
-    "FGM": 182.75920825268784,
-    "FGA": 373.5058628301994,
-    "FTM": 80.58575735691714,
-    "FTA": 101.95652524380345
+    "PTS": 394.2033639169195,
+    "REB": 148.44524986044152,
+    "AST": 85.4083096105867,
+    "STL": 27.707677347452773,
+    "BLK": 17.921712503414334,
+    "TOV": 43.260348916794165,
+    "FG3M": 40.12157362401285,
+    "FGM": 140.75920825268784,
+    "FGA": 289.5058628301994,
+    "FTM": 69.58575735691714,
+    "FTA": 86.95652524380345
   },
   "opponent_projected_stats": {
-    "PTS": 504.28743546830566,
-    "REB": 203.5825027360678,
-    "AST": 80.49856021237852,
-    "STL": 33.167817994586365,
-    "BLK": 34.103166796935554,
-    "TOV": 43.707420780350034,
-    "FG3M": 57.826712039863,
-    "FGM": 182.10058753165566,
-    "FGA": 376.1435946582668,
-    "FTM": 76.82436419288126,
-    "FTA": 99.094734531173
+    "PTS": 339.68787683001227,
+    "REB": 123.28992405340445,
+    "AST": 93.42142707768338,
+    "STL": 28.780709563869994,
+    "BLK": 13.994559153127122,
+    "TOV": 44.18861270852774,
+    "FG3M": 39.25641713693325,
+    "FGM": 123.34280295518546,
+    "FGA": 266.3468151986095,
+    "FTM": 54.620389320529696,
+    "FTA": 67.93337309179884
   },
   "my_lineups": {
     "2026-10-28": [
@@ -365,7 +328,8 @@
   },
   "recommendations": [],
   "notes": [
-    "Fresh Yahoo free-agent/waiver evidence unavailable; add recommendations withheld. Sync the browser bridge again. Missing roster names do not prove free agency.",
+    "Yahoo roster and score belong to different synchronization versions",
+    "No valid live scoreboard: totals describe remaining games only; in-week add/drop recommendations withheld.",
     "Local caches only; no data fetched and no notifications sent.",
     "Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.",
     "Return dates, rotations and future lineup choices remain model assumptions."
@@ -375,9 +339,9 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "50f5b3ce6f2399abd4915c2b81a650184358751f07cd9400666b4ca93d658302",
-    "data/processed/live_matchup.json": "a8ef9d3804bf037e5f873e8686ee4d171bc3ff41941f04c05eeecb463bc78d9d",
-    "data/processed/injuries.db": "af811df92552966a90ef258b343f3caebf8d3e943759103dd266451784a78b71",
+    "data/processed/league_state.json": "1b022df694653c03c06afe667d1bc37c1593c9c14633779d1607fedac3eb15f5",
+    "data/processed/live_matchup.json": "4ed4696aa12abfae8a9703f565f936a4b6a7c745776e56a3eb15299b07e0f1f3",
+    "data/processed/injuries.db": "74a97d93c684c2b2ed3c70b9222df605385483c1b1d39a97e3fc202b39abb2df",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
     "data/processed/schedule_2026_27.parquet": "59946c75d5b3e00213e68d385742f5b97002bd756529b8a80594caef456e84b3",
@@ -386,5 +350,5 @@
     "config/rotation_candidate.json": "f60e8f403cf0eae4a1e6936b200bb8da26bc14f9b617397f54b84e78efceff6d",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
   },
-  "prospective_forecast_id": "20261028T182856918353Z"
+  "prospective_forecast_id": "20261028T184849597070Z"
 }
