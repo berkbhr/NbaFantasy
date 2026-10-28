@@ -1,39 +1,46 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-28T13:20:51.077370+00:00
+Generated: 2026-10-28T18:28:56.918353+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-28 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **4.719**.
-Expected category points: **4.72 / 9**.
-Expected category wins: 4.66; ties: 0.12.
-Secondary weekly W/L/D: 55.6% / 40.9% / 3.5%.
+Objective value: **4.584**.
+Expected category points: **4.58 / 9**.
+Expected category wins: 4.52; ties: 0.12.
+Secondary weekly W/L/D: 51.0% / 45.4% / 3.6%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 55.9% | 0.6% | 43.5% |
-| REB | 42.2% | 1.5% | 56.2% |
-| AST | 98.0% | 0.3% | 1.7% |
-| STL | 86.8% | 2.5% | 10.7% |
-| BLK | 6.7% | 2.1% | 91.2% |
-| TOV | 8.0% | 1.5% | 90.5% |
-| FG3M | 50.7% | 3.5% | 45.8% |
-| FG_PCT | 55.8% | 0.0% | 44.2% |
+| PTS | 50.9% | 0.6% | 48.5% |
+| REB | 39.8% | 1.5% | 58.7% |
+| AST | 97.6% | 0.3% | 2.1% |
+| STL | 84.2% | 2.8% | 13.0% |
+| BLK | 6.5% | 2.0% | 91.5% |
+| TOV | 9.4% | 1.7% | 88.9% |
+| FG3M | 45.8% | 3.5% | 50.7% |
+| FG_PCT | 56.4% | 0.0% | 43.6% |
 | FT_PCT | 61.6% | 0.0% | 38.4% |
+
+## Realized scores and remaining projections
+
+Scores are fixed observations; uncertainty belongs to future games. Remaining values reflect projected active lineups, not Yahoo's raw game counts.
+
+| Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
+|---|---:|---:|---:|
+| PTS | 112 / 171 | 394.20 / 333.29 | 62.84 |
+| REB | 49 / 80 | 148.45 / 123.58 | 25.65 |
+| AST | 28 / 25 | 85.41 / 55.50 | 16.38 |
+| STL | 14 / 12 | 27.71 / 21.17 | 8.03 |
+| BLK | 6 / 16 | 17.92 / 18.10 | 7.06 |
+| TOV | 14 / 10 | 43.26 / 33.71 | 10.70 |
+| FG3M | 17 / 16 | 40.12 / 41.83 | 11.44 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Δ category_points |
 |---|---|---:|
-| Jay Huff | Bilal Coulibaly | +0.331 |
-| Nickeil Alexander-Walker | Bilal Coulibaly | +0.271 |
-| Nikola Vučević | Bilal Coulibaly | +0.249 |
-| Jarace Walker | Bilal Coulibaly | +0.207 |
-| Ziaire Williams | Bilal Coulibaly | +0.192 |
-| Isaiah Jackson | Bilal Coulibaly | +0.191 |
-| Dean Wade | Bilal Coulibaly | +0.188 |
-| Goga Bitadze | Bilal Coulibaly | +0.179 |
+| No eligible recommendation | — | — |
 
 ## Forecast active lineups
 
@@ -45,6 +52,7 @@ Secondary weekly W/L/D: 55.6% / 40.9% / 3.5%.
 
 ## Assumptions and data quality
 
+- Fresh Yahoo free-agent/waiver evidence unavailable; add recommendations withheld. Sync the browser bridge again. Missing roster names do not prove free agency.
 - Local caches only; no data fetched and no notifications sent.
 - Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.
 - Return dates, rotations and future lineup choices remain model assumptions.

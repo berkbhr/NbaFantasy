@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-28T13:20:51.077370+00:00",
+  "forecast_at": "2026-10-28T18:28:56.918353+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -37,6 +37,63 @@
       "STL": 12,
       "BLK": 16,
       "TOV": 10
+    }
+  },
+  "ownership_audit": {
+    "source": null,
+    "verified_candidates": 0,
+    "reason": "Fresh Yahoo free-agent/waiver evidence unavailable; add recommendations withheld. Sync the browser bridge again. Missing roster names do not prove free agency.",
+    "scan_complete": false
+  },
+  "category_diagnostics": {
+    "PTS": {
+      "my_actual": 112.0,
+      "opponent_actual": 171.0,
+      "my_remaining_mean": 394.2033639169195,
+      "opponent_remaining_mean": 333.28743546830566,
+      "difference_sd": 62.83903610131853
+    },
+    "REB": {
+      "my_actual": 49.0,
+      "opponent_actual": 80.0,
+      "my_remaining_mean": 148.44524986044152,
+      "opponent_remaining_mean": 123.5825027360678,
+      "difference_sd": 25.647510388500574
+    },
+    "AST": {
+      "my_actual": 28.0,
+      "opponent_actual": 25.0,
+      "my_remaining_mean": 85.4083096105867,
+      "opponent_remaining_mean": 55.49856021237852,
+      "difference_sd": 16.38474652370522
+    },
+    "STL": {
+      "my_actual": 14.0,
+      "opponent_actual": 12.0,
+      "my_remaining_mean": 27.707677347452773,
+      "opponent_remaining_mean": 21.167817994586365,
+      "difference_sd": 8.025033786629242
+    },
+    "BLK": {
+      "my_actual": 6.0,
+      "opponent_actual": 16.0,
+      "my_remaining_mean": 17.921712503414334,
+      "opponent_remaining_mean": 18.103166796935554,
+      "difference_sd": 7.055985496673909
+    },
+    "TOV": {
+      "my_actual": 14.0,
+      "opponent_actual": 10.0,
+      "my_remaining_mean": 43.260348916794165,
+      "opponent_remaining_mean": 33.707420780350034,
+      "difference_sd": 10.697311760218856
+    },
+    "FG3M": {
+      "my_actual": 17.0,
+      "opponent_actual": 16.0,
+      "my_remaining_mean": 40.12157362401285,
+      "opponent_remaining_mean": 41.826712039863,
+      "difference_sd": 11.436965768680599
     }
   },
   "rotation_policy": {
@@ -166,12 +223,15 @@
     "priors.py": "2edbde3b9aaf0d6fffeb516e61529ad9307806c5d08933d403cdd815d7633a87",
     "model_policy.py": "417b7bb37980af3b40472e57623489fb59a537c17c574595711c3de14fbc5e1f",
     "live_draft_assistant.py": "8af79cfe07e89b1577c0746f24666ff5ce0af93667c01692ec2c75b05799ec6c",
-    "matchup_engine.py": "89753518dd8cc1663f13b95535bca48706653594f53d56fb6f3ab0c03f7ec80a",
+    "matchup_engine.py": "a895aaf964d89a17f0ead4c5eb65fe58d15d6eb724141a965f866085c6e10524",
     "probability.py": "59d1abe8ed8e3b6e34296abe8bb28547a387fd2ce743326244c0a471cb918db3",
     "rotation.py": "bb6f546b1fc5ac4733c700aa4cfd01ef78a0d5e39f7ad8c7f889d7efc24448ca",
     "rotation_policy.py": "32659a4f9fe13f6f2c2dd6365886257ab95d6cd098ffaef1bff74056d49e0b50",
-    "prospective.py": "1ea36e2b46aaf91dac459617322bda484f2a1515dbb2a60fb59e1747c8d5de0e",
-    "snapshots.py": "88723b8f8d56de064ae285603ade64c12e5d89a6ac4166f7526215d928872d00"
+    "prospective.py": "6fc1c704026b23cb31489cc0db5f79d3322d20f5a9d6131947663070313578bd",
+    "snapshots.py": "d0888c49237916ebd632c42168299c39aec3d437300a56f3cbe9f099ef79c17f",
+    "ownership.py": "5b9b8e2e536da89f5d2dd777ff5b5837c2cbe950916223320bb862e9fdfbc4b6",
+    "yahoo_identity.py": "48f4ee94246226c04ed251d7f4fc4081b76931bc5cc5366504dcd921044a158a",
+    "game_clock.py": "6a3f740ba873ce6b64c21de55575352e99d498fa3775608e99334b2251177e1a"
   },
   "week_start": "2026-10-28",
   "week_end": "2026-11-01",
@@ -179,85 +239,85 @@
   "opponent": "Mordor Tulums",
   "phase": "regular_season",
   "objective": "category_points",
-  "objective_value": 4.718661930619911,
-  "expected_category_points": 4.718661930619911,
-  "expected_category_wins": 4.658396637761162,
-  "expected_category_ties": 0.12053058571749782,
-  "win": 0.5562075219782412,
-  "loss": 0.4088289149758898,
-  "draw": 0.034963563045868964,
+  "objective_value": 4.58409774260403,
+  "expected_category_points": 4.58409774260403,
+  "expected_category_wins": 4.521884134316576,
+  "expected_category_ties": 0.12442721657490992,
+  "win": 0.5097047601737273,
+  "loss": 0.45398341045219803,
+  "draw": 0.03631182937407438,
   "categories": {
     "PTS": {
-      "win": 0.5588615005520404,
-      "tie": 0.006304239138246681,
-      "loss": 0.4348342603097129
+      "win": 0.50898845627367,
+      "tie": 0.006345620727348011,
+      "loss": 0.48466592299898203
     },
     "REB": {
-      "win": 0.42246980613497975,
-      "tie": 0.01540959207076853,
-      "loss": 0.5621206017942517
+      "win": 0.39789963486849705,
+      "tie": 0.015114886398032268,
+      "loss": 0.5869854787334706
     },
     "AST": {
-      "win": 0.9802608510005847,
-      "tie": 0.0027683999570975552,
-      "loss": 0.016970749042317757
+      "win": 0.9760381278927154,
+      "tie": 0.003240668828574284,
+      "loss": 0.020721203278710337
     },
     "STL": {
-      "win": 0.8679339070593987,
-      "tie": 0.025120579506281326,
-      "loss": 0.10694551343432002
+      "win": 0.8417913534519463,
+      "tie": 0.02822268268414707,
+      "loss": 0.1299859638639066
     },
     "BLK": {
-      "win": 0.06736269441367676,
-      "tie": 0.020681777888924113,
-      "loss": 0.9119555276973992
+      "win": 0.06503642654403244,
+      "tie": 0.01998112673797936,
+      "loss": 0.9149824467179882
     },
     "TOV": {
-      "win": 0.08011630153915972,
-      "tie": 0.015013682375191406,
-      "loss": 0.9048700160856489
+      "win": 0.09447564120124274,
+      "tie": 0.016717681876365575,
+      "loss": 0.8888066769223917
     },
     "FG3M": {
-      "win": 0.5071597831641347,
-      "tie": 0.03523231478098815,
-      "loss": 0.45760790205487717
+      "win": 0.45804023126292764,
+      "tie": 0.03480454932246324,
+      "loss": 0.5071552194146091
     },
     "FG_PCT": {
-      "win": 0.5581287409586898,
+      "win": 0.5640479778849712,
       "tie": 5.551115123125783e-17,
-      "loss": 0.44187125904131014
+      "loss": 0.43595202211502876
     },
     "FT_PCT": {
-      "win": 0.616103052938498,
-      "tie": 0.0,
-      "loss": 0.383896947061502
+      "win": 0.6155662849365727,
+      "tie": 5.551115123125783e-17,
+      "loss": 0.3844337150634272
     }
   },
   "my_projected_stats": {
-    "PTS": 500.7430200259266,
-    "REB": 195.31737245693128,
-    "AST": 112.30261451672926,
-    "STL": 41.34573154335034,
-    "BLK": 23.7058857535903,
-    "TOV": 56.659300010948364,
-    "FG3M": 56.42859120846893,
-    "FGM": 180.79486082751208,
-    "FGA": 369.2887963638813,
-    "FTM": 79.73238806999483,
-    "FTA": 100.91431708613655
+    "PTS": 506.2033639169195,
+    "REB": 197.44524986044152,
+    "AST": 113.4083096105867,
+    "STL": 41.70767734745277,
+    "BLK": 23.921712503414334,
+    "TOV": 57.260348916794165,
+    "FG3M": 57.12157362401285,
+    "FGM": 182.75920825268784,
+    "FGA": 373.5058628301994,
+    "FTM": 80.58575735691714,
+    "FTA": 101.95652524380345
   },
   "opponent_projected_stats": {
-    "PTS": 490.985619584406,
-    "REB": 199.80266717393118,
-    "AST": 78.37436307616747,
-    "STL": 32.00142097901673,
-    "BLK": 33.67801804278671,
-    "TOV": 42.29582677814773,
-    "FG3M": 55.725822675446935,
-    "FGM": 177.26995622800047,
-    "FGA": 365.6149595592992,
-    "FTM": 75.28333710090186,
-    "FTA": 97.16142943522425
+    "PTS": 504.28743546830566,
+    "REB": 203.5825027360678,
+    "AST": 80.49856021237852,
+    "STL": 33.167817994586365,
+    "BLK": 34.103166796935554,
+    "TOV": 43.707420780350034,
+    "FG3M": 57.826712039863,
+    "FGM": 182.10058753165566,
+    "FGA": 376.1435946582668,
+    "FTM": 76.82436419288126,
+    "FTA": 99.094734531173
   },
   "my_lineups": {
     "2026-10-28": [
@@ -303,920 +363,9 @@
       "Jake LaRavia"
     ]
   },
-  "recommendations": [
-    {
-      "action": "ADD / DROP",
-      "add_id": 1630643,
-      "add_name": "Jay Huff",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.9154105047827279,
-      "observed_games": 2,
-      "observed_minutes": 13.0,
-      "role_base_minutes": 16.832805555555556,
-      "projected_minutes": 20.122168961612367,
-      "prior_role_minutes": 19.38800925925926,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 5.049727429225984,
-      "delta_expected_wins": 0.3310654986060735,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 5.049727429225984,
-      "delta_objective_value": 0.3310654986060735,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6567079640912816,
-      "new_draw_probability": 0.035181303930015104,
-      "cat_details": [
-        {
-          "cat": "BLK",
-          "base_pct": 7,
-          "new_pct": 18,
-          "delta_pct": 11.07,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.11067056068664077
-        },
-        {
-          "cat": "FG3M",
-          "base_pct": 51,
-          "new_pct": 59,
-          "delta_pct": 8.47,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.08466694543641107
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 62,
-          "delta_pct": 6.49,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.06486004316441452
-        },
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 48,
-          "delta_pct": 5.55,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.055472492715203436
-        },
-        {
-          "cat": "FG_PCT",
-          "base_pct": 56,
-          "new_pct": 59,
-          "delta_pct": 2.73,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.02732848746296468
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 62,
-          "new_pct": 62,
-          "delta_pct": 0.32,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.003158881923033152
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.08,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0007789593725977539
-        }
-      ],
-      "cat_gains": [
-        [
-          "BLK",
-          0.1107
-        ],
-        [
-          "FG3M",
-          0.08470000000000001
-        ]
-      ],
-      "target_cats": [
-        "BLK",
-        "FG3M"
-      ],
-      "key_cat_gains": "BLK (%7 → %18), FG3M (%51 → %59)",
-      "exp_stats_pg": {
-        "PTS": 9.7,
-        "REB": 3.8,
-        "AST": 1.4,
-        "STL": 0.5,
-        "BLK": 1.7,
-        "3PT": 1.5
-      },
-      "exp_stats": {
-        "PTS": 26.7,
-        "REB": 10.3,
-        "AST": 3.8,
-        "STL": 1.3,
-        "BLK": 4.7,
-        "3PT": 4.2
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1629638,
-      "add_name": "Nickeil Alexander-Walker",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.9061460642155119,
-      "observed_games": 3,
-      "observed_minutes": 29.666666666666668,
-      "role_base_minutes": 30.137666926532276,
-      "projected_minutes": 26.221435446917376,
-      "prior_role_minutes": 30.608667186397888,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.9892656675272296,
-      "delta_expected_wins": 0.27060373690731865,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.9892656675272296,
-      "delta_objective_value": 0.27060373690731865,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6514285397242519,
-      "new_draw_probability": 0.030814376685461907,
-      "cat_details": [
-        {
-          "cat": "FG3M",
-          "base_pct": 51,
-          "new_pct": 65,
-          "delta_pct": 13.84,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.13841256394059331
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 67,
-          "delta_pct": 10.72,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.10721011176192563
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 62,
-          "new_pct": 65,
-          "delta_pct": 3.58,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.035801729923128245
-        },
-        {
-          "cat": "STL",
-          "base_pct": 87,
-          "new_pct": 89,
-          "delta_pct": 1.97,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.01967321912201514
-        },
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 43,
-          "delta_pct": 0.79,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.007915400667008798
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 99,
-          "delta_pct": 0.52,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.005197780064846835
-        },
-        {
-          "cat": "BLK",
-          "base_pct": 7,
-          "new_pct": 7,
-          "delta_pct": 0.03,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0003012979098802049
-        }
-      ],
-      "cat_gains": [
-        [
-          "FG3M",
-          0.1384
-        ],
-        [
-          "PTS",
-          0.1072
-        ]
-      ],
-      "target_cats": [
-        "FG3M",
-        "PTS"
-      ],
-      "key_cat_gains": "FG3M (%51 → %65), PTS (%56 → %67)",
-      "exp_stats_pg": {
-        "PTS": 15.4,
-        "REB": 2.9,
-        "AST": 3.0,
-        "STL": 1.1,
-        "BLK": 0.4,
-        "3PT": 2.5
-      },
-      "exp_stats": {
-        "PTS": 41.9,
-        "REB": 8.0,
-        "AST": 8.1,
-        "STL": 2.9,
-        "BLK": 1.1,
-        "3PT": 6.7
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 202696,
-      "add_name": "Nikola Vučević",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.8402921284310239,
-      "observed_games": 3,
-      "observed_minutes": 8.0,
-      "role_base_minutes": 12.4663415242746,
-      "projected_minutes": 20.15519122732401,
-      "prior_role_minutes": 25.865366097098406,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.967696991912925,
-      "delta_expected_wins": 0.24903506129301434,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.967696991912925,
-      "delta_objective_value": 0.24903506129301434,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6408333023870764,
-      "new_draw_probability": 0.03238064170795531,
-      "cat_details": [
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 55,
-          "delta_pct": 12.4,
-          "is_flip": true,
-          "is_crit": true,
-          "score": 0.12400620079161917
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 62,
-          "delta_pct": 6.45,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.06454783009362153
-        },
-        {
-          "cat": "FG3M",
-          "base_pct": 51,
-          "new_pct": 57,
-          "delta_pct": 5.9,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.05902345223725003
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 62,
-          "new_pct": 63,
-          "delta_pct": 1.32,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.013153358715544905
-        },
-        {
-          "cat": "FG_PCT",
-          "base_pct": 56,
-          "new_pct": 57,
-          "delta_pct": 0.82,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.00822222979823084
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 99,
-          "delta_pct": 0.62,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.006195395694911787
-        }
-      ],
-      "cat_gains": [
-        [
-          "REB",
-          0.124
-        ],
-        [
-          "PTS",
-          0.0645
-        ]
-      ],
-      "target_cats": [
-        "REB",
-        "PTS"
-      ],
-      "key_cat_gains": "REB (%42 → %55), PTS (%56 → %62)",
-      "exp_stats_pg": {
-        "PTS": 10.6,
-        "REB": 6.0,
-        "AST": 2.4,
-        "STL": 0.5,
-        "BLK": 0.5,
-        "3PT": 1.1
-      },
-      "exp_stats": {
-        "PTS": 26.8,
-        "REB": 15.2,
-        "AST": 6.0,
-        "STL": 1.2,
-        "BLK": 1.3,
-        "3PT": 2.7
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1641716,
-      "add_name": "Jarace Walker",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.8967383591034421,
-      "observed_games": 3,
-      "observed_minutes": 18.333333333333332,
-      "role_base_minutes": 21.271428571428572,
-      "projected_minutes": 24.951489512399334,
-      "prior_role_minutes": 24.209523809523812,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.9252604490816605,
-      "delta_expected_wins": 0.2065985184617496,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.9252604490816605,
-      "delta_objective_value": 0.2065985184617496,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6292440130405096,
-      "new_draw_probability": 0.03174731791550519,
-      "cat_details": [
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 53,
-          "delta_pct": 10.66,
-          "is_flip": true,
-          "is_crit": true,
-          "score": 0.10659137138297692
-        },
-        {
-          "cat": "FG3M",
-          "base_pct": 51,
-          "new_pct": 59,
-          "delta_pct": 8.54,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.08543649153567223
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 63,
-          "delta_pct": 7.38,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.07375635518232726
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 99,
-          "delta_pct": 0.63,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.00628609198142116
-        },
-        {
-          "cat": "STL",
-          "base_pct": 87,
-          "new_pct": 87,
-          "delta_pct": 0.36,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0035602940513254078
-        }
-      ],
-      "cat_gains": [
-        [
-          "REB",
-          0.1066
-        ],
-        [
-          "FG3M",
-          0.08539999999999999
-        ]
-      ],
-      "target_cats": [
-        "REB",
-        "FG3M"
-      ],
-      "key_cat_gains": "REB (%42 → %53), FG3M (%51 → %59)",
-      "exp_stats_pg": {
-        "PTS": 10.5,
-        "REB": 5.1,
-        "AST": 2.4,
-        "STL": 0.8,
-        "BLK": 0.4,
-        "3PT": 1.6
-      },
-      "exp_stats": {
-        "PTS": 28.2,
-        "REB": 13.6,
-        "AST": 6.4,
-        "STL": 2.2,
-        "BLK": 1.0,
-        "3PT": 4.2
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1630533,
-      "add_name": "Ziaire Williams",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.8026613079827449,
-      "observed_games": 3,
-      "observed_minutes": 28.333333333333332,
-      "role_base_minutes": 25.565892215568862,
-      "projected_minutes": 26.354676668291056,
-      "prior_role_minutes": 22.798451097804392,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.911106558397442,
-      "delta_expected_wins": 0.19244462777753135,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.911106558397442,
-      "delta_objective_value": 0.19244462777753135,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6233795701645806,
-      "new_draw_probability": 0.03199178080774235,
-      "cat_details": [
-        {
-          "cat": "FG3M",
-          "base_pct": 51,
-          "new_pct": 59,
-          "delta_pct": 8.4,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.0840390041001623
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 63,
-          "delta_pct": 7.02,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.07018179124983637
-        },
-        {
-          "cat": "STL",
-          "base_pct": 87,
-          "new_pct": 89,
-          "delta_pct": 2.47,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.02470841853898731
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 62,
-          "new_pct": 64,
-          "delta_pct": 2.16,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.021632243280554242
-        },
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 44,
-          "delta_pct": 1.59,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.015895146507556968
-        }
-      ],
-      "cat_gains": [
-        [
-          "FG3M",
-          0.084
-        ],
-        [
-          "PTS",
-          0.0702
-        ]
-      ],
-      "target_cats": [
-        "FG3M",
-        "PTS"
-      ],
-      "key_cat_gains": "FG3M (%51 → %59), PTS (%56 → %63)",
-      "exp_stats_pg": {
-        "PTS": 11.5,
-        "REB": 3.2,
-        "AST": 1.4,
-        "STL": 1.3,
-        "BLK": 0.4,
-        "3PT": 1.7
-      },
-      "exp_stats": {
-        "PTS": 27.6,
-        "REB": 7.8,
-        "AST": 3.3,
-        "STL": 3.2,
-        "BLK": 1.0,
-        "3PT": 4.1
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1630543,
-      "add_name": "Isaiah Jackson",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.7979574554267101,
-      "observed_games": 3,
-      "observed_minutes": 22.333333333333332,
-      "role_base_minutes": 19.64201058201058,
-      "projected_minutes": 22.93145168626757,
-      "prior_role_minutes": 16.95068783068783,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.90922929125827,
-      "delta_expected_wins": 0.19056736063835888,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.90922929125827,
-      "delta_objective_value": 0.19056736063835888,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6180151255180358,
-      "new_draw_probability": 0.03405136494952628,
-      "cat_details": [
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 57,
-          "delta_pct": 15.22,
-          "is_flip": true,
-          "is_crit": true,
-          "score": 0.15221483574270922
-        },
-        {
-          "cat": "FG_PCT",
-          "base_pct": 56,
-          "new_pct": 61,
-          "delta_pct": 5.69,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.05686441758419147
-        },
-        {
-          "cat": "BLK",
-          "base_pct": 7,
-          "new_pct": 12,
-          "delta_pct": 4.94,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.04941911735790605
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 60,
-          "delta_pct": 4.16,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.04162311688885789
-        },
-        {
-          "cat": "STL",
-          "base_pct": 87,
-          "new_pct": 88,
-          "delta_pct": 0.96,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0095808460609913
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.04,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.00037569436606055273
-        }
-      ],
-      "cat_gains": [
-        [
-          "REB",
-          0.1522
-        ],
-        [
-          "FG_PCT",
-          0.056900000000000006
-        ]
-      ],
-      "target_cats": [
-        "REB",
-        "FG_PCT"
-      ],
-      "key_cat_gains": "REB (%42 → %57), FG_PCT (%56 → %61)",
-      "exp_stats_pg": {
-        "PTS": 9.5,
-        "REB": 7.0,
-        "AST": 1.5,
-        "STL": 1.1,
-        "BLK": 1.2,
-        "3PT": 0.1
-      },
-      "exp_stats": {
-        "PTS": 22.9,
-        "REB": 16.7,
-        "AST": 3.7,
-        "STL": 2.5,
-        "BLK": 3.0,
-        "3PT": 0.2
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1629731,
-      "add_name": "Dean Wade",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.8001674678938737,
-      "observed_games": 2,
-      "observed_minutes": 32.5,
-      "role_base_minutes": 28.813678275290215,
-      "projected_minutes": 27.94945815390105,
-      "prior_role_minutes": 21.441034825870645,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.906510820989988,
-      "delta_expected_wins": 0.18784889037007702,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.906510820989988,
-      "delta_objective_value": 0.18784889037007702,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6196294098258961,
-      "new_draw_probability": 0.0323620753422365,
-      "cat_details": [
-        {
-          "cat": "FG3M",
-          "base_pct": 51,
-          "new_pct": 60,
-          "delta_pct": 8.83,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.08831013590799097
-        },
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 50,
-          "delta_pct": 7.82,
-          "is_flip": true,
-          "is_crit": true,
-          "score": 0.07821388508387583
-        },
-        {
-          "cat": "STL",
-          "base_pct": 87,
-          "new_pct": 89,
-          "delta_pct": 2.1,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.020957292470934363
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 57,
-          "delta_pct": 0.88,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.008810383706269853
-        },
-        {
-          "cat": "TOV",
-          "base_pct": 8,
-          "new_pct": 9,
-          "delta_pct": 0.81,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.008111411283862224
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.27,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0026984535193699255
-        }
-      ],
-      "cat_gains": [
-        [
-          "FG3M",
-          0.0883
-        ],
-        [
-          "REB",
-          0.0782
-        ]
-      ],
-      "target_cats": [
-        "FG3M",
-        "REB"
-      ],
-      "key_cat_gains": "FG3M (%51 → %60), REB (%42 → %50)",
-      "exp_stats_pg": {
-        "PTS": 7.3,
-        "REB": 5.1,
-        "AST": 1.7,
-        "STL": 1.1,
-        "BLK": 0.6,
-        "3PT": 1.5
-      },
-      "exp_stats": {
-        "PTS": 17.5,
-        "REB": 12.1,
-        "AST": 4.0,
-        "STL": 2.6,
-        "BLK": 1.3,
-        "3PT": 3.6
-      }
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1629048,
-      "add_name": "Goga Bitadze",
-      "drop_id": 1641731,
-      "drop_name": "Bilal Coulibaly",
-      "rem_games_add": 3,
-      "rem_games_drop": 2,
-      "fa_avail": 0.72,
-      "observed_games": 2,
-      "observed_minutes": 12.0,
-      "role_base_minutes": 14.736041397849462,
-      "projected_minutes": 22.19140326171805,
-      "prior_role_minutes": 16.56006899641577,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.897294434391999,
-      "delta_expected_wins": 0.1786325037720884,
-      "objective": "category_points",
-      "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.897294434391999,
-      "delta_objective_value": 0.1786325037720884,
-      "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.613603071170466,
-      "new_draw_probability": 0.034463450847687024,
-      "cat_details": [
-        {
-          "cat": "REB",
-          "base_pct": 42,
-          "new_pct": 55,
-          "delta_pct": 13.15,
-          "is_flip": true,
-          "is_crit": true,
-          "score": 0.13148071875408973
-        },
-        {
-          "cat": "BLK",
-          "base_pct": 7,
-          "new_pct": 10,
-          "delta_pct": 3.6,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0360367272031501
-        },
-        {
-          "cat": "FG_PCT",
-          "base_pct": 56,
-          "new_pct": 59,
-          "delta_pct": 3.42,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.03423339819265492
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 56,
-          "new_pct": 57,
-          "delta_pct": 1.48,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.014805275933157835
-        },
-        {
-          "cat": "AST",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.27,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.002697188922769933
-        }
-      ],
-      "cat_gains": [
-        [
-          "REB",
-          0.1315
-        ],
-        [
-          "BLK",
-          0.036000000000000004
-        ]
-      ],
-      "target_cats": [
-        "REB",
-        "BLK"
-      ],
-      "key_cat_gains": "REB (%42 → %55), BLK (%7 → %10)",
-      "exp_stats_pg": {
-        "PTS": 8.6,
-        "REB": 7.3,
-        "AST": 1.9,
-        "STL": 0.7,
-        "BLK": 1.3,
-        "3PT": 0.1
-      },
-      "exp_stats": {
-        "PTS": 18.5,
-        "REB": 15.7,
-        "AST": 4.1,
-        "STL": 1.6,
-        "BLK": 2.9,
-        "3PT": 0.2
-      }
-    }
-  ],
+  "recommendations": [],
   "notes": [
+    "Fresh Yahoo free-agent/waiver evidence unavailable; add recommendations withheld. Sync the browser bridge again. Missing roster names do not prove free agency.",
     "Local caches only; no data fetched and no notifications sent.",
     "Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.",
     "Return dates, rotations and future lineup choices remain model assumptions."
@@ -1226,16 +375,16 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "a915bfe0989c5841acfec670cee0c441e3c041811ada69ff65d330b4286b8949",
+    "data/processed/league_state.json": "50f5b3ce6f2399abd4915c2b81a650184358751f07cd9400666b4ca93d658302",
     "data/processed/live_matchup.json": "a8ef9d3804bf037e5f873e8686ee4d171bc3ff41941f04c05eeecb463bc78d9d",
-    "data/processed/injuries.db": "d0f83369c5717008abc21efc52b90dc07e98802d930f239fb99bb69455c1febb",
+    "data/processed/injuries.db": "af811df92552966a90ef258b343f3caebf8d3e943759103dd266451784a78b71",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
-    "data/processed/schedule_2026_27.parquet": "0bbf3265e890d82cdff24af8b78637c9a7ecf66290cb5339563c5fbe319b40b0",
+    "data/processed/schedule_2026_27.parquet": "59946c75d5b3e00213e68d385742f5b97002bd756529b8a80594caef456e84b3",
     "config/model_policy.json": "ab27322f752d4a3d9051306af3c8fb759fb0f062b3b659eacae6d5cc43421fbe",
     "config/rotation_policy.json": "39f2ac5aaed4d086c660dd8ab0e8c10900dd64e871c7112e201b197dfd27d1e8",
     "config/rotation_candidate.json": "f60e8f403cf0eae4a1e6936b200bb8da26bc14f9b617397f54b84e78efceff6d",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
   },
-  "prospective_forecast_id": "20261028T132051077370Z"
+  "prospective_forecast_id": "20261028T182856918353Z"
 }

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28T13:18:44.298035+00:00",
+  "updated_at": "2026-10-28T18:26:31.269680+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -667,21 +667,7 @@
       ]
     }
   ],
-  "dropped_free_agents": [
-    "Kelly Oubre Jr.",
-    "Ben Simmons",
-    "Cason Wallace",
-    "Isaiah Jackson",
-    "Jeremiah Fears",
-    "Egor D\u00ebmin",
-    "Gui Santos",
-    "Jay Huff",
-    "Nickeil Alexander-Walker",
-    "Nikola Vu\u010devi\u0107",
-    "Kevin Porter Jr.",
-    "Cameron Johnson",
-    "Scoot Henderson"
-  ],
+  "dropped_free_agents": [],
   "added_streamers": [
     "Naji Marshall",
     "Kris Dunn",
@@ -722,5 +708,15 @@
       "date": "2026-10-28",
       "display": "28/10"
     }
-  }
+  },
+  "availability_snapshot": {},
+  "ownership_audit": {
+    "source": null,
+    "verified_candidates": 0,
+    "reason": "Fresh Yahoo free-agent/waiver evidence unavailable; add recommendations withheld. Sync the browser bridge again. Missing roster names do not prove free agency.",
+    "scan_complete": false
+  },
+  "yahoo_team_slots": {},
+  "sync_id": null,
+  "yahoo_roster_players": {}
 }
