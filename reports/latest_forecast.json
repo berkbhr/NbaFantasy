@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-28T13:13:50.440902+00:00",
+  "forecast_at": "2026-10-28T13:20:51.077370+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -188,9 +188,9 @@
   "draw": 0.034963563045868964,
   "categories": {
     "PTS": {
-      "win": 0.5588615005520401,
+      "win": 0.5588615005520404,
       "tie": 0.006304239138246681,
-      "loss": 0.4348342603097132
+      "loss": 0.4348342603097129
     },
     "REB": {
       "win": 0.42246980613497975,
@@ -247,7 +247,7 @@
     "FTA": 100.91431708613655
   },
   "opponent_projected_stats": {
-    "PTS": 490.98561958440604,
+    "PTS": 490.985619584406,
     "REB": 199.80266717393118,
     "AST": 78.37436307616747,
     "STL": 32.00142097901673,
@@ -322,15 +322,15 @@
       "waiver_clear_date": null,
       "waiver_display": "",
       "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 5.0497274292259835,
-      "delta_expected_wins": 0.3310654986060726,
+      "new_expected_wins": 5.049727429225984,
+      "delta_expected_wins": 0.3310654986060735,
       "objective": "category_points",
       "base_objective_value": 4.718661930619911,
-      "new_objective_value": 5.0497274292259835,
-      "delta_objective_value": 0.3310654986060726,
+      "new_objective_value": 5.049727429225984,
+      "delta_objective_value": 0.3310654986060735,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6567079640912815,
-      "new_draw_probability": 0.03518130393001509,
+      "new_win_probability": 0.6567079640912816,
+      "new_draw_probability": 0.035181303930015104,
       "cat_details": [
         {
           "cat": "BLK",
@@ -453,8 +453,8 @@
       "new_objective_value": 4.9892656675272296,
       "delta_objective_value": 0.27060373690731865,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6514285397242517,
-      "new_draw_probability": 0.03081437668546191,
+      "new_win_probability": 0.6514285397242519,
+      "new_draw_probability": 0.030814376685461907,
       "cat_details": [
         {
           "cat": "FG3M",
@@ -577,7 +577,7 @@
       "new_objective_value": 4.967696991912925,
       "delta_objective_value": 0.24903506129301434,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6408333023870763,
+      "new_win_probability": 0.6408333023870764,
       "new_draw_probability": 0.03238064170795531,
       "cat_details": [
         {
@@ -692,8 +692,8 @@
       "new_objective_value": 4.9252604490816605,
       "delta_objective_value": 0.2065985184617496,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6292440130405093,
-      "new_draw_probability": 0.03174731791550518,
+      "new_win_probability": 0.6292440130405096,
+      "new_draw_probability": 0.03174731791550519,
       "cat_details": [
         {
           "cat": "REB",
@@ -791,15 +791,15 @@
       "waiver_clear_date": null,
       "waiver_display": "",
       "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.911106558397441,
-      "delta_expected_wins": 0.19244462777753046,
+      "new_expected_wins": 4.911106558397442,
+      "delta_expected_wins": 0.19244462777753135,
       "objective": "category_points",
       "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.911106558397441,
-      "delta_objective_value": 0.19244462777753046,
+      "new_objective_value": 4.911106558397442,
+      "delta_objective_value": 0.19244462777753135,
       "base_win_probability": 0.5562075219782412,
       "new_win_probability": 0.6233795701645806,
-      "new_draw_probability": 0.031991780807742336,
+      "new_draw_probability": 0.03199178080774235,
       "cat_details": [
         {
           "cat": "FG3M",
@@ -897,15 +897,15 @@
       "waiver_clear_date": null,
       "waiver_display": "",
       "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.909229291258269,
-      "delta_expected_wins": 0.190567360638358,
+      "new_expected_wins": 4.90922929125827,
+      "delta_expected_wins": 0.19056736063835888,
       "objective": "category_points",
       "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.909229291258269,
-      "delta_objective_value": 0.190567360638358,
+      "new_objective_value": 4.90922929125827,
+      "delta_objective_value": 0.19056736063835888,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6180151255180357,
-      "new_draw_probability": 0.03405136494952629,
+      "new_win_probability": 0.6180151255180358,
+      "new_draw_probability": 0.03405136494952628,
       "cat_details": [
         {
           "cat": "REB",
@@ -1019,8 +1019,8 @@
       "new_objective_value": 4.906510820989988,
       "delta_objective_value": 0.18784889037007702,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.619629409825896,
-      "new_draw_probability": 0.032362075342236486,
+      "new_win_probability": 0.6196294098258961,
+      "new_draw_probability": 0.0323620753422365,
       "cat_details": [
         {
           "cat": "FG3M",
@@ -1127,15 +1127,15 @@
       "waiver_clear_date": null,
       "waiver_display": "",
       "base_expected_wins": 4.718661930619911,
-      "new_expected_wins": 4.897294434391998,
-      "delta_expected_wins": 0.1786325037720875,
+      "new_expected_wins": 4.897294434391999,
+      "delta_expected_wins": 0.1786325037720884,
       "objective": "category_points",
       "base_objective_value": 4.718661930619911,
-      "new_objective_value": 4.897294434391998,
-      "delta_objective_value": 0.1786325037720875,
+      "new_objective_value": 4.897294434391999,
+      "delta_objective_value": 0.1786325037720884,
       "base_win_probability": 0.5562075219782412,
-      "new_win_probability": 0.6136030711704659,
-      "new_draw_probability": 0.034463450847687066,
+      "new_win_probability": 0.613603071170466,
+      "new_draw_probability": 0.034463450847687024,
       "cat_details": [
         {
           "cat": "REB",
@@ -1171,7 +1171,7 @@
           "delta_pct": 1.48,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.014805275933157724
+          "score": 0.014805275933157835
         },
         {
           "cat": "AST",
@@ -1226,9 +1226,9 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "106f0ba4bc13bc4d65942f9441383c5af5200af61b2f689aa15d0633847e88f8",
+    "data/processed/league_state.json": "a915bfe0989c5841acfec670cee0c441e3c041811ada69ff65d330b4286b8949",
     "data/processed/live_matchup.json": "a8ef9d3804bf037e5f873e8686ee4d171bc3ff41941f04c05eeecb463bc78d9d",
-    "data/processed/injuries.db": "dd5e9afb1768e4fac7df19672ccd2ff8b82107d18d38331ef55161ceea1e8be7",
+    "data/processed/injuries.db": "d0f83369c5717008abc21efc52b90dc07e98802d930f239fb99bb69455c1febb",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
     "data/processed/schedule_2026_27.parquet": "0bbf3265e890d82cdff24af8b78637c9a7ecf66290cb5339563c5fbe319b40b0",
@@ -1237,5 +1237,5 @@
     "config/rotation_candidate.json": "f60e8f403cf0eae4a1e6936b200bb8da26bc14f9b617397f54b84e78efceff6d",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
   },
-  "prospective_forecast_id": "20261028T131350440902Z"
+  "prospective_forecast_id": "20261028T132051077370Z"
 }
