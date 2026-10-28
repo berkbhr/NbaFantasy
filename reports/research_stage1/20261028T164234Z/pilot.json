@@ -1,0 +1,46 @@
+{
+  "scored_player_games": 2387,
+  "dates": 14,
+  "active": {
+    "count_nll": 1.634592896654948,
+    "shot_nll": 1.0677730381600794,
+    "minute_mae": 5.0113011522342745,
+    "PTS_mae": 4.664920072521315,
+    "REB_mae": 1.8864704822405793,
+    "AST_mae": 1.315188490093615,
+    "STL_mae": 0.6920909263327275,
+    "BLK_mae": 0.5356704193387133,
+    "FG3M_mae": 0.8828519871587166,
+    "TOV_mae": 0.8920119317484732
+  },
+  "recent_blend": {
+    "count_nll": 1.6346427177409089,
+    "shot_nll": 1.0677730381600794,
+    "minute_mae": 5.01303752088253,
+    "PTS_mae": 4.666246226553492,
+    "REB_mae": 1.886403085263132,
+    "AST_mae": 1.315285374833549,
+    "STL_mae": 0.692049885045391,
+    "BLK_mae": 0.5356468050483475,
+    "FG3M_mae": 0.8829021145954052,
+    "TOV_mae": 0.8919480405676198
+  },
+  "seconds": {
+    "active": 0.6165501000359654,
+    "recent_blend": 0.5953150000423193,
+    "future_label_probe": 0.48133409989532083
+  },
+  "leakage_probe": {
+    "passed": true,
+    "changed_label_date": "2024-11-04",
+    "change": "Add100 BLK to final pilot day in memory only",
+    "scope": "Player means, variances and shooting precision; does not certify all pipelines"
+  },
+  "selection_or_deployment": false,
+  "total_wall_seconds": 2.041130500030704,
+  "limitations": [
+    "Early-season2024 sample is not a full-season performance estimate",
+    "No full Yahoo, injury or roster-robustness validation performed",
+    "Count NLL is a moment-matched NB diagnostic; shot NLL conditions on actual attempts"
+  ]
+}
