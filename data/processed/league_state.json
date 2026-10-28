@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28T20:16:17.793086+00:00",
+  "updated_at": "2026-10-28T22:40:15.886352+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -38,7 +38,7 @@
       "Tobias Harris"
     ],
     "2": [
-      "Luka Don\u010di\u0107",
+      "Darius Garland",
       "Immanuel Quickley",
       "Trae Young",
       "Bennedict Mathurin",
@@ -46,11 +46,12 @@
       "Jonathan Kuminga",
       "Alex Sarr",
       "Joan Beringer",
-      "Darius Garland",
       "Jakob Poeltl",
-      "Jalen Green",
       "Toumani Camara",
+      "Jalen Green",
       "Jerami Grant",
+      "De'Andre Hunter",
+      "Luka Don\u010di\u0107",
       "Ivica Zubac"
     ],
     "3": [
@@ -102,15 +103,15 @@
     "6": [
       "Amen Thompson",
       "Tyler Herro",
+      "Andrew Nembhard",
       "Terrence Shannon Jr",
-      "Pelle Larsson",
       "Ausar Thompson",
       "LeBron James",
       "Domantas Sabonis",
       "Day'Ron Sharpe",
       "Brandin Podziemski",
       "Grayson Allen",
-      "Andrew Nembhard",
+      "Pelle Larsson",
       "Jayson Tatum",
       "Donovan Clingan",
       "Mark Williams"
@@ -259,6 +260,7 @@
       "Tobias Harris"
     ],
     "2": [
+      "Luka Don\u010di\u0107",
       "Ivica Zubac"
     ],
     "3": [],
@@ -357,7 +359,20 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793215473,
+      "timestamp": 1793227172,
+      "date_text": "\ue035",
+      "added": [
+        {
+          "player_name": "De'Andre Hunter",
+          "team_name": "Philadelphia Sikers"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793227171,
       "date_text": "\ue035",
       "added": [
         {
@@ -368,9 +383,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_2",
       "type": "add/drop",
-      "timestamp": 1793215472,
+      "timestamp": 1793227170,
       "date_text": "\ue035",
       "added": [
         {
@@ -381,9 +396,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793215471,
+      "timestamp": 1793227169,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -399,9 +414,9 @@
       ]
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793215470,
+      "timestamp": 1793227168,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -417,9 +432,9 @@
       ]
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793215469,
+      "timestamp": 1793227167,
       "date_text": "\ue035",
       "added": [
         {
@@ -430,9 +445,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793215468,
+      "timestamp": 1793227166,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -448,9 +463,9 @@
       ]
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793215467,
+      "timestamp": 1793227165,
       "date_text": "\ue035",
       "added": [
         {
@@ -461,9 +476,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793215466,
+      "timestamp": 1793227164,
       "date_text": "\ue033",
       "added": [
         {
@@ -474,9 +489,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793215465,
+      "timestamp": 1793227163,
       "date_text": "\ue033",
       "added": [
         {
@@ -487,9 +502,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793215464,
+      "timestamp": 1793227162,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -505,9 +520,9 @@
       ]
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793215463,
+      "timestamp": 1793227161,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -523,9 +538,9 @@
       ]
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793215462,
+      "timestamp": 1793227160,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -541,9 +556,9 @@
       ]
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793215461,
+      "timestamp": 1793227159,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -559,9 +574,9 @@
       ]
     },
     {
-      "transaction_id": "dom_13",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793215460,
+      "timestamp": 1793227158,
       "date_text": "\ue035",
       "added": [
         {
@@ -572,9 +587,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_14",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793215459,
+      "timestamp": 1793227157,
       "date_text": "\ue035",
       "added": [
         {
@@ -585,9 +600,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_15",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793215458,
+      "timestamp": 1793227156,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -603,9 +618,9 @@
       ]
     },
     {
-      "transaction_id": "dom_16",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793215457,
+      "timestamp": 1793227155,
       "date_text": "\ue035",
       "added": [
         {
@@ -616,9 +631,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_17",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793215456,
+      "timestamp": 1793227154,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -634,9 +649,9 @@
       ]
     },
     {
-      "transaction_id": "dom_18",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793215455,
+      "timestamp": 1793227153,
       "date_text": "\ue035",
       "added": [
         {
@@ -645,24 +660,6 @@
         }
       ],
       "dropped": []
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793215454,
-      "date_text": "\ue035\ue033",
-      "added": [
-        {
-          "player_name": "Jay Huff",
-          "team_name": "Samurai Strikers"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Miles McBride",
-          "team_name": "Samurai Strikers"
-        }
-      ]
     }
   ],
   "dropped_free_agents": [
@@ -702,6 +699,7 @@
     "Mark Williams",
     "Aaron Wiggins",
     "Keaton Wagler",
+    "De'Andre Hunter",
     "Josh Minott",
     "Jaxson Hayes",
     "Duncan Robinson",
@@ -719,11 +717,15 @@
     "Moussa Diabat\u00e9": {
       "date": "2026-10-28",
       "display": "28/10"
+    },
+    "Jay Huff": {
+      "date": "2026-10-30",
+      "display": "Off Waivers 30/10"
     }
   },
   "availability_snapshot": {
     "source": "yahoo_available_players",
-    "updated_at": "2026-10-28T19:24:46.036728+00:00",
+    "updated_at": "2026-10-28T22:39:44.937253+00:00",
     "players": [
       {
         "name": "Jalen Smith",
@@ -839,11 +841,6 @@
         "name": "Isaiah Stewart",
         "status": "FA",
         "yahoo_player_id": "6408"
-      },
-      {
-        "name": "De'Andre Hunter",
-        "status": "FA",
-        "yahoo_player_id": "6166"
       },
       {
         "name": "Nique Clifford",
@@ -3448,11 +3445,11 @@
     ],
     "scan_complete": true,
     "pages_scanned": 22,
-    "sync_id": "ccc778e71c952f6b47427b0a34e8c20f90a6ed4cd3f1a53b47192f883811174b"
+    "sync_id": "41d494cbfdc0737e153381799f7d72ab9748c87338f39074f6060003c101acda"
   },
   "ownership_audit": {
     "source": "yahoo_available_players",
-    "verified_candidates": 479,
+    "verified_candidates": 478,
     "reason": null,
     "scan_complete": true
   },
@@ -3472,7 +3469,7 @@
     "13": "0",
     "14": "7"
   },
-  "sync_id": "ccc778e71c952f6b47427b0a34e8c20f90a6ed4cd3f1a53b47192f883811174b",
+  "sync_id": "41d494cbfdc0737e153381799f7d72ab9748c87338f39074f6060003c101acda",
   "yahoo_roster_players": {
     "11": [
       {
@@ -4280,14 +4277,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Terrence Shannon Jr.",
-        "yahoo_player_id": "10280",
+        "name": "Andrew Nembhard",
+        "yahoo_player_id": "6721",
         "selected_position": "G",
         "status": "HEALTHY"
       },
       {
-        "name": "Pelle Larsson",
-        "yahoo_player_id": "10312",
+        "name": "Terrence Shannon Jr.",
+        "yahoo_player_id": "10280",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
@@ -4328,8 +4325,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Andrew Nembhard",
-        "yahoo_player_id": "6721",
+        "name": "Pelle Larsson",
+        "yahoo_player_id": "10312",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -4440,8 +4437,8 @@
     ],
     "2": [
       {
-        "name": "Luka Don\u010di\u0107",
-        "yahoo_player_id": "6014",
+        "name": "Darius Garland",
+        "yahoo_player_id": "6167",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
@@ -4488,14 +4485,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Darius Garland",
-        "yahoo_player_id": "6167",
+        "name": "Jakob Poeltl",
+        "yahoo_player_id": "5640",
         "selected_position": "UTIL",
         "status": "HEALTHY"
       },
       {
-        "name": "Jakob Poeltl",
-        "yahoo_player_id": "5640",
+        "name": "Toumani Camara",
+        "yahoo_player_id": "10065",
         "selected_position": "UTIL",
         "status": "HEALTHY"
       },
@@ -4506,16 +4503,22 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Toumani Camara",
-        "yahoo_player_id": "10065",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
         "name": "Jerami Grant",
         "yahoo_player_id": "5350",
         "selected_position": "BN",
         "status": "HEALTHY"
+      },
+      {
+        "name": "De'Andre Hunter",
+        "yahoo_player_id": "6166",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Luka Don\u010di\u0107",
+        "yahoo_player_id": "6014",
+        "selected_position": "IL",
+        "status": "O"
       },
       {
         "name": "Ivica Zubac",
@@ -4703,5 +4706,10 @@
       }
     ]
   },
-  "capture_metrics": {}
+  "capture_metrics": {
+    "rosters_ms": 2992,
+    "matchup_ms": 807,
+    "available_and_transactions_ms": 12527,
+    "total_ms": 16326
+  }
 }

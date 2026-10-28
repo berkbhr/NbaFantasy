@@ -1,25 +1,25 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-28T20:16:42.420077+00:00
+Generated: 2026-10-28T22:40:41.146364+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-28 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **4.701**.
-Expected category points: **4.70 / 9**.
-Expected category wins: 4.64; ties: 0.12.
-Secondary weekly W/L/D: 55.0% / 41.5% / 3.5%.
+Objective value: **4.859**.
+Expected category points: **4.86 / 9**.
+Expected category wins: 4.80; ties: 0.12.
+Secondary weekly W/L/D: 60.4% / 36.3% / 3.3%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 54.5% | 0.6% | 44.9% |
-| REB | 44.1% | 1.5% | 54.3% |
-| AST | 98.0% | 0.3% | 1.7% |
-| STL | 86.4% | 2.5% | 11.1% |
-| BLK | 7.2% | 2.1% | 90.7% |
-| TOV | 8.4% | 1.5% | 90.1% |
-| FG3M | 48.2% | 3.5% | 48.3% |
-| FG_PCT | 56.1% | 0.0% | 43.9% |
+| PTS | 59.5% | 0.6% | 39.9% |
+| REB | 49.1% | 1.5% | 49.4% |
+| AST | 98.3% | 0.2% | 1.4% |
+| STL | 87.7% | 2.3% | 10.0% |
+| BLK | 7.5% | 2.2% | 90.3% |
+| TOV | 7.4% | 1.4% | 91.2% |
+| FG3M | 52.4% | 3.5% | 44.1% |
+| FG_PCT | 56.6% | 0.0% | 43.4% |
 | FT_PCT | 61.3% | 0.0% | 38.7% |
 
 ## Realized scores and remaining projections
@@ -28,26 +28,26 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 112 / 171 | 399.83 / 333.29 | 63.03 |
-| REB | 49 / 80 | 151.28 / 123.58 | 25.77 |
-| AST | 28 / 25 | 86.78 / 55.50 | 16.46 |
-| STL | 14 / 12 | 28.55 / 21.17 | 8.10 |
-| BLK | 6 / 16 | 18.24 / 18.10 | 7.09 |
-| TOV | 14 / 10 | 44.04 / 33.71 | 10.75 |
-| FG3M | 17 / 16 | 40.81 / 41.83 | 11.48 |
+| PTS | 112 / 171 | 397.80 / 322.94 | 63.61 |
+| REB | 49 / 80 | 150.81 / 119.90 | 25.93 |
+| AST | 28 / 25 | 86.36 / 53.88 | 16.45 |
+| STL | 14 / 12 | 28.44 / 20.59 | 8.07 |
+| BLK | 6 / 16 | 18.20 / 17.86 | 7.06 |
+| TOV | 14 / 10 | 43.81 / 32.82 | 10.72 |
+| FG3M | 17 / 16 | 40.58 / 40.38 | 11.48 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Eligibility | Δ category_points | Conservative ranking gain |
 |---|---|---|---:|---:|
-| Jay Huff | Bilal Coulibaly | FA | +0.325 | +0.263 |
-| Dean Wade | Bilal Coulibaly | FA | +0.184 | +0.184 |
-| Jarace Walker | Bilal Coulibaly | FA | +0.163 | +0.153 |
-| Ryan Kalkbrenner | Bilal Coulibaly | FA | +0.149 | +0.149 |
-| Isaiah Jackson | Bilal Coulibaly | FA | +0.147 | +0.142 |
-| Graham Ike | Bilal Coulibaly | FA | +0.141 | +0.141 |
-| Collin Sexton | Bilal Coulibaly | FA | +0.166 | +0.121 |
-| Jeremiah Fears | Bilal Coulibaly | FA | +0.113 | +0.113 |
+| Jay Huff | Bilal Coulibaly | FA | +0.370 | +0.263 |
+| Dean Wade | Bilal Coulibaly | FA | +0.176 | +0.176 |
+| Jarace Walker | Bilal Coulibaly | FA | +0.194 | +0.152 |
+| Ryan Kalkbrenner | Bilal Coulibaly | FA | +0.150 | +0.150 |
+| Isaiah Jackson | Bilal Coulibaly | FA | +0.143 | +0.143 |
+| Graham Ike | Bilal Coulibaly | FA | +0.139 | +0.139 |
+| Collin Sexton | Bilal Coulibaly | FA | +0.158 | +0.115 |
+| Kelly Oubre Jr. | Bilal Coulibaly | FA | +0.112 | +0.112 |
 
 ## Forecast active lineups
 

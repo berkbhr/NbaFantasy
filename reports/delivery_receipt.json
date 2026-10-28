@@ -1,9 +1,17 @@
 {
-  "forecast_id": "20261028T201642420077Z",
-  "status": "disabled_for_validation",
-  "receipts": [],
-  "prediction_sha256": "e0d690762074a8bbb3e5b0d2afd7df40d1e61d16a37b192cd42594385499005a",
-  "rendered_text_sha256": "056b0000641c57455cd56802d81765244aead647652646b383715dd154fe3269",
-  "source_revision": "be712823282cdda8fd84531ba259326cc995ff35",
+  "forecast_id": "20261028T224041146364Z",
+  "status": "api_accepted",
+  "receipts": [
+    {
+      "part": 1,
+      "message_id": 54,
+      "api_date": 1793227248,
+      "accepted_at": "2026-10-28T22:40:48.209350+00:00",
+      "text_sha256": "67279366a754bca15639a87bec67c938471f3cc084d720aaa84fdd9c5cea1d53"
+    }
+  ],
+  "prediction_sha256": "5cfc3257b7a66a13914eeddd0d9bd7b0f849794e78de9f2a1b0298ca2abd9998",
+  "rendered_text_sha256": "67279366a754bca15639a87bec67c938471f3cc084d720aaa84fdd9c5cea1d53",
+  "source_revision": "b70ae56020f4554205ce79898149241292b2b9d7",
   "renderer_sha256_LF": "447869ed37753adc1c940036f137bde34ec5dc145d1631911e250fc09f06d7e3"
 }
