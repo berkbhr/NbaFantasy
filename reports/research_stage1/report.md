@@ -480,3 +480,100 @@ başarıyla çalıştı (yaklaşık 5,8 saniye); bu bir refactor kontrolüdür.
 Toplam **113 otomatik test**, Ruff lint ve 71 dosyalık biçim kontrolü başarılı.
 Ana Bayesian/rotasyon politika dosyalarında değişiklik yok; bildirim
 gönderilmedi ve kullanıcı kadrosunda hamle yapılmadı.
+
+### 28 Ekim 2026 — Süre, waiver ve iyimser fırsat sıralaması düzeltmeleri
+
+Kullanıcının bildirdiği gerilemeler ayrı denetlendi. Son Actions koşusunun
+arayüzdeki toplam süresi **3 dakika 16 saniye**; API'deki Python ana adımı
+**162 saniye** idi. Bunlar aynı ölçü değildir. İncelenen koşu: `40754760716`
+(`742b9eb`). Önceki iki ana adım 159 ve 156 saniye sürmüştü. Loglarda NBA
+oyuncu log servisine iki adet 45 saniyelik başarısız istek ve saat kaydı
+isteğinde zaman aşımı görüldü. Eski logların tamponlanması nedeniyle satır
+zamanlarını aşama süreleri gibi kullanmadık; yeni komut `python -u` ve
+`[TIMING]` satırlarıyla aşamaları açıkça ölçer.
+
+**Python karşılaştırması:** Aynı kesim ve girdi hash'leriyle, yalnızca ad
+çözücü eski revizyondaki fonksiyonla değiştirilerek iki koşu yapıldı. İkisi
+de ağsız ve önerisizdi; çıktının tamamı birebir eşleşti. Eski ad çözücü ile
+32,249 saniye, yeni indeksli ad çözücü ile 1,606 saniye ölçüldü (yaklaşık
+20 kat). Bu yerel, sıralı bir ölçümdür; toplam Actions süresi veya bütün
+modelin 20 kat hızlanacağı anlamına gelmez. Küçük protokol/kanıtlar
+`research/evidence/regression_repair_20261028T200401Z/` içinde.
+
+Darboğaz, her Yahoo adı için yüzlerce heterojen pandas satırının tekrar
+kurulmasıydı. Yeni indeks tam ad, aksan/sonek temizliği, kısmi eşleşme sırası
+ve güncel sahiplik filtresini korur. Bir oyuncu alınmışsa önceden hesaplanan
+isim indeksi onu tekrar boşta saymaz. Sonradan eklenen öneri duyarlılık
+kontrolü dahil yerel tam tahmin yaklaşık 4,3 saniyede çalıştı; bu ayrı koşu
+waiver için aşağıda açıklanan kullanıcı düzeltmesini içerir.
+
+Bulutta hesaplanıp daha sonra kanonik tahminle üzerine yazılan ikinci tam
+öneri hattı kaldırıldı. Arşiv, rapor, Actions özeti ve bildirim aynı kanonik
+sonucu kullanır. Ertesi günün oyuncu kayıtları yazılırken aynı takım-rol
+hesabı her NBA takımı için tekrar edilmiyor. Bulutta oyuncu logu isteği tek
+10 saniyelik, kesin saat isteği 6 saniyelik denemeyle sınırlı; hata halinde
+önbellek tarihi yenilenmez. Bunun bedeli, kısa zaman aşımında canlı veri
+kaçırma olasılığıdır; önbellek kullanımı ve veri tarihi görünür kalmalıdır.
+
+**Tarayıcı gecikmesi:** Son yakalama 22 FA sayfası içeriyordu. Bu sayfalar
+sırayla çekiliyordu; artık yalnızca sayfada gözlenen ileri bağlantılar en
+fazla dört eşzamanlı istekle izlenir. Bir sayfa başarısızsa tarama tam diye
+işaretlenmez. Başarılı push sonrasında bütün ağ/tahmin/bildirim hattı önce
+yerelde çalıştırılıp sonra Actions'ta tekrarlanmaz; rapor bulutta üretilir.
+Push başarısızsa yerel yol denenir. Gerçek Yahoo tarayıcı süresi henüz tekrar
+ölçülmedi; yeni yakalamalar aşama sürelerini `capture_metrics` içine yazar.
+
+**Waiver regresyonu:** Jay Huff mevcut yakalamada `FA` olarak saklanmıştı.
+Ayrıştırıcı yalnızca satır metnini ve Claim düğmesini inceliyordu; Off Waivers
+bilgisi bir action tooltip/aria-label içindeyse Add düğmesi FA sayılabiliyordu.
+Yeni ayrıştırıcı bunları da okur ve waiver işaretini Add'den önce değerlendirir.
+Bu, gerçek Yahoo DOM'unda henüz gözlenmiş bir açıklama değil; eldeki yanlış
+kayıt ve bu HTML biçimini yakalayan üretim-JavaScript testiyle desteklenen
+bir ayrıştırma düzeltmesidir. Bilgisayar kullanım aracı hâlâ kernel başlatma
+hatası verdiğinden canlı sayfa doğrulaması tamamlanmadı.
+
+İkinci hata bağımsızdı: kanonik Telegram ve kısa rapor mevcut `is_waiver`
+alanını hiç göstermiyordu. Artık claim ve açılış tarihi görünür; tarih ISO'ya
+normalize edilir, açılış öncesi maçlar sayılmaz. Tarihi belirsiz W kaydı
+FA'ya çevrilmez ve önerilmez. Güncel olumlu FA kanıtı ise eskimiş bir waiver
+kaydını geçersiz kılabilir. `30/10` ve `10/30` normalize edilir; locale'i
+bilinmeyen `03/04` için tarih uydurulmaz.
+
+Kullanıcının doğrudan verdiği **Jay Huff — Off Waivers 30/10** bilgisi yerel
+aktif kayda, `status_source=user_report`, kayıt zamanı ve düzeltme geçmişiyle
+işlendi. Eski Yahoo yakalamasının zamanı ve sync_id'si değiştirilmedi;
+eski tahmin arşivleri yeniden yazılmadı. Bu, yeni tarayıcı yakalaması diye
+sunulmaz. Bu aktif veri düzeltmesi kod commit'inden ayrı yerel durumdur;
+bulutun da yeni durumu alması için sonraki gerçek senkronizasyon gerekir.
+
+**Düşük rol / güçlü önsel:** Vučević örneğinde 3 maçta 8 dakika gözlem,
+12,47 dakika temel rol ve 20,99 dakika projeksiyona dönüşüyordu. Ek 8,53
+dakika Jonathan Isaac, Jalen Suggs ve Paolo Banchero eksikliği dağıtımından
+geliyordu. Bütün oyuncular için aynı yaklaşım kullanılıyordu; yalnızca oyuncu
+ismini engellemek bu sorunu çözmez.
+
+Tam artışlı modelde hamlenin kategori puanı katkısı +0,278; ek sakatlık
+dağıtımı kapalı karşılaştırmada +0,094 idi. Sonuç, önerinin önemli ölçüde
+henüz doğrulanmamış fırsata dayandığını gösteriyor. Yeni geçici karar
+kontrolünde aynı ekleme/bırakma iki senaryoda, her senaryonun kendi hamlesiz
+referansıyla karşılaştırılır. Her ikisinde artı sağlayan hamleler, iki
+katkının küçüğüne göre sıralanır. Ana kategorik tahmin ile temkinli sıralama
+katkısı ayrı gösterilir. Bu yerel durumda Vučević ilk sekizden çıktı;
+bu sonuç bir oyuncu yasağı değildir ve ileride gerçek rolü artarsa tekrar
+önerilmesini engellemez.
+
+**Bu kontrol rol modelinin kalibre edilmesinin yerine geçmez.** Bayesian
+önsel ağırlıkları, rol formülü ve ana rotasyon parametreleri bu aşamada
+değiştirilmedi; sabit düşük-dakika sınırı veya oyuncu kara listesi eklenmedi.
+Temkinli kural, gerçek fırsatların bir bölümünü kaçırabilir. Kategori başarısı
+kazancı henüz kanıtlanmadığı için geçici kabulde ve sonuç kaydında açık
+politika etiketiyle tutuluyor. Genel rol/üretim çöküşünü erken tespit etme,
+geçici düşüşten ayırma ve belirsizlik kalibrasyonu hâlâ araştırma işidir.
+
+Bu aşamada **121 otomatik test** ve Ruff kontrolleri geçti. Yeni testler ad
+eşleme/sahiplik sırasını, tooltip waiver önceliğini, gerçek claim tarihinin
+maç hesabına taşınmasını, bilinmeyen tarihli claim'in engellenmesini,
+bildirimde tarihi, sayfalama paralelliği/eksik tarama durumunu ve iki
+senaryoda aynı hamlenin değerlendirilip ayarın geri yüklenmesini kapsar.
+Yerel önizleme gönderimsiz yenilendi. Bildirimsiz bulut doğrulamasının
+sonucu tamamlanınca bu bölümün altına eklenecek.

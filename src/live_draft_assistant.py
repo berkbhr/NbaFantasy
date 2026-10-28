@@ -854,12 +854,26 @@ class LiveDraftAssistant:
 
         q_clean = str(query_str).split("\n")[0].split("(")[0].strip()
         q_norm = _norm(q_clean)
+        # Avoid materializing a heterogeneous pandas row for every name in
+        # every Yahoo page. Rebuild when calculate_baselines replaces the frame;
+        # availability is checked at lookup time, never cached as ownership.
+        if getattr(self, "_name_index_frame", None) is not self.df_base:
+            self._name_index_frame = self.df_base
+            self._name_rows = [
+                (int(pid), str(name), _norm(name)) for pid, name in self.df_base["NAME"].items()
+            ]
+            self._exact_name_ids = {}
+            for pid, name, normalized in self._name_rows:
+                for key in (normalized, name.lower()):
+                    self._exact_name_ids.setdefault(key, []).append(pid)
+        exact = self._exact_name_ids.get(q_norm, [])
+        for pid in exact:
+            if not only_available or pid in self.available_player_ids:
+                return pid
         candidates = []
-        for pid in self.df_base.index:
+        for pid, name, n_norm in self._name_rows:
             if only_available and pid not in self.available_player_ids:
                 continue
-            name = self.df_base.loc[pid]["NAME"]
-            n_norm = _norm(name)
             if (
                 q_norm == n_norm
                 or query_str.lower() == str(name).lower()

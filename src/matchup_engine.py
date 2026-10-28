@@ -809,6 +809,7 @@ class MatchupEngine:
         waivers_dict=None,
         adds_used=0,
         protected_ids=None,
+        opportunity_sensitivity=False,
     ):
         """Alternative moves ranked by category points (or explicit playoff objective).
 
@@ -966,4 +967,47 @@ class MatchupEngine:
                 }
             if best:
                 recommendations.append(best)
-        return sorted(recommendations, key=lambda r: -r["delta_objective_value"])[:top_k]
+        if (
+            opportunity_sensitivity
+            and self.use_positional_depth_and_injury_boost
+            and recommendations
+        ):
+            enabled = self.use_positional_depth_and_injury_boost
+            try:
+                self.use_positional_depth_and_injury_boost = False
+                _, _, _, neutral_probs, _ = self.project_matchup(
+                    my_roster_ids, opp_roster_ids, **kwargs
+                )
+                neutral_base = self.matchup_utility(neutral_probs)
+                for row in recommendations:
+                    roster = [i for i in my_roster_ids if i != row["drop_id"]] + [row["add_id"]]
+                    effective = (
+                        max(pd.Timestamp(start_date), pd.Timestamp(row["waiver_clear_date"]))
+                        if row["waiver_clear_date"] and start_date is not None
+                        else start_date
+                    )
+                    _, _, _, neutral_move, _ = self.project_matchup(
+                        roster,
+                        opp_roster_ids,
+                        player_start_dates={row["add_id"]: effective}
+                        if effective is not None
+                        else None,
+                        **kwargs,
+                    )
+                    row["delta_without_spillover"] = (
+                        self.matchup_utility(neutral_move) - neutral_base
+                    )
+                    row["robust_delta_objective_value"] = min(
+                        row["delta_objective_value"], row["delta_without_spillover"]
+                    )
+                    row["ranking_basis"] = "minimum_gain_with_and_without_spillover"
+            finally:
+                self.use_positional_depth_and_injury_boost = enabled
+                self.recompute_team_depth_and_injury_minutes()
+            recommendations = [
+                r for r in recommendations if r["robust_delta_objective_value"] > 1e-10
+            ]
+        return sorted(
+            recommendations,
+            key=lambda r: -r.get("robust_delta_objective_value", r["delta_objective_value"]),
+        )[:top_k]

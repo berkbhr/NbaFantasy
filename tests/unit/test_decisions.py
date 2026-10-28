@@ -43,6 +43,36 @@ class TestDecisions(unittest.TestCase):
         engine = MatchupEngine({1: player()}, pd.DataFrame(), pd.DataFrame(), team_map={})
         self.assertEqual(engine.recommend_add_drop_moves([1], [], [], adds_used=3), [])
 
+    def test_opportunity_sensitivity_uses_same_move_and_restores_rotation(self):
+        players = {i: player(i) for i in range(1, 6)}
+        players[3].base_expected_minutes = players[3].expected_minutes = 12
+        players[4].base_expected_minutes = players[4].expected_minutes = 20
+        players[5].update_injury_status("OUT")
+        engine = MatchupEngine(
+            players,
+            pd.DataFrame(),
+            pd.DataFrame(),
+            team_map={1: 10, 2: 20, 3: 30, 4: 40, 5: 30},
+            use_positional_depth_and_injury_boost=True,
+        )
+        ordinary = engine.recommend_add_drop_moves([1], [2], [3, 4], top_k=2)
+        cautious = engine.recommend_add_drop_moves(
+            [1], [2], [3, 4], top_k=2, opportunity_sensitivity=True
+        )
+        self.assertTrue(cautious)
+        self.assertTrue(engine.use_positional_depth_and_injury_boost)
+        ordinary_by_id = {r["add_id"]: r for r in ordinary}
+        for row in cautious:
+            self.assertAlmostEqual(
+                row["delta_objective_value"], ordinary_by_id[row["add_id"]]["delta_objective_value"]
+            )
+            self.assertLessEqual(row["robust_delta_objective_value"], row["delta_objective_value"])
+            self.assertGreater(row["delta_without_spillover"], 0)
+        self.assertEqual(
+            [r["robust_delta_objective_value"] for r in cautious],
+            sorted((r["robust_delta_objective_value"] for r in cautious), reverse=True),
+        )
+
     def test_waiver_player_cannot_play_before_clear_date(self):
         players = {i: player(i) for i in (1, 2, 3)}
         schedule = pd.DataFrame(

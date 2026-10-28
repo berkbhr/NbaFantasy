@@ -112,11 +112,42 @@ origin içinde yeni yüklenen bir belgeyi bekler. Skor yakalanamazsa yeni
 tarayıcı isteği mevcut kadro/skor kaydını değiştirmeden reddedilir.
 Eski skorun zamanını veya kimliğini elle yenileyerek bu kontrol aşılmamalıdır.
 
-Köprü kodu güncellendiğinde çalışan Python sürecini yeniden başlatmak ve
-kurulum sayfasındaki yeni bookmarklet'i yer imine yeniden kaydetmek gerekir.
+Köprü kodu güncellendiğinde çalışan Python süreci yeniden başlatılır.
+Güncel kurulumdaki yer imi `sync.js` dosyasını her tıklamada köprüden yükler;
+bu yer imini her kod değişiminde yeniden kaydetmek gerekmez. Eski gömülü
+JavaScript kullanan yer imleri için kurulum bağlantısı bir kez yenilenmelidir.
 Ardından güncel Yahoo Matchup sayfasından çalıştırılır. Başarı bandı verinin
 kaydedilip rapor işleminin başlatıldığını bildirir; Telegram teslim alındısı
 anlamına gelmez. Maç başladıysa kısmi süre kontrolü ayrıca önerileri engelleyebilir.
+
+FA sayfaları Yahoo'nun sayfada sunduğu ileri bağlantılar üzerinden en fazla
+dört eşzamanlı istekle taranır. Skor ve sahiplik doğrulaması korunur.
+Yakalama aşamalarının süreleri `league_state.json` içindeki `capture_metrics`
+alanına yazılır. Başarılı Git push'ından sonra bildirim yalnızca Actions'ta
+üretilir; bütün veri/tahmin hattı önce yerelde tekrar çalıştırılmaz. Push
+başarısızsa yerel üretim denenir. Tam senkronizasyon süresi ve Python süresi
+ayrı ölçülmelidir; bulut aşama süreleri `[TIMING]` satırlarında yer alır.
+
+Actions'ın manuel `dry_run=true` girdisi gerçek veri/tahmin/arşiv hattını
+çalıştırır; Telegram ve Discord gönderimini kapatır. Normal zamanlanmış ve
+push koşularında bildirim davranışı sürer. NBA oyuncu log isteği bulutta
+tek 10 saniyelik denemeyle, saat kaydı isteği 6 saniyeyle sınırlıdır;
+başarısız istekte önbellek kullanılır veya mevcut doğruluk kontrolleri öneriyi
+engeller. Zaman aşımında önbellek tarihi güncelmiş gibi değiştirilmez.
+
+Waiver tarihi ISO biçimine normalize edilir; `30/10` ve `10/30` gibi
+anlaşılır tarihler desteklenir. `03/04` gibi locale'i belirsiz tarihlerde
+gün uydurulmaz; tarih bilinmeyen waiver öneriden çıkarılır. Güncel Yahoo W
+statüsü, tarih kaydı eksik diye FA'ya dönüşmez. Rapor ve Telegram claim
+durumunu ve açılış tarihini gösterir; açılıştan önceki maçlar katkıya eklenmez.
+
+Canlı hamle sıralaması geçici olarak aynı ekleme/bırakmanın sakatlık dakika
+dağıtımı açık ve kapalı katkılarının küçüğünü kullanır. Her senaryonun kendi
+hamlesiz referansı vardır; ana kategori puanı, olasılıklar ve Bayesian
+parametreleri değiştirilmez. Yalnızca iyimser dağıtım senaryosunda artı
+sağlayan hamleler sunulmaz. Bu bir temkinli karar kuralıdır, fit edilmiş
+posterior veya doğrulanmış kategori başarısı artışı değildir; gerçek fırsatları
+kaçırma bedeli tarihsel ve canlı karşılaştırmada ölçülmelidir.
 
 Otomatik testler `tests/unit`, `tests/integration`, `tests/research`;
 ayrı deney çalıştırıcıları `research/` altındadır. Komutlar ve çıktı saklama

@@ -12,7 +12,12 @@ on:
     - cron: '30 12 * * *'
     - cron: '30 18 * * *'
     - cron: '15 23 * * *'
-  workflow_dispatch:        # Allows manual 1-click execution anytime from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Validate the live pipeline without sending Telegram/Discord'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -70,8 +75,9 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          NBA_FANTASY_DRY_RUN: ${{ inputs.dry_run || 'false' }}
         run: |
-          python -m src.cloud_sync
+          python -u -m src.cloud_sync
 
       - name: Upload Latest Executive Report Artifact
         uses: actions/upload-artifact@v4

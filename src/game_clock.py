@@ -30,13 +30,13 @@ def enrich_schedule(schedule, official):
     return result
 
 
-def refresh_schedule(season="2026_27"):
+def refresh_schedule(season="2026_27", timeout=6):
     from nba_api.stats.endpoints import scheduleleaguev2
 
     path = ROOT / "data/processed" / f"schedule_{season}.parquet"
     original = pd.read_parquet(path)
     raw = scheduleleaguev2.ScheduleLeagueV2(
-        season=season.replace("_", "-"), timeout=20
+        season=season.replace("_", "-"), timeout=timeout
     ).get_data_frames()[0]
     enriched = enrich_schedule(original, raw)
     enriched["CLOCK_OBSERVED_AT"] = pd.Timestamp.now(tz="UTC")

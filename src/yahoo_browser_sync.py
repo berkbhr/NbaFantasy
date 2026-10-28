@@ -43,6 +43,7 @@ BOOKMARKLET_JS_RAW = r"""
   document.body.appendChild(banner);
 
   try {
+    const syncStarted = performance.now(), captureMetrics = {};
     const mPath = location.pathname.match(/\/nba\/(\d+)/);
     const leagueId = mPath ? mPath[1] : '64691';
     const parser = new DOMParser();
@@ -248,15 +249,19 @@ BOOKMARKLET_JS_RAW = r"""
         name = name.replace(/\s+(PG|SG|G|SF|PF|F|C|UTIL)$/i, '').replace(/\s*\([^)]*\)/g, '').trim();
         if (!name || name.length < 3) return;
 
-        const trTxt = tr.textContent;
+        // Yahoo can put "Off Waivers 30/10" in an action tooltip or aria label,
+        // including an Add-looking action. Read these before classifying FA.
+        const trTxt = [tr.textContent || '', ...Array.from(tr.querySelectorAll('[title], [aria-label], [data-tooltip], [data-original-title]')).flatMap(el =>
+          ['title','aria-label','data-tooltip','data-original-title'].map(k => el.getAttribute(k) || ''))].join(' ').replace(/\u00a0/g, ' ');
         const playerId = (pLink.getAttribute('href') || '').match(/\/players?\/(\d+)/);
         const yahoo_player_id = playerId ? playerId[1] : null;
-        const m = trTxt.match(/\bW\s*\(([A-Za-z0-9\/.]+)\)/i) || trTxt.match(/Off\s+Waivers\s+([A-Za-z0-9\/.]+)/i);
+        const m = trTxt.match(/\bW\s*\(\s*(\d{1,2}[/.]\d{1,2}(?:[/.]\d{4})?)\s*\)/i)
+          || trTxt.match(/Off\s+Waivers\s*:?\s*(\d{4}-\d{2}-\d{2}|\d{1,2}[/.]\d{1,2}(?:[/.]\d{4})?)/i);
         const isClaim = trTxt.includes('Claim') || tr.querySelector('a[href*="claim"], button[title*="Claim"], .claim-player');
         const isAdd = tr.querySelector('a[href*="addplayer"], a[href*="add?"], button[title*="Add"], a[title*="Add"], .add-player');
-        if (m || isClaim) {
+        if (m || isClaim || /Off\s+Waivers/i.test(trTxt)) {
           waivers[name] = m ? m[1] : 'Waiver';
-          players.push({ name, status: 'W', yahoo_player_id });
+          players.push({ name, status: 'W', yahoo_player_id, waiver: m ? m[1] : 'Waiver' });
         } else if (isAdd || /\bFA\b/.test(trTxt)) {
           players.push({ name, status: 'FA', yahoo_player_id });
         }
@@ -270,7 +275,9 @@ BOOKMARKLET_JS_RAW = r"""
         || pageLinks.filter(a => Number(new URL(a.getAttribute('href'), pageUrl).searchParams.get('start')) > currentStart)
           .sort((a,b) => Number(new URL(a.getAttribute('href'), pageUrl).searchParams.get('start')) - Number(new URL(b.getAttribute('href'), pageUrl).searchParams.get('start')))[0];
       const rowCount = rows.filter(tr => tr.querySelector('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a')).length;
-      return { waivers, players, rowCount, next: next ? next.getAttribute('href') : null };
+      const forward = pageLinks.filter(a => Number(new URL(a.getAttribute('href'), pageUrl).searchParams.get('start')) > currentStart);
+      return { waivers, players, rowCount, next: next ? next.getAttribute('href') : null,
+        forward: [...new Set(forward.map(a => new URL(a.getAttribute('href'), pageUrl).href))] };
     }
 
     // 1. Check current page for matchup first
@@ -306,6 +313,7 @@ BOOKMARKLET_JS_RAW = r"""
     });
 
     // 3. Fetch Matchup & Transactions pages if needed
+    captureMetrics.rosters_ms = Math.round(performance.now() - syncStarted);
     banner.textContent = '🏀 (2/3) Canlı Skor Tablosu ve Son Add/Drop İşlemleri Çekiliyor...';
     if (!matchup) {
       // Preserve the actual matchup query (mid1/mid2/week). The generic URL
@@ -325,6 +333,7 @@ BOOKMARKLET_JS_RAW = r"""
       if (!matchup) matchup = await renderedMatchup(urls[0]);
     }
     if (!matchup) throw new Error('Güncel matchup skoru ayrıştırılamadı. Kadro kaydı yenilenmedi; Yahoo Matchup sayfasından tekrar deneyin.');
+    captureMetrics.matchup_ms = Math.round(performance.now() - syncStarted) - captureMetrics.rosters_ms;
 
     let transactions = [];
     const txHtml = await fetch(`/nba/${leagueId}/transactions`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
@@ -333,25 +342,35 @@ BOOKMARKLET_JS_RAW = r"""
     }
 
     let waivers = {}, availablePlayers = [], availableScanComplete = false;
-    let availableUrl = `/nba/${leagueId}/players?status=A&sort=OR`;
+    const pendingPages = [new URL(`/nba/${leagueId}/players?status=A&sort=OR`, location.origin).href];
     const seenAvailablePages = new Set();
-    for (let page = 0; availableUrl && page < 30; page++) {
-      const url = new URL(availableUrl, location.origin);
-      if (url.origin !== location.origin || !url.pathname.startsWith(`/nba/${leagueId}/players`) || seenAvailablePages.has(url.href)) break;
-      seenAvailablePages.add(url.href);
-      const pHtml = await fetch(url.href, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
-      if (!pHtml) break;
-      const available = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'), url.href);
-      Object.assign(waivers, available.waivers);
-      availablePlayers.push(...available.players);
-      if (!available.next) { availableScanComplete = available.rowCount < 25; break; }
-      availableUrl = available.next;
+    let scanFailed = false, foundLastPage = false;
+    while (pendingPages.length && seenAvailablePages.size < 30) {
+      const batch = pendingPages.splice(0, Math.min(4, 30 - seenAvailablePages.size));
+      batch.forEach(url => seenAvailablePages.add(url));
+      await Promise.all(batch.map(async pageUrl => {
+        const pHtml = await fetch(pageUrl, { credentials: 'same-origin', cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => '');
+        if (!pHtml) { scanFailed = true; return; }
+        const available = parseAvailablePlayersDoc(parser.parseFromString(pHtml, 'text/html'), pageUrl);
+        Object.assign(waivers, available.waivers);
+        availablePlayers.push(...available.players);
+        if (!available.next && available.rowCount < 25) foundLastPage = true;
+        for (const link of [...available.forward, available.next].filter(Boolean)) {
+          const url = new URL(link, pageUrl);
+          if (url.origin === location.origin && url.pathname === `/nba/${leagueId}/players`
+            && !seenAvailablePages.has(url.href) && !pendingPages.includes(url.href)) pendingPages.push(url.href);
+        }
+      }));
     }
+    availableScanComplete = foundLastPage && !scanFailed && !pendingPages.length;
+    captureMetrics.available_and_transactions_ms = Math.round(performance.now() - syncStarted) - captureMetrics.rosters_ms - captureMetrics.matchup_ms;
+    captureMetrics.total_ms = Math.round(performance.now() - syncStarted);
 
     // 4. Send to local bridge (`http://127.0.0.1:8765/sync_league`)
     banner.textContent = '🏀 (3/3) Python Motoruna Gönderiliyor & Telegram Bildirimi Hazırlanıyor...';
     const payload = {
       league_id: leagueId,
+      capture_metrics: captureMetrics,
       rosters_by_slot: rostersBySlot,
       team_names_by_slot: teamNamesBySlot,
       il_players_by_slot: ilBySlot,
@@ -573,6 +592,11 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     merged_waivers = dict(prior_state.get("waivers", {}))
     if payload.get("waivers"):
         merged_waivers.update(payload["waivers"])
+    from src.waivers import normalize_waiver
+
+    merged_waivers = {
+        name: normalize_waiver(value, now_iso) for name, value in merged_waivers.items()
+    }
 
     berk_slot_str = str(draft_data.MY_TEAM_IDX)
     availability_snapshot = payload.get("availability_snapshot", {})
@@ -586,6 +610,15 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                 "name": str(p["name"]).strip(),
                 "status": p["status"],
                 "yahoo_player_id": p.get("yahoo_player_id"),
+                **(
+                    {
+                        "waiver": normalize_waiver(
+                            p.get("waiver") or merged_waivers.get(p["name"], "Waiver"), now_iso
+                        )
+                    }
+                    if p.get("status") == "W"
+                    else {}
+                ),
             }
             for p in availability_snapshot.get("players", [])
             if isinstance(p, dict) and p.get("name") and p.get("status") in ("FA", "W")
@@ -597,6 +630,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         "updated_at": now_iso,
         "sync_id": sync_id,
         "league_id": str(payload.get("league_id", "64691")),
+        "capture_metrics": payload.get("capture_metrics", {}),
         "league_key": f"nba.l.{payload.get('league_id', '64691')}",
         "live_synced": True,
         "sync_status": f"Tarayıcı Köprüsü Aktif ({len(merged_rosters)} Takım Canlı Kadro & Skor)",
@@ -617,10 +651,9 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         json.dump(state_data, f, indent=2)
 
     def _bg_sync_and_push():
-        try:
-            run_cloud_sync()
-        except Exception as e:
-            print(f"[WARN] Cloud sync error: {e}")
+        # A successful push already queues the cloud report and notification.
+        # Do not run the entire network/forecast pipeline locally first and
+        # then repeat it in Actions (including a duplicate notification).
         try:
             import subprocess
 
@@ -650,14 +683,21 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                 timeout=10,
             )
             if commit_res.returncode == 0:
-                subprocess.run(
+                pushed = subprocess.run(
                     ["git", "push"], cwd=PROJECT_ROOT, check=False, capture_output=True, timeout=25
                 )
-                print(
-                    "  [GIT] Guncel 14 takim kadrosu ve canli skor GitHub'a pushlandi (GitHub Actions tetiklendi)!"
-                )
+                if pushed.returncode == 0:
+                    print(
+                        "  [GIT] Kadro/skor pushlandi; rapor ve bildirim GitHub Actions'ta uretilecek."
+                    )
+                    return
         except Exception as e:
             print(f"[WARN] Git push error: {e}")
+        print("  [WARN] Cloud dispatch unavailable; generating the report locally.")
+        try:
+            run_cloud_sync()
+        except Exception as e:
+            print(f"[WARN] Cloud sync error: {e}")
 
     if run_async_cloud:
         threading.Thread(target=_bg_sync_and_push, daemon=True).start()

@@ -65,8 +65,10 @@ def future_rows(assistant, engine, now):
     schedule["GAME_DATE"] = pd.to_datetime(schedule.GAME_DATE).dt.normalize()
     games = schedule[schedule.GAME_DATE == target]
     rows = []
+    # NBA roles do not depend on which team we are serializing. One update
+    # covers every team on this target date.
+    engine.recompute_team_depth_and_injury_minutes(game_date=target, as_of_date=today)
     for team in sorted(games.TEAM_ID.unique()):
-        engine.recompute_team_depth_and_injury_minutes(game_date=target, as_of_date=today)
         for pid, bp in assistant.players.items():
             if engine.team_map.get(pid) != team:
                 continue

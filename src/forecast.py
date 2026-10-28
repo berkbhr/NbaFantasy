@@ -15,6 +15,7 @@ from .matchup_engine import MatchupEngine
 from .ownership import free_agent_ids
 from .settings import load_settings
 from .snapshots import fantasy_week_window, validate_live_snapshot, validate_pregame_window
+from .waivers import waiver_constraints
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -103,6 +104,10 @@ def build_local_forecast(
     live_path = ROOT / "data" / "processed" / "live_matchup.json"
     live = None
     notes = []
+    if state.get("availability_snapshot", {}).get("corrections"):
+        notes.append(
+            "Availability includes explicitly recorded user corrections; original Yahoo capture timestamps are preserved."
+        )
     live_block_reason = "Live scoreboard unavailable"
     if live_path.exists():
         try:
@@ -161,11 +166,7 @@ def build_local_forecast(
         notes.append(ownership_audit["reason"])
     if include_recommendations and live:
         # Cached waiver dates remain constraints, never guessed from drop time.
-        waivers = {}
-        for name, info in state.get("waivers", {}).items():
-            pid = assistant.resolve_player_id(name, only_available=False)
-            if pid is not None:
-                waivers[pid] = info
+        waivers = waiver_constraints(assistant, state, now)
         recommendations = engine.recommend_add_drop_moves(
             rosters[my_slot],
             rosters[opponent],
@@ -177,6 +178,7 @@ def build_local_forecast(
             waivers_dict=waivers,
             adds_used=settings.adds_used_this_week,
             top_k=8,
+            opportunity_sensitivity=True,
         )
     elif not live:
         notes.append(
@@ -187,6 +189,7 @@ def build_local_forecast(
             "Local caches only; no data fetched and no notifications sent.",
             "Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.",
             "Return dates, rotations and future lineup choices remain model assumptions.",
+            "Live moves are ranked by the lower category-point gain with and without teammate injury spillover; both scenarios must improve their own no-move baseline. This is a conservative sensitivity rule, not a fitted posterior or proven performance improvement.",
         ]
     )
     sources = {}
@@ -202,6 +205,12 @@ def build_local_forecast(
         "ownership_audit": ownership_audit,
         "category_diagnostics": engine.category_diagnostics(my, opp, a, b),
         "rotation_policy": engine.rotation_policy.to_dict(),
+        "recommendation_policy": {
+            "ranking": "minimum_gain_with_and_without_spillover",
+            "status": "provisional_decision_sensitivity",
+            "player_blacklist": False,
+            "player_specific_minute_cap": False,
+        },
         "roster_health": [
             {
                 "name": assistant.players[pid].name,
@@ -231,6 +240,7 @@ def build_local_forecast(
                 "ownership.py",
                 "yahoo_identity.py",
                 "game_clock.py",
+                "waivers.py",
             )
         },
         "week_start": str(start.date()),
@@ -305,16 +315,21 @@ def render_report(result):
             "",
             "## Alternative add/drop recommendations",
             "",
-            f"| Add | Drop | Δ {result['objective']} |",
-            "|---|---|---:|",
+            f"| Add | Drop | Eligibility | Δ {result['objective']} | Conservative ranking gain |",
+            "|---|---|---|---:|---:|",
         ]
     )
     for row in result["recommendations"]:
+        eligibility = (
+            "Waiver: " + str(row.get("waiver_display") or row.get("waiver_clear_date"))
+            if row.get("is_waiver")
+            else "FA"
+        )
         lines.append(
-            f"| {row['add_name']} | {row['drop_name']} | {row['delta_objective_value']:+.3f} |"
+            f"| {row['add_name']} | {row['drop_name']} | {eligibility} | {row['delta_objective_value']:+.3f} | {row.get('robust_delta_objective_value', row['delta_objective_value']):+.3f} |"
         )
     if not result["recommendations"]:
-        lines.append("| No eligible recommendation | — | — |")
+        lines.append("| No eligible recommendation | — | — | — | — |")
     lines.extend(["", "## Forecast active lineups", ""])
     for day, names in result["my_lineups"].items():
         lines.append(f"- {day}: {', '.join(names) or 'No active games'}")

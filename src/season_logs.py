@@ -85,7 +85,8 @@ def fetch_current_season_logs(season="2026-27", timeout=45, retries=2, use_netwo
                         return (cached, "cache") if not cached.empty else (pd.DataFrame(), "none")
                 except Exception as e:
                     print(f"  [WARN] Season log fetch attempt {attempt}/{retries} failed: {e}")
-                    time.sleep(2.0 * attempt)
+                    if attempt < retries:
+                        time.sleep(2.0 * attempt)
 
     cached = _load_cache(path)
     if not cached.empty:

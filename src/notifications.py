@@ -152,7 +152,11 @@ def render_telegram(
     lines.extend(["", "<b>Hamle seçenekleri</b>"])
     threshold = 0.035 if objective == "category_points" else 0.005
     moves = (
-        [r for r in recommendations if r.get("delta_objective_value", 0) >= threshold]
+        [
+            r
+            for r in recommendations
+            if r.get("robust_delta_objective_value", r.get("delta_objective_value", 0)) >= threshold
+        ]
         if live
         else []
     )
@@ -192,8 +196,24 @@ def render_telegram(
             else "Bırak: " + escape(str(row["drop_name"])[:55])
         )
         lines.extend(["", f"<b>{rank}. Al: {escape(str(row['add_name'])[:55])}</b> · {drop}"])
+        if row.get("is_waiver"):
+            lines.append(
+                "Waiver talebi · Açılış: "
+                + escape(
+                    str(
+                        row.get("waiver_display")
+                        or row.get("waiver_clear_date")
+                        or "Tarih bilinmiyor"
+                    )
+                )
+                + " · Bu tarihten önce katkı sayılmadı."
+            )
         if objective == "category_points":
             lines.append(f"Beklenen kategori puanı: {baseline:.2f} → {after:.2f} (+{delta:.3f})")
+            if "robust_delta_objective_value" in row:
+                lines.append(
+                    f"Sıralama katkısı: +{row['robust_delta_objective_value']:.3f} · Ek sakatlık süresi yoksa: +{row['delta_without_spillover']:.3f}"
+                )
         else:
             lines.append(f"Playoff ilerleme kredisi: %{baseline * 100:.1f} → %{after * 100:.1f}")
         gp = row.get("observed_games", 0)
