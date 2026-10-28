@@ -1,5 +1,11 @@
 # BLK olasılığı ve Yahoo sahiplik denetimi — 28 Ekim 2026
 
+**Düzeltme:** İlk incelemedeki skor değişimi hesabı doğru olsa da, bu hesap
+ilk tahminin geçerli olduğunu göstermiyordu. Sonraki incelemede eski skor
+ile kalan fikstürün farklı günlerden geldiği bulundu. Eski %43 tahmini bu
+nedenle geçerli bir tam hafta tahmini sayılmamalıdır. Nihai açıklama ve
+düzeltme `time_alignment_correction.md` dosyasındadır.
+
 ## BLK: gerçekleşen skor farkı
 
 Yerel tahmin arşivinde karşılaştırılan kayıtlar:
@@ -30,8 +36,9 @@ Güncel kalan dağılım sabit tutulup yalnızca gerçekleşen skor değiştiril
 6–5 için kazanma %46,65; 6–16 için %5,08. Hesapta tamsayı beraberliği için
 yarım blok devamlılık düzeltmesi vardır. Tamamlanmış maçların skorları
 sabit eklenir; onlar için tekrar gelecek maç varyansı eklenmez.
-Bu örnekte büyük düşüş beklenen matematiksel davranıştır; olasılığı
-yapay biçimde sınırlayacak bir katsayı eklenmedi.
+Bu izole hesap skor farkına duyarlılığı gösterir; ilk tahminin zaman
+uyumunu doğrulamaz. İlk incelemede atlanan bu ayrım sonraki düzeltme
+raporunda açıklanmıştır. Olasılığı yapay biçimde sınırlayacak katsayı eklenmedi.
 
 `blk_comparison.json` sayısal tanıları içerir. Eski standart sapma, arşivde
 varyans alanı bulunmadığı için kayıtlı Normal kategori olasılığından ters

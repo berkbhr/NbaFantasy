@@ -10,7 +10,9 @@
       "final_my": 22.871563921387295,
       "final_opponent": 23.60138598305108,
       "win": 0.43039804210950733,
-      "difference_sd_inferred": 7.013092782790896
+      "difference_sd_inferred": 7.013092782790896,
+      "valid_full_week_prediction": false,
+      "invalid_reason": "Oct27 score combined with Oct28 remaining window: Oct27 games omitted"
     },
     {
       "snapshot": "updated",
@@ -22,7 +24,8 @@
       "final_my": 23.58359730535843,
       "final_opponent": 34.67910319610579,
       "win": 0.05080127628410101,
-      "difference_sd_inferred": 7.082809692003712
+      "difference_sd_inferred": 7.082809692003712,
+      "valid_full_week_prediction": true
     }
   ],
   "variance_note": "Legacy SD inferred from stored Normal-category probability; directly re-evaluated current SD separately.",
@@ -34,5 +37,6 @@
     "difference_sd": 7.08280969200371
   },
   "current_difference_sd_direct": 7.08280969200371,
-  "counterfactual_old_score_current_future": 0.46649735302701845
+  "counterfactual_old_score_current_future": 0.46649735302701845,
+  "interpretation_correction": "Score-only counterfactual explains sensitivity but does not validate the previous snapshot. See time_alignment_correction.md."
 }

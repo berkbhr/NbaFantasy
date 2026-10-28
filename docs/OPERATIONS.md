@@ -5,7 +5,7 @@
 `python -m src.forecast` mevcut Parquet/JSON/SQLite önbelleklerini okur;
 sakatlık veritabanını salt okunur açar. API çağrısı veya bildirim göndermez.
 Tarihli fikstür zorunludur. Canlı skor 24 saatten eskiyse, farklı Eastern
-haftasındaysa veya isabet/deneme alanları geçersizse reddedilir. Bu durumda
+günündeyse veya isabet/deneme alanları geçersizse reddedilir. Bu durumda
 yalnızca kalan maç projeksiyonu verilir; hafta içi add/drop önerileri bekletilir.
 
 `python -m src.cloud_sync` canlı veri indirir, runtime önbelleklerini günceller

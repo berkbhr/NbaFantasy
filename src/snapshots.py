@@ -20,6 +20,15 @@ def validate_live_snapshot(snapshot, now, max_age_hours=24):
         days=now_et.weekday()
     ):
         raise ValueError("Live scoreboard belongs to a different fantasy week")
+    # Remaining projections start on today's Eastern schedule date. A score
+    # captured yesterday can omit yesterday evening's games, even if it is
+    # less than 24 hours old. Combining it with today's window silently drops
+    # those games from BOTH the actual score and the future projection.
+    if captured_et != now_et:
+        raise ValueError(
+            "Live scoreboard predates the current Eastern game date; "
+            "synchronize Yahoo again before combining scores with remaining games"
+        )
     matchup = snapshot.get("matchup", {})
     for side in ("team_a", "team_b"):
         team = matchup.get(side, {})

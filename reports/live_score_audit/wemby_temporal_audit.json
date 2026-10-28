@@ -1,0 +1,111 @@
+{
+  "scope": "Calendar-isolation diagnostic with all current-season observations dated before27Oct; frozen27Oct archive rosters, team map, positions, statuses, actualscore. It is not an independently unseen historical test or exact old-code replay. Existing final cache rows before27Oct can include later corrections.",
+  "source_forecast": "20261027T234228400397Z",
+  "source_live_updated_at": "2026-10-27T15:57:51.941612+00:00",
+  "prior": {
+    "PTS": 1598.0958749706754,
+    "REB": 733.2709650116308,
+    "AST": 206.1146664906197,
+    "STL": 67.42335226613525,
+    "BLK": 206.4825665621912,
+    "FG3M": 136.1826349241279,
+    "TOV": 165.11039638019588,
+    "FGM": 557.9522856704367,
+    "FTM": 346.008668705674,
+    "FGA": 1104.8248183423038,
+    "FTA": 418.02281508337984,
+    "MIN": 1921.119420289855,
+    "GP": 64.0,
+    "AVAIL_GP": 64.0
+  },
+  "prior_initialized": {
+    "minutes": 28.68221417069243,
+    "blk_rate": 0.10387452411712389,
+    "conditional_blocks": 2.9793513476061033,
+    "availability_base": 0.7878787878787878
+  },
+  "wemby_observations_used": [
+    {
+      "GAME_DATE": "2026-10-20 00:00:00",
+      "MIN": 34,
+      "BLK": 6
+    },
+    {
+      "GAME_DATE": "2026-10-23 00:00:00",
+      "MIN": 32,
+      "BLK": 2
+    },
+    {
+      "GAME_DATE": "2026-10-24 00:00:00",
+      "MIN": 29,
+      "BLK": 4
+    }
+  ],
+  "scenarios": [
+    {
+      "start": "2026-10-27",
+      "actual_blk": [
+        6,
+        5
+      ],
+      "my_final_mean": 25.547727212874864,
+      "opponent_final_mean": 30.024789946872346,
+      "my_remaining_mean": 19.547727212874864,
+      "opponent_remaining_mean": 25.024789946872346,
+      "difference_sd": 7.953159040198039,
+      "p_win_blk": 0.2657240636841561,
+      "p_tie_blk": 0.04279208476482754,
+      "wemby_games": 3,
+      "wemby_expected_blocks": 8.103166745903021,
+      "wemby_games_details": [
+        {
+          "conditional_mean": 3.2144244728449727,
+          "availability": 0.8402921284310239
+        },
+        {
+          "conditional_mean": 3.2144244728449727,
+          "availability": 0.8402921284310239
+        },
+        {
+          "conditional_mean": 3.2144244728449727,
+          "availability": 0.8402921284310239
+        }
+      ],
+      "wemby_selected_dates": [
+        "2026-10-27",
+        "2026-10-28",
+        "2026-10-31"
+      ]
+    },
+    {
+      "start": "2026-10-28",
+      "actual_blk": [
+        6,
+        5
+      ],
+      "my_final_mean": 22.884590314456176,
+      "opponent_final_mean": 23.566165860398943,
+      "my_remaining_mean": 16.884590314456176,
+      "opponent_remaining_mean": 18.566165860398943,
+      "difference_sd": 7.008553821971745,
+      "p_win_blk": 0.4330593793979224,
+      "p_tie_blk": 0.056606097747217476,
+      "wemby_games": 2,
+      "wemby_expected_blocks": 5.402111163935348,
+      "wemby_games_details": [
+        {
+          "conditional_mean": 3.2144244728449727,
+          "availability": 0.8402921284310239
+        },
+        {
+          "conditional_mean": 3.2144244728449727,
+          "availability": 0.8402921284310239
+        }
+      ],
+      "wemby_selected_dates": [
+        "2026-10-28",
+        "2026-10-31"
+      ]
+    }
+  ]
+}

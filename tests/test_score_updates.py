@@ -2,6 +2,7 @@ import copy
 import unittest
 
 from src.matchup_engine import ALL_CATEGORIES, MatchupEngine
+from src.snapshots import validate_live_snapshot
 
 
 def future(blocks, variance):
@@ -12,6 +13,26 @@ def future(blocks, variance):
 
 
 class TestScoreUpdates(unittest.TestCase):
+    def test_yesterdays_score_is_rejected_even_when_less_than_24_hours_old(self):
+        stats = dict.fromkeys(ALL_CATEGORIES, 0)
+        snapshot = {
+            "updated_at": "2026-10-27T15:57:51+00:00",
+            "matchup": {"team_a": stats.copy(), "team_b": stats.copy()},
+        }
+        validate_live_snapshot(snapshot, "2026-10-27T23:42:28+00:00")
+        # Same week and only 20.6 hours later, but yesterday's evening games
+        # would vanish if this score were combined with an Oct28 window.
+        with self.assertRaisesRegex(ValueError, "Eastern game date"):
+            validate_live_snapshot(snapshot, "2026-10-28T12:34:26+00:00")
+
+    def test_utc_midnight_does_not_invalidate_same_eastern_date(self):
+        stats = dict.fromkeys(ALL_CATEGORIES, 0)
+        snapshot = {
+            "updated_at": "2026-10-27T23:00:00+00:00",
+            "matchup": {"team_a": stats.copy(), "team_b": stats.copy()},
+        }
+        self.assertTrue(validate_live_snapshot(snapshot, "2026-10-28T01:00:00+00:00"))
+
     def test_eleven_realized_blocks_can_change_a_close_category_sharply(self):
         # Fixed future means and uncertainty isolate the actual-score change.
         # The observed 6-5 -> 6-16 score is not 11 extra future blocks.
