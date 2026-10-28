@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-28T22:40:41.146364+00:00",
+  "forecast_at": "2026-10-28T22:44:15.166676+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -1303,9 +1303,9 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "5d9590e166637cee48acde177dd32a848819d2d32dbcb014cd91f9fe64d97f77",
+    "data/processed/league_state.json": "7a6c48a47626dae929216695e143fce80c8e02d42260b27265cc94afc03a51e8",
     "data/processed/live_matchup.json": "ffc43c365b52a0d397e22b36b11807570e62630a78d53828a4e46517188ea90f",
-    "data/processed/injuries.db": "9c5ea7b42dd8b2537fe0a6236e31a5558aeff060b337bda0cc904cad5ed22f2a",
+    "data/processed/injuries.db": "dcb09f0091aac5aeffea0f6a5e2d989db542bab81713b0655e8f431db294fd97",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
     "data/processed/schedule_2026_27.parquet": "59946c75d5b3e00213e68d385742f5b97002bd756529b8a80594caef456e84b3",
@@ -1314,5 +1314,5 @@
     "config/rotation_candidate.json": "f60e8f403cf0eae4a1e6936b200bb8da26bc14f9b617397f54b84e78efceff6d",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
   },
-  "prospective_forecast_id": "20261028T224041146364Z"
+  "prospective_forecast_id": "20261028T224415166676Z"
 }
