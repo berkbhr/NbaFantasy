@@ -138,6 +138,7 @@ def fetch_upcoming_2026_27_pre_draft_assets():
         a_id = int(row["awayTeam_teamId"])
         a_tri = str(row["awayTeam_teamTricode"])
         wk = int(row.get("weekNumber", 0)) if pd.notnull(row.get("weekNumber", None)) else 0
+        tipoff = pd.to_datetime(row.get("gameDateTimeUTC"), utc=True, errors="coerce")
 
         team_rows.append(
             {
@@ -147,6 +148,8 @@ def fetch_upcoming_2026_27_pre_draft_assets():
                 "GAME_ID": gid,
                 "MATCHUP": f"{h_tri} vs. {a_tri}",
                 "WEEK_NUMBER": wk,
+                "TIPOFF_UTC": tipoff,
+                "CLOCK_OBSERVED_AT": pd.Timestamp.now(tz="UTC"),
             }
         )
         team_rows.append(
@@ -157,6 +160,8 @@ def fetch_upcoming_2026_27_pre_draft_assets():
                 "GAME_ID": gid,
                 "MATCHUP": f"{a_tri} @ {h_tri}",
                 "WEEK_NUMBER": wk,
+                "TIPOFF_UTC": tipoff,
+                "CLOCK_OBSERVED_AT": pd.Timestamp.now(tz="UTC"),
             }
         )
 

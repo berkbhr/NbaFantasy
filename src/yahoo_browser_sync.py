@@ -89,7 +89,8 @@ BOOKMARKLET_JS_RAW = r"""
           if (/^(INJ|O|OUT|IL|GTD|DTD|SUSP)$/.test(stTxt)) status = stTxt;
         }
 
-        players.push({ name, selected_position: selPos, status });
+        const playerId = (a.getAttribute('href') || '').match(/\/players?\/(\d+)/);
+        players.push({ name, selected_position: selPos, status, yahoo_player_id: playerId ? playerId[1] : null });
         if (selPos === 'IL' || selPos === 'IL+') {
           ilList.push(name);
         } else if (['INJ', 'O', 'OUT', 'IL', 'GTD', 'DTD'].includes(status)) {
@@ -214,14 +215,16 @@ BOOKMARKLET_JS_RAW = r"""
         if (!name || name.length < 3) return;
 
         const trTxt = tr.textContent;
+        const playerId = (pLink.getAttribute('href') || '').match(/\/players?\/(\d+)/);
+        const yahoo_player_id = playerId ? playerId[1] : null;
         const m = trTxt.match(/\bW\s*\(([A-Za-z0-9\/.]+)\)/i) || trTxt.match(/Off\s+Waivers\s+([A-Za-z0-9\/.]+)/i);
         const isClaim = trTxt.includes('Claim') || tr.querySelector('a[href*="claim"], button[title*="Claim"], .claim-player');
         const isAdd = tr.querySelector('a[href*="addplayer"], a[href*="add?"], button[title*="Add"], a[title*="Add"], .add-player');
         if (m || isClaim) {
           waivers[name] = m ? m[1] : 'Waiver';
-          players.push({ name, status: 'W' });
+          players.push({ name, status: 'W', yahoo_player_id });
         } else if (isAdd || /\bFA\b/.test(trTxt)) {
-          players.push({ name, status: 'FA' });
+          players.push({ name, status: 'FA', yahoo_player_id });
         }
       });
       const next = Array.from(doc.querySelectorAll('a[href]')).find(a =>
@@ -230,7 +233,9 @@ BOOKMARKLET_JS_RAW = r"""
     }
 
     // 1. Check current page for matchup first
-    let matchup = parseMatchupDoc(document);
+    // The visible tab can be old even though the bridge stamps this run now.
+    // Fetch the current scoreboard instead of relabeling cached DOM as fresh.
+    let matchup = null;
 
     // 2. Fetch all 14 teams' live rosters in parallel
     banner.textContent = '🏀 (1/3) 14 Takımın Canlı Kadroları & IL+ Yuvaları Çekiliyor...';
@@ -332,30 +337,6 @@ BOOKMARKLET_JS_RAW = r"""
 """.strip()
 
 
-def _resolve_canonical_draft_slot(player_names, fallback_slot):
-    """
-    Maps a fetched Yahoo team roster (indexed by Yahoo registration order 1..14)
-    to its canonical slot 0..13 in `draft_data.TEAM_NAMES` by matching against
-    initial drafted rosters (`DRAFT_PICKS_BY_ROUND`).
-    """
-    from src.injury_tracker import normalize_name
-
-    norm_roster = {normalize_name(n) for n in player_names if n}
-    best_slot = int(fallback_slot)
-    best_overlap = -1
-    for slot_idx in range(draft_data.NUM_TEAMS):
-        drafted_for_slot = set()
-        for rnd, picks in draft_data.DRAFT_PICKS_BY_ROUND.items():
-            idx = slot_idx if (rnd % 2 == 1) else (draft_data.NUM_TEAMS - 1 - slot_idx)
-            if 0 <= idx < len(picks):
-                drafted_for_slot.add(normalize_name(picks[idx]))
-        overlap = len(norm_roster & drafted_for_slot)
-        if overlap > best_overlap:
-            best_overlap = overlap
-            best_slot = slot_idx
-    return str(best_slot)
-
-
 def validate_browser_matchup(matchup, slot_map, captured_at):
     """Resolve real Yahoo team identities and reject missing/invented counters."""
     from copy import deepcopy
@@ -399,6 +380,18 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
 
     os.makedirs(PROCESSED_DIR, exist_ok=True)
     now_iso = datetime.now(timezone.utc).isoformat()
+    from hashlib import sha256
+
+    sync_id = sha256((now_iso + json.dumps(payload, sort_keys=True)).encode()).hexdigest()
+    state_json_path = os.path.join(PROCESSED_DIR, "league_state.json")
+    prior_state = {}
+    if os.path.exists(state_json_path):
+        with open(state_json_path, encoding="utf-8") as handle:
+            prior_state = json.load(handle)
+    if str(prior_state.get("league_id", payload.get("league_id", "64691"))) != str(
+        payload.get("league_id", "64691")
+    ):
+        raise ValueError("Saved Yahoo identities belong to a different league")
 
     rosters_by_slot = payload.get("rosters_by_slot", {})
     raw_il = payload.get("il_players_by_slot", {})
@@ -411,6 +404,14 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     empty_clean = {}
     total_players = 0
     slot_map = {}
+    from src.yahoo_identity import roster_player_evidence, team_slots
+
+    saved_slots, identity_evidence = team_slots(
+        rosters_by_slot,
+        prior_state.get("yahoo_team_slots", {}),
+        payload.get("team_names_by_slot", {}),
+    )
+    player_evidence = roster_player_evidence(rosters_by_slot, saved_slots)
 
     for s_key, p_list in rosters_by_slot.items():
         names = [
@@ -421,7 +422,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
             and "player note" not in str(p.get("name", "")).lower()
         ]
         if names:
-            canon_key = _resolve_canonical_draft_slot(names, s_key)
+            canon_key = saved_slots[str(int(s_key) + 1)]
             if canon_key in rosters_clean:
                 raise ValueError("Two Yahoo teams resolved to the same league slot; sync rejected")
             rosters_clean[canon_key] = names
@@ -437,7 +438,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
             and "player note" not in str(p.get("name", "")).lower()
         ]
         if names:
-            canon_key = _resolve_canonical_draft_slot(names, s_key)
+            canon_key = saved_slots[str(int(s_key) + 1)]
             il_clean[canon_key] = [
                 n
                 for n in raw_il.get(s_key, raw_il.get(str(s_key), []))
@@ -467,6 +468,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                 {
                     "week": int(payload.get("week", 1)),
                     "updated_at": now_iso,
+                    "sync_id": sync_id,
                     "matchup": matchup_obj,
                 },
                 f,
@@ -526,7 +528,11 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         "source": availability_snapshot.get("source"),
         "updated_at": now_iso,
         "players": [
-            {"name": str(p["name"]).strip(), "status": p["status"]}
+            {
+                "name": str(p["name"]).strip(),
+                "status": p["status"],
+                "yahoo_player_id": p.get("yahoo_player_id"),
+            }
             for p in availability_snapshot.get("players", [])
             if isinstance(p, dict) and p.get("name") and p.get("status") in ("FA", "W")
         ],
@@ -535,6 +541,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
     }
     state_data = {
         "updated_at": now_iso,
+        "sync_id": sync_id,
         "league_id": str(payload.get("league_id", "64691")),
         "league_key": f"nba.l.{payload.get('league_id', '64691')}",
         "live_synced": True,
@@ -547,7 +554,11 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         "transactions": clean_txs,
         "waivers": merged_waivers,
         "availability_snapshot": availability_snapshot,
+        "yahoo_team_slots": saved_slots,
+        "yahoo_identity_evidence": identity_evidence,
+        "yahoo_roster_players": {**prior_state.get("yahoo_roster_players", {}), **player_evidence},
     }
+    state_data["availability_snapshot"]["sync_id"] = sync_id
     with open(state_json_path, "w", encoding="utf-8") as f:
         json.dump(state_data, f, indent=2)
 

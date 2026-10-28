@@ -65,6 +65,20 @@ class OwnershipSyncTests(unittest.TestCase):
             state["availability_snapshot"].update(change)
             self.assertFalse(free_agent_ids(self.assistant, state, {}, self.now)[0])
 
+    def test_mixed_sync_versions_withhold_candidates(self):
+        state = self.snapshot()
+        state["sync_id"] = "new"
+        state["availability_snapshot"]["sync_id"] = "old"
+        self.assertFalse(free_agent_ids(self.assistant, state, {}, self.now)[0])
+
+    def test_owned_yahoo_id_wins_even_when_roster_name_is_an_alias(self):
+        state = self.snapshot()
+        state["availability_snapshot"]["players"] = [
+            {"name": "Verified Free Agent", "status": "FA", "yahoo_player_id": "123"}
+        ]
+        state["yahoo_roster_players"] = {"0": [{"name": "Other Alias", "yahoo_player_id": "123"}]}
+        self.assertFalse(free_agent_ids(self.assistant, state, {}, self.now)[0])
+
     def test_browser_does_not_pad_missing_roster_rows_or_invent_free_agents(self):
         names = draft_data.build_rosters()[4]
         names = [n for n in names if n != "Nickeil Alexander-Walker"]

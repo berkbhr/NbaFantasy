@@ -8,6 +8,13 @@ Tarihli fikstür zorunludur. Canlı skor 24 saatten eskiyse, farklı Eastern
 günündeyse veya isabet/deneme alanları geçersizse reddedilir. Bu durumda
 yalnızca kalan maç projeksiyonu verilir; hafta içi add/drop önerileri bekletilir.
 
+Günlük motorun canlı birleştirmesi maç öncesi modundadır: bugünün ilk NBA
+maçı başladıysa kısmi skor üzerine tam maç eklememek için bekletilir. Kesin
+saat ve aynı Eastern gününe ait saat gözlemi gerekir. Bulut bunu yeniler;
+yerelde yalnızca fikstür saatlerini yenilemek için
+`python -m src.game_clock` kullanılır. Bu komut bildirim göndermez ve
+kimliği/tarihi uyuşmayan fikstürün üzerine yazmaz.
+
 `python -m src.cloud_sync` canlı veri indirir, runtime önbelleklerini günceller
 ve ayarlı Telegram/Discord bildirimlerini gönderir. Kod kontrolü için bu komut
 yerine `forecast` ve testleri kullanın.
@@ -36,6 +43,13 @@ yoksa hamle önerileri bekletilir; kategori tahmini devam eder. Eski köprüden
 geçişte sunucuyu yeniden başlatıp arayüzdeki güncel bookmarklet ile tekrar
 senkronize edin. Kullanıcı girdisi ve eski tahmin arşivleri otomatik
 değiştirilmez.
+
+Yeni köprü Yahoo takım numaralarının kanonik slot eşlemesini ve oyuncu
+Yahoo kimliklerini saklar. İlk eşleştirme belirsizse kabul edilmez;
+sonraki çalışmalarda takım adı veya kadro değişikliği kimliği değiştirmez.
+Kadro, skor ve FA kanıtının `sync_id` değerleri uyuşmalıdır. OAuth yeni
+kadroyu alırken FA kanıtı eski sürümde kalırsa hamleler bekler; eski pozitif
+kanıt yeni yakalanmış gibi zaman damgalanmaz.
 
 Skor ayrıştırıcısı gerçek Yahoo takım kimliği ve tutarlı oynanan/kalan/toplam
 sayılarını ister; eksik alanlara uydurma maç sayısı veya rakip atamaz.

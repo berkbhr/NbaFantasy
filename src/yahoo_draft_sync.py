@@ -566,6 +566,7 @@ class YahooFantasyOAuthClient:
                         team_players.append(
                             {
                                 "name": p_name,
+                                "yahoo_player_id": p_meta.get("player_id"),
                                 "selected_position": sel_pos,
                                 "status": p_status,
                             }

@@ -603,6 +603,11 @@ def settle_weekly(yahoo_client=None, final=None):
             if week not in fetched:
                 fetched[week] = yahoo_client.fetch_live_scoreboard(week=week)
             board = fetched[week] or {}
+            from .yahoo_identity import canonical_scoreboard
+
+            board = canonical_scoreboard(
+                board, (bundle["inputs"].get("league_state.json") or {}).get("yahoo_team_slots", {})
+            )
             for pair, state in zip(board.get("matchups", []), board.get("matchup_states", [])):
                 if state.get("status") != "postevent" or set(state["slots"]) != {my_slot, opp_slot}:
                     continue

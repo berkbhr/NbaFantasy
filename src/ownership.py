@@ -18,6 +18,8 @@ def free_agent_ids(assistant, state, rosters, now=None):
         "scan_complete": bool(snapshot.get("scan_complete")),
     }
     try:
+        if state.get("sync_id") and snapshot.get("sync_id") != state["sync_id"]:
+            raise ValueError("Roster and available-player evidence have different versions")
         stamp = datetime.fromisoformat(snapshot["updated_at"].replace("Z", "+00:00"))
         if stamp.tzinfo is None:
             raise ValueError("Availability timestamp must be timezone-aware")
@@ -35,8 +37,19 @@ def free_agent_ids(assistant, state, rosters, now=None):
         return set(), audit
     occupied = {pid for roster in rosters.values() for pid in roster}
     candidates = set()
+    occupied_yahoo = {
+        str(p["yahoo_player_id"])
+        for roster in state.get("yahoo_roster_players", {}).values()
+        for p in roster
+        if p.get("yahoo_player_id") is not None
+    }
     for item in snapshot.get("players", []):
         if not isinstance(item, dict) or item.get("status") not in ("FA", "W"):
+            continue
+        if (
+            item.get("yahoo_player_id") is not None
+            and str(item["yahoo_player_id"]) in occupied_yahoo
+        ):
             continue
         pid = assistant.resolve_player_id(item.get("name", ""), only_available=False)
         if pid in assistant.players and pid not in occupied:

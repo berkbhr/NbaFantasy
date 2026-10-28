@@ -7,6 +7,37 @@ import pandas as pd
 BOX_SCORE_KEYS = ("PTS", "REB", "AST", "STL", "BLK", "FG3M", "TOV", "FGM", "FGA", "FTM", "FTA")
 
 
+def validate_pregame_window(schedule, now):
+    """Daily model cannot estimate residual production for games already started.
+
+    Fail closed after tipoff, even after a same-day final: Yahoo game coverage
+    is not available to prove which realized games are in the captured score.
+    """
+    current = pd.to_datetime(now, utc=True)
+    day = current.tz_convert("America/New_York").tz_localize(None).normalize()
+    today = schedule[pd.to_datetime(schedule.GAME_DATE).dt.normalize() == day]
+    if today.empty:
+        return
+    if "TIPOFF_UTC" not in today:
+        raise ValueError(
+            "Exact NBA tipoff times unavailable; weekly live decisions withheld until schedule refresh"
+        )
+    tipoffs = pd.to_datetime(today.TIPOFF_UTC, utc=True, errors="coerce")
+    if tipoffs.isna().any():
+        raise ValueError("Incomplete NBA tipoff times; weekly live decisions withheld")
+    if "CLOCK_OBSERVED_AT" not in today:
+        raise ValueError("NBA schedule clock has no observation timestamp; refresh schedule")
+    stamps = pd.to_datetime(today.CLOCK_OBSERVED_AT, utc=True, errors="coerce")
+    if stamps.isna().any() or (stamps > current + pd.Timedelta(minutes=5)).any():
+        raise ValueError("NBA schedule clock timestamp invalid")
+    if (stamps.dt.tz_convert("America/New_York").dt.tz_localize(None).dt.normalize() != day).any():
+        raise ValueError("NBA schedule clock predates current Eastern day; refresh schedule")
+    if (tipoffs <= current).any():
+        raise ValueError(
+            "Today's NBA games have started; partial-game score coverage is unverified, refresh next Eastern pregame day"
+        )
+
+
 def validate_live_snapshot(snapshot, now, max_age_hours=24):
     timestamp = pd.to_datetime(snapshot.get("updated_at"), utc=True, errors="coerce")
     current = pd.to_datetime(now, utc=True)

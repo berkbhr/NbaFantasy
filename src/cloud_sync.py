@@ -113,6 +113,14 @@ def run_cloud_sync():
     # Replay completed observations chronologically before producing forecasts.
     season_logs_df, season_logs_src = fetch_current_season_logs(season="2026-27")
     print(f"  Current-season logs: {len(season_logs_df)} player-games (source: {season_logs_src})")
+    try:
+        from src.game_clock import refresh_schedule
+
+        refresh_schedule()
+    except Exception as exc:
+        print(
+            f"  [CLOCK] Exact schedule refresh unavailable ({type(exc).__name__}); cached guards apply"
+        )
     assistant = LiveDraftAssistant(
         prior_season="2025_26",
         my_team_idx=draft_data.MY_TEAM_IDX,
@@ -210,6 +218,27 @@ def run_cloud_sync():
         if yahoo_client.discover_league_and_team(target_league_id="64691"):
             roster_payload = yahoo_client.fetch_league_rosters_and_il()
             if roster_payload and roster_payload.get("rosters_by_slot"):
+                from src.yahoo_identity import roster_player_evidence, team_slots
+
+                mapping, _ = team_slots(
+                    roster_payload["rosters_by_slot"],
+                    prior_state.get("yahoo_team_slots", {}),
+                    roster_payload.get("team_names_by_slot", {}),
+                )
+                prior_state["yahoo_team_slots"] = mapping
+                prior_state["yahoo_roster_players"] = roster_player_evidence(
+                    roster_payload["rosters_by_slot"], mapping
+                )
+                for field in (
+                    "rosters_by_slot",
+                    "il_players_by_slot",
+                    "unslotted_injured_by_slot",
+                    "empty_active_slots_by_slot",
+                ):
+                    roster_payload[field] = {
+                        int(mapping[str(int(k) + 1)]): v
+                        for k, v in roster_payload.get(field, {}).items()
+                    }
                 new_rosters = {}
                 for slot_idx, p_list in roster_payload["rosters_by_slot"].items():
                     resolved_pids = []
@@ -223,7 +252,8 @@ def run_cloud_sync():
                                 yahoo_il_eligible_pids.add(pid)
                     if resolved_pids:
                         new_rosters[int(slot_idx)] = resolved_pids
-                if len(new_rosters) >= 2:
+                if len(new_rosters) == draft_data.NUM_TEAMS:
+                    prior_state["sync_id"] = "oauth:" + now_utc.isoformat()
                     for s_idx, pids_list in new_rosters.items():
                         rosters[s_idx] = pids_list
                     il_players_by_slot = roster_payload.get(
@@ -278,9 +308,14 @@ def run_cloud_sync():
                     )
 
             sb_payload = yahoo_client.fetch_live_scoreboard()
+            if sb_payload:
+                from src.yahoo_identity import canonical_scoreboard
+
+                sb_payload = canonical_scoreboard(
+                    sb_payload, prior_state.get("yahoo_team_slots", {})
+                )
             if sb_payload and sb_payload.get("matchups"):
                 print(f"  [OK] Fetched Live Scoreboard for Week {sb_payload.get('week')}.")
-                live_rosters_synced = True
                 # Locate Berk's matchup
                 berk_matchup = None
                 for pair in sb_payload["matchups"]:
@@ -297,6 +332,7 @@ def run_cloud_sync():
                         berk_matchup = {
                             "week": sb_payload.get("week", 1),
                             "updated_at": now_utc.isoformat(),
+                            "sync_id": prior_state.get("sync_id") if live_rosters_synced else None,
                             "matchup": {
                                 "team_a": pair[0],
                                 "team_b": pair[1],
@@ -418,6 +454,9 @@ def run_cloud_sync():
         "waivers": prior_state.get("waivers", {}),
         "availability_snapshot": prior_state.get("availability_snapshot", {}),
         "ownership_audit": ownership_audit,
+        "yahoo_team_slots": prior_state.get("yahoo_team_slots", {}),
+        "sync_id": prior_state.get("sync_id"),
+        "yahoo_roster_players": prior_state.get("yahoo_roster_players", {}),
     }
 
     # Save state JSON

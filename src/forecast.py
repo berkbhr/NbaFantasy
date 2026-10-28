@@ -14,7 +14,7 @@ from .live_draft_assistant import LiveDraftAssistant
 from .matchup_engine import MatchupEngine
 from .ownership import free_agent_ids
 from .settings import load_settings
-from .snapshots import fantasy_week_window, validate_live_snapshot
+from .snapshots import fantasy_week_window, validate_live_snapshot, validate_pregame_window
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -105,8 +105,15 @@ def build_local_forecast(
     notes = []
     if live_path.exists():
         try:
-            live = validate_live_snapshot(json.loads(live_path.read_text(encoding="utf-8")), now)
+            snapshot = json.loads(live_path.read_text(encoding="utf-8"))
+            if state.get("sync_id") and snapshot.get("sync_id") != state["sync_id"]:
+                raise ValueError(
+                    "Yahoo roster and score belong to different synchronization versions"
+                )
+            live = validate_live_snapshot(snapshot, now)
+            validate_pregame_window(assistant.schedule_df, now)
         except ValueError as exc:
+            live = None
             notes.append(str(exc))
     my_slot = draft_data.MY_TEAM_IDX
     opponent = int(live["team_b"].get("slot", 13)) - 1 if live else 12
@@ -218,6 +225,8 @@ def build_local_forecast(
                 "prospective.py",
                 "snapshots.py",
                 "ownership.py",
+                "yahoo_identity.py",
+                "game_clock.py",
             )
         },
         "week_start": str(start.date()),
