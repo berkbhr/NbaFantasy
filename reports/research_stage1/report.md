@@ -171,3 +171,239 @@ Açık kalanlar: hesap üzerinden yeni Yahoo kimliklerinin ilk canlı senkronu;
 tam gün içi kısmi maç motoru; 20+20 ligde gerçek sonuçlu dayanıklılık ve
 net hamle kazancı; availability/rotasyon tuning'i ve adayın canlı kabulü.
 Bu işler bu pilotun tamamlanmasıyla yapılmış sayılmadı.
+
+
+## Ek çalışma: gerçek NBA sonuçlarıyla kadro dayanıklılığı ve rol karşılaştırması
+
+28 Ekim 2026. Bu bölüm aynı rapora eklenmiştir. Koşu kimliği:
+`roster_20261028T172809Z`; protokol ve teknik sonuçlar
+`data/archive/experiments/` altında sıkıştırılarak saklanır.
+
+Deneyden önce sabitlenen kapsam: 2024–25'te 20, 2025–26'da ayrı 20 seed;
+14 takım x13 sahipli oyuncu. İlk 14 günlük geçmişten sonraki ilk pazartesiden
+sezon sonuna kadar tam pazartesi–pazar pencereleri. Her lig-haftada 7 farklı
+eşleşme; bir odak takım için tek hamleli model ve basit fikstür karşılaştırması.
+Dengeli/uzun ağırlıklı/kısa ağırlıklı takım profilleri önsel MPG katmanları
+içinde oluşturulur. Aynı oyuncu bir ligde iki takımda bulunamaz.
+
+Tahmin anından önceki oyuncu ve pozisyon kayıtları kullanılır. Hafta için
+aktif kadrolar hedef sonuçlar görülmeden dondurulur; bu başlangıçlarla gerçek
+NBA üretimi puanlanır. Bench üretimi eklenmez. Alınan oyuncu kadar bırakılan
+oyuncunun kaybedilen kullanılabilir üretimi de sonuçta yer alır.
+
+Bu ilk referansta sakatlık dağıtımı kapalı, IL stash sayısı sıfırdır.
+Kullanılan eligibility geçmiş NBA G/F/C bilgisidir; tam Yahoo pozisyonları
+değildir. Önsel GP>=10, tahmin öncesi görülmüş takım ve pozisyon şartı
+çaylakları ve henüz görülmemiş bazı oyuncuları dışarıda bırakır. Haftalık
+sahiplikler varsayımsaldır; bir sezonun kesintisiz işlem geçmişi oynatılmıyor.
+Gerçek Yahoo FA havuzu/waiver süreleri ve rakibin hamle tepkileri bilinmiyor.
+Hamleler bu kontrollü ligde anında yapılabilen tek FA işlemi varsayımıyla
+karşılaştırılır; sınırsız işlem hakkı verilmez.
+
+Tarihsel fikstür son gerçekleşmiş takvimden geliyor. Hangi ertelemenin
+hangi kesimde bilindiğinin tam arşivi yok; bu nedenle takvimin baştan
+bilindiği varsayımı tarihsel sonuçlara iyimserlik katabilir. Bu sınırlılık
+yeni canlı kesim arşivinin yerini alamaz.
+
+Bağımsız örnek sayısı lig/seed sayısı değildir. Kazanç belirsizliği gerçek
+NBA takvim haftaları eşli yeniden örneklenerek hesaplanır.
+
+Rol deneyi bu kadro referansından ayrıdır: 2024–25 üzerinde mevcut
+adaptive_anchor, recent_blend ve ewma dakika MSE'siyle karşılaştırılır.
+MAE, üretim, dönem ve alt grup korumaları aynı anda uygulanır. Seçim
+dondurulduktan sonra yalnızca tek aday 2025–26'da değerlendirilir.
+Kadro referansı ana motorun mevcut ayarında tutulur; rol adayına farklı
+kadro sonuçlarına bakılarak gizli geçiş yapılmaz. Hiçbir politika dosyasına
+ana modele terfi yazılmaz.
+
+Küçük uçtan uca smoke koşusu ayrı kimlikle korunmuştur:
+`roster_20261028T172519Z` (2 seed x2 hafta/sezon). Tam deneyin örneklemine
+eklenmez. Protokoldeki parametreler veya kabul eşikleri smoke sonucuna göre
+değiştirilmedi; tam çıktı için eylem kimlikleri ve kategori olasılıkları
+daha ayrıntılı saklandı.
+
+
+### Tam referans koşusunun sonuçları
+
+40 varsayımsal lig, sezon başına 22 tam NBA haftası: toplam **880 odak takım-hafta
+hamle durumu**, **6.160 eşleşme**, **55.440 kategori sonucu**. Bunlar 880 bağımsız
+NBA haftası değildir; bağımsız zaman ekseni sezon başına 22 takvim haftasıdır.
+
+| Sezon | Modelin tek hamlesi: ortalama net kategori puanı | Haftalık blok %95 aralık | Yalnız maç sayılı basit hamle |
+|---|---:|---:|---:|
+| 2024–25 | +0.407 | [0.303; 0.503] | -0.006 |
+| 2025–26 | +0.524 | [0.403; 0.645] | +0.022 |
+
+Net katkı, hamle yapmama referansına göredir; bırakılanın ve aktif kadro
+değişiminin etkisi dahil edilmiştir. Basit kontrol yalnızca kalan maç sayısını
+önceler; eşitlikte dakika/oyuncu kalitesi kullanmaz. Bu kolay kontrolün yenilmesi
+tek başına daha güçlü streaming yöntemlerine üstünlük kanıtı değildir.
+Bu nedenle aşağıda iki daha güçlü kontrol için sonradan eklenen duyarlılık
+analizi ayrıca raporlanacaktır; bağımsız yeni test diye adlandırılmaz.
+
+| Sezon | Model daha iyi | Daha kötü | Aynı |
+|---|---:|---:|---:|
+| 2024–25 | 189 | 53 | 198 |
+| 2025–26 | 205 | 51 | 184 |
+
+Bütün 880 durumda motor pozitif beklenen kazançlı bir hamle buldu. Telegram'ın
+gösterim eşiği bu referansta ayrıca uygulanmadı. Bunlar gerçek hesapta
+uygulanmış 880 işlem değildir.
+
+| Sezon / lig profili | Modelin ortalama net katkısı | Haftalık blok %95 aralık |
+|---|---:|---:|
+| 2024_25:balanced | +0.405 | [0.265; 0.568] |
+| 2024_25:center_heavy | +0.289 | [0.143; 0.451] |
+| 2024_25:guard_heavy | +0.526 | [0.351; 0.708] |
+| 2025_26:balanced | +0.549 | [0.403; 0.701] |
+| 2025_26:center_heavy | +0.432 | [0.261; 0.587] |
+| 2025_26:guard_heavy | +0.578 | [0.425; 0.747] |
+
+Bu sınırlı profil değişimlerinde katkı her iki sezonda pozitiftir. Profiller
+önsel MPG katmanları içinde oyuncu değişimiyle üretilir; bütün olası punt,
+sakatlık, IL ve 210 sahipli oyuncu yapılarını kapsamaz. Sakatlık bilgilerinin
+bu referansa katılmaması, gerçek üretimdeki sakatlıkların ortadan kalktığı
+anlamına gelmez; bunların tahmin hatasına etkisi burada ayrıştırılmış değildir.
+
+### Haftalık kategori olasılığı tanıları
+
+| Sezon | Eşleşme | Üç sonuçlu kategori Brier | Kategori puanı MAE | Ortalama puan hatası |
+|---|---:|---:|---:|---:|
+| 2024_25 | 3080 | 0.4459 | 1.414 | -0.000 |
+| 2025_26 | 3080 | 0.4530 | 1.458 | -0.017 |
+
+Brier kazanım/beraberlik/mağlubiyet üçlüsündeki kare hataların toplamının
+kategori ortalamasıdır; düşük daha iyi. İki sezon farklı olaylar olduğundan
+bu seviyeler doğrudan sürüm kazancı olarak yorumlanmaz. Ortalama puan
+hatasının sıfıra yakın olması tüm olasılık aralıklarının iyi kalibre olduğu
+anlamına gelmez. Kategori bazlı ondalık olasılık dilimlerinin tahmin/gerçekleşme
+tablosu teknik `reliability.json.gz` çıktısında saklanmıştır.
+
+### Sınırlı rol karşılaştırması
+
+Bu tur mevcut kalibratörün geliştirme sezonu seçimi + sonraki sezon
+karşılaştırmasıdır; planın bütün bileşenleri kapsayan iç/dış zaman bloğu
+tuning altyapısının tamamlanması değildir. 2024–25 sonuçları geliştirme
+kanıtıdır; 2025–26 daha önce incelendiği için geçmişe dönük doğrulamadır.
+
+2024–25 dakika MSE'si: mevcut yöntem 44,3253; recent_blend 43,8045;
+ewma 43,3517. EWMA daha düşük genel hatasına rağmen ilk 10 gözlem
+korumasından kaldı ve 2025–26'da ikinci aday olarak denenmedi.
+recent_blend seçilip donduruldu. 2025–26'da 26.568 oynanmış oyuncu-maç:
+
+| Ölçüm | Mevcut adaptive_anchor | Dondurulmuş recent_blend |
+|---|---:|---:|
+| Dakika MSE | 43.3043 | 42.9634 |
+| Dakika MAE | 5.0418 | 5.0611 |
+
+MSE yaklaşık %0,79 iyileşirken MAE yaklaşık %0,38 kötüleşir. Kayıtlı
+mevcut MSE/üretim/dönem/alt grup kabul kontrolü geçti. Bunun anlamı
+her grupta daha iyi olduğu veya dağılım kalibrasyonunun tamamlandığı değildir.
+Seçimden bağımsız açıklayıcı alt grup MAE tablosu:
+
+| Önsel rol / gözlem grubu | n | Mevcut MAE | Aday MAE |
+|---|---:|---:|---:|
+| cohort:15-25 | 7804 | 5.0260 | 5.0342 |
+| cohort:25+ | 10243 | 4.3895 | 4.3717 |
+| cohort:<15/new | 8521 | 5.8403 | 5.9145 |
+| experience:first10 | 5442 | 5.3138 | 5.3258 |
+| experience:later | 21126 | 4.9717 | 4.9929 |
+
+25+ MPG grubunda iki ölçüt de iyileşir; <15/yeni grubunda MAE yaklaşık
+%1,27 kötüleşir. Bu tabloya bakılarak yeni kazanan veya oyuncu grubuna özel
+kural seçilmedi. Ana ayar değiştirilmedi. Yukarıdaki kadro/hamle sonuçları
+mevcut motorla üretildi; recent_blend'in aynı katkıyı verdiği test edilmedi.
+Eski rolün bazı yönlerini kullanma fikri aday olarak anlamlıdır; bütün
+eski sürüme dönme veya her oyuncuda aynı rolü seçme kanıtı yoktur.
+
+### Süre, bütünlük ve sınırlar
+
+Tam koşu 34.0 dakika sürdü. Sonunda başlangıçtaki bütün
+veri/kod hash'leri tekrar kontrol edildi ve değişmemişti. Her iki sezonun
+fikstüründeki 1.230 maçın tamamı NBA sonuçlarında mevcut; oyuncu-tarih
+çiftlerinde de tekrar yok. Hedef tarihten sonraki oyuncu sonuçları karar
+girdisi yapılmadı; yalnızca sabitlenmiş aktif kadroları skorlamak için kullanıldı.
+
+Başlıca sınırlar: 182 sahipli oyuncu ve sıfır IL; pozisyonu/takımı geçmişte
+görülmüş ve önsel GP>=10 oyuncular; sakatlık dağıtımı kapalı; tek anlık
+hamle; varsayımsal FA/waiver; sabit rakip günlük kadro politikası; son
+gerçekleşmiş tarihsel fikstür. Bu sonuçlar, tam canlı 210 oyunculu
+Yahoo liginde veya sakatlık/transfer dönemlerinde aynı kazancı kanıtlamaz.
+Ana Bayesian ve rotasyon politika dosyaları değiştirilmedi.
+
+
+### Daha güçlü streaming kontrolleri: sonradan eklenen duyarlılık analizi
+
+İlk referansın eşit maçlı oyuncularda kaliteyi kullanmaması nedeniyle iki
+kontrol daha tanımlandı. Bu gereksinim ilk genel sonuç görüldükten sonra
+belirlendiği için **posthoc duyarlılık analizi** olarak kaydedildi; yeni
+görülmemiş test diye sunulmaz. İki kural sonuçları hesaplanmadan kendi
+protokolüne yazıldı; sonuçlara bakıp yeni kazanan veya katsayı seçilmedi.
+
+1. Önce kalan maç sayısı, eşitlikte yüksek temel dakika beklentisi.
+2. Kalan maç x temel dakika x oynama olasılığı en yüksek oyuncu.
+
+İki kontrol de önceki basit yöntemin aynı yasal bırakılabilir oyuncusunu
+kullandı. Sonuç bilmeden seçilen yeni aktif kadro skorlandı. Her 880
+durumda eski hamlesiz referans sonucu yeniden üretildi ve birebir eşleşti.
+
+| Sezon | Hamlesiz duruma göre model | Maç + dakika eşitlik çözümü | Toplam beklenen dakika |
+|---|---:|---:|---:|
+| 2024_25 | +0.407 | +0.347 | +0.427 |
+| 2025_26 | +0.524 | +0.408 | +0.517 |
+
+| Sezon / karşılaştırma | Model eksi kontrol | Haftalık blok %95 aralık |
+|---|---:|---:|
+| 2024_25 / quality_tie | +0.0602 | [-0.0841; 0.2068] |
+| 2024_25 / total_minutes | -0.0205 | [-0.1670; 0.1227] |
+| 2025_26 / quality_tie | +0.1159 | [-0.0375; 0.2762] |
+| 2025_26 / total_minutes | +0.0068 | [-0.1694; 0.2102] |
+
+**Yorum:** Model hamle yapmamaktan daha fazla kategori puanı topluyor; fakat
+iyi bir dakika/fikstür kontrolüne ek katkısı bu veriyle doğrulanmadı. Her iki
+sezonda, iki güçlü kontrole karşı da model farkının aralığı sıfırı içeriyor.
+Bu, yöntemlerin eşdeğer olduğunun kanıtı değildir; güvenilir üstünlük için
+kanıt yetersizdir. Yalnızca kolay bir fikstür kontrolünün yenilmesi, karmaşık
+karar motorunu haklı çıkarmaya yetmez.
+
+Toplam dakika kontrolü de modelin aynı temel dakika/oynama tahminlerini
+kullanır. Dolayısıyla sonuç, Bayesian oyuncu tahminlerinin gereksiz olduğunu
+göstermez; bu tahminlerin üstüne eklenen kategori odaklı hamle sıralamasının
+ilave değerini henüz gösteremediğimizi söyler.
+
+2024_25: model ile toplam-dakika kontrolünün birebir aynı ekleme/bırakması 49/440 durumda gerçekleşti.
+
+2025_26: model ile toplam-dakika kontrolünün birebir aynı ekleme/bırakması 67/440 durumda gerçekleşti.
+
+Ek kontrol 3.0 dakika sürdü. Kayıtlar aynı deney klasöründeki
+`streaming_sensitivity_protocol.json.gz`, `streaming_sensitivity.csv.gz` ve
+`streaming_sensitivity_summary.json.gz` dosyalarında.
+
+### Bu aşamanın kararı
+
+- Ana model/rotasyon ayarlarında değişiklik yok.
+- Eski rolün bazı ortalama dakika hatalarını azaltabildiği bulundu; düşük
+  rol grubunda MAE bozulması ve henüz tamamlanmamış belirsizlik/karar
+  değerlendirmesi nedeniyle bütün oyunculara otomatik uygulanmadı.
+- Farklı kadrolarda hamlesiz referansa göre kazanç bulundu; güçlü streaming
+  kontrolüne üstünlük bulunamadı.
+- Sonraki geliştirmede güçlü toplam-dakika kontrolü kalıcı referans olmalı.
+  Sakatlık/IL ile derin havuz, gerçekçi rakip politikaları, pozisyon uygunluğu
+  ve daha küçük kategorik farkların katkısı ayrıca sınanmalı. Bu daha zorlu
+  koşullarda karmaşık yöntem yine artı sağlamazsa basit yöntem tercih edilebilir.
+- Bu sonuçlardan sonra yalnızca kazanan bir örneklem veya yeni kontrol
+  seçerek üstünlük aranmayacak. Yeni aday/kurallar yeni sürüm ve sabit
+  değerlendirme protokolüyle araştırılacak.
+
+105 eski test + bu aşamadaki 3 yeni test, toplam108 test başarılı. Yeni
+testler bench'teki sonradan çok iyi oynayan oyuncuyu skora sızdırmama,
+tekilleştirilmiş13 kişilik kadro/tier sahipliği ve beraberlik içeren üç
+sonuçlu Brier hesabını kapsıyor. Ruff kod/biçim kontrolleri başarılı.
+Bildirim gönderilmedi, kullanıcı kadrosunda işlem yapılmadı.
+
+Ek yorum sınırları: Kadro profili değişimi son üç önsel MPG draft
+katmanında yapıldı; bu tam punt veya tamamen uzmanlaşmış takım testi değildir.
+Güven aralıkları takvim haftası blokları içindir; bir haftadan uzun sakatlık/
+oyuncu bağımlılığının tamamını modelledikleri varsayılmamalıdır. Kaynak
+hash'leri koşunun gerçek dosya baytlarını kaydeder; platformlar arası
+satır sonu farkları da raw SHA256'yı değiştirebilir.

@@ -15,19 +15,28 @@ from .matchup_engine import MatchupEngine
 from .model_policy import load_model_policy, update_role
 from .priors import get_positional_averages, load_prior_season
 from .research import ROOT, sha
+from .validation import previous_season
 
 
-def run(seeds=(9000, 9001), cutoff="2024-11-05", candidate_count=12):
+def run(
+    seeds=(9000, 9001),
+    cutoff="2024-11-05",
+    candidate_count=12,
+    season="2024_25",
+    policy=None,
+    return_context=False,
+):
     started = perf_counter()
     cutoff = pd.Timestamp(cutoff)
-    policy = load_model_policy()
+    policy = policy or load_model_policy()
     paths = [
-        ROOT / "data/raw" / f"player_logs_{s}.parquet" for s in ("2022_23", "2023_24", "2024_25")
+        ROOT / "data/raw" / f"player_logs_{s}.parquet"
+        for s in (previous_season(previous_season(season)), previous_season(season), season)
     ]
-    paths += [ROOT / "data/processed/schedule_2024_25.parquet", ROOT / "config/model_policy.json"]
+    paths += [ROOT / f"data/processed/schedule_{season}.parquet", ROOT / "config/model_policy.json"]
     label_paths = sorted(
         p
-        for p in (ROOT / "data/archive/historical_labels_v2/2024_25").glob("*.gz")
+        for p in (ROOT / "data/archive/historical_labels_v2" / season).glob("*.gz")
         if pd.Timestamp(p.name.split(".")[0]) < cutoff
     )
     paths += label_paths + sorted((ROOT / "src").glob("*.py"))
@@ -41,7 +50,7 @@ def run(seeds=(9000, 9001), cutoff="2024-11-05", candidate_count=12):
         for row in json.loads(gzip.decompress(path.read_bytes()))["rows"]:
             if row.get("position"):
                 positions_by_name[normalize_name(row["name"])] = row["position"]
-    priors = load_prior_season("2023_24", policy=policy)
+    priors = load_prior_season(previous_season(season), policy=policy)
     averages = get_positional_averages(priors, pos_dict={})
     players, histories, anchors, teams, positions = {}, {}, {}, {}, {}
     for row in logs.to_dict("records"):
@@ -72,6 +81,17 @@ def run(seeds=(9000, 9001), cutoff="2024-11-05", candidate_count=12):
     if len(pool) < 182 + candidate_count:
         raise ValueError("Insufficient causally known pool for pilot")
     schedule = pd.read_parquet(paths[3])
+    if return_context:
+        if any(sha(ROOT / p) != h for p, h in hashes.items()):
+            raise RuntimeError("State-building inputs changed")
+        return {
+            "players": players,
+            "teams": teams,
+            "positions": positions,
+            "pool": pool,
+            "schedule": schedule,
+            "hashes": hashes,
+        }
     results = []
     import numpy as np
 
@@ -90,8 +110,8 @@ def run(seeds=(9000, 9001), cutoff="2024-11-05", candidate_count=12):
             players,
             schedule,
             pd.DataFrame([{"PLAYER_ID": p, "POSITION": positions[p]} for p in players]),
-            season="2024_25",
-            prior_season="2023_24",
+            season=season,
+            prior_season=previous_season(season),
             team_map=teams,
             use_positional_depth_and_injury_boost=False,
         )
