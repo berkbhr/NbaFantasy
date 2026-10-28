@@ -1,0 +1,24 @@
+{
+  "arms": {
+    "current": "no special low-role cap; existing total +10 heuristic ceiling",
+    "legacy_cap2": "if observed GP>=2 and observed MPG<10, total uplift capped at2"
+  },
+  "periods": {
+    "selection": "2024_25",
+    "assessment": "2025_26"
+  },
+  "cohorts_fixed_before_run": [
+    "all",
+    "low_role_GP2plus_MPG_under10",
+    "same_low_role_and_prior_MPG25plus"
+  ],
+  "metrics": [
+    "minute MAE",
+    "overprediction mean",
+    "underprediction mean",
+    "PTS MAE"
+  ],
+  "decision": "Same historical paired-week gates; >=1000 rows required. No automatic live policy change.",
+  "scope": "Retrospective pooled-position past-roster proxy; conditional on playing. Not a new holdout.",
+  "not_estimated": "Probability a low role is temporary vs persistent, player-specific injury return ramps, causal spillover"
+}

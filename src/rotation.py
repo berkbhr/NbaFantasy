@@ -11,7 +11,17 @@ def position_buckets(position):
     return {p for p in ("G", "F", "C") if p in value} or {"G", "F", "C"}
 
 
-def adjust_rotations(players, team_map, positions, enabled=True, game_date=None, as_of_date=None):
+def adjust_rotations(
+    players,
+    team_map,
+    positions,
+    enabled=True,
+    game_date=None,
+    as_of_date=None,
+    low_role_boost_cap=None,
+):
+    if low_role_boost_cap is not None and not 0 <= low_role_boost_cap <= 10:
+        raise ValueError("Experimental low-role boost cap must be in [0,10]")
     teams = {}
     for pid, player in players.items():
         player.expected_minutes = float(player.base_expected_minutes)
@@ -58,7 +68,18 @@ def adjust_rotations(players, team_map, positions, enabled=True, game_date=None,
                 ceiling = max(
                     base[ben], 35.5 if base[ben] >= 26 else (31.0 if base[ben] >= 20 else 25.0)
                 )
-                headroom = max(0.0, min(10.0, ceiling - base[ben]) - delta[ben])
+                # The legacy +2 rule is an explicit experimental alternative,
+                # not a calibrated physical ceiling. None preserves the current
+                # engine. Any cap is cumulative across all missing teammates.
+                beneficiary = players[ben]
+                observed_gp = int(getattr(beneficiary, "current_season_gp", 0) or 0)
+                observed_mpg = float(getattr(beneficiary, "current_season_mpg", base[ben]))
+                boost_limit = (
+                    low_role_boost_cap
+                    if low_role_boost_cap is not None and observed_gp >= 2 and observed_mpg < 10.0
+                    else 10.0
+                )
+                headroom = max(0.0, min(boost_limit, ceiling - base[ben]) - delta[ben])
                 candidates.append([ben, weight, headroom])
             # Allocate expected minutes (availability * conditional minutes).
             # Cap the pool to novel absence so observed expansions aren't duplicated.

@@ -96,6 +96,12 @@ kullanılmaz. Tam arşiv her koşuda Actions artifact'ine yeniden yüklenmez;
 artifact yalnızca küçük güncel raporları 14 gün tutar. Asıl arşiv bot
 dalında eklemeli Git dosyalarıdır.
 
-Telegram tek kısa karttır: ana kategori puanı, üç yakın kategori, en fazla
-dört kadro uyarısı ve iki alternatif hamle. Ayrıntılar raporda kalır.
+Telegram özeti haftalık oynanan/toplam/kalan maçları, dokuz kategori
+olasılığını, kadro uyarılarını ve altıya kadar alternatif hamleyi gösterir.
+Hamlelerde puan beklentisinin önce/sonra değeri, gözlenen ve model dakikası,
+sakatlık artışı varsayımı ve temel maç başı model istatistikleri yer alır.
 `reports/telegram_preview.html` gönderim yapmadan görünümü gösterir.
+
+Eski +2 düşük-rol artış sınırı `low_role_cap2` adıyla ayrı deney koludur;
+ana modelde varsayılan olarak etkinleştirilmez. Fazla ve eksik dakika
+tahmini ayrı izlenir; bu iki risk tek bir oyuncuya göre ayarlanmaz.

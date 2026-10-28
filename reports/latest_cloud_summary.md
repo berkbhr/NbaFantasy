@@ -1,40 +1,42 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-28T00:10:05.375126+00:00
+Generated: 2026-10-28T06:36:20.275185+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
-Window: 2026-10-27 – 2026-11-01
+Window: 2026-10-28 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **4.182**.
-Expected category points: **4.18 / 9**.
-Expected category wins: 4.10; ties: 0.17.
-Secondary weekly W/L/D: 38.1% / 57.6% / 4.3%.
+Objective value: **4.961**.
+Expected category points: **4.96 / 9**.
+Expected category wins: 4.87; ties: 0.18.
+Secondary weekly W/L/D: 61.8% / 33.7% / 4.5%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 38.9% | 0.6% | 60.5% |
-| REB | 61.9% | 1.3% | 36.8% |
-| AST | 88.9% | 1.1% | 10.0% |
-| STL | 61.1% | 4.4% | 34.4% |
-| BLK | 26.3% | 4.3% | 69.4% |
-| TOV | 28.0% | 3.1% | 68.9% |
-| FG3M | 14.6% | 2.0% | 83.4% |
-| FG_PCT | 50.6% | 0.0% | 49.4% |
-| FT_PCT | 39.4% | 0.0% | 60.6% |
+| PTS | 65.1% | 0.6% | 34.3% |
+| REB | 80.5% | 1.1% | 18.4% |
+| AST | 94.5% | 0.7% | 4.8% |
+| STL | 68.9% | 4.4% | 26.7% |
+| BLK | 43.0% | 5.7% | 51.3% |
+| TOV | 14.8% | 2.3% | 82.9% |
+| FG3M | 25.2% | 2.9% | 71.8% |
+| FG_PCT | 52.1% | 0.0% | 47.9% |
+| FT_PCT | 43.1% | 0.0% | 56.9% |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Δ category_points |
 |---|---|---:|
-| Ziaire Williams | Boş Yuva | +0.619 |
-| Moussa Diabaté | Boş Yuva | +0.600 |
-| Matisse Thybulle | Boş Yuva | +0.589 |
-| Keldon Johnson | Boş Yuva | +0.497 |
-| Ryan Kalkbrenner | Boş Yuva | +0.490 |
+| Moussa Diabaté | Boş Yuva | +0.508 |
+| Jay Huff | Boş Yuva | +0.500 |
+| Ziaire Williams | Boş Yuva | +0.465 |
+| Ryan Kalkbrenner | Boş Yuva | +0.460 |
+| Matisse Thybulle | Boş Yuva | +0.448 |
+| Dean Wade | Boş Yuva | +0.439 |
+| Nikola Vučević | Boş Yuva | +0.432 |
+| Royce O'Neale | Boş Yuva | +0.430 |
 
 ## Forecast active lineups
 
-- 2026-10-27: Josh Hart, Neemias Queta, Precious Achiuwa, Julian Champagnie
 - 2026-10-28: Jarrett Allen, Josh Hart, Jaxson Hayes, Tyrese Maxey, Desmond Bane, Ayo Dosunmu, Julian Champagnie, Jabari Smith Jr., James Harden
 - 2026-10-29: Jarrett Allen, Precious Achiuwa, James Harden
 - 2026-10-30: Josh Hart, Neemias Queta, Tyrese Maxey, Desmond Bane, Ayo Dosunmu, Jabari Smith Jr., Bilal Coulibaly

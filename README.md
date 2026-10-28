@@ -102,6 +102,7 @@ dört simülasyonu bu varsayımı kullanır.
 - [Önsel ve rol kalibrasyonu](reports/calibration/report.md)
 - [Prospektif kayıt ve geçici dakika kabulü](docs/PROSPECTIVE.md)
 - [Tarihsel sakatlık deneyleri ve kapsam sınırları](reports/injury_calibration/report.md)
+- [Düşük rol ile sakatlık fırsatının karşılaştırması](reports/role_opportunity/report.md)
 
 Dakika önselinin zamanla azalması **geçici kabulde**. Eski rol yöntemi ve
 spillover kapalı alternatif gerçek zaman damgalı olarak paralel saklanır.

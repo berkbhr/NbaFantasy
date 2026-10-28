@@ -1,5 +1,6 @@
 """Short HTML notification; the detailed tables stay in the report."""
 
+from collections.abc import Mapping
 from html import escape
 
 
@@ -38,6 +39,10 @@ def render_telegram(
             if objective == "category_points"
             else f"<b>Playoff ilerleme kredisi: {points:.1%}</b>"
         )
+        if objective == "category_points":
+            lines.append(
+                "Kazanılan kategori 1, beraberlik ½ puan. Bu bir beklenti; kesin skor değil."
+            )
     else:
         lines.extend(
             [
@@ -45,15 +50,25 @@ def render_telegram(
                 "Canlı skor doğrulanmadı; hafta sonu skoru değildir.",
             ]
         )
-    ties = getattr(probabilities, "ties", {})
-    critical = sorted(
-        probabilities, key=lambda c: abs(probabilities[c] + 0.5 * ties.get(c, 0) - 0.5)
-    )[:3]
-    lines.append(
-        "Yakın kategoriler · "
-        + " · ".join(f"{label(c)} %{100 * probabilities[c]:.0f}" for c in critical)
-    )
-    lines.append("Yüzdeler kategori kazanma olasılığıdır.")
+    lines.extend(["", "<b>Haftalık maçlar · oynanan / toplam</b>"])
+
+    def games(team):
+        try:
+            played, total, remaining = [
+                int(team[k]) for k in ("games_played", "total_scheduled", "games_remaining")
+            ]
+            if min(played, total, remaining) < 0 or played + remaining != total:
+                return "Kaynak maç sayıları tutarsız"
+            return f"{played} / {total} oynandı · {remaining} kalan"
+        except (KeyError, TypeError, ValueError):
+            return "Maç sayısı bilgisi yok"
+
+    snapshot = live if isinstance(live, Mapping) else {}
+    lines.append("Sen: " + games(snapshot.get("team_a", {})))
+    lines.append("Rakip: " + games(snapshot.get("team_b", {})))
+    lines.extend(["", "<b>Kategori kazanma ihtimalleri</b>"])
+    items = [f"{label(c)} %{100 * p:.0f}" for c, p in probabilities.items()]
+    lines.extend(" · ".join(items[i : i + 3]) for i in range(0, len(items), 3))
     alerts = [r for r in health if r.get("is_out") or r.get("eff_avail", 1) < 0.8]
     if alerts:
         lines.extend(["", "<b>Kadro uyarıları</b>"])
@@ -73,14 +88,46 @@ def render_telegram(
         lines.append("Canlı skor güncellenene kadar öneriler bekletiliyor.")
     elif not moves:
         lines.append("Belirgin kazanç sağlayan bir hamle görünmüyor.")
-    for row in moves[:2]:
-        unit = "kategori puanı" if objective == "category_points" else "ilerleme kredisi"
-        lines.append(
-            f"• Al: <b>{escape(str(row['add_name'])[:55])}</b>\n"
-            f"  Bırak: {escape(str(row['drop_name'])[:55])} · +{row['delta_objective_value']:.3f} {unit}"
+    for rank, row in enumerate(moves[:6], 1):
+        delta = row["delta_objective_value"]
+        baseline = row.get("base_objective_value", points)
+        after = row.get("new_objective_value", baseline + delta)
+        drop = (
+            "Boş yere ekle"
+            if row.get("drop_id") is None
+            else "Bırak: " + escape(str(row["drop_name"])[:55])
         )
+        lines.extend(["", f"<b>{rank}. Al: {escape(str(row['add_name'])[:55])}</b> · {drop}"])
+        if objective == "category_points":
+            lines.append(f"Beklenen kategori puanı: {baseline:.2f} → {after:.2f} (+{delta:.3f})")
+        else:
+            lines.append(f"Playoff ilerleme kredisi: %{baseline * 100:.1f} → %{after * 100:.1f}")
+        gp = row.get("observed_games", 0)
+        if gp:
+            lines.append(
+                f"Gözlem: {gp} maç · {row['observed_minutes']:.1f} dk/maç | Model: {row.get('projected_minutes', row['observed_minutes']):.1f} dk"
+            )
+            uplift = row.get("projected_minutes", 0) - row.get("role_base_minutes", 0)
+            if uplift >= 0.5:
+                lines.append(
+                    f"Sakatlık/rotasyon varsayımı: +{uplift:.1f} dk; doğrulanmış süre artışı değil."
+                )
+        pg = row.get("exp_stats_pg", {})
+        if all(s in pg for s in ("PTS", "REB", "AST")):
+            lines.append(
+                f"Model/maç: {pg['PTS']:.1f} sayı · {pg['REB']:.1f} rib · {pg['AST']:.1f} ast"
+            )
+        details = row.get("cat_details", [])[:2]
+        if details:
+            lines.append(
+                " · ".join(f"{label(d['cat'])} %{d['base_pct']} → %{d['new_pct']}" for d in details)
+            )
+        if "rem_games_add" in row:
+            lines.append(
+                f"Kalan NBA maçı: {row['rem_games_add']:g} · Kadro yoğunluğuna göre bazıları oynatılamayabilir."
+            )
     if len(moves) > 1:
-        lines.append("Bunlar birbirinin alternatifidir.")
+        lines.extend(["", "Hamleler birbirinin alternatifidir; kazançları toplanmaz."])
     if provisional:
         lines.extend(
             ["", "<i>Dakika güncellemesi geçici kabulde; eski yöntem paralel izleniyor.</i>"]

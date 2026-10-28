@@ -125,6 +125,28 @@ class TestModel(unittest.TestCase):
         )
         self.assertLessEqual(total, 240.000001)
 
+    def test_low_observed_role_limits_total_boost_across_multiple_injuries(self):
+        players = {1: player(1, 12.5), 2: player(2, 30), 3: player(3, 30), 4: player(4, 30)}
+        players[1].current_season_gp = 3
+        players[1].current_season_mpg = 8.0
+        for pid in (2, 3, 4):
+            players[pid].update_injury_status("OUT")
+        adjust_rotations(players, dict.fromkeys(players, 10), dict.fromkeys(players, "C"))
+        self.assertGreater(players[1].expected_minutes, 14.5)  # No automatic adoption.
+        for _ in range(2):
+            adjust_rotations(
+                players,
+                dict.fromkeys(players, 10),
+                dict.fromkeys(players, "C"),
+                low_role_boost_cap=2,
+            )
+            self.assertLessEqual(players[1].expected_minutes, 14.5)
+        players[1].current_season_mpg = 20
+        adjust_rotations(
+            players, dict.fromkeys(players, 10), dict.fromkeys(players, "C"), low_role_boost_cap=2
+        )
+        self.assertGreater(players[1].expected_minutes, 14.5)
+
     def test_shared_rate_uncertainty_survives_week_aggregation(self):
         bp = player()
         bp.availability_rate = 1

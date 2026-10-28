@@ -103,6 +103,8 @@ def future_rows(assistant, engine, now):
                         ),
                         "base_minutes": bp.base_expected_minutes,
                         "baseline_availability": bp.availability_rate,
+                        "observed_gp": int(getattr(bp, "current_season_gp", 0)),
+                        "observed_mpg": float(getattr(bp, "current_season_mpg", 0)),
                         "prediction": prediction,
                     }
                 )
@@ -163,6 +165,9 @@ def record_run(include_recommendations=True, fetch_results=False):
     engine.use_positional_depth_and_injury_boost = False
     spillover_off = future_rows(assistant, engine, cutoff)
     engine.use_positional_depth_and_injury_boost = enabled
+    engine.low_role_boost_cap = 2
+    low_role_cap2 = future_rows(assistant, engine, cutoff)
+    engine.low_role_boost_cap = None
     stamp = cutoff.strftime("%Y%m%dT%H%M%S%fZ")
     bundle = {
         "schema_version": 2,
@@ -177,6 +182,7 @@ def record_run(include_recommendations=True, fetch_results=False):
             "primary": primary_rows,
             "shadow": shadow_rows,
             "spillover_off": spillover_off,
+            "low_role_cap2": low_role_cap2,
         },
         "role_status": "provisional",
         "horizon": "next_ET_calendar_day",
@@ -300,6 +306,7 @@ def monitor():
     """Descriptive paired metrics; no repeated daily significance tests."""
     selected = {}
     spill_selected = {}
+    cap_selected = {}
     for path in sorted((ARCHIVE / "predictions").glob("*.json.gz")):
         bundle = read_record(path)
         outcomes = sorted(
@@ -314,8 +321,18 @@ def monitor():
             (r["player_id"], r["game_id"]): r
             for r in bundle["player_predictions"].get("spillover_off", [])
         }
+        capped = {
+            (r["player_id"], r["game_id"]): r
+            for r in bundle["player_predictions"].get("low_role_cap2", [])
+        }
         for pred in bundle["player_predictions"]["primary"]:
             key = (pred["player_id"], pred["game_id"])
+            if key not in cap_selected and key in labels and key in capped:
+                cap_selected[key] = {
+                    "prediction": pred,
+                    "capped": capped[key],
+                    "label": labels[key],
+                }
             if key not in spill_selected and key in labels and key in off:
                 spill_selected[key] = {"prediction": pred, "off": off[key], "label": labels[key]}
             if key in selected or key not in labels or key not in shadow:
@@ -351,6 +368,24 @@ def monitor():
                 for r in spill
             ) / len(spill)
     availability = [r for r in selected.values() if r["label"].get("availability_evaluable")]
+    low_role = [
+        r
+        for r in cap_selected.values()
+        if r["label"]["played"]
+        and r["prediction"].get("observed_gp", 0) >= 2
+        and r["prediction"].get("observed_mpg", 20) < 10
+    ]
+    result["low_role_cap_descriptive"] = {"n": len(low_role), "adoption": "none"}
+    for arm in ("prediction", "capped"):
+        if low_role:
+            error = [
+                r[arm]["prediction"]["MIN"]["mean"] - r["label"]["actual"]["MIN"] for r in low_role
+            ]
+            result["low_role_cap_descriptive"][arm] = {
+                "minute_mae": sum(abs(v) for v in error) / len(error),
+                "overprediction": sum(max(v, 0) for v in error) / len(error),
+                "underprediction": sum(max(-v, 0) for v in error) / len(error),
+            }
     result["availability_descriptive"] = {"n": len(availability)}
     if availability:
         result["availability_descriptive"]["brier"] = sum(

@@ -171,10 +171,44 @@ Strain"""
             live=True,
         )
         self.assertIn("&lt;b&gt;Fake&lt;/b&gt;", message)
-        self.assertEqual(message.count("Al:"), 2)
-        self.assertLess(len(message), 2000)
+        self.assertEqual(message.count("Al:"), 6)
+        self.assertLess(len(message), 3900)
         self.assertNotIn("<pre>", message)
         self.assertIn("alternatifidir", message)
+
+    def test_notification_explains_games_and_marginal_category_points(self):
+        probs = CategoryProbabilities({"PTS": 0.5, "REB": 0.65})
+        live = {
+            "team_a": {"games_played": 7, "total_scheduled": 41, "games_remaining": 34},
+            "team_b": {"games_played": 9, "total_scheduled": 39, "games_remaining": 30},
+        }
+        message = render_telegram(
+            now=datetime.now(timezone.utc),
+            opponent="Opponent",
+            points=4.18,
+            probabilities=probs,
+            health=[],
+            live=live,
+            recommendations=[
+                {
+                    "add_name": "Example",
+                    "drop_name": "Boş Yuva",
+                    "drop_id": None,
+                    "base_objective_value": 4.18,
+                    "new_objective_value": 4.661,
+                    "delta_objective_value": 0.481,
+                    "observed_games": 3,
+                    "observed_minutes": 8.0,
+                    "projected_minutes": 20.2,
+                    "role_base_minutes": 12.5,
+                }
+            ],
+        )
+        self.assertIn("7 / 41 oynandı · 34 kalan", message)
+        self.assertIn("9 / 39 oynandı · 30 kalan", message)
+        self.assertIn("4.18 → 4.66 (+0.481)", message)
+        self.assertIn("beraberlik ½", message)
+        self.assertIn("doğrulanmış süre artışı değil", message)
 
 
 if __name__ == "__main__":

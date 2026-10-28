@@ -15,6 +15,10 @@
   "spillover_descriptive": {
     "n": 0
   },
+  "low_role_cap_descriptive": {
+    "n": 0,
+    "adoption": "none"
+  },
   "availability_descriptive": {
     "n": 0
   }

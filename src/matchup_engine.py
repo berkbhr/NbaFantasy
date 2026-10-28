@@ -156,6 +156,7 @@ class MatchupEngine:
         team_map=None,
         protected_player_ids=None,
         objective="category_points",
+        low_role_boost_cap=None,
     ):
         self.players = bayesian_players_dict
         self.schedule = df_schedule.copy() if df_schedule is not None else pd.DataFrame()
@@ -193,6 +194,7 @@ class MatchupEngine:
         self.availability_weighted_draft_lineup = availability_weighted_draft_lineup
         self.use_dynamic_add_drop = use_dynamic_add_drop
         self.use_positional_depth_and_injury_boost = use_positional_depth_and_injury_boost
+        self.low_role_boost_cap = low_role_boost_cap
         if not 0 <= draw_value <= 1 or not 0 <= availability_correlation <= 1:
             raise ValueError("Invalid utility/availability configuration")
         self.draw_value, self.availability_correlation = draw_value, availability_correlation
@@ -283,6 +285,7 @@ class MatchupEngine:
             enabled=self.use_positional_depth_and_injury_boost and use_live_injuries,
             game_date=game_date,
             as_of_date=as_of_date,
+            low_role_boost_cap=self.low_role_boost_cap,
         )
         return self.last_injury_boost_summary
 
@@ -301,6 +304,7 @@ class MatchupEngine:
             projected_minutes=target_minutes, current_date=current_date
         )
         means = {s: prediction[s]["mean"] for s in COUNT_STATS}
+        means["MIN"] = prediction["MIN"]["mean"]
         variances = {s: prediction[s]["variance"] for s in COUNT_STATS}
         for s in COUNT_STATS:
             variances[s + "_shared"] = prediction[s]["shared_covariance"]
@@ -892,6 +896,17 @@ class MatchupEngine:
                     if drop is not None and dates
                     else (3.35 if drop is not None else 0),
                     "fa_avail": avail,
+                    "observed_games": int(getattr(self.players[pid], "current_season_gp", 0)),
+                    "observed_minutes": float(getattr(self.players[pid], "current_season_mpg", 0)),
+                    "role_base_minutes": float(self.players[pid].base_expected_minutes),
+                    "projected_minutes": float(projection["MIN"]),
+                    "prior_role_minutes": float(
+                        getattr(
+                            self.players[pid],
+                            "prior_expected_minutes",
+                            self.players[pid].base_expected_minutes,
+                        )
+                    ),
                     "is_waiver": info is not None,
                     "waiver_clear_date": clear,
                     "waiver_display": info.get("display", "Waiver")

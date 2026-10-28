@@ -5,6 +5,7 @@
   "primary": "adaptive_anchor",
   "shadow": "recent_blend",
   "spillover_shadow": "Same primary player state, injury minute redistribution disabled; descriptive until fixed review",
+  "low_role_shadow": "Legacy cap2 heuristic is a separate uncalibrated alternative. Primary policy unchanged; no probability weights or automatic adoption.",
   "target": "Per-player conditional minutes and category production; availability separately",
   "evaluation": "Use earliest recorded prediction per player-game-horizon; do not count repeated runs as independent samples",
   "horizon": "Next calendar day in America/New_York; same-day games excluded until exact tipoff timestamps are available",

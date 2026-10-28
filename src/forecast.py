@@ -149,6 +149,7 @@ def build_local_forecast(
             opp_actual_stats=b,
             waivers_dict=waivers,
             adds_used=settings.adds_used_this_week,
+            top_k=8,
         )
     elif not live:
         notes.append(

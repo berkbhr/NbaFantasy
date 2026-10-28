@@ -194,7 +194,7 @@ def paired_gate(base, candidate, cohort="status"):
     }
 
 
-def spillover_replay(root, season, reports):
+def spillover_replay(root, season, reports, low_role_boost_cap=None):
     """Known past teammates only, pooled positions; target boxscore never builds roster.
 
     This proxy cannot establish performance of live position-aware spillover.
@@ -255,7 +255,14 @@ def spillover_replay(root, season, reports):
             # At least 8 previously known teammates, no inference from today's lineup.
             valid_teams = {tid for tid, ids in pools.items() if len(ids) >= 8 and tid in covered}
             base_minutes = {pid: bp.base_expected_minutes for pid, bp in eligible.items()}
-            adjust_rotations(eligible, teams, {}, game_date=day, as_of_date=day)
+            adjust_rotations(
+                eligible,
+                teams,
+                {},
+                game_date=day,
+                as_of_date=day,
+                low_role_boost_cap=low_role_boost_cap,
+            )
             budget_minutes = {}
             for tid, ids in pools.items():
                 total = sum(
@@ -300,6 +307,13 @@ def spillover_replay(root, season, reports):
                             "game_id": str(row["GAME_ID"]),
                             "status": "25+" if base_minutes[pid] >= 25 else "<25",
                             "primary": abs(row["MIN"] - minute),
+                            "predicted_minutes": minute,
+                            "actual_minutes": float(row["MIN"]),
+                            "observed_gp": int(getattr(eligible[pid], "current_season_gp", 0)),
+                            "observed_mpg": float(getattr(eligible[pid], "current_season_mpg", 0)),
+                            "prior_mpg": prior.get(pid, {}).get("MIN", 0)
+                            / max(1, prior.get(pid, {}).get("GP", 0)),
+                            "learned_role_minutes": base_minutes[pid],
                             "companion": abs(row["PTS"] - rate * minute),
                         }
                     )
