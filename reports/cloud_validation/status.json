@@ -1,6 +1,131 @@
 {
-  "checked_at": "2026-10-28T07:07:55.714264+00:00",
+  "checked_at": "2026-10-28T12:43:58.869192+00:00",
   "runs": [
+    {
+      "id": 40689582772,
+      "name": "NBA Fantasy Autonomous Cloud Sync & Notification Engine",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b9e3e93d57d450fa267b912dc244ea74149350df",
+      "html_url": "https://github.com/berkbhr/NbaFantasy/actions/runs/40689582772",
+      "created_at": "2026-10-28T12:39:14Z",
+      "jobs": [
+        {
+          "name": "autonomous-sync",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout Repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Set up Python 3.11",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install Python Dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Restore runtime history and season cache",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run NBA Fantasy Autonomous Cloud Sync & Notifications",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload Latest Executive Report Artifact",
+              "conclusion": "success"
+            },
+            {
+              "name": "Persist runtime history on nba-fantasy-bot",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Set up Python 3.11",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout Repository",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "logs_http_status": 200,
+      "evidence": [
+        "2026-10-28T12:41:58.1195977Z   Archived prospective forecast: 20261028T124149015310Z",
+        "2026-10-28T12:41:58.1196459Z   [TELEGRAM] API accepted 1 message part(s); forecast=20261028T124149015310Z",
+        "2026-10-28T12:41:58.1195974Z   Archived prospective forecast: 20261028T124149015310Z",
+        "2026-10-28T12:41:58.1196456Z   [TELEGRAM] API accepted 1 message part(s); forecast=20261028T124149015310Z"
+      ]
+    },
+    {
+      "id": 40689480842,
+      "name": "Offline model checks",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "b9e3e93d57d450fa267b912dc244ea74149350df",
+      "html_url": "https://github.com/berkbhr/NbaFantasy/actions/runs/40689480842",
+      "created_at": "2026-10-28T12:38:29Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m pip install -r requirements-dev.txt",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m unittest discover -s tests -p 'test_*.py'",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m ruff check src tests",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python -m ruff format --check src tests",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": 40645687420,
       "name": "Offline model checks",
@@ -384,153 +509,51 @@
         "2026-10-27T16:00:50.3426031Z \u001b[36;1m  echo \"Changes pushed to branch nba-fantasy-bot successfully.\"\u001b[0m",
         "2026-10-27T16:00:52.2921191Z Changes pushed to branch nba-fantasy-bot successfully."
       ]
-    },
-    {
-      "id": 40504271678,
-      "name": "NBA Fantasy Autonomous Cloud Sync & Notification Engine",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "629d5a42a6ec39bd34a19c63c3a15f6c2ac06470",
-      "html_url": "https://github.com/berkbhr/NbaFantasy/actions/runs/40504271678",
-      "created_at": "2026-10-27T12:30:20Z",
-      "jobs": [
-        {
-          "name": "autonomous-sync",
-          "conclusion": "success",
-          "steps": [
-            {
-              "name": "Set up job",
-              "conclusion": "success"
-            },
-            {
-              "name": "Checkout Repository",
-              "conclusion": "success"
-            },
-            {
-              "name": "Set up Python 3.11",
-              "conclusion": "success"
-            },
-            {
-              "name": "Install Python Dependencies",
-              "conclusion": "success"
-            },
-            {
-              "name": "Restore Cached Current-Season Game Logs (fallback if stats.nba.com throttles the runner)",
-              "conclusion": "success"
-            },
-            {
-              "name": "Run NBA Fantasy Autonomous Cloud Sync & Notifications",
-              "conclusion": "success"
-            },
-            {
-              "name": "Upload Latest Executive Report Artifact",
-              "conclusion": "success"
-            },
-            {
-              "name": "Commit & Push Updated State to Dedicated 'nba-fantasy-bot' Branch",
-              "conclusion": "success"
-            },
-            {
-              "name": "Post Set up Python 3.11",
-              "conclusion": "success"
-            },
-            {
-              "name": "Post Checkout Repository",
-              "conclusion": "success"
-            },
-            {
-              "name": "Complete job",
-              "conclusion": "success"
-            }
-          ]
-        }
-      ],
-      "logs_http_status": 200,
-      "evidence": [
-        "2026-10-27T12:32:45.4956259Z   [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!",
-        "2026-10-27T12:32:45.4956854Z   [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!",
-        "2026-10-27T12:32:47.0022074Z \u001b[36;1m  echo \"Changes pushed to branch nba-fantasy-bot successfully.\"\u001b[0m",
-        "2026-10-27T12:32:49.0996401Z Changes pushed to branch nba-fantasy-bot successfully."
-      ]
-    },
-    {
-      "id": 40498736198,
-      "name": "NBA Fantasy Autonomous Cloud Sync & Notification Engine",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "629d5a42a6ec39bd34a19c63c3a15f6c2ac06470",
-      "html_url": "https://github.com/berkbhr/NbaFantasy/actions/runs/40498736198",
-      "created_at": "2026-10-27T11:47:07Z",
-      "jobs": [
-        {
-          "name": "autonomous-sync",
-          "conclusion": "success",
-          "steps": [
-            {
-              "name": "Set up job",
-              "conclusion": "success"
-            },
-            {
-              "name": "Checkout Repository",
-              "conclusion": "success"
-            },
-            {
-              "name": "Set up Python 3.11",
-              "conclusion": "success"
-            },
-            {
-              "name": "Install Python Dependencies",
-              "conclusion": "success"
-            },
-            {
-              "name": "Restore Cached Current-Season Game Logs (fallback if stats.nba.com throttles the runner)",
-              "conclusion": "success"
-            },
-            {
-              "name": "Run NBA Fantasy Autonomous Cloud Sync & Notifications",
-              "conclusion": "success"
-            },
-            {
-              "name": "Upload Latest Executive Report Artifact",
-              "conclusion": "success"
-            },
-            {
-              "name": "Commit & Push Updated State to Dedicated 'nba-fantasy-bot' Branch",
-              "conclusion": "success"
-            },
-            {
-              "name": "Post Set up Python 3.11",
-              "conclusion": "success"
-            },
-            {
-              "name": "Post Checkout Repository",
-              "conclusion": "success"
-            },
-            {
-              "name": "Complete job",
-              "conclusion": "success"
-            }
-          ]
-        }
-      ],
-      "logs_http_status": 200,
-      "evidence": [
-        "2026-10-27T11:49:39.9313993Z   [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!",
-        "2026-10-27T11:49:39.9314481Z   [TELEGRAM] Zenginlestirilmis bildirim basariyla gonderildi!",
-        "2026-10-27T11:49:41.1870876Z \u001b[36;1m  echo \"Changes pushed to branch nba-fantasy-bot successfully.\"\u001b[0m",
-        "2026-10-27T11:49:43.2306196Z Changes pushed to branch nba-fantasy-bot successfully."
-      ]
     }
   ],
   "runtime_archive": {
-    "branch_revision": "7843b2e55d9c461944692cf4b6e8b5aee1b120c4",
+    "branch_revision": "30b5e5f3dfb9916d7f875751d735899c1a5cb192",
     "predictions": [
       "data/archive/predictions/20261027T234228400397Z.json.gz",
       "data/archive/predictions/20261028T000251892912Z.json.gz",
       "data/archive/predictions/20261028T001005375126Z.json.gz",
-      "data/archive/predictions/20261028T021725336555Z.json.gz"
+      "data/archive/predictions/20261028T021725336555Z.json.gz",
+      "data/archive/predictions/20261028T063620275185Z.json.gz",
+      "data/archive/predictions/20261028T123426057498Z.json.gz",
+      "data/archive/predictions/20261028T124149015310Z.json.gz"
     ],
     "outcome_count": 0,
-    "injury_report_count": 2
-  }
+    "injury_report_count": 3,
+    "prediction_blobs": {
+      "data/archive/predictions/20261027T234228400397Z.json.gz": "4b5a55163c8f7b495cd85475b28a84552e659950",
+      "data/archive/predictions/20261028T000251892912Z.json.gz": "deaf5307a6bc2163973078be972cd23ca6dbebf9",
+      "data/archive/predictions/20261028T001005375126Z.json.gz": "469fb3d1b98d8b69d4cdc8cf4dbae7df6abb91da",
+      "data/archive/predictions/20261028T021725336555Z.json.gz": "7e97511f27309c28ad3351238ea0c747349db0e7",
+      "data/archive/predictions/20261028T063620275185Z.json.gz": "b5ad47011a8c0f325aa0062ebcc4cec201add391",
+      "data/archive/predictions/20261028T123426057498Z.json.gz": "2b532e1a7195b9be9d21a0d0fd440d5c20ebde13",
+      "data/archive/predictions/20261028T124149015310Z.json.gz": "d5fc161ecd2c46dd986c02c9a3ce48343bd87d05"
+    },
+    "notification_receipt_count": 1
+  },
+  "old_prediction_blobs_preserved": true,
+  "latest_receipt": {
+    "forecast_id": "20261028T124149015310Z",
+    "status": "api_accepted",
+    "receipts": [
+      {
+        "part": 1,
+        "message_id": 48,
+        "api_date": 1793191317,
+        "accepted_at": "2026-10-28T12:41:58.106667+00:00",
+        "text_sha256": "a33f63899157401c4dcff76e7cc4f57bfcf521176e696d9d375036b553efeb45"
+      }
+    ],
+    "prediction_sha256": "ecf36b5e4cf95ead67f626fe4de6a72eece1eb837e89581b1e27e5794f48adc2",
+    "rendered_text_sha256": "a33f63899157401c4dcff76e7cc4f57bfcf521176e696d9d375036b553efeb45",
+    "source_revision": "b9e3e93d57d450fa267b912dc244ea74149350df",
+    "renderer_sha256_LF": "920d6ab035858c2912d642931e67743df991afbe809a9e30ffdbd8f2b062c54b"
+  },
+  "renderer_version_matches": true,
+  "receipt_prediction_hash_matches": true,
+  "notification_reproduces_from_archived_forecast": true
 }
