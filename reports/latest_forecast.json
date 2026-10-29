@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-29T10:32:40.827473+00:00",
+  "forecast_at": "2026-10-29T13:27:22.319302+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -1378,9 +1378,9 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "2e720850999414f064b13a498231523bcd38e10f5a212ebc3c599f812c7050a2",
+    "data/processed/league_state.json": "0a454ab0cd0f4b3ccbfec6c1e88190875626daa1cf8a47f3b1e58d0df979014a",
     "data/processed/live_matchup.json": "a6905d67526cfe56f968b7f5accf0e6db255c0896686b0e913987047357cba01",
-    "data/processed/injuries.db": "ed4664537c88af7dccd37e3128a759e19060165f618e4801f1e2bed30f8e5ae5",
+    "data/processed/injuries.db": "9a84f555dd858ffd3b1aa03f14d7d0996f994d6bb210e3d6b0a0495f12fa2a3b",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
     "data/processed/schedule_2026_27.parquet": "513cc75dbf1fb458723505126b90261584d9ad44f11ce6df84d27ea03928f5dc",
@@ -3664,13 +3664,397 @@
   },
   "forecast_changes": {
     "since_previous": {
-      "status": "previous_detail_unavailable",
-      "previous_at": "2026-10-28T22:44:15.166676+00:00"
+      "status": "explained",
+      "previous_at": "2026-10-29T10:32:40.827473+00:00",
+      "method": "Sequential: resolve old planned games at expected scores, replace with actual scores, then update remaining outlook. Order-dependent arithmetic attribution, not causal identification.",
+      "player_note": "Player examples use planned lineup NBA boxscores; actual Yahoo daily starting slots may differ.",
+      "categories": [
+        {
+          "category": "PTS",
+          "before": 0.2342334796820747,
+          "after": 0.2342334796820747,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "REB",
+          "before": 0.7083560395591476,
+          "after": 0.7083560395591476,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "AST",
+          "before": 0.9887138840417531,
+          "after": 0.9887138840417531,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "STL",
+          "before": 0.9775096298064004,
+          "after": 0.9775096298064004,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "BLK",
+          "before": 0.27519400878478106,
+          "after": 0.27519400878478106,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "TOV",
+          "before": 0.03181880166508217,
+          "after": 0.03181880166508217,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "FG3M",
+          "before": 0.48654335225727,
+          "after": 0.48654335225727,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 28.72896410526871,
+              "new_minutes": 28.72896410526871,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.03627494511911,
+              "new_minutes": 20.03627494511911,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "FG_PCT",
+          "before": 0.3257090957267782,
+          "after": 0.3257090957267782,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0
+        },
+        {
+          "category": "FT_PCT",
+          "before": 0.8962514639523316,
+          "after": 0.8962514639523316,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0
+        }
+      ]
     },
     "since_first_record": {
       "status": "unverified_score"
     },
     "first_record_at": "2026-10-27T23:42:28.400397+00:00"
   },
-  "prospective_forecast_id": "20261029T103240827473Z"
+  "prospective_forecast_id": "20261029T132722319302Z"
 }

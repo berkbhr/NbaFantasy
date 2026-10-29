@@ -1,6 +1,6 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-29T10:32:40.827473+00:00
+Generated: 2026-10-29T13:27:22.319302+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-29 – 2026-11-01
 
@@ -21,6 +21,12 @@ Secondary weekly W/L/D: 65.0% / 30.7% / 4.3%.
 | FG3M | 48.7% | 4.2% | 47.1% |
 | FG_PCT | 32.6% | 0.0% | 67.4% |
 | FT_PCT | 89.6% | 0.0% | 10.4% |
+
+## Why the weekly forecast changed
+
+Sequential attribution from the previous archived forecast; not causal identification.
+
+Player examples are NBA boxscores for the old planned lineup; actual Yahoo starters can differ.
 
 ## Realized scores and remaining projections
 
