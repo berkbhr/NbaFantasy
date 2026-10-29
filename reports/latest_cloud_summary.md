@@ -1,26 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-29T10:20:47.781177+00:00
-Matchup: **Berk's Best Team vs SILE BULLS**
+Generated: 2026-10-29T10:32:40.827473+00:00
+Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-29 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.282**.
-Expected category points: **5.28 / 9**.
-Expected category wins: 5.16; ties: 0.24.
-Secondary weekly W/L/D: 69.6% / 25.4% / 5.0%.
+Objective value: **4.995**.
+Expected category points: **5.00 / 9**.
+Expected category wins: 4.92; ties: 0.14.
+Secondary weekly W/L/D: 65.0% / 30.7% / 4.3%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 70.7% | 0.7% | 28.6% |
-| REB | 88.3% | 0.9% | 10.8% |
-| AST | 25.7% | 2.2% | 72.1% |
-| STL | 48.0% | 5.6% | 46.4% |
-| BLK | 74.4% | 5.7% | 19.9% |
-| TOV | 55.6% | 4.2% | 40.2% |
-| FG3M | 41.0% | 4.3% | 54.6% |
-| FG_PCT | 71.4% | 0.0% | 28.6% |
-| FT_PCT | 41.1% | 0.0% | 58.9% |
+| PTS | 23.4% | 0.6% | 76.0% |
+| REB | 70.8% | 1.6% | 27.6% |
+| AST | 98.9% | 0.2% | 0.9% |
+| STL | 97.8% | 0.7% | 1.6% |
+| BLK | 27.5% | 6.0% | 66.5% |
+| TOV | 3.2% | 0.9% | 95.9% |
+| FG3M | 48.7% | 4.2% | 47.1% |
+| FG_PCT | 32.6% | 0.0% | 67.4% |
+| FT_PCT | 89.6% | 0.0% | 10.4% |
 
 ## Realized scores and remaining projections
 
@@ -28,19 +28,26 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 0 / 0 | 268.53 / 241.00 | 49.53 |
-| REB | 0 / 0 | 108.14 / 82.80 | 20.85 |
-| AST | 0 / 0 | 57.11 / 66.33 | 14.92 |
-| STL | 0 / 0 | 19.53 / 19.39 | 7.08 |
-| BLK | 0 / 0 | 13.21 / 9.23 | 5.30 |
-| TOV | 0 / 0 | 28.58 / 30.37 | 9.21 |
-| FG3M | 0 / 0 | 26.95 / 28.51 | 9.10 |
+| PTS | 206 / 285 | 268.53 / 227.12 | 52.55 |
+| REB | 109 / 119 | 108.14 / 85.73 | 21.71 |
+| AST | 54 / 39 | 57.11 / 40.32 | 13.72 |
+| STL | 26 / 17 | 19.53 / 14.67 | 6.67 |
+| BLK | 15 / 19 | 13.21 / 12.19 | 5.82 |
+| TOV | 26 / 16 | 28.58 / 22.95 | 8.69 |
+| FG3M | 30 / 28 | 26.95 / 28.77 | 9.50 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Eligibility | Δ category_points | Conservative ranking gain |
 |---|---|---|---:|---:|
-| No eligible recommendation | — | — | — | — |
+| Jay Huff | Jaxson Hayes | Waiver: Oct 30 | +0.322 | +0.265 |
+| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.160 | +0.160 |
+| Isaiah Jackson | Jaxson Hayes | Waiver: Oct 30 | +0.136 | +0.136 |
+| Jarace Walker | Jaxson Hayes | FA | +0.153 | +0.134 |
+| Isaiah Stewart | Jaxson Hayes | FA | +0.116 | +0.116 |
+| Jeremiah Fears | Jaxson Hayes | FA | +0.106 | +0.106 |
+| Collin Sexton | Jaxson Hayes | FA | +0.105 | +0.098 |
+| Adem Bona | Jaxson Hayes | FA | +0.117 | +0.095 |
 
 ## Forecast active lineups
 
@@ -51,8 +58,6 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 ## Assumptions and data quality
 
-- NBA schedule clock predates current Eastern day; refresh schedule
-- No valid live scoreboard: totals describe remaining games only; in-week add/drop recommendations withheld.
 - Local caches only; no data fetched and no notifications sent.
 - Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.
 - Return dates, rotations and future lineup choices remain model assumptions.
