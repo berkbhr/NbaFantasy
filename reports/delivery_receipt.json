@@ -1,17 +1,17 @@
 {
-  "forecast_id": "20261029T132722319302Z",
+  "forecast_id": "20261029T183627075278Z",
   "status": "api_accepted",
   "receipts": [
     {
       "part": 1,
-      "message_id": 59,
-      "api_date": 1793280454,
-      "accepted_at": "2026-10-29T13:27:34.995219+00:00",
-      "text_sha256": "ff0bc431e7d85c220dd9435e2eaff8da5aed11061f2a2c6f1ea30132c92ce304"
+      "message_id": 60,
+      "api_date": 1793298999,
+      "accepted_at": "2026-10-29T18:36:39.777929+00:00",
+      "text_sha256": "9ef347c9f06cc1791bfa37de16ca757614b5bb9a743ae3166fcff0df34bf4994"
     }
   ],
-  "prediction_sha256": "65afd9b4dbf888641b0cf0c37c367099e5d1af0dfc4f4031762463d8e24a0715",
-  "rendered_text_sha256": "ff0bc431e7d85c220dd9435e2eaff8da5aed11061f2a2c6f1ea30132c92ce304",
+  "prediction_sha256": "4706143686af2687b99269c13bf5678aa74902f0499f106045e58fa61a17f73f",
+  "rendered_text_sha256": "9ef347c9f06cc1791bfa37de16ca757614b5bb9a743ae3166fcff0df34bf4994",
   "source_revision": "07a79e0cddc4e7df4af2555d98a2006d186023d2",
   "renderer_sha256_LF": "b21b6c9f7addda6227dede6b8e17c9ea5e3ce5f44244703b1e43306783ef7108"
 }

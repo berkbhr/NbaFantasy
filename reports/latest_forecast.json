@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-29T13:27:22.319302+00:00",
+  "forecast_at": "2026-10-29T18:36:27.075278+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -92,51 +92,51 @@
     "PTS": {
       "my_actual": 206.0,
       "opponent_actual": 285.0,
-      "my_remaining_mean": 268.5269882921063,
-      "opponent_remaining_mean": 227.12100317879617,
-      "difference_sd": 52.54523248347625
+      "my_remaining_mean": 268.3367360870633,
+      "opponent_remaining_mean": 228.78839790092502,
+      "difference_sd": 52.71402504369262
     },
     "REB": {
       "my_actual": 109.0,
       "opponent_actual": 119.0,
-      "my_remaining_mean": 108.13613089524591,
-      "opponent_remaining_mean": 85.72578822894974,
-      "difference_sd": 21.710888891248533
+      "my_remaining_mean": 108.14218748403394,
+      "opponent_remaining_mean": 86.28410439196358,
+      "difference_sd": 21.800787393867168
     },
     "AST": {
       "my_actual": 54.0,
       "opponent_actual": 39.0,
-      "my_remaining_mean": 57.11032071268616,
-      "opponent_remaining_mean": 40.32144196956294,
-      "difference_sd": 13.719592640034302
+      "my_remaining_mean": 56.804550088276784,
+      "opponent_remaining_mean": 40.590705535516065,
+      "difference_sd": 13.699724314108956
     },
     "STL": {
       "my_actual": 26.0,
       "opponent_actual": 17.0,
-      "my_remaining_mean": 19.533862867137394,
-      "opponent_remaining_mean": 14.669903635605067,
-      "difference_sd": 6.66586647043953
+      "my_remaining_mean": 19.532526102167054,
+      "opponent_remaining_mean": 14.79460277563686,
+      "difference_sd": 6.683321096659347
     },
     "BLK": {
       "my_actual": 15.0,
       "opponent_actual": 19.0,
-      "my_remaining_mean": 13.213454856774021,
-      "opponent_remaining_mean": 12.188719674944839,
-      "difference_sd": 5.819471269251038
+      "my_remaining_mean": 13.215884947933962,
+      "opponent_remaining_mean": 12.327600868424124,
+      "difference_sd": 5.844029757006956
     },
     "TOV": {
       "my_actual": 26.0,
       "opponent_actual": 16.0,
-      "my_remaining_mean": 28.575127092480088,
-      "opponent_remaining_mean": 22.94984906731524,
-      "difference_sd": 8.694229926181501
+      "my_remaining_mean": 28.45558296908176,
+      "opponent_remaining_mean": 23.173285997462635,
+      "difference_sd": 8.707053542562102
     },
     "FG3M": {
       "my_actual": 30.0,
       "opponent_actual": 28.0,
-      "my_remaining_mean": 26.947973775310913,
-      "opponent_remaining_mean": 28.768491957479554,
-      "difference_sd": 9.500434617294475
+      "my_remaining_mean": 26.88573538040658,
+      "opponent_remaining_mean": 28.939719086675694,
+      "difference_sd": 9.509937441479694
     }
   },
   "rotation_policy": {
@@ -290,85 +290,85 @@
   "opponent": "Mordor Tulums",
   "phase": "regular_season",
   "objective": "category_points",
-  "objective_value": 4.995117682421677,
-  "expected_category_points": 4.995117682421677,
-  "expected_category_wins": 4.924329755475618,
-  "expected_category_ties": 0.1415758538921153,
-  "win": 0.6495381665945676,
-  "loss": 0.307111533625207,
-  "draw": 0.04335029978022567,
+  "objective_value": 4.961480409000002,
+  "expected_category_points": 4.961480409000002,
+  "expected_category_wins": 4.8905468284247435,
+  "expected_category_ties": 0.14186716115051648,
+  "win": 0.6372886534960945,
+  "loss": 0.31877689610148063,
+  "draw": 0.043934450402424725,
   "categories": {
     "PTS": {
-      "win": 0.2342334796820747,
-      "tie": 0.005877864202672889,
-      "loss": 0.7598886561152525
+      "win": 0.22425711608774018,
+      "tie": 0.005719437305545139,
+      "loss": 0.7700234466067146
     },
     "REB": {
-      "win": 0.7083560395591476,
-      "tie": 0.0156046591484571,
-      "loss": 0.2760393012923953
+      "win": 0.6988145829944312,
+      "tie": 0.01578214888851126,
+      "loss": 0.2854032681170575
     },
     "AST": {
-      "win": 0.9887138840417531,
-      "tie": 0.0019869792464775864,
-      "loss": 0.009299136711769325
+      "win": 0.9875171026207049,
+      "tie": 0.0021743993821054467,
+      "loss": 0.010308497997189641
     },
     "STL": {
-      "win": 0.9775096298064004,
-      "tie": 0.00690368217581796,
-      "loss": 0.015586688017781602
+      "win": 0.9761897966645434,
+      "tie": 0.007239519408575739,
+      "loss": 0.016570683926880842
     },
     "BLK": {
-      "win": 0.27519400878478106,
-      "tie": 0.060099727170140005,
-      "loss": 0.6647062640450789
+      "win": 0.26828171762038455,
+      "tie": 0.059190739238703216,
+      "loss": 0.6725275431409122
     },
     "TOV": {
-      "win": 0.03181880166508217,
-      "tie": 0.009137798423667798,
-      "loss": 0.95904339991125
+      "win": 0.03494772863949476,
+      "tie": 0.009830868364789191,
+      "loss": 0.955221402995716
     },
     "FG3M": {
-      "win": 0.48654335225727,
-      "tie": 0.0419651435248819,
-      "loss": 0.47149150421784813
+      "win": 0.4767734969324565,
+      "tie": 0.04193004856228649,
+      "loss": 0.481296454505257
     },
     "FG_PCT": {
-      "win": 0.3257090957267782,
+      "win": 0.32831869118501444,
       "tie": 0.0,
-      "loss": 0.6742909042732218
+      "loss": 0.6716813088149856
     },
     "FT_PCT": {
-      "win": 0.8962514639523316,
-      "tie": 5.551115123125783e-17,
-      "loss": 0.10374853604766837
+      "win": 0.8954465956799733,
+      "tie": 0.0,
+      "loss": 0.10455340432002669
     }
   },
   "my_projected_stats": {
-    "PTS": 474.5269882921063,
-    "REB": 217.1361308952459,
-    "AST": 111.11032071268616,
-    "STL": 45.533862867137394,
-    "BLK": 28.21345485677402,
-    "TOV": 54.57512709248009,
-    "FG3M": 56.94797377531091,
-    "FGM": 169.1320782907955,
-    "FGA": 363.71591855491454,
-    "FTM": 78.94927879901093,
-    "FTA": 96.40698277637682
+    "PTS": 474.3367360870633,
+    "REB": 217.14218748403394,
+    "AST": 110.80455008827678,
+    "STL": 45.532526102167054,
+    "BLK": 28.21588494793396,
+    "TOV": 54.45558296908176,
+    "FG3M": 56.88573538040658,
+    "FGM": 169.17103201790115,
+    "FGA": 363.6759203558157,
+    "FTM": 78.75881446630243,
+    "FTA": 96.19116251138729
   },
   "opponent_projected_stats": {
-    "PTS": 512.1210031787962,
-    "REB": 204.72578822894974,
-    "AST": 79.32144196956294,
-    "STL": 31.669903635605067,
-    "BLK": 31.18871967494484,
-    "TOV": 38.94984906731524,
-    "FG3M": 56.768491957479554,
-    "FGM": 186.7077487150145,
-    "FGA": 391.50537553400335,
-    "FTM": 78.41152615058476,
-    "FTA": 102.6976194119626
+    "PTS": 513.788397900925,
+    "REB": 205.28410439196358,
+    "AST": 79.59070553551607,
+    "STL": 31.79460277563686,
+    "BLK": 31.327600868424124,
+    "TOV": 39.173285997462635,
+    "FG3M": 56.939719086675694,
+    "FGM": 187.31064000486543,
+    "FGA": 392.79016923213635,
+    "FTM": 78.71354651894966,
+    "FTA": 103.09531789952467
   },
   "my_lineups": {
     "2026-10-29": [
@@ -421,96 +421,96 @@
       "is_waiver": true,
       "waiver_clear_date": "2026-10-30",
       "waiver_display": "Oct 30",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.3170932469189225,
-      "delta_expected_wins": 0.3219755644972455,
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.281653138557453,
+      "delta_expected_wins": 0.32017272955745124,
       "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.3170932469189225,
-      "delta_objective_value": 0.3219755644972455,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.7550869911062856,
-      "new_draw_probability": 0.03667683642447418,
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.281653138557453,
+      "delta_objective_value": 0.32017272955745124,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.7437671399785709,
+      "new_draw_probability": 0.03764575884796889,
       "cat_details": [
         {
           "cat": "BLK",
-          "base_pct": 28,
-          "new_pct": 41,
-          "delta_pct": 13.23,
+          "base_pct": 27,
+          "new_pct": 40,
+          "delta_pct": 13.1,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.13231690994584044
+          "score": 0.1309803286346446
         },
         {
           "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 60,
-          "delta_pct": 11.14,
+          "base_pct": 48,
+          "new_pct": 59,
+          "delta_pct": 11.18,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.1114248114406014
+          "score": 0.11180952717664794
         },
         {
           "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 29,
-          "delta_pct": 5.71,
+          "base_pct": 22,
+          "new_pct": 28,
+          "delta_pct": 5.58,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.057133123654722395
+          "score": 0.055828621916673205
         },
         {
           "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 74,
-          "delta_pct": 2.91,
+          "base_pct": 70,
+          "new_pct": 73,
+          "delta_pct": 2.94,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.029056485932056897
+          "score": 0.029439638444879068
         },
         {
           "cat": "FT_PCT",
           "base_pct": 90,
           "new_pct": 91,
-          "delta_pct": 1.2,
+          "delta_pct": 1.21,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.012010557782846765
+          "score": 0.01208391013443244
         },
         {
           "cat": "AST",
           "base_pct": 99,
           "new_pct": 99,
-          "delta_pct": 0.23,
+          "delta_pct": 0.25,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.002259663387221944
+          "score": 0.0024787630244578196
         },
         {
           "cat": "STL",
           "base_pct": 98,
           "new_pct": 98,
-          "delta_pct": 0.15,
+          "delta_pct": 0.16,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.001545264441851435
+          "score": 0.001622873164567662
         }
       ],
       "cat_gains": [
         [
           "BLK",
-          0.1323
+          0.131
         ],
         [
           "FG3M",
-          0.1114
+          0.1118
         ]
       ],
       "target_cats": [
         "BLK",
         "FG3M"
       ],
-      "key_cat_gains": "BLK (%28 → %41), FG3M (%49 → %60)",
+      "key_cat_gains": "BLK (%27 → %40), FG3M (%48 → %59)",
       "exp_stats_pg": {
         "PTS": 9.9,
         "REB": 3.8,
@@ -548,34 +548,34 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.1552892655110325,
-      "delta_expected_wins": 0.16017158308935553,
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.120855157359195,
+      "delta_expected_wins": 0.15937474835919296,
       "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.1552892655110325,
-      "delta_objective_value": 0.16017158308935553,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.7038114769762,
-      "new_draw_probability": 0.040730284032219045,
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.120855157359195,
+      "delta_objective_value": 0.15937474835919296,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.6920408469485708,
+      "new_draw_probability": 0.04149810196029619,
       "cat_details": [
         {
           "cat": "BLK",
-          "base_pct": 28,
-          "new_pct": 35,
-          "delta_pct": 7.74,
+          "base_pct": 27,
+          "new_pct": 34,
+          "delta_pct": 7.65,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.07744084469074813
+          "score": 0.07649222787271148
         },
         {
           "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 76,
-          "delta_pct": 5.24,
+          "base_pct": 70,
+          "new_pct": 75,
+          "delta_pct": 5.31,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.05238082945741096
+          "score": 0.05314296046986844
         },
         {
           "cat": "FG_PCT",
@@ -584,16 +584,16 @@
           "delta_pct": 1.5,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.014972950179425681
+          "score": 0.015000042919162238
         },
         {
           "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 25,
-          "delta_pct": 1.48,
+          "base_pct": 22,
+          "new_pct": 24,
+          "delta_pct": 1.44,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.014767870857713139
+          "score": 0.014377679165602009
         },
         {
           "cat": "FT_PCT",
@@ -602,16 +602,16 @@
           "delta_pct": 0.61,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.006071859854107742
+          "score": 0.0061084205096718636
         },
         {
           "cat": "AST",
           "base_pct": 99,
           "new_pct": 99,
-          "delta_pct": 0.05,
+          "delta_pct": 0.06,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0005348343323468008
+          "score": 0.0005853241770048534
         },
         {
           "cat": "STL",
@@ -620,24 +620,24 @@
           "delta_pct": 0.05,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.00046916330246304927
+          "score": 0.0004916117921387464
         }
       ],
       "cat_gains": [
         [
           "BLK",
-          0.0774
+          0.0765
         ],
         [
           "REB",
-          0.0524
+          0.053099999999999994
         ]
       ],
       "target_cats": [
         "BLK",
         "REB"
       ],
-      "key_cat_gains": "BLK (%28 → %35), REB (%71 → %76)",
+      "key_cat_gains": "BLK (%27 → %34), REB (%70 → %75)",
       "exp_stats_pg": {
         "PTS": 6.7,
         "REB": 5.0,
@@ -655,7 +655,7 @@
         "3PT": 0.0
       },
       "delta_without_spillover": 0.20604131882532606,
-      "robust_delta_objective_value": 0.16017158308935553,
+      "robust_delta_objective_value": 0.15937474835919296,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     },
     {
@@ -675,70 +675,70 @@
       "is_waiver": true,
       "waiver_clear_date": "2026-10-30",
       "waiver_display": "Oct 30",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.131584498279781,
-      "delta_expected_wins": 0.13646681585810416,
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.097341592266231,
+      "delta_expected_wins": 0.1358611832662291,
       "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.131584498279781,
-      "delta_objective_value": 0.13646681585810416,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.6978283387495526,
-      "new_draw_probability": 0.04000270782503658,
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.097341592266231,
+      "delta_objective_value": 0.1358611832662291,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.6860101321622443,
+      "new_draw_probability": 0.040711375773058035,
       "cat_details": [
         {
           "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 78,
-          "delta_pct": 7.26,
+          "base_pct": 70,
+          "new_pct": 77,
+          "delta_pct": 7.39,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.07263405977720105
+          "score": 0.0738613498816636
         },
         {
           "cat": "BLK",
-          "base_pct": 28,
-          "new_pct": 32,
-          "delta_pct": 4.48,
+          "base_pct": 27,
+          "new_pct": 31,
+          "delta_pct": 4.43,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.04484399018607699
+          "score": 0.04426299817245377
         },
         {
           "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 27,
-          "delta_pct": 3.16,
+          "base_pct": 22,
+          "new_pct": 26,
+          "delta_pct": 3.09,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.031647438364506564
+          "score": 0.030884926586077277
         },
         {
           "cat": "STL",
           "base_pct": 98,
           "new_pct": 98,
-          "delta_pct": 0.51,
+          "delta_pct": 0.53,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.005051008400388746
+          "score": 0.005314770082241349
         },
         {
           "cat": "AST",
           "base_pct": 99,
           "new_pct": 99,
-          "delta_pct": 0.18,
+          "delta_pct": 0.19,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0017729366249145118
+          "score": 0.0019447590094670009
         },
         {
           "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 49,
+          "base_pct": 48,
+          "new_pct": 48,
           "delta_pct": 0.11,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.0010516559654442648
+          "score": 0.0010512631301344277
         },
         {
           "cat": "FG_PCT",
@@ -747,24 +747,24 @@
           "delta_pct": 0.05,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0005030971461899014
+          "score": 0.00047902099270491494
         }
       ],
       "cat_gains": [
         [
           "REB",
-          0.0726
+          0.0739
         ],
         [
           "BLK",
-          0.044800000000000006
+          0.0443
         ]
       ],
       "target_cats": [
         "REB",
         "BLK"
       ],
-      "key_cat_gains": "REB (%71 → %78), BLK (%28 → %32)",
+      "key_cat_gains": "REB (%70 → %77), BLK (%27 → %31)",
       "exp_stats_pg": {
         "PTS": 8.9,
         "REB": 6.5,
@@ -782,7 +782,7 @@
         "3PT": 0.1
       },
       "delta_without_spillover": 0.15055564014662615,
-      "robust_delta_objective_value": 0.13646681585810416,
+      "robust_delta_objective_value": 0.1358611832662291,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     },
     {
@@ -802,43 +802,43 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.148011413577495,
-      "delta_expected_wins": 0.15289373115581828,
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.1137533258895775,
+      "delta_expected_wins": 0.15227291688957578,
       "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.148011413577495,
-      "delta_objective_value": 0.15289373115581828,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.7126203904289916,
-      "new_draw_probability": 0.03777467667653156,
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.1137533258895775,
+      "delta_objective_value": 0.15227291688957578,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.7005316021644883,
+      "new_draw_probability": 0.03853881044363111,
       "cat_details": [
         {
           "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 60,
-          "delta_pct": 11.21,
+          "base_pct": 48,
+          "new_pct": 59,
+          "delta_pct": 11.24,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.11208034527872696
+          "score": 0.11244641976280345
         },
         {
           "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 30,
-          "delta_pct": 6.3,
+          "base_pct": 22,
+          "new_pct": 29,
+          "delta_pct": 6.16,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.06300835319575554
+          "score": 0.06155421721911497
         },
         {
           "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 77,
-          "delta_pct": 6.04,
+          "base_pct": 70,
+          "new_pct": 76,
+          "delta_pct": 6.13,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.060391543665883396
+          "score": 0.06127750565012302
         },
         {
           "cat": "FT_PCT",
@@ -847,42 +847,42 @@
           "delta_pct": 0.59,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.005853618678598904
+          "score": 0.005894098795496294
         },
         {
           "cat": "STL",
           "base_pct": 98,
           "new_pct": 98,
-          "delta_pct": 0.5,
+          "delta_pct": 0.53,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.005023245595625059
+          "score": 0.005280714190636582
         },
         {
           "cat": "AST",
           "base_pct": 99,
           "new_pct": 99,
-          "delta_pct": 0.45,
+          "delta_pct": 0.5,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.004518700422497468
+          "score": 0.004963567172261096
         }
       ],
       "cat_gains": [
         [
           "FG3M",
-          0.1121
+          0.1124
         ],
         [
           "PTS",
-          0.063
+          0.0616
         ]
       ],
       "target_cats": [
         "FG3M",
         "PTS"
       ],
-      "key_cat_gains": "FG3M (%49 → %60), PTS (%23 → %30)",
+      "key_cat_gains": "FG3M (%48 → %59), PTS (%22 → %29)",
       "exp_stats_pg": {
         "PTS": 10.6,
         "REB": 5.2,
@@ -905,6 +905,233 @@
     },
     {
       "action": "ADD / DROP",
+      "add_id": 1630241,
+      "add_name": "Sam Merrill",
+      "drop_id": 1629637,
+      "drop_name": "Jaxson Hayes",
+      "rem_games_add": 2,
+      "rem_games_drop": 1,
+      "fa_avail": 0.780952534730085,
+      "observed_games": 2,
+      "observed_minutes": 22.5,
+      "role_base_minutes": 23.85415601300108,
+      "projected_minutes": 25.186302313996332,
+      "prior_role_minutes": 24.756926688335138,
+      "is_waiver": false,
+      "waiver_clear_date": null,
+      "waiver_display": "",
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.081146992701208,
+      "delta_expected_wins": 0.11966658370120609,
+      "objective": "category_points",
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.081146992701208,
+      "delta_objective_value": 0.11966658370120609,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.6882414042522259,
+      "new_draw_probability": 0.039022940054202274,
+      "cat_details": [
+        {
+          "cat": "FG3M",
+          "base_pct": 48,
+          "new_pct": 64,
+          "delta_pct": 15.85,
+          "is_flip": true,
+          "is_crit": true,
+          "score": 0.1585394314963945
+        },
+        {
+          "cat": "PTS",
+          "base_pct": 22,
+          "new_pct": 28,
+          "delta_pct": 5.19,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.051939539427739156
+        },
+        {
+          "cat": "FT_PCT",
+          "base_pct": 90,
+          "new_pct": 91,
+          "delta_pct": 1.81,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.01805804686790702
+        },
+        {
+          "cat": "AST",
+          "base_pct": 99,
+          "new_pct": 99,
+          "delta_pct": 0.39,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.003925803155450325
+        },
+        {
+          "cat": "STL",
+          "base_pct": 98,
+          "new_pct": 98,
+          "delta_pct": 0.29,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.002850964042961146
+        }
+      ],
+      "cat_gains": [
+        [
+          "FG3M",
+          0.1585
+        ],
+        [
+          "PTS",
+          0.0519
+        ]
+      ],
+      "target_cats": [
+        "FG3M",
+        "PTS"
+      ],
+      "key_cat_gains": "FG3M (%48 → %64), PTS (%22 → %28)",
+      "exp_stats_pg": {
+        "PTS": 11.2,
+        "REB": 2.7,
+        "AST": 2.3,
+        "STL": 0.7,
+        "BLK": 0.2,
+        "3PT": 2.6
+      },
+      "exp_stats": {
+        "PTS": 17.4,
+        "REB": 4.2,
+        "AST": 3.6,
+        "STL": 1.1,
+        "BLK": 0.3,
+        "3PT": 4.1
+      },
+      "delta_without_spillover": 0.1390217384604444,
+      "robust_delta_objective_value": 0.11966658370120609,
+      "ranking_basis": "minimum_gain_with_and_without_spillover"
+    },
+    {
+      "action": "ADD / DROP",
+      "add_id": 1642847,
+      "add_name": "Jeremiah Fears",
+      "drop_id": 1629637,
+      "drop_name": "Jaxson Hayes",
+      "rem_games_add": 2,
+      "rem_games_drop": 1,
+      "fa_avail": 0.9249614744396515,
+      "observed_games": 3,
+      "observed_minutes": 22.666666666666668,
+      "role_base_minutes": 24.195962962962962,
+      "projected_minutes": 24.812846343097743,
+      "prior_role_minutes": 25.725259259259257,
+      "is_waiver": false,
+      "waiver_clear_date": null,
+      "waiver_display": "",
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.077267970589473,
+      "delta_expected_wins": 0.11578756158947101,
+      "objective": "category_points",
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.077267970589473,
+      "delta_objective_value": 0.11578756158947101,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.6849245714556798,
+      "new_draw_probability": 0.039220993283662485,
+      "cat_details": [
+        {
+          "cat": "PTS",
+          "base_pct": 22,
+          "new_pct": 32,
+          "delta_pct": 9.82,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.09821123003787818
+        },
+        {
+          "cat": "FG3M",
+          "base_pct": 48,
+          "new_pct": 56,
+          "delta_pct": 8.57,
+          "is_flip": true,
+          "is_crit": true,
+          "score": 0.08567444492926257
+        },
+        {
+          "cat": "REB",
+          "base_pct": 70,
+          "new_pct": 72,
+          "delta_pct": 2.3,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.02300542028169794
+        },
+        {
+          "cat": "FT_PCT",
+          "base_pct": 90,
+          "new_pct": 91,
+          "delta_pct": 1.26,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.012627278455894952
+        },
+        {
+          "cat": "STL",
+          "base_pct": 98,
+          "new_pct": 98,
+          "delta_pct": 0.79,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.007881200466233196
+        },
+        {
+          "cat": "AST",
+          "base_pct": 99,
+          "new_pct": 99,
+          "delta_pct": 0.67,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.006710998324553463
+        }
+      ],
+      "cat_gains": [
+        [
+          "PTS",
+          0.09820000000000001
+        ],
+        [
+          "FG3M",
+          0.0857
+        ]
+      ],
+      "target_cats": [
+        "PTS",
+        "FG3M"
+      ],
+      "key_cat_gains": "PTS (%22 → %32), FG3M (%48 → %56)",
+      "exp_stats_pg": {
+        "PTS": 13.3,
+        "REB": 3.5,
+        "AST": 3.1,
+        "STL": 1.1,
+        "BLK": 0.3,
+        "3PT": 1.2
+      },
+      "exp_stats": {
+        "PTS": 24.5,
+        "REB": 6.5,
+        "AST": 5.7,
+        "STL": 2.0,
+        "BLK": 0.6,
+        "3PT": 2.1
+      },
+      "delta_without_spillover": 0.15308944250030532,
+      "robust_delta_objective_value": 0.11578756158947101,
+      "ranking_basis": "minimum_gain_with_and_without_spillover"
+    },
+    {
+      "action": "ADD / DROP",
       "add_id": 1630191,
       "add_name": "Isaiah Stewart",
       "drop_id": 1629637,
@@ -920,52 +1147,52 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.1107723274611345,
-      "delta_expected_wins": 0.11565464503945755,
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.076045607131907,
+      "delta_expected_wins": 0.11456519813190535,
       "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.1107723274611345,
-      "delta_objective_value": 0.11565464503945755,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.6899619312802059,
-      "new_draw_probability": 0.04166600299702131,
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.076045607131907,
+      "delta_objective_value": 0.11456519813190535,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.6777628115480254,
+      "new_draw_probability": 0.042415007184518766,
       "cat_details": [
         {
           "cat": "BLK",
-          "base_pct": 28,
-          "new_pct": 33,
-          "delta_pct": 5.07,
+          "base_pct": 27,
+          "new_pct": 32,
+          "delta_pct": 5.01,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.05071241894879697
+          "score": 0.05005446339772901
         },
         {
           "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 52,
+          "base_pct": 48,
+          "new_pct": 51,
           "delta_pct": 3.23,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.03228900877618662
+          "score": 0.03230755663540208
         },
         {
           "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 73,
-          "delta_pct": 2.33,
+          "base_pct": 70,
+          "new_pct": 72,
+          "delta_pct": 2.36,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.023330244671568412
+          "score": 0.02363076223654792
         },
         {
           "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 25,
-          "delta_pct": 1.82,
+          "base_pct": 22,
+          "new_pct": 24,
+          "delta_pct": 1.78,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.018224211480336983
+          "score": 0.01776111523448365
         },
         {
           "cat": "FT_PCT",
@@ -974,22 +1201,22 @@
           "delta_pct": 0.98,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.009782621506951195
+          "score": 0.00984228580647084
         },
         {
           "cat": "AST",
           "base_pct": 99,
           "new_pct": 99,
-          "delta_pct": 0.08,
+          "delta_pct": 0.09,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0007986934252570688
+          "score": 0.0008749622206233321
         }
       ],
       "cat_gains": [
         [
           "BLK",
-          0.0507
+          0.0501
         ],
         [
           "FG3M",
@@ -1000,7 +1227,7 @@
         "BLK",
         "FG3M"
       ],
-      "key_cat_gains": "BLK (%28 → %33), FG3M (%49 → %52)",
+      "key_cat_gains": "BLK (%27 → %32), FG3M (%48 → %51)",
       "exp_stats_pg": {
         "PTS": 7.8,
         "REB": 4.3,
@@ -1018,352 +1245,125 @@
         "3PT": 0.9
       },
       "delta_without_spillover": 0.20074017128526123,
-      "robust_delta_objective_value": 0.11565464503945755,
+      "robust_delta_objective_value": 0.11456519813190535,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     },
     {
       "action": "ADD / DROP",
-      "add_id": 1642847,
-      "add_name": "Jeremiah Fears",
+      "add_id": 1641730,
+      "add_name": "Noah Clowney",
       "drop_id": 1629637,
       "drop_name": "Jaxson Hayes",
       "rem_games_add": 2,
       "rem_games_drop": 1,
-      "fa_avail": 0.9249614744396515,
+      "fa_avail": 0.8496998335430936,
       "observed_games": 3,
-      "observed_minutes": 22.666666666666668,
-      "role_base_minutes": 24.195962962962962,
-      "projected_minutes": 23.96551018902932,
-      "prior_role_minutes": 25.725259259259257,
+      "observed_minutes": 20.666666666666668,
+      "role_base_minutes": 22.398830395613004,
+      "projected_minutes": 24.327477800804516,
+      "prior_role_minutes": 24.130994124559344,
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.100703157407107,
-      "delta_expected_wins": 0.10558547498543014,
+      "base_expected_wins": 4.961480409000002,
+      "new_expected_wins": 5.06216774932143,
+      "delta_expected_wins": 0.10068734032142856,
       "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.100703157407107,
-      "delta_objective_value": 0.10558547498543014,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.6932869846104829,
-      "new_draw_probability": 0.03884357022628687,
+      "base_objective_value": 4.961480409000002,
+      "new_objective_value": 5.06216774932143,
+      "delta_objective_value": 0.10068734032142856,
+      "base_win_probability": 0.6372886534960945,
+      "new_win_probability": 0.6792666631624521,
+      "new_draw_probability": 0.040932466985012586,
       "cat_details": [
         {
-          "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 33,
-          "delta_pct": 9.45,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.09452303555280911
-        },
-        {
           "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 57,
-          "delta_pct": 8.25,
+          "base_pct": 48,
+          "new_pct": 58,
+          "delta_pct": 10.62,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.08254381709525466
+          "score": 0.1061642763469548
+        },
+        {
+          "cat": "PTS",
+          "base_pct": 22,
+          "new_pct": 27,
+          "delta_pct": 4.46,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.0446315681880306
         },
         {
           "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 73,
-          "delta_pct": 1.95,
+          "base_pct": 70,
+          "new_pct": 72,
+          "delta_pct": 1.8,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.019479266935782058
+          "score": 0.017974002528932442
         },
         {
           "cat": "FT_PCT",
           "base_pct": 90,
           "new_pct": 91,
-          "delta_pct": 1.26,
+          "delta_pct": 1.04,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.012643321079478742
+          "score": 0.010434928005927935
         },
         {
           "cat": "STL",
           "base_pct": 98,
           "new_pct": 98,
-          "delta_pct": 0.72,
+          "delta_pct": 0.24,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.007193401521822906
+          "score": 0.002415923372317219
         },
         {
           "cat": "AST",
           "base_pct": 99,
           "new_pct": 99,
-          "delta_pct": 0.59,
+          "delta_pct": 0.16,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.005926812627871869
-        }
-      ],
-      "cat_gains": [
-        [
-          "PTS",
-          0.09449999999999999
-        ],
-        [
-          "FG3M",
-          0.0825
-        ]
-      ],
-      "target_cats": [
-        "PTS",
-        "FG3M"
-      ],
-      "key_cat_gains": "PTS (%23 → %33), FG3M (%49 → %57)",
-      "exp_stats_pg": {
-        "PTS": 12.8,
-        "REB": 3.4,
-        "AST": 3.0,
-        "STL": 1.0,
-        "BLK": 0.3,
-        "3PT": 1.1
-      },
-      "exp_stats": {
-        "PTS": 23.7,
-        "REB": 6.3,
-        "AST": 5.5,
-        "STL": 1.9,
-        "BLK": 0.6,
-        "3PT": 2.1
-      },
-      "delta_without_spillover": 0.15308944250030532,
-      "robust_delta_objective_value": 0.10558547498543014,
-      "ranking_basis": "minimum_gain_with_and_without_spillover"
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1629012,
-      "add_name": "Collin Sexton",
-      "drop_id": 1629637,
-      "drop_name": "Jaxson Hayes",
-      "rem_games_add": 2,
-      "rem_games_drop": 1,
-      "fa_avail": 0.8495565689982396,
-      "observed_games": 2,
-      "observed_minutes": 18.0,
-      "role_base_minutes": 19.62143162907268,
-      "projected_minutes": 22.812229048760678,
-      "prior_role_minutes": 20.70238604845447,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.100219082414544,
-      "delta_expected_wins": 0.10510139999286672,
-      "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.100219082414544,
-      "delta_objective_value": 0.10510139999286672,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.6919786582662335,
-      "new_draw_probability": 0.03812596470758602,
-      "cat_details": [
-        {
-          "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 59,
-          "delta_pct": 10.02,
-          "is_flip": true,
-          "is_crit": true,
-          "score": 0.10022697960850363
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 33,
-          "delta_pct": 9.71,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.09708483149268982
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 90,
-          "new_pct": 92,
-          "delta_pct": 2.23,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.022338498592757494
-        },
-        {
-          "cat": "STL",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.69,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.006889207788601137
-        },
-        {
-          "cat": "AST",
-          "base_pct": 99,
-          "new_pct": 99,
-          "delta_pct": 0.49,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.004940080980710415
+          "score": 0.0016073085765787587
         }
       ],
       "cat_gains": [
         [
           "FG3M",
-          0.1002
+          0.10619999999999999
         ],
         [
           "PTS",
-          0.0971
+          0.0446
         ]
       ],
       "target_cats": [
         "FG3M",
         "PTS"
       ],
-      "key_cat_gains": "FG3M (%49 → %59), PTS (%23 → %33)",
+      "key_cat_gains": "FG3M (%48 → %58), PTS (%22 → %27)",
       "exp_stats_pg": {
-        "PTS": 13.9,
-        "REB": 2.2,
-        "AST": 2.9,
-        "STL": 1.2,
-        "BLK": 0.1,
-        "3PT": 1.5
+        "PTS": 10.6,
+        "REB": 4.0,
+        "AST": 1.3,
+        "STL": 0.6,
+        "BLK": 0.6,
+        "3PT": 1.7
       },
       "exp_stats": {
-        "PTS": 23.7,
-        "REB": 3.7,
-        "AST": 4.9,
-        "STL": 2.0,
-        "BLK": 0.2,
-        "3PT": 2.5
+        "PTS": 18.0,
+        "REB": 6.8,
+        "AST": 2.3,
+        "STL": 1.1,
+        "BLK": 1.0,
+        "3PT": 2.9
       },
-      "delta_without_spillover": 0.09759858924282039,
-      "robust_delta_objective_value": 0.09759858924282039,
-      "ranking_basis": "minimum_gain_with_and_without_spillover"
-    },
-    {
-      "action": "ADD / DROP",
-      "add_id": 1641737,
-      "add_name": "Adem Bona",
-      "drop_id": 1629637,
-      "drop_name": "Jaxson Hayes",
-      "rem_games_add": 2,
-      "rem_games_drop": 1,
-      "fa_avail": 0.8747148903341655,
-      "observed_games": 4,
-      "observed_minutes": 14.75,
-      "role_base_minutes": 15.843579223046707,
-      "projected_minutes": 19.33705603483364,
-      "prior_role_minutes": 17.301684853775647,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 4.995117682421677,
-      "new_expected_wins": 5.111690742442628,
-      "delta_expected_wins": 0.11657306002095069,
-      "objective": "category_points",
-      "base_objective_value": 4.995117682421677,
-      "new_objective_value": 5.111690742442628,
-      "delta_objective_value": 0.11657306002095069,
-      "base_win_probability": 0.6495381665945676,
-      "new_win_probability": 0.6911292327040239,
-      "new_draw_probability": 0.04184654798598598,
-      "cat_details": [
-        {
-          "cat": "BLK",
-          "base_pct": 28,
-          "new_pct": 35,
-          "delta_pct": 7.42,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.074207816300841
-        },
-        {
-          "cat": "REB",
-          "base_pct": 71,
-          "new_pct": 76,
-          "delta_pct": 5.33,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.05328510542458886
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 90,
-          "new_pct": 90,
-          "delta_pct": 0.57,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0056904024891546445
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 23,
-          "new_pct": 24,
-          "delta_pct": 0.29,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0029225678620961038
-        },
-        {
-          "cat": "STL",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.18,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0018496453098152399
-        },
-        {
-          "cat": "FG3M",
-          "base_pct": 49,
-          "new_pct": 49,
-          "delta_pct": 0.17,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.0017446021263996525
-        }
-      ],
-      "cat_gains": [
-        [
-          "BLK",
-          0.0742
-        ],
-        [
-          "REB",
-          0.0533
-        ]
-      ],
-      "target_cats": [
-        "BLK",
-        "REB"
-      ],
-      "key_cat_gains": "BLK (%28 → %35), REB (%71 → %76)",
-      "exp_stats_pg": {
-        "PTS": 5.5,
-        "REB": 5.0,
-        "AST": 0.6,
-        "STL": 0.5,
-        "BLK": 1.3,
-        "3PT": 0.1
-      },
-      "exp_stats": {
-        "PTS": 9.6,
-        "REB": 8.8,
-        "AST": 1.1,
-        "STL": 0.9,
-        "BLK": 2.3,
-        "3PT": 0.1
-      },
-      "delta_without_spillover": 0.09540454815533117,
-      "robust_delta_objective_value": 0.09540454815533117,
+      "delta_without_spillover": 0.14594598366282963,
+      "robust_delta_objective_value": 0.10068734032142856,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     }
   ],
@@ -1378,9 +1378,9 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "0a454ab0cd0f4b3ccbfec6c1e88190875626daa1cf8a47f3b1e58d0df979014a",
+    "data/processed/league_state.json": "4133bac84d0883e7ad76849bc03c629583a0633d2d3a496b395c9f5955791a80",
     "data/processed/live_matchup.json": "a6905d67526cfe56f968b7f5accf0e6db255c0896686b0e913987047357cba01",
-    "data/processed/injuries.db": "9a84f555dd858ffd3b1aa03f14d7d0996f994d6bb210e3d6b0a0495f12fa2a3b",
+    "data/processed/injuries.db": "a84844881e3c5f6231d00d4225d7a2cb26354da30b4bb65b9e694c77992cd14e",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
     "data/processed/schedule_2026_27.parquet": "513cc75dbf1fb458723505126b90261584d9ad44f11ce6df84d27ea03928f5dc",
@@ -1415,48 +1415,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8000572812570765,
           "mean": {
-            "PTS": 15.913660920826947,
-            "REB": 9.041158933772975,
-            "AST": 1.753527398995056,
-            "STL": 0.939790200493844,
-            "BLK": 1.01059006560106,
-            "TOV": 1.463557417197609,
-            "FG3M": 0.08724923821060258,
-            "MIN": 28.72896410526871,
-            "FGM": 5.961667797529385,
-            "FGA": 9.603049913375369,
+            "PTS": 15.976483844760445,
+            "REB": 9.076851037732771,
+            "AST": 1.7604498613342023,
+            "STL": 0.9435002436179752,
+            "BLK": 1.0145796078650977,
+            "TOV": 1.4693351547496625,
+            "FG3M": 0.08759367512443596,
+            "MIN": 28.84237845635064,
+            "FGM": 5.985202885051,
+            "FGA": 9.64096021429475,
             "FG_rate": 0.620809831387612,
-            "FTM": 3.2334335551857576,
-            "FTA": 4.536949769380816,
+            "FTM": 3.2461982955740365,
+            "FTA": 4.554860446984791,
             "FT_rate": 0.7126888591554857
           },
           "var": {
-            "PTS": 47.00926938689122,
-            "REB": 14.064151951969297,
-            "AST": 2.046578487040409,
-            "STL": 1.0354709185674655,
-            "BLK": 1.1375152994559563,
-            "TOV": 1.6849255307867037,
-            "FG3M": 0.09919871814554841,
-            "PTS_shared": 0.8065187717887872,
-            "REB_shared": 0.44881061158680624,
-            "AST_shared": 0.0888703593203108,
-            "STL_shared": 0.04601145660444059,
-            "BLK_shared": 0.04947776740366909,
-            "TOV_shared": 0.07366351346611316,
-            "FG3M_shared": 0.004331124388877684,
-            "FGM": 9.044986030856249,
-            "FGA": 17.421643083760365,
-            "FGM_cond": 2.3306003480696758,
+            "PTS": 50.54180651552906,
+            "REB": 15.203235495133153,
+            "AST": 2.0966503041873623,
+            "STL": 1.0519711762405888,
+            "BLK": 1.1562952259958723,
+            "TOV": 1.7210311636924605,
+            "FG3M": 0.09976469229530495,
+            "PTS_shared": 0.8128991866251694,
+            "REB_shared": 0.45236117728355135,
+            "AST_shared": 0.08957341767301884,
+            "STL_shared": 0.04637545579532292,
+            "BLK_shared": 0.049869188771969386,
+            "TOV_shared": 0.07424626961595057,
+            "FG3M_shared": 0.004365388154676615,
+            "FGM": 9.552652808250924,
+            "FGA": 18.71211893875227,
+            "FGM_cond": 2.340911476339827,
             "FG_rate": 0.0006996852984161568,
-            "FGA_shared": 0.4637031245156645,
-            "FGM_shared": 0.24356185391720633,
-            "FTM": 5.897857091691773,
-            "FTA": 9.71811685961695,
-            "FTM_cond": 0.9617786016893941,
+            "FGA_shared": 0.4673715057100347,
+            "FGM_shared": 0.24548868528266038,
+            "FTM": 6.061054400664466,
+            "FTA": 10.031051358252112,
+            "FTM_cond": 0.966028527150835,
             "FT_rate": 0.0012721527634395428,
-            "FTA_shared": 0.2131009918612504,
-            "FTM_shared": 0.13469638774297718
+            "FTA_shared": 0.21478684565372153,
+            "FTM_shared": 0.13576197835391396
           }
         },
         {
@@ -1466,48 +1466,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8000572812570765,
           "mean": {
-            "PTS": 15.913660920826947,
-            "REB": 9.041158933772975,
-            "AST": 1.753527398995056,
-            "STL": 0.939790200493844,
-            "BLK": 1.01059006560106,
-            "TOV": 1.463557417197609,
-            "FG3M": 0.08724923821060258,
-            "MIN": 28.72896410526871,
-            "FGM": 5.961667797529385,
-            "FGA": 9.603049913375369,
+            "PTS": 15.976483844760445,
+            "REB": 9.076851037732771,
+            "AST": 1.7604498613342023,
+            "STL": 0.9435002436179752,
+            "BLK": 1.0145796078650977,
+            "TOV": 1.4693351547496625,
+            "FG3M": 0.08759367512443596,
+            "MIN": 28.84237845635064,
+            "FGM": 5.985202885051,
+            "FGA": 9.64096021429475,
             "FG_rate": 0.620809831387612,
-            "FTM": 3.2334335551857576,
-            "FTA": 4.536949769380816,
+            "FTM": 3.2461982955740365,
+            "FTA": 4.554860446984791,
             "FT_rate": 0.7126888591554857
           },
           "var": {
-            "PTS": 47.00926938689122,
-            "REB": 14.064151951969297,
-            "AST": 2.046578487040409,
-            "STL": 1.0354709185674655,
-            "BLK": 1.1375152994559563,
-            "TOV": 1.6849255307867037,
-            "FG3M": 0.09919871814554841,
-            "PTS_shared": 0.8065187717887872,
-            "REB_shared": 0.44881061158680624,
-            "AST_shared": 0.0888703593203108,
-            "STL_shared": 0.04601145660444059,
-            "BLK_shared": 0.04947776740366909,
-            "TOV_shared": 0.07366351346611316,
-            "FG3M_shared": 0.004331124388877684,
-            "FGM": 9.044986030856249,
-            "FGA": 17.421643083760365,
-            "FGM_cond": 2.3306003480696758,
+            "PTS": 50.54180651552906,
+            "REB": 15.203235495133153,
+            "AST": 2.0966503041873623,
+            "STL": 1.0519711762405888,
+            "BLK": 1.1562952259958723,
+            "TOV": 1.7210311636924605,
+            "FG3M": 0.09976469229530495,
+            "PTS_shared": 0.8128991866251694,
+            "REB_shared": 0.45236117728355135,
+            "AST_shared": 0.08957341767301884,
+            "STL_shared": 0.04637545579532292,
+            "BLK_shared": 0.049869188771969386,
+            "TOV_shared": 0.07424626961595057,
+            "FG3M_shared": 0.004365388154676615,
+            "FGM": 9.552652808250924,
+            "FGA": 18.71211893875227,
+            "FGM_cond": 2.340911476339827,
             "FG_rate": 0.0006996852984161568,
-            "FGA_shared": 0.4637031245156645,
-            "FGM_shared": 0.24356185391720633,
-            "FTM": 5.897857091691773,
-            "FTA": 9.71811685961695,
-            "FTM_cond": 0.9617786016893941,
+            "FGA_shared": 0.4673715057100347,
+            "FGM_shared": 0.24548868528266038,
+            "FTM": 6.061054400664466,
+            "FTA": 10.031051358252112,
+            "FTM_cond": 0.966028527150835,
             "FT_rate": 0.0012721527634395428,
-            "FTA_shared": 0.2131009918612504,
-            "FTM_shared": 0.13469638774297718
+            "FTA_shared": 0.21478684565372153,
+            "FTM_shared": 0.13576197835391396
           }
         },
         {
@@ -2027,48 +2027,48 @@
           "injury_status": "HEALTHY",
           "p": 0.9249614744396515,
           "mean": {
-            "PTS": 17.706148675808908,
-            "REB": 4.157458315603051,
-            "AST": 3.6600142125225434,
-            "STL": 0.9914619110177066,
-            "BLK": 0.43601749301206855,
-            "TOV": 2.0040446267236436,
-            "FG3M": 2.0187568022421973,
-            "MIN": 30.524793823207247,
-            "FGM": 6.152909732091912,
-            "FGA": 13.197635453283096,
+            "PTS": 18.47371702100725,
+            "REB": 4.337685730269372,
+            "AST": 3.8186772342753525,
+            "STL": 1.034442165634386,
+            "BLK": 0.45491901878802976,
+            "TOV": 2.0909207309517486,
+            "FG3M": 2.1062706849292887,
+            "MIN": 31.848055358586247,
+            "FGM": 6.419640732022408,
+            "FGA": 13.769758018776276,
             "FG_rate": 0.46621303898504707,
-            "FTM": 3.202403791975378,
-            "FTA": 3.6783740869691504,
+            "FTM": 3.3412292262507477,
+            "FTA": 3.837833016330387,
             "FT_rate": 0.8706030752337224
           },
           "var": {
-            "PTS": 49.20543547323781,
-            "REB": 5.099705143343405,
-            "AST": 4.423481087984219,
-            "STL": 1.0748601333664345,
-            "BLK": 0.47209638957849603,
-            "TOV": 2.2936645443148094,
-            "FG3M": 2.4313028068012046,
-            "PTS_shared": 0.8147012715483938,
-            "REB_shared": 0.18691032554147982,
-            "AST_shared": 0.1684058056567225,
-            "STL_shared": 0.04389013891023733,
-            "BLK_shared": 0.019301667691852823,
-            "TOV_shared": 0.09150098151415698,
-            "FG3M_shared": 0.09075893549673116,
-            "FGM": 8.556355557307027,
-            "FGA": 23.795693118433036,
-            "FGM_cond": 3.3842522520892233,
+            "PTS": 50.85111683900266,
+            "REB": 5.3000936274073895,
+            "AST": 4.600234760462701,
+            "STL": 1.1217281775369254,
+            "BLK": 0.49308568805550473,
+            "TOV": 2.3903833297572246,
+            "FG3M": 2.53385722877905,
+            "PTS_shared": 0.8868675296566378,
+            "REB_shared": 0.20346684664581827,
+            "AST_shared": 0.18332319594734012,
+            "STL_shared": 0.047777928464048935,
+            "BLK_shared": 0.02101140987738109,
+            "TOV_shared": 0.09960614064390565,
+            "FG3M_shared": 0.09879836417251851,
+            "FGM": 8.873697994119023,
+            "FGA": 24.561803681335135,
+            "FGM_cond": 3.5350770356928405,
             "FG_rate": 0.0005407058268976026,
-            "FGA_shared": 0.575269161035019,
-            "FGM_shared": 0.21952728172791697,
-            "FTM": 6.100570224922739,
-            "FTA": 7.486989429156329,
-            "FTM_cond": 0.42580872383245805,
+            "FGA_shared": 0.6262265170706419,
+            "FGM_shared": 0.2389730135909205,
+            "FTM": 6.353453420851666,
+            "FTA": 7.795758333683359,
+            "FTM_cond": 0.44466061669578716,
             "FT_rate": 0.000659062662411616,
-            "FTA_shared": 0.15545136027160447,
-            "FTM_shared": 0.126844171463872
+            "FTA_shared": 0.16922124548034737,
+            "FTM_shared": 0.1380800312042043
           }
         },
         {
@@ -2078,48 +2078,48 @@
           "injury_status": "HEALTHY",
           "p": 0.9249614744396515,
           "mean": {
-            "PTS": 17.615525714348873,
-            "REB": 4.13617976476713,
-            "AST": 3.6412816618703645,
-            "STL": 0.986387446988496,
-            "BLK": 0.43378588425351805,
-            "TOV": 1.9937875989364606,
-            "FG3M": 2.008424475137279,
-            "MIN": 30.368562941784944,
-            "FGM": 6.121418134922605,
-            "FGA": 13.130087799022151,
+            "PTS": 18.47371702100725,
+            "REB": 4.337685730269372,
+            "AST": 3.8186772342753525,
+            "STL": 1.034442165634386,
+            "BLK": 0.45491901878802976,
+            "TOV": 2.0909207309517486,
+            "FG3M": 2.1062706849292887,
+            "MIN": 31.848055358586247,
+            "FGM": 6.419640732022408,
+            "FGA": 13.769758018776276,
             "FG_rate": 0.46621303898504707,
-            "FTM": 3.186013366212369,
-            "FTA": 3.6595475674802214,
+            "FTM": 3.3412292262507477,
+            "FTA": 3.837833016330387,
             "FT_rate": 0.8706030752337224
           },
           "var": {
-            "PTS": 49.011340195429916,
-            "REB": 5.076092642557313,
-            "AST": 4.402654440960077,
-            "STL": 1.0693375452636078,
-            "BLK": 0.4696230760866004,
-            "TOV": 2.28226813895204,
-            "FG3M": 2.4192172328951926,
-            "PTS_shared": 0.8063830647335755,
-            "REB_shared": 0.18500194660802838,
-            "AST_shared": 0.1666863602978042,
-            "STL_shared": 0.04344201483662126,
-            "BLK_shared": 0.01910459513367873,
-            "TOV_shared": 0.09056674449431402,
-            "FG3M_shared": 0.08983227486403111,
-            "FGM": 8.518942978647262,
-            "FGA": 23.70538497703727,
-            "FGM_cond": 3.366468563173346,
+            "PTS": 50.85111683900266,
+            "REB": 5.3000936274073895,
+            "AST": 4.600234760462701,
+            "STL": 1.1217281775369254,
+            "BLK": 0.49308568805550473,
+            "TOV": 2.3903833297572246,
+            "FG3M": 2.53385722877905,
+            "PTS_shared": 0.8868675296566378,
+            "REB_shared": 0.20346684664581827,
+            "AST_shared": 0.18332319594734012,
+            "STL_shared": 0.047777928464048935,
+            "BLK_shared": 0.02101140987738109,
+            "TOV_shared": 0.09960614064390565,
+            "FG3M_shared": 0.09879836417251851,
+            "FGM": 8.873697994119023,
+            "FGA": 24.561803681335135,
+            "FGM_cond": 3.5350770356928405,
             "FG_rate": 0.0005407058268976026,
-            "FGA_shared": 0.5693955874654311,
-            "FGM_shared": 0.21728587939471927,
-            "FTM": 6.070745035045659,
-            "FTA": 7.450573189328998,
-            "FTM_cond": 0.4235852125395418,
+            "FGA_shared": 0.6262265170706419,
+            "FGM_shared": 0.2389730135909205,
+            "FTM": 6.353453420851666,
+            "FTA": 7.795758333683359,
+            "FTM_cond": 0.44466061669578716,
             "FT_rate": 0.000659062662411616,
-            "FTA_shared": 0.1538641814987931,
-            "FTM_shared": 0.12554907584006691
+            "FTA_shared": 0.16922124548034737,
+            "FTM_shared": 0.1380800312042043
           }
         },
         {
@@ -2486,48 +2486,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8669238941015469,
           "mean": {
-            "PTS": 19.58948482258744,
-            "REB": 4.411692530825231,
-            "AST": 6.8519446702588755,
-            "STL": 0.9985780086018122,
-            "BLK": 0.447389258022153,
-            "TOV": 3.2638272412608766,
-            "FG3M": 2.55700480847489,
-            "MIN": 30.45126246247968,
-            "FGM": 5.690212899170555,
-            "FGA": 13.334306019851692,
+            "PTS": 18.554479825398825,
+            "REB": 4.178601979602624,
+            "AST": 6.489924074086755,
+            "STL": 0.9458184164866676,
+            "BLK": 0.4237515706641109,
+            "TOV": 3.0913838342361917,
+            "FG3M": 2.4219061686395387,
+            "MIN": 28.84237845635064,
+            "FGM": 5.389572078901615,
+            "FGA": 12.629791659745829,
             "FG_rate": 0.4267348364961136,
-            "FTM": 5.271041671939231,
-            "FTA": 6.078986411697702,
+            "FTM": 4.992547647198159,
+            "FTA": 5.7578048507260675,
             "FT_rate": 0.8670921951390193
           },
           "var": {
-            "PTS": 53.581025626842525,
-            "REB": 5.3427707162769025,
-            "AST": 8.848145648294425,
-            "STL": 1.0779617796344243,
-            "BLK": 0.483890832951911,
-            "TOV": 3.833089640416214,
-            "FG3M": 3.0959870518648174,
-            "PTS_shared": 0.9240746445680076,
-            "REB_shared": 0.20384136637628805,
-            "AST_shared": 0.3232197473855166,
-            "STL_shared": 0.04550621581464098,
-            "BLK_shared": 0.020387983666107792,
-            "TOV_shared": 0.15290169348954283,
-            "FG3M_shared": 0.11814589306675066,
-            "FGM": 7.564943644861209,
-            "FGA": 23.063758065040172,
-            "FGM_cond": 3.3649728585025582,
+            "PTS": 51.39817281661202,
+            "REB": 5.0857845578459955,
+            "AST": 8.449807566544699,
+            "STL": 1.0206126902699055,
+            "BLK": 0.45770239674206853,
+            "TOV": 3.642421496243887,
+            "FG3M": 2.938513811707949,
+            "PTS_shared": 0.8290077511714402,
+            "REB_shared": 0.18287058705557155,
+            "AST_shared": 0.2899675664616162,
+            "STL_shared": 0.04082463019473246,
+            "BLK_shared": 0.018290509959681275,
+            "TOV_shared": 0.13717148264502785,
+            "FG3M_shared": 0.10599128728090558,
+            "FGM": 7.213704898466941,
+            "FGA": 22.137214669598254,
+            "FGM_cond": 3.1824600925914197,
             "FG_rate": 0.0005490870281500132,
-            "FGA_shared": 0.5993223466744405,
-            "FGM_shared": 0.20709696466596858,
-            "FTM": 10.285067057048666,
-            "FTA": 12.721228138142521,
-            "FTM_cond": 0.7206259944088662,
+            "FGA_shared": 0.5376652998369363,
+            "FGM_shared": 0.1857912561083485,
+            "FTM": 9.781342492724084,
+            "FTA": 12.10298657784457,
+            "FTM_cond": 0.6817256515927917,
             "FT_rate": 0.00046020897181148175,
-            "FTA_shared": 0.265780402575336,
-            "FTM_shared": 0.21695560839004413
+            "FTA_shared": 0.23843746296861387,
+            "FTM_shared": 0.19463566290095888
           }
         },
         {
@@ -2537,48 +2537,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8669238941015469,
           "mean": {
-            "PTS": 19.58948482258744,
-            "REB": 4.411692530825231,
-            "AST": 6.8519446702588755,
-            "STL": 0.9985780086018122,
-            "BLK": 0.447389258022153,
-            "TOV": 3.2638272412608766,
-            "FG3M": 2.55700480847489,
-            "MIN": 30.45126246247968,
-            "FGM": 5.690212899170555,
-            "FGA": 13.334306019851692,
+            "PTS": 18.554479825398825,
+            "REB": 4.178601979602624,
+            "AST": 6.489924074086755,
+            "STL": 0.9458184164866676,
+            "BLK": 0.4237515706641109,
+            "TOV": 3.0913838342361917,
+            "FG3M": 2.4219061686395387,
+            "MIN": 28.84237845635064,
+            "FGM": 5.389572078901615,
+            "FGA": 12.629791659745829,
             "FG_rate": 0.4267348364961136,
-            "FTM": 5.271041671939231,
-            "FTA": 6.078986411697702,
+            "FTM": 4.992547647198159,
+            "FTA": 5.7578048507260675,
             "FT_rate": 0.8670921951390193
           },
           "var": {
-            "PTS": 53.581025626842525,
-            "REB": 5.3427707162769025,
-            "AST": 8.848145648294425,
-            "STL": 1.0779617796344243,
-            "BLK": 0.483890832951911,
-            "TOV": 3.833089640416214,
-            "FG3M": 3.0959870518648174,
-            "PTS_shared": 0.9240746445680076,
-            "REB_shared": 0.20384136637628805,
-            "AST_shared": 0.3232197473855166,
-            "STL_shared": 0.04550621581464098,
-            "BLK_shared": 0.020387983666107792,
-            "TOV_shared": 0.15290169348954283,
-            "FG3M_shared": 0.11814589306675066,
-            "FGM": 7.564943644861209,
-            "FGA": 23.063758065040172,
-            "FGM_cond": 3.3649728585025582,
+            "PTS": 51.39817281661202,
+            "REB": 5.0857845578459955,
+            "AST": 8.449807566544699,
+            "STL": 1.0206126902699055,
+            "BLK": 0.45770239674206853,
+            "TOV": 3.642421496243887,
+            "FG3M": 2.938513811707949,
+            "PTS_shared": 0.8290077511714402,
+            "REB_shared": 0.18287058705557155,
+            "AST_shared": 0.2899675664616162,
+            "STL_shared": 0.04082463019473246,
+            "BLK_shared": 0.018290509959681275,
+            "TOV_shared": 0.13717148264502785,
+            "FG3M_shared": 0.10599128728090558,
+            "FGM": 7.213704898466941,
+            "FGA": 22.137214669598254,
+            "FGM_cond": 3.1824600925914197,
             "FG_rate": 0.0005490870281500132,
-            "FGA_shared": 0.5993223466744405,
-            "FGM_shared": 0.20709696466596858,
-            "FTM": 10.285067057048666,
-            "FTA": 12.721228138142521,
-            "FTM_cond": 0.7206259944088662,
+            "FGA_shared": 0.5376652998369363,
+            "FGM_shared": 0.1857912561083485,
+            "FTM": 9.781342492724084,
+            "FTA": 12.10298657784457,
+            "FTM_cond": 0.6817256515927917,
             "FT_rate": 0.00046020897181148175,
-            "FTA_shared": 0.265780402575336,
-            "FTM_shared": 0.21695560839004413
+            "FTA_shared": 0.23843746296861387,
+            "FTM_shared": 0.19463566290095888
           }
         }
       ],
@@ -3103,48 +3103,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8496998335430936,
           "mean": {
-            "PTS": 19.224193222839926,
-            "REB": 5.233026729361031,
-            "AST": 3.3574609642688436,
-            "STL": 1.2035317068250753,
-            "BLK": 0.36376528075825937,
-            "TOV": 1.7571430220185196,
-            "FG3M": 2.8489138071991427,
-            "MIN": 32.91864175872356,
-            "FGM": 6.647919765695866,
-            "FGA": 14.132248468872692,
+            "PTS": 19.22419322283992,
+            "REB": 5.233026729361029,
+            "AST": 3.357460964268842,
+            "STL": 1.2035317068250748,
+            "BLK": 0.3637652807582592,
+            "TOV": 1.757143022018519,
+            "FG3M": 2.8489138071991413,
+            "MIN": 32.918641758723545,
+            "FGM": 6.647919765695863,
+            "FGA": 14.132248468872687,
             "FG_rate": 0.47040778969732905,
-            "FTM": 2.740926739549983,
-            "FTA": 3.19701064447985,
+            "FTM": 2.7409267395499817,
+            "FTA": 3.1970106444798487,
             "FT_rate": 0.8573405109809787
           },
           "var": {
-            "PTS": 50.332034433610005,
-            "REB": 6.333793111589059,
-            "AST": 3.8980951559828716,
-            "STL": 1.3011533017964618,
-            "BLK": 0.3923229968920629,
-            "TOV": 1.9636991342299388,
-            "FG3M": 3.4362713427362066,
-            "PTS_shared": 0.9480122811423152,
-            "REB_shared": 0.25211935747589015,
-            "AST_shared": 0.16556815626474347,
-            "STL_shared": 0.057091019470670086,
-            "BLK_shared": 0.01725565733644772,
-            "TOV_shared": 0.08598096885779635,
-            "FG3M_shared": 0.13725638253388825,
-            "FGM": 8.883222743132432,
-            "FGA": 23.71965433247177,
-            "FGM_cond": 3.634454883868959,
+            "PTS": 50.33203443360999,
+            "REB": 6.333793111589057,
+            "AST": 3.89809515598287,
+            "STL": 1.3011533017964612,
+            "BLK": 0.3923229968920627,
+            "TOV": 1.963699134229938,
+            "FG3M": 3.436271342736205,
+            "PTS_shared": 0.9480122811423143,
+            "REB_shared": 0.2521193574758899,
+            "AST_shared": 0.16556815626474333,
+            "STL_shared": 0.05709101947067004,
+            "BLK_shared": 0.017255657336447704,
+            "TOV_shared": 0.08598096885779628,
+            "FG3M_shared": 0.13725638253388814,
+            "FGM": 8.883222743132428,
+            "FGA": 23.719654332471762,
+            "FGM_cond": 3.6344548838689574,
             "FG_rate": 0.0005435455946784522,
-            "FGA_shared": 0.6600511038732859,
-            "FGM_shared": 0.2549743478120844,
-            "FTM": 5.061709148219101,
-            "FTA": 6.338265259071437,
-            "FTM_cond": 0.4028765934011717,
+            "FGA_shared": 0.6600511038732854,
+            "FGM_shared": 0.2549743478120842,
+            "FTM": 5.061709148219099,
+            "FTA": 6.338265259071434,
+            "FTM_cond": 0.40287659340117155,
             "FT_rate": 0.0008873872512521456,
-            "FTA_shared": 0.1447503101273233,
-            "FTM_shared": 0.11559454435261625
+            "FTA_shared": 0.1447503101273232,
+            "FTM_shared": 0.11559454435261615
           }
         },
         {
@@ -3154,48 +3154,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8496998335430936,
           "mean": {
-            "PTS": 19.224193222839926,
-            "REB": 5.233026729361031,
-            "AST": 3.3574609642688436,
-            "STL": 1.2035317068250753,
-            "BLK": 0.36376528075825937,
-            "TOV": 1.7571430220185196,
-            "FG3M": 2.8489138071991427,
-            "MIN": 32.91864175872356,
-            "FGM": 6.647919765695866,
-            "FGA": 14.132248468872692,
+            "PTS": 19.22419322283992,
+            "REB": 5.233026729361029,
+            "AST": 3.357460964268842,
+            "STL": 1.2035317068250748,
+            "BLK": 0.3637652807582592,
+            "TOV": 1.757143022018519,
+            "FG3M": 2.8489138071991413,
+            "MIN": 32.918641758723545,
+            "FGM": 6.647919765695863,
+            "FGA": 14.132248468872687,
             "FG_rate": 0.47040778969732905,
-            "FTM": 2.740926739549983,
-            "FTA": 3.19701064447985,
+            "FTM": 2.7409267395499817,
+            "FTA": 3.1970106444798487,
             "FT_rate": 0.8573405109809787
           },
           "var": {
-            "PTS": 50.332034433610005,
-            "REB": 6.333793111589059,
-            "AST": 3.8980951559828716,
-            "STL": 1.3011533017964618,
-            "BLK": 0.3923229968920629,
-            "TOV": 1.9636991342299388,
-            "FG3M": 3.4362713427362066,
-            "PTS_shared": 0.9480122811423152,
-            "REB_shared": 0.25211935747589015,
-            "AST_shared": 0.16556815626474347,
-            "STL_shared": 0.057091019470670086,
-            "BLK_shared": 0.01725565733644772,
-            "TOV_shared": 0.08598096885779635,
-            "FG3M_shared": 0.13725638253388825,
-            "FGM": 8.883222743132432,
-            "FGA": 23.71965433247177,
-            "FGM_cond": 3.634454883868959,
+            "PTS": 50.33203443360999,
+            "REB": 6.333793111589057,
+            "AST": 3.89809515598287,
+            "STL": 1.3011533017964612,
+            "BLK": 0.3923229968920627,
+            "TOV": 1.963699134229938,
+            "FG3M": 3.436271342736205,
+            "PTS_shared": 0.9480122811423143,
+            "REB_shared": 0.2521193574758899,
+            "AST_shared": 0.16556815626474333,
+            "STL_shared": 0.05709101947067004,
+            "BLK_shared": 0.017255657336447704,
+            "TOV_shared": 0.08598096885779628,
+            "FG3M_shared": 0.13725638253388814,
+            "FGM": 8.883222743132428,
+            "FGA": 23.719654332471762,
+            "FGM_cond": 3.6344548838689574,
             "FG_rate": 0.0005435455946784522,
-            "FGA_shared": 0.6600511038732859,
-            "FGM_shared": 0.2549743478120844,
-            "FTM": 5.061709148219101,
-            "FTA": 6.338265259071437,
-            "FTM_cond": 0.4028765934011717,
+            "FGA_shared": 0.6600511038732854,
+            "FGM_shared": 0.2549743478120842,
+            "FTM": 5.061709148219099,
+            "FTA": 6.338265259071434,
+            "FTM_cond": 0.40287659340117155,
             "FT_rate": 0.0008873872512521456,
-            "FTA_shared": 0.1447503101273233,
-            "FTM_shared": 0.11559454435261625
+            "FTA_shared": 0.1447503101273232,
+            "FTM_shared": 0.11559454435261615
           }
         },
         {
@@ -3409,48 +3409,48 @@
           "injury_status": "HEALTHY",
           "p": 0.7905049079935809,
           "mean": {
-            "PTS": 11.85329567273711,
-            "REB": 3.968998144975742,
-            "AST": 1.9141602277972478,
-            "STL": 0.8864702264655231,
-            "BLK": 0.9872886292880088,
-            "TOV": 1.588384539123733,
-            "FG3M": 1.2172317464005349,
-            "MIN": 26.485820277190804,
-            "FGM": 4.285877016569308,
-            "FGA": 9.133433961574035,
+            "PTS": 12.907934742822622,
+            "REB": 4.322137105511075,
+            "AST": 2.0844713563116524,
+            "STL": 0.9653433231223797,
+            "BLK": 1.0751319760369784,
+            "TOV": 1.7297099932025173,
+            "FG3M": 1.3255341285013258,
+            "MIN": 28.84237845635064,
+            "FGM": 4.667210063179439,
+            "FGA": 9.946075151490255,
             "FG_rate": 0.4692514375864267,
-            "FTM": 2.147024143657806,
-            "FTA": 2.8271876473587496,
+            "FTM": 2.3380541836429254,
+            "FTA": 3.0787347810580785,
             "FT_rate": 0.7594204599979862
           },
           "var": {
-            "PTS": 31.405792619053774,
-            "REB": 4.974491393628379,
-            "AST": 2.2188938820047506,
-            "STL": 0.9661534421841664,
-            "BLK": 1.1003901552284285,
-            "TOV": 1.8167365990508748,
-            "FG3M": 1.4434979501871394,
-            "PTS_shared": 0.5725853990238263,
-            "REB_shared": 0.18780111137060473,
-            "AST_shared": 0.09246543983119401,
-            "STL_shared": 0.04137059113546916,
-            "BLK_shared": 0.04607567518406727,
-            "TOV_shared": 0.07620127867806623,
-            "FG3M_shared": 0.05759576256264531,
-            "FGM": 5.804177153008547,
-            "FGA": 15.720338398097606,
-            "FGM_cond": 2.3426071872312275,
+            "PTS": 36.648098798158166,
+            "REB": 5.705635331946109,
+            "AST": 2.4889851332044506,
+            "STL": 1.0701535540347404,
+            "BLK": 1.2200733554832717,
+            "TOV": 2.0298430632774522,
+            "FG3M": 1.6036174694063476,
+            "PTS_shared": 0.6790090396309326,
+            "REB_shared": 0.22270678311178843,
+            "AST_shared": 0.10965153775466466,
+            "STL_shared": 0.04905994006090605,
+            "BLK_shared": 0.054639535011577284,
+            "TOV_shared": 0.09036443671468779,
+            "FG3M_shared": 0.06830080454574368,
+            "FGM": 6.6498615261407075,
+            "FGA": 18.581656201719902,
+            "FGM_cond": 2.558238216679547,
             "FG_rate": 0.0007542133806409644,
-            "FGA_shared": 0.4204086413210957,
-            "FGM_shared": 0.15580595282648357,
-            "FTM": 3.83940953980859,
-            "FTA": 5.732957444226086,
-            "FTM_cond": 0.5331015613311307,
+            "FGA_shared": 0.4985479341293923,
+            "FGM_shared": 0.1847648413282203,
+            "FTM": 4.268914095738926,
+            "FTA": 6.393012593765222,
+            "FTM_cond": 0.5819394843084674,
             "FT_rate": 0.0015204923124877232,
-            "FTA_shared": 0.12659340773198371,
-            "FTM_shared": 0.08535464273195018
+            "FTA_shared": 0.15012270371240197,
+            "FTM_shared": 0.10121909166435306
           }
         },
         {
@@ -3460,48 +3460,48 @@
           "injury_status": "HEALTHY",
           "p": 0.7905049079935809,
           "mean": {
-            "PTS": 11.85329567273711,
-            "REB": 3.968998144975742,
-            "AST": 1.9141602277972478,
-            "STL": 0.8864702264655231,
-            "BLK": 0.9872886292880088,
-            "TOV": 1.588384539123733,
-            "FG3M": 1.2172317464005349,
-            "MIN": 26.485820277190804,
-            "FGM": 4.285877016569308,
-            "FGA": 9.133433961574035,
+            "PTS": 12.907934742822622,
+            "REB": 4.322137105511075,
+            "AST": 2.0844713563116524,
+            "STL": 0.9653433231223797,
+            "BLK": 1.0751319760369784,
+            "TOV": 1.7297099932025173,
+            "FG3M": 1.3255341285013258,
+            "MIN": 28.84237845635064,
+            "FGM": 4.667210063179439,
+            "FGA": 9.946075151490255,
             "FG_rate": 0.4692514375864267,
-            "FTM": 2.147024143657806,
-            "FTA": 2.8271876473587496,
+            "FTM": 2.3380541836429254,
+            "FTA": 3.0787347810580785,
             "FT_rate": 0.7594204599979862
           },
           "var": {
-            "PTS": 31.405792619053774,
-            "REB": 4.974491393628379,
-            "AST": 2.2188938820047506,
-            "STL": 0.9661534421841664,
-            "BLK": 1.1003901552284285,
-            "TOV": 1.8167365990508748,
-            "FG3M": 1.4434979501871394,
-            "PTS_shared": 0.5725853990238263,
-            "REB_shared": 0.18780111137060473,
-            "AST_shared": 0.09246543983119401,
-            "STL_shared": 0.04137059113546916,
-            "BLK_shared": 0.04607567518406727,
-            "TOV_shared": 0.07620127867806623,
-            "FG3M_shared": 0.05759576256264531,
-            "FGM": 5.804177153008547,
-            "FGA": 15.720338398097606,
-            "FGM_cond": 2.3426071872312275,
+            "PTS": 36.648098798158166,
+            "REB": 5.705635331946109,
+            "AST": 2.4889851332044506,
+            "STL": 1.0701535540347404,
+            "BLK": 1.2200733554832717,
+            "TOV": 2.0298430632774522,
+            "FG3M": 1.6036174694063476,
+            "PTS_shared": 0.6790090396309326,
+            "REB_shared": 0.22270678311178843,
+            "AST_shared": 0.10965153775466466,
+            "STL_shared": 0.04905994006090605,
+            "BLK_shared": 0.054639535011577284,
+            "TOV_shared": 0.09036443671468779,
+            "FG3M_shared": 0.06830080454574368,
+            "FGM": 6.6498615261407075,
+            "FGA": 18.581656201719902,
+            "FGM_cond": 2.558238216679547,
             "FG_rate": 0.0007542133806409644,
-            "FGA_shared": 0.4204086413210957,
-            "FGM_shared": 0.15580595282648357,
-            "FTM": 3.83940953980859,
-            "FTA": 5.732957444226086,
-            "FTM_cond": 0.5331015613311307,
+            "FGA_shared": 0.4985479341293923,
+            "FGM_shared": 0.1847648413282203,
+            "FTM": 4.268914095738926,
+            "FTA": 6.393012593765222,
+            "FTM_cond": 0.5819394843084674,
             "FT_rate": 0.0015204923124877232,
-            "FTA_shared": 0.12659340773198371,
-            "FTM_shared": 0.08535464273195018
+            "FTA_shared": 0.15012270371240197,
+            "FTM_shared": 0.10121909166435306
           }
         },
         {
@@ -3665,310 +3665,50 @@
   "forecast_changes": {
     "since_previous": {
       "status": "explained",
-      "previous_at": "2026-10-29T10:32:40.827473+00:00",
+      "previous_at": "2026-10-29T13:27:22.319302+00:00",
       "method": "Sequential: resolve old planned games at expected scores, replace with actual scores, then update remaining outlook. Order-dependent arithmetic attribution, not causal identification.",
       "player_note": "Player examples use planned lineup NBA boxscores; actual Yahoo daily starting slots may differ.",
       "categories": [
         {
           "category": "PTS",
           "before": 0.2342334796820747,
-          "after": 0.2342334796820747,
+          "after": 0.22425711608774018,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
+          "remaining_outlook_pp": -0.9976363594334514,
           "remaining_player_changes": [
             {
               "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Jarrett Allen",
+              "name": "James Harden",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -1.7945411251546304
             },
             {
-              "side": "mine",
-              "name": "Neemias Queta",
+              "side": "opponent",
+              "name": "Peyton Watson",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "REB",
-          "before": 0.7083560395591476,
-          "after": 0.7083560395591476,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
-          "remaining_player_changes": [
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 1.667394722128769
             },
             {
               "side": "mine",
-              "name": "Jarrett Allen",
+              "name": "Desmond Bane",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Neemias Queta",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "AST",
-          "before": 0.9887138840417531,
-          "after": 0.9887138840417531,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
-          "remaining_player_changes": [
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Jarrett Allen",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Neemias Queta",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "STL",
-          "before": 0.9775096298064004,
-          "after": 0.9775096298064004,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
-          "remaining_player_changes": [
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Jarrett Allen",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Neemias Queta",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "BLK",
-          "before": 0.27519400878478106,
-          "after": 0.27519400878478106,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
-          "remaining_player_changes": [
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Jarrett Allen",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Neemias Queta",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "TOV",
-          "before": 0.03181880166508217,
-          "after": 0.03181880166508217,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
-          "remaining_player_changes": [
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Jarrett Allen",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Neemias Queta",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 1.503765044665883
             }
           ],
           "score_added": {
@@ -3984,43 +3724,199 @@
         {
           "category": "FG3M",
           "before": 0.48654335225727,
-          "after": 0.48654335225727,
+          "after": 0.4767734969324565,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0,
+          "remaining_outlook_pp": -0.9769855324813503,
           "remaining_player_changes": [
             {
               "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Jarrett Allen",
+              "name": "James Harden",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 28.72896410526871,
-              "new_minutes": 28.72896410526871,
-              "expected_stat_change": 0.0
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -0.2342404778677709
             },
             {
               "side": "mine",
-              "name": "Neemias Queta",
+              "name": "Desmond Bane",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 20.03627494511911,
-              "new_minutes": 20.03627494511911,
-              "expected_stat_change": 0.0
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.17145094444173958
+            },
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 0.1712271291961427
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "REB",
+          "before": 0.7083560395591476,
+          "after": 0.6988145829944312,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.9541456564716388,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 0.5583161630138642
+            },
+            {
+              "side": "mine",
+              "name": "James Harden",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -0.40414353668835723
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.3530886701635456
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "BLK",
+          "before": 0.27519400878478106,
+          "after": 0.26828171762038455,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.6912291164396511,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 0.13888119347928485
+            },
+            {
+              "side": "mine",
+              "name": "James Harden",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -0.04098415194397753
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.037030518429465586
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "TOV",
+          "before": 0.03181880166508217,
+          "after": 0.03494772863949476,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.3128926974412589,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "James Harden",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -0.2989906198599561
+            },
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 0.22343693014740085
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.17020145446620294
             }
           ],
           "score_added": {
@@ -4036,18 +3932,122 @@
         {
           "category": "FG_PCT",
           "before": 0.3257090957267782,
-          "after": 0.3257090957267782,
+          "after": 0.32831869118501444,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0
+          "remaining_outlook_pp": 0.2609595458236247
+        },
+        {
+          "category": "STL",
+          "before": 0.9775096298064004,
+          "after": 0.9761897966645434,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.13198331418570186,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 0.1246991400317945
+            },
+            {
+              "side": "mine",
+              "name": "James Harden",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -0.09147710209534066
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.08420384309452067
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "AST",
+          "before": 0.9887138840417531,
+          "after": 0.9875171026207049,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.11967814210481764,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "James Harden",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.45126246247968,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": -0.6276886099569978
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 30.446678382496096,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.31084125275031216
+            },
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 2,
+              "new_active_games": 2,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.485820277190804,
+              "new_minutes": 28.84237845635064,
+              "expected_stat_change": 0.26926356595312484
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
         },
         {
           "category": "FT_PCT",
           "before": 0.8962514639523316,
-          "after": 0.8962514639523316,
+          "after": 0.8954465956799733,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0
+          "remaining_outlook_pp": -0.08048682723582612
         }
       ]
     },
@@ -4056,5 +4056,5 @@
     },
     "first_record_at": "2026-10-27T23:42:28.400397+00:00"
   },
-  "prospective_forecast_id": "20261029T132722319302Z"
+  "prospective_forecast_id": "20261029T183627075278Z"
 }
