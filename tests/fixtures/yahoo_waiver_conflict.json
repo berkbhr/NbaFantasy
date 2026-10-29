@@ -1,0 +1,11 @@
+{
+  "_provenance": "Reduced from the real local league_state snapshot captured at 2026-10-28T22:39:44.937253+00:00. The stored waiver date pre-existed this capture; this fixture does not claim that the date was successfully scraped in that capture.",
+  "waivers": {
+    "Jay Huff": {"date": "2026-10-30", "display": "Off Waivers 30/10"}
+  },
+  "availability_snapshot": {
+    "source": "yahoo_available_players",
+    "updated_at": "2026-10-28T22:39:44.937253+00:00",
+    "players": [{"name": "Jay Huff", "status": "FA", "yahoo_player_id": "6617"}]
+  }
+}

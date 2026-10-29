@@ -1,16 +1,19 @@
 import json
 import shutil
 import subprocess
+import tempfile
 import unittest
+from pathlib import Path
 
 import pandas as pd
 
+from src import draft_data
 from src.live_draft_assistant import LiveDraftAssistant
 from src.matchup_engine import MatchupEngine
 from src.notifications import render_telegram
 from src.probability import CategoryProbabilities
 from src.waivers import normalize_waiver, waiver_constraints
-from src.yahoo_browser_sync import BOOKMARKLET_JS_RAW
+from src.yahoo_browser_sync import BOOKMARKLET_JS_RAW, apply_browser_sync_payload
 from tests.helpers import player
 
 
@@ -37,6 +40,23 @@ class LiveRegressionTests(unittest.TestCase):
         assistant.df_base = assistant.df_base.iloc[::-1].copy()
         self.assertEqual(assistant.resolve_player_id("Gary", False), 2)
 
+    def test_yahoo_initial_alias_requires_unique_surname_and_initial(self):
+        assistant = LiveDraftAssistant.__new__(LiveDraftAssistant)
+        names = {
+            1: "Nickeil Alexander-Walker",
+            2: "Jalen Williams",
+            3: "Jaylin Williams",
+            4: "Karl-Anthony Towns",
+        }
+        assistant.players = {i: player(i) for i in names}
+        assistant.df_base = pd.DataFrame({"NAME": names})
+        assistant.available_player_ids = set(names)
+        self.assertEqual(assistant.resolve_player_id("N. Alexander-Walker", False), 1)
+        self.assertEqual(assistant.resolve_player_id("N. Alexander Walker", False), 1)
+        self.assertEqual(assistant.resolve_player_id("K. Towns", False), 4)
+        self.assertIsNone(assistant.resolve_player_id("J. Williams", False))
+        self.assertIsNone(assistant.resolve_player_id("A. Alexander-Walker", False))
+
     def test_waiver_dates_normalize_without_guessing_ambiguous_locale(self):
         now = "2026-10-28T19:00Z"
         for raw in (
@@ -44,6 +64,10 @@ class LiveRegressionTests(unittest.TestCase):
             "10/30",
             "2026-10-30",
             {"date": "2026-10-30", "display": "30/10"},
+            "Oct 30",
+            "October 30, 2026",
+            "Off Waivers 30 Oct",
+            "Oct30",
         ):
             self.assertEqual(normalize_waiver(raw, now)["date"], "2026-10-30")
         self.assertIsNone(normalize_waiver("Waiver", now)["date"])
@@ -58,7 +82,65 @@ class LiveRegressionTests(unittest.TestCase):
         self.assertIsNone(info[1]["date"])
         state["waivers"] = {"Jay Huff": {"date": "2026-10-30"}}
         state["availability_snapshot"]["players"][0]["status"] = "FA"
+        self.assertIn(1, waiver_constraints(assistant, state, "2026-10-28T19:00Z"))
+        state["availability_snapshot"]["players"][0]["status_evidence"] = "free_agent_filter"
         self.assertNotIn(1, waiver_constraints(assistant, state, "2026-10-28T19:00Z"))
+
+    def test_real_captured_fa_conflict_keeps_the_stored_future_waiver(self):
+        state = json.loads(
+            (Path(__file__).parents[1] / "fixtures/yahoo_waiver_conflict.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        assistant = type("Assistant", (), {"resolve_player_id": lambda *a, **k: 1})()
+        original = json.dumps(state, sort_keys=True)
+        result = waiver_constraints(assistant, state, "2026-10-29T14:00Z")
+        self.assertEqual(result[1]["date"], "2026-10-30")
+        self.assertIn("conflicts", result[1]["evidence_conflict"])
+        self.assertEqual(json.dumps(state, sort_keys=True), original)
+        self.assertNotIn(1, waiver_constraints(assistant, state, "2026-10-31T14:00Z"))
+
+    def test_unknown_waiver_is_not_erased_by_an_add_button(self):
+        assistant = type("Assistant", (), {"resolve_player_id": lambda *a, **k: 1})()
+        state = {
+            "waivers": {"Player": "Waiver"},
+            "availability_snapshot": {
+                "players": [{"name": "Player", "status": "FA", "status_evidence": "add_button"}]
+            },
+        }
+        result = waiver_constraints(assistant, state, "2026-10-29T14:00Z")
+        self.assertIn(1, result)
+        self.assertIsNone(result[1]["date"])
+
+    def test_sync_keeps_status_evidence_for_downstream_waiver_resolution(self):
+        names = draft_data.build_rosters()[4]
+        payload = {
+            "rosters_by_slot": {"4": [{"name": n} for n in names]},
+            "waivers": {"Claim Player": "2026-10-30"},
+            "availability_snapshot": {
+                "source": "yahoo_available_players",
+                "players": [
+                    {"name": "Claim Player", "status": "FA", "status_evidence": "add_button"}
+                ],
+            },
+        }
+        from unittest.mock import patch
+
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            with (
+                patch("src.yahoo_browser_sync.PROCESSED_DIR", tmp),
+                patch("threading.Thread") as worker,
+                patch("src.yahoo_browser_sync.run_cloud_sync") as cloud,
+                patch("subprocess.run") as git,
+            ):
+                apply_browser_sync_payload(payload)
+                worker.assert_called_once()
+                cloud.assert_not_called()
+                git.assert_not_called()
+            state = json.loads((Path(tmp) / "league_state.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            state["availability_snapshot"]["players"][0]["status_evidence"], "add_button"
+        )
 
     def test_telegram_keeps_waiver_clearance_visible(self):
         message = render_telegram(
@@ -137,9 +219,14 @@ function row(name, title) { return {
  querySelectorAll:()=>[{getAttribute:k=>k==='aria-label'?title:null}],
  querySelector:s=>s.startsWith('a[href*="/players/"')?{textContent:name,getAttribute:()=>'/nba/players/6617'}:s.includes('addplayer')?{}:null
 }; }
-const rows=[row('Jay Huff','Off Waivers 30/10'),row('Unknown Date','Off Waivers'),row('Free Player','Add player')];
-const doc={querySelectorAll:s=>s==='table tbody tr'?rows:[]};
-process.stdout.write(JSON.stringify(parseAvailablePlayersDoc(doc)));
+const named=row('Named Month',''); named.textContent='Named Month W (Oct 30)';
+const nested=row('Nested Tooltip',''); nested.querySelectorAll=()=>[{attributes:[{name:'data-tooltip-content',value:'<span>Off Waivers</span>&nbsp;<b>30/10</b>'}]}];
+const rows=[row('Jay Huff','Off Waivers 30/10'),row('Unknown Date','Off Waivers'),row('Free Player','Add player'),named,nested];
+const doc={querySelectorAll:s=>s==='table tbody tr'?rows:[],querySelector:()=>null};
+const available=parseAvailablePlayersDoc(doc);
+doc.querySelector=()=>({textContent:'Free Agents'});
+const freeOnly=parseAvailablePlayersDoc(doc);
+process.stdout.write(JSON.stringify({available,freeOnly}));
 """
         result = subprocess.run(
             [shutil.which("node"), "-e", parser + fixture],
@@ -148,9 +235,14 @@ process.stdout.write(JSON.stringify(parseAvailablePlayersDoc(doc)));
             timeout=10,
             check=True,
         )
-        parsed = json.loads(result.stdout)
-        self.assertEqual([p["status"] for p in parsed["players"]], ["W", "W", "FA"])
+        both = json.loads(result.stdout)
+        parsed = both["available"]
+        self.assertEqual([p["status"] for p in parsed["players"]], ["W", "W", "FA", "W", "W"])
         self.assertEqual(parsed["waivers"]["Jay Huff"], "30/10")
+        self.assertEqual(parsed["waivers"]["Named Month"], "Oct 30")
+        self.assertEqual(parsed["waivers"]["Nested Tooltip"], "30/10")
+        self.assertNotEqual(parsed["players"][2]["status_evidence"], "free_agent_filter")
+        self.assertEqual(both["freeOnly"]["players"][2]["status_evidence"], "free_agent_filter")
 
     @unittest.skipUnless(shutil.which("node"), "Node unavailable")
     def test_page_scheduler_is_bounded_and_failed_page_keeps_scan_partial(self):

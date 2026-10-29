@@ -885,6 +885,25 @@ class LiveDraftAssistant:
 
         if candidates:
             return candidates[0]  # Already sorted by BASE_Z descending in self.df_base
+        # Yahoo sometimes renders an initial instead of the full first name.
+        # Resolve only unique initial+surname matches; J. Williams must not be
+        # guessed when both Jalen and Jaylin are present.
+        parts = q_norm.replace("-", " ").split()
+        if len(parts) >= 2 and len(parts[0]) == 1:
+            initial, surname = parts[0], " ".join(parts[1:])
+            initials = []
+            for pid, _, name in self._name_rows:
+                tokens = name.replace("-", " ").split()
+                if only_available and pid not in self.available_player_ids:
+                    continue
+                if (
+                    len(tokens) > 1
+                    and tokens[0].startswith(initial)
+                    and (" ".join(tokens[1:]) == surname or tokens[-1] == surname)
+                ):
+                    initials.append(pid)
+            if len(initials) == 1:
+                return initials[0]
         return None
 
     def pick_player(self, player_id, team_idx=None, source="manual"):

@@ -135,11 +135,17 @@ tek 10 saniyelik denemeyle, saat kaydı isteği 6 saniyeyle sınırlıdır;
 başarısız istekte önbellek kullanılır veya mevcut doğruluk kontrolleri öneriyi
 engeller. Zaman aşımında önbellek tarihi güncelmiş gibi değiştirilmez.
 
-Waiver tarihi ISO biçimine normalize edilir; `30/10` ve `10/30` gibi
-anlaşılır tarihler desteklenir. `03/04` gibi locale'i belirsiz tarihlerde
+Waiver tarihi ISO biçimine normalize edilir; `30/10`, `10/30`, `Oct 30` ve
+`October 30, 2026` gibi anlaşılır tarihler desteklenir. `03/04` gibi locale'i belirsiz tarihlerde
 gün uydurulmaz; tarih bilinmeyen waiver öneriden çıkarılır. Güncel Yahoo W
 statüsü, tarih kaydı eksik diye FA'ya dönüşmez. Rapor ve Telegram claim
 durumunu ve açılış tarihini gösterir; açılıştan önceki maçlar katkıya eklenmez.
+
+Add düğmesi veya satırdaki FA sınıflandırması, kayıtlı gelecek waiver
+tarihini silmez. Add, waiver claim için de kullanılabilir. Tarih geçince
+FA kaydı kısıtı kaldırabilir; daha önce kaldırması için Yahoo'nun seçili
+`Free Agents` filtresinden açık kanıt gerekir. Yakalamanın `status_evidence`
+alanı bu ayrımı korur. Tooltip içindeki HTML ve İngilizce ay adları okunur.
 
 Canlı hamle sıralaması geçici olarak aynı ekleme/bırakmanın sakatlık dakika
 dağıtımı açık ve kapalı katkılarının küçüğünü kullanır. Her senaryonun kendi

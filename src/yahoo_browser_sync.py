@@ -240,6 +240,8 @@ BOOKMARKLET_JS_RAW = r"""
     function parseAvailablePlayersDoc(doc, pageUrl=location.href) {
       const waivers = {};
       const players = [];
+      const selectedStatus = doc.querySelector ? doc.querySelector('select[name="status"] option:checked') : null;
+      const freeAgentFilter = selectedStatus && /^Free Agents?$/i.test(selectedStatus.textContent.trim());
       const rows = Array.from(doc.querySelectorAll('table tbody tr'));
       rows.forEach(tr => {
         const pLink = tr.querySelector('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a');
@@ -251,19 +253,21 @@ BOOKMARKLET_JS_RAW = r"""
 
         // Yahoo can put "Off Waivers 30/10" in an action tooltip or aria label,
         // including an Add-looking action. Read these before classifying FA.
-        const trTxt = [tr.textContent || '', ...Array.from(tr.querySelectorAll('[title], [aria-label], [data-tooltip], [data-original-title]')).flatMap(el =>
-          ['title','aria-label','data-tooltip','data-original-title'].map(k => el.getAttribute(k) || ''))].join(' ').replace(/\u00a0/g, ' ');
+        const trTxt = [tr.textContent || '', ...[tr,...Array.from(tr.querySelectorAll('*'))].flatMap(el => [
+          ...(el.getAttribute ? ['title','aria-label','data-tooltip','data-original-title'].map(k => el.getAttribute(k) || '') : []),
+          ...Array.from(el.attributes || []).filter(a => /^(title|aria-label|data-.*(?:tooltip|title|waiver|status).*)$/i.test(a.name)).map(a => a.value)
+        ])].join(' ').replace(/<[^>]*>/g, ' ').replace(/&nbsp;|&#160;|&#xA0;/gi,' ').replace(/[\u00a0\u200b\u2060]/g, ' ');
         const playerId = (pLink.getAttribute('href') || '').match(/\/players?\/(\d+)/);
         const yahoo_player_id = playerId ? playerId[1] : null;
-        const m = trTxt.match(/\bW\s*\(\s*(\d{1,2}[/.]\d{1,2}(?:[/.]\d{4})?)\s*\)/i)
+        const m = trTxt.match(/\bW\s*\(\s*([^)]{1,40})\s*\)/i)
           || trTxt.match(/Off\s+Waivers\s*:?\s*(\d{4}-\d{2}-\d{2}|\d{1,2}[/.]\d{1,2}(?:[/.]\d{4})?)/i);
-        const isClaim = trTxt.includes('Claim') || tr.querySelector('a[href*="claim"], button[title*="Claim"], .claim-player');
+        const isClaim = /\bclaim\b/i.test(trTxt) || tr.querySelector('a[href*="claim"], button[title*="Claim"], .claim-player');
         const isAdd = tr.querySelector('a[href*="addplayer"], a[href*="add?"], button[title*="Add"], a[title*="Add"], .add-player');
         if (m || isClaim || /Off\s+Waivers/i.test(trTxt)) {
           waivers[name] = m ? m[1] : 'Waiver';
-          players.push({ name, status: 'W', yahoo_player_id, waiver: m ? m[1] : 'Waiver' });
+          players.push({ name, status: 'W', yahoo_player_id, waiver: m ? m[1] : 'Waiver', status_evidence: 'waiver_marker' });
         } else if (isAdd || /\bFA\b/.test(trTxt)) {
-          players.push({ name, status: 'FA', yahoo_player_id });
+          players.push({ name, status: 'FA', yahoo_player_id, status_evidence: freeAgentFilter ? 'free_agent_filter' : /\bFA\b/.test(trTxt) ? 'row_fa_text' : 'add_button' });
         }
       });
       const currentStart = Number(new URL(pageUrl, location.origin).searchParams.get('start') || 0);
@@ -610,6 +614,10 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
                 "name": str(p["name"]).strip(),
                 "status": p["status"],
                 "yahoo_player_id": p.get("yahoo_player_id"),
+                "status_evidence": p.get("status_evidence", "legacy_unspecified")
+                if p.get("status_evidence")
+                in ("waiver_marker", "row_fa_text", "add_button", "free_agent_filter")
+                else "legacy_unspecified",
                 **(
                     {
                         "waiver": normalize_waiver(
