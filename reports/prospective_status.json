@@ -1,6 +1,6 @@
 {
   "status": "provisional",
-  "unique_player_games": 0,
+  "unique_player_games": 64,
   "review": "pending",
   "note": "Earliest next-day forecast only; no causal category-gain claim",
   "all": {
@@ -11,7 +11,12 @@
     "n": 0,
     "game_dates": 0
   },
-  "star_rotation_policy_groups": {},
+  "star_rotation_policy_groups": {
+    "{\"minute_variance_scale\": 1.0, \"redistribution_fraction\": 1.0, \"role_evidence_prior_games\": null}": {
+      "n": 0,
+      "game_dates": 0
+    }
+  },
   "review_ready": false,
   "review_rotation_policy": "{\"minute_variance_scale\": 1.0, \"redistribution_fraction\": 1.0, \"role_evidence_prior_games\": null}",
   "spillover_descriptive": {
@@ -22,7 +27,8 @@
     "adoption": "none"
   },
   "availability_descriptive": {
-    "n": 0
+    "n": 64,
+    "brier": 0.3185898966241642
   },
   "rotation_tuning_descriptive": {
     "n": 0
