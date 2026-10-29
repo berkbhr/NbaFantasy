@@ -1,12 +1,10 @@
-name: Offline model checks
+name: Runtime source checks
 
 on:
   pull_request:
   push:
     paths:
       - 'src/**'
-      - 'tests/**'
-      - 'research/**'
       - 'requirements*.txt'
       - 'pyproject.toml'
       - '.github/workflows/checks.yml'
@@ -24,6 +22,20 @@ jobs:
           python-version: '3.11'
           cache: pip
       - run: python -m pip install -r requirements-dev.txt
-      - run: python -m unittest discover -s tests -t . -p 'test_*.py'
-      - run: python -m ruff check src tests research
-      - run: python -m ruff format --check src tests research
+      - run: python -m compileall -q src
+      - run: |
+          python - <<'PY'
+          from src.matchup_engine import ALL_CATEGORIES, MatchupEngine
+          from src.model_policy import load_model_policy
+          from src.rotation_policy import load_rotation_policy
+          from src.settings import LeagueSettings
+          load_model_policy()
+          load_rotation_policy()
+          assert LeagueSettings().objective == 'category_points'
+          dist = {'mean': dict.fromkeys(ALL_CATEGORIES, 0), 'var': dict.fromkeys(ALL_CATEGORIES, 0)}
+          points, probabilities, _ = MatchupEngine.evaluate_h2h_matchup(dist, dist)
+          assert abs(points - 4.5) < 1e-10
+          assert all(abs(p - 1) < 1e-10 for p in probabilities.ties.values())
+          PY
+      - run: python -m ruff check src
+      - run: python -m ruff format --check src

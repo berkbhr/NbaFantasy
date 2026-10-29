@@ -155,63 +155,12 @@ sağlayan hamleler sunulmaz. Bu bir temkinli karar kuralıdır, fit edilmiş
 posterior veya doğrulanmış kategori başarısı artışı değildir; gerçek fırsatları
 kaçırma bedeli tarihsel ve canlı karşılaştırmada ölçülmelidir.
 
-Otomatik testler `tests/unit`, `tests/integration`, `tests/research`;
-ayrı deney çalıştırıcıları `research/` altındadır. Komutlar ve çıktı saklama
-kuralları `tests/README.md` ve `research/README.md` içinde. Yeni deneme
-çıktıları `research/runs/` altında yerelde tutulur; Git'e bütün tekrarlar
-yerine seçilmiş küçük protokol/kanıt dosyaları eklenir.
+Geliştirme testleri, deney çalıştırıcıları ve geçmiş sonuçlar yalnızca
+yerel `research/legacy/` ve `research/current/` altında tutulur. Günlük
+otomasyonun bu klasörlere bağımlılığı yoktur. Canlı model ayarları
+`config/model_policy.json` ve `config/rotation_policy.json` içindedir.
+Bir araştırma adayının bulunması bu ayarları otomatik değiştirmez.
 
-`python -m src.calibrate` ağsız kalibrasyonu yeniden çalıştırır. Önce
-`reports/calibration/protocol.json` yazılır; 2024–25'te aşamalı aday seçilir,
-seçim dondurulur ve 2025–26'da başlangıç politikasıyla karşılaştırılır.
-Komut, kabul kurallarına göre `config/model_policy.json` dosyasını günceller;
-bu nedenle mevcut canlı asistan oturumunu yeniden kurmak gerekir.
-Doğrulanmış moment formülleri hiçbir adayda eski hatalı haline dönmez.
-Karar ve kaynak/veri SHA256 kayıtları `reports/calibration/decision.json`
-dosyasındadır. Önceki çekirdek kıyasları kendi kaynak hash'lerine aittir.
-
-`checks.yml` kaynak değişikliklerinde ağsız test, Ruff ve biçim kontrolü yapar.
-`daily_fantasy_sync.yml` mevcut canlı otomasyondur: UTC 06:30, 12:30, 18:30,
-23:15. Berlin ve Eastern karşılıkları yaz/kış saatine göre değişir; sabit bir
-“tip-off'tan 45 dakika önce” garantisi yoktur. Runtime durumları
-`nba-fantasy-bot` dalına yazılır. Yerel değişiklikler push yapılmadan buluttaki
-otomasyonu değiştirmez.
-
-Her bulut koşusu aynı zamanda sıkıştırılmış tahmin/girdi/sonuç arşivini
-`data/archive/` altında üretir ve bot dalında korur. Önceki bot arşivi
-koşudan önce geri yüklenir. Ayrıntılar ve geçici kabul protokolü
-`docs/PROSPECTIVE.md` içindedir. Telegram uzun tablolar yerine tek kısa
-kart gönderir; `reports/telegram_preview.html` gönderimsiz önizlemedir.
-
-Tarihsel sakatlık raporları `python -m src.injury_backtest --backfill`,
-etiket örneklemi `--labels`, yerel tekrar `--experiments` ile üretilir.
-PDF'ler kalıcı tutulmaz; metin, rapor zamanı ve kaynak hash'i sıkıştırılır.
-Bu komutlar canlı sakatlık veritabanına geçmiş kayıt yazmaz.
-
-`python -m src.injury_backtest --labels-full` tüm maç günleri için açık
-final kadro/DNP ve pozisyon kayıtlarını `historical_labels_v2/` altında
-tamamlar. Başarılı eski kayıtlar tekrar indirilmez; eksik maçlar yeniden
-denenir. İlk arşiv değiştirilmez.
-
-Yeni tuning akışı: `python -m src.tune_rotation`, ardından
-`python -m src.check_rotation_safety`. İlk adım tek başına ana ayarı
-değiştirmez. `python -m src.tune_availability` ayrı, öğlen kesimine
-özgü değerlendirmedir. Sonuç ve sınırlar ilgili raporlardadır.
-
-`python -m src.cloud_audit` GitHub koşuları ve bot arşivini salt okunur
-inceler. `--dispatch` eklenirse gerçek bulut koşusu başlatır ve mevcut
-Telegram yapılandırmasına bildirim gider. Alındı hash'i, arşivden yeniden
-üretilen mesaj ve önceki tahmin blob'larının korunması denetlenir.
-
-Eski 12 takımlı simülatörler, kendi tahminlerinden üretilmiş sezon sonuçları,
-yinelenen Excel veritabanları, türetilebilir DNP/trade dosyaları ve eski
-“tam doğrulanmış” raporlar kaldırıldı. Ham maçlar ve canlı veriler korundu.
-Önceki önsel CSV'si `reports/validation/prior_comparison_legacy.csv` olarak
-saklanır; yeni deneyin kanıtı değildir. Büyük tahmin Parquet çıktısı Git'e eklenmez.
-
-```powershell
-.\.venv\Scripts\python.exe -m src.validation --validation 2024_25 --test 2025_26
-.\.venv\Scripts\python.exe -m unittest discover -s tests -t . -p "test_*.py"
-.\.venv\Scripts\python.exe -m ruff check src tests research
-.\.venv\Scripts\python.exe -m ruff format --check src tests research
-```
+GitHub kaynak kontrolü yalnızca yayımlanan `src/` kodunu derler, temel
+karar hedefini ve deterministik beraberlik hesabını denetler, lint ve biçim
+kontrolü yapar. Ayrıntılı özel testler yerelde çalıştırılır.

@@ -76,22 +76,23 @@ src/
   draft_data.py         Tarihsel draft için tek fallback kaynağı
   cloud_sync.py         Canlı senkronizasyon ve bildirimler
   ...                   NBA, sakatlık ve Yahoo adaptörleri
-tests/                  Sentetik ve izole entegrasyon regresyonları
+research/               Yalnızca yerel geliştirme; Git deposuna eklenmez
 ```
 
-## Doğrulama
+## Model ve doğrulama
+
+Canlı kaynak kodu ve gerekli çalışma verileri bu depodadır. Deney kodları,
+araştırma testleri, özel protokoller ve sonuçlar yerelde `research/legacy/`
+ve `research/current/` altında saklanır; uygulama bu klasörler olmadan çalışır.
+Git geçmişinde daha önce yayımlanmış araştırma kopyaları bulunabilir;
+mevcut daldan kaldırmak geçmiş commit'leri silmez.
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.validation --validation 2024_25 --test 2025_26
 .\.venv\Scripts\python.exe -m src.playoffs path/to/league_outlook.json
 ```
 
 Playoff hesabı gerçek kategori puan durumunu ve kalan eşleşmelerin kategori
 olasılıklarını ister; olmayan fikstür veya puan durumu uydurmaz.
-
-2025–26 için 26.568 oynanmış oyuncu-maç üzerinde PTS MAE, Bayesian modelde
-4,61; basit EWMA'da 4,64'tür. Model her ölçütte üstün değildir. Bu deney
-haftalık olasılık kalibrasyonu veya lig üstünlüğü kanıtı değildir.
 
 Kategori olasılıkları moment/normal yaklaşımları içerir. Sakatlıktan dönüş,
 rotasyon ve aday sıralaması varsayımlar taşır. Kadro ataması doğrusal bir
@@ -101,14 +102,7 @@ dört simülasyonu bu varsayımı kullanır.
 
 - [Matematik ve karar hedefleri](docs/MODEL.md)
 - [Veri, ayarlar ve otomasyon](docs/OPERATIONS.md)
-- [Doğrulama yöntemi ve sonuçlar](docs/VALIDATION.md)
-- [Eski/yeni doğrudan karşılaştırma ve sınırlar](reports/validation/comparison_report.md)
-- [Önsel ve rol kalibrasyonu](reports/calibration/report.md)
 - [Prospektif kayıt ve geçici dakika kabulü](docs/PROSPECTIVE.md)
-- [Tarihsel sakatlık deneyleri ve kapsam sınırları](reports/injury_calibration/report.md)
-- [Düşük rol ile sakatlık fırsatının karşılaştırması](reports/role_opportunity/report.md)
-- [Kontrollü rotasyon tuning'i ve kabul kararı](reports/rotation_tuning/report.md)
-- [Genişletilmiş availability kalibrasyonu](reports/availability_tuning/report.md)
 
 Dakika önselinin zamanla azalması **geçici kabulde**. Eski rol yöntemi ve
 spillover kapalı alternatif gerçek zaman damgalı olarak paralel saklanır.

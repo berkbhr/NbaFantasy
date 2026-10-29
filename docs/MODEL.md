@@ -50,7 +50,7 @@ sayılmaz. Bu eşikler kalıcı rol değişimini kesin teşhis eden kurallar de�
 
 Kalibrasyon yalnızca önsel/rol politikalarını değiştirir. FG/FT momentleri,
 haftalık ortak belirsizlik ve kategori beraberliği düzeltmeleri bütün
-adaylarda korunur. Sonuçlar ve kabul kararı `reports/calibration/` altındadır.
+adaylarda korunur. Seçilmiş canlı katsayılar `config/model_policy.json` içindedir; özel deney sonuçları yerel araştırma alanında tutulur.
 
 Bağımsız dakika M ve oran lambda için tahmin varyansı:
 

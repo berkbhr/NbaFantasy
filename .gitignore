@@ -32,6 +32,10 @@ reports/latest_forecast.json
 reports/forecasts/
 research/runs/
 
+# Private local development: runners, tests, historical experiments and evidence.
+# Already-tracked research files are removed from the index in the cleanup commit.
+research/
+
 # Raw injury PDF downloads & scratch files
 data/raw/injuries/*.pdf
 data/raw/injuries/*.txt

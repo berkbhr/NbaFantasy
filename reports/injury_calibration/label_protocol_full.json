@@ -1,8 +1,0 @@
-{
-  "sampling": "All cached regular-season game dates",
-  "scope": "Explicit completed ESPN final boxscore roster members; missing is unknown",
-  "seasons": [
-    "2024_25",
-    "2025_26"
-  ]
-}

@@ -90,6 +90,7 @@ def render_telegram(
     provisional=True,
     ownership_audit=None,
     live_score_block_reason=None,
+    forecast_changes=None,
 ):
     def label(category):
         return category.replace("_PCT", "%").replace("FG3M", "3PT")
@@ -141,6 +142,12 @@ def render_telegram(
     )
     items = [f"{label(c)} %{100 * probabilities[c]:.0f}" for c in ordered]
     lines.extend(" · ".join(items[i : i + 3]) for i in range(0, len(items), 3))
+    from .forecast_changes import concise_lines
+
+    change_lines = concise_lines(forecast_changes or {}, limit=1)
+    if change_lines:
+        lines.extend(["", "<b>Tahmin neden değişti?</b>"])
+        lines.extend(escape(line) for line in change_lines)
     alerts = [r for r in health if r.get("is_out") or r.get("eff_avail", 1) < 0.8]
     if alerts:
         lines.extend(["", "<b>Kadro uyarıları</b>"])

@@ -10,6 +10,7 @@ from pathlib import Path
 import pandas as pd
 
 from . import draft_data
+from .forecast_changes import archived_comparisons, concise_lines, freeze_games
 from .live_draft_assistant import LiveDraftAssistant
 from .matchup_engine import MatchupEngine
 from .ownership import free_agent_ids
@@ -42,7 +43,6 @@ def local_source_paths():
         for name in (
             "model_policy.json",
             "rotation_policy.json",
-            "rotation_candidate.json",
             "league.json",
             "prospective_protocol.json",
         )
@@ -241,6 +241,7 @@ def build_local_forecast(
                 "yahoo_identity.py",
                 "game_clock.py",
                 "waivers.py",
+                "forecast_changes.py",
             )
         },
         "week_start": str(start.date()),
@@ -269,6 +270,42 @@ def build_local_forecast(
         "notes": notes,
         "source_sha256": sources,
     }
+    result["model_source_sha256_LF"] = {
+        name: hashlib.sha256((ROOT / "src" / name).read_text(encoding="utf-8").encode()).hexdigest()
+        for name in result["model_source_sha256"]
+    }
+    # Save the weekly active-game plan before results arrive. Later updates
+    # explain score surprises using these moments, not today's refitted model.
+    week_anchor = pd.Timestamp(result["id"].split(":", 1)[0])
+    completed = logs[pd.to_datetime(logs.GAME_DATE) >= week_anchor] if not logs.empty else logs
+    result["update_evidence"] = {
+        "mine": freeze_games(my, assistant.players),
+        "opponent": freeze_games(opp, assistant.players),
+        "completed": [
+            {
+                "id": int(row["PLAYER_ID"]),
+                "date": str(pd.Timestamp(row["GAME_DATE"]).date()),
+                "stats": {
+                    c: float(row.get(c, 0))
+                    for c in (
+                        "PTS",
+                        "REB",
+                        "AST",
+                        "STL",
+                        "BLK",
+                        "TOV",
+                        "FG3M",
+                        "FGM",
+                        "FGA",
+                        "FTM",
+                        "FTA",
+                    )
+                },
+            }
+            for row in completed.to_dict("records")
+        ],
+    }
+    result["forecast_changes"] = archived_comparisons(result, ROOT / "data/archive")
     return (result, assistant, engine, logs) if return_context else result
 
 
@@ -291,6 +328,32 @@ def render_report(result):
     ]
     for category, p in result["categories"].items():
         lines.append(f"| {category} | {p['win']:.1%} | {p['tie']:.1%} | {p['loss']:.1%} |")
+    changes = result.get("forecast_changes", {})
+    if changes.get("since_previous", {}).get("status") == "explained":
+        lines.extend(
+            [
+                "",
+                "## Why the weekly forecast changed",
+                "",
+                "Sequential attribution from the previous archived forecast; not causal identification.",
+                "",
+            ]
+        )
+        lines.extend(concise_lines(changes, limit=9))
+        for row in changes["since_previous"]["categories"]:
+            if abs(row["after"] - row["before"]) < 0.1:
+                continue
+            for p in row.get("planned_player_surprises", [])[:2]:
+                lines.append(
+                    f"- Planned {p['side']} player-game: {p['name']} ({p['date']}), {row['category']}: expected {p['expected']:.1f}, observed {p['observed']:g}."
+                )
+            for p in row.get("remaining_player_changes", [])[:2]:
+                lines.append(
+                    f"- Remaining {p['side']} plan: {p['name']}, {row['category']} expectation change {p['expected_stat_change']:+.1f}; active games {p['old_active_games']} → {p['new_active_games']}; status {p['old_status']} → {p['new_status']}."
+                )
+        lines.append(
+            "Player examples are NBA boxscores for the old planned lineup; actual Yahoo starters can differ."
+        )
     if result.get("category_diagnostics"):
         lines.extend(
             [

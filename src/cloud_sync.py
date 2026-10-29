@@ -539,6 +539,7 @@ def run_cloud_sync():
         objective=prospective["objective"],
         ownership_audit=prospective.get("ownership_audit"),
         live_score_block_reason=prospective.get("live_score_block_reason"),
+        forecast_changes=prospective.get("forecast_changes"),
     )
     preview_path = os.path.join(REPORTS_DIR, "telegram_preview.html")
     with open(preview_path, "w", encoding="utf-8") as handle:
