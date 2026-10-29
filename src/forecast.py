@@ -103,6 +103,7 @@ def build_local_forecast(
     rosters = draft_data.resolve_rosters(assistant, {int(k): v for k, v in roster_names.items()})
     live_path = ROOT / "data" / "processed" / "live_matchup.json"
     live = None
+    verified_scoreboard = None
     notes = []
     if state.get("availability_snapshot", {}).get("corrections"):
         notes.append(
@@ -117,6 +118,7 @@ def build_local_forecast(
                     "Yahoo roster and score belong to different synchronization versions"
                 )
             live = validate_live_snapshot(snapshot, now)
+            verified_scoreboard = live
             validate_pregame_window(assistant.schedule_df, now)
             live_block_reason = None
         except ValueError as exc:
@@ -201,6 +203,7 @@ def build_local_forecast(
         "forecast_at": now.isoformat(),
         "live_score_valid": live is not None,
         "live_score": live,
+        "verified_scoreboard": verified_scoreboard,
         "live_score_block_reason": live_block_reason,
         "ownership_audit": ownership_audit,
         "category_diagnostics": engine.category_diagnostics(my, opp, a, b),

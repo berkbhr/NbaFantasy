@@ -35,10 +35,25 @@ def refresh_schedule(season="2026_27", timeout=6):
 
     path = ROOT / "data/processed" / f"schedule_{season}.parquet"
     original = pd.read_parquet(path)
-    raw = scheduleleaguev2.ScheduleLeagueV2(
-        season=season.replace("_", "-"), timeout=timeout
-    ).get_data_frames()[0]
-    enriched = enrich_schedule(original, raw)
+    try:
+        raw = scheduleleaguev2.ScheduleLeagueV2(
+            season=season.replace("_", "-"), timeout=timeout
+        ).get_data_frames()[0]
+        enriched = enrich_schedule(original, raw)
+    except Exception:
+        # The stats endpoint can time out on hosted runners. The official CDN
+        # is an independent transport; the same ID/date checks remain binding.
+        import requests
+
+        response = requests.get(
+            "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json",
+            timeout=timeout,
+        )
+        response.raise_for_status()
+        rows = [
+            game for day in response.json()["leagueSchedule"]["gameDates"] for game in day["games"]
+        ]
+        enriched = enrich_schedule(original, pd.DataFrame(rows))
     enriched["CLOCK_OBSERVED_AT"] = pd.Timestamp.now(tz="UTC")
     temporary = path.with_suffix(".clock.tmp.parquet")
     enriched.to_parquet(temporary, index=False)

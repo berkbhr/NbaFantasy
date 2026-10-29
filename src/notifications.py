@@ -91,6 +91,7 @@ def render_telegram(
     ownership_audit=None,
     live_score_block_reason=None,
     forecast_changes=None,
+    scoreboard=None,
 ):
     def label(category):
         return category.replace("_PCT", "%").replace("FG3M", "3PT")
@@ -115,11 +116,13 @@ def render_telegram(
     else:
         lines.extend(
             [
-                f"<b>Kalan maçlar: {points:.2f} / 9 kategori puanı</b>",
-                "Canlı skor doğrulanmadı; hafta sonu skoru değildir.",
+                "<b>Haftalık tahmin geçici olarak durduruldu</b>",
+                "Doğrulama tamamlanana kadar kategori olasılıkları ve hamleler gösterilmiyor.",
             ]
         )
-    lines.extend(["", "<b>Haftalık maçlar · oynanan / toplam</b>"])
+    snapshot = live or scoreboard
+    if snapshot:
+        lines.extend(["", "<b>Haftalık maçlar · oynanan / toplam</b>"])
 
     def games(team):
         try:
@@ -132,16 +135,19 @@ def render_telegram(
         except (KeyError, TypeError, ValueError):
             return "Maç sayısı bilgisi yok"
 
-    snapshot = live if isinstance(live, Mapping) else {}
-    lines.append("Sen: " + games(snapshot.get("team_a", {})))
-    lines.append("Rakip: " + games(snapshot.get("team_b", {})))
-    lines.extend(["", "<b>Kategori kazanma ihtimalleri</b>"])
+    snapshot = snapshot if isinstance(snapshot, Mapping) else {}
+    if snapshot:
+        lines.append("Sen: " + games(snapshot.get("team_a", {})))
+        lines.append("Rakip: " + games(snapshot.get("team_b", {})))
+    if live:
+        lines.extend(["", "<b>Kategori kazanma ihtimalleri</b>"])
     display_order = ["FG_PCT", "FT_PCT", "FG3M", "PTS", "REB", "AST", "STL", "BLK", "TOV"]
     ordered = [c for c in display_order if c in probabilities] + sorted(
         set(probabilities) - set(display_order)
     )
     items = [f"{label(c)} %{100 * probabilities[c]:.0f}" for c in ordered]
-    lines.extend(" · ".join(items[i : i + 3]) for i in range(0, len(items), 3))
+    if live:
+        lines.extend(" · ".join(items[i : i + 3]) for i in range(0, len(items), 3))
     from .forecast_changes import concise_lines
 
     change_lines = concise_lines(forecast_changes or {}, limit=1)
