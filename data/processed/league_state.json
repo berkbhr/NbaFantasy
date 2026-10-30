@@ -1,12 +1,13 @@
 {
-  "updated_at": "2026-10-30T20:35:19.931079+00:00",
-  "sync_id": "ebf452c4136715a4c112f89e97c5655483a152ae0abf91205d5c3f62e68a26b3",
+  "updated_at": "2026-10-30T21:35:59.672289+00:00",
+  "sync_id": "3f3b7cc37326db44dbfa10e2f0d2969f9b5ce83625ccb5c8189dd1df2e7b1251",
   "league_id": "64691",
   "capture_metrics": {
-    "rosters_ms": 1545,
-    "matchup_ms": 576,
-    "available_and_transactions_ms": 11009,
-    "total_ms": 13130
+    "rosters_ms": 1387,
+    "matchup_ms": 803,
+    "fantasy_calendar_ms": 2108,
+    "available_and_transactions_ms": 15173,
+    "total_ms": 17363
   },
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -144,20 +145,20 @@
       "Brandon Ingram"
     ],
     "8": [
-      "Anthony Edwards",
-      "Stephon Castle",
-      "Quentin Grimes",
+      "Ja Morant",
       "RJ Barrett",
+      "Quentin Grimes",
+      "Paul George",
       "Trevon Brazile",
       "Bobby Portis Jr.",
       "Aaron Gordon",
       "Deandre Ayton",
       "Dillon Brooks",
-      "Paul George",
-      "Ja Morant",
+      "Jalen Duren",
+      "Stephon Castle",
       "Kyle Kuzma",
       "Keyonte George",
-      "Jalen Duren",
+      "Anthony Edwards",
       "Paolo Banchero"
     ],
     "9": [
@@ -272,7 +273,7 @@
     ],
     "5": [],
     "8": [
-      "Jalen Duren",
+      "Anthony Edwards",
       "Paolo Banchero"
     ],
     "10": [
@@ -318,14 +319,14 @@
     "5": [],
     "8": [
       {
-        "name": "Anthony Edwards",
+        "name": "Ja Morant",
         "status": "O",
         "slot": "PG"
       },
       {
-        "name": "Ja Morant",
+        "name": "Jalen Duren",
         "status": "O",
-        "slot": "BN"
+        "slot": "UTIL"
       }
     ],
     "10": [],
@@ -359,7 +360,7 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793392509,
+      "timestamp": 1793396147,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -377,7 +378,7 @@
     {
       "transaction_id": "dom_1",
       "type": "add/drop",
-      "timestamp": 1793392508,
+      "timestamp": 1793396146,
       "date_text": "\ue035",
       "added": [
         {
@@ -390,7 +391,7 @@
     {
       "transaction_id": "dom_2",
       "type": "add/drop",
-      "timestamp": 1793392507,
+      "timestamp": 1793396145,
       "date_text": "\ue035",
       "added": [
         {
@@ -403,7 +404,7 @@
     {
       "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793392506,
+      "timestamp": 1793396144,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -421,7 +422,7 @@
     {
       "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793392505,
+      "timestamp": 1793396143,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -439,7 +440,7 @@
     {
       "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793392504,
+      "timestamp": 1793396142,
       "date_text": "\ue035",
       "added": [
         {
@@ -452,7 +453,7 @@
     {
       "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793392503,
+      "timestamp": 1793396141,
       "date_text": "\ue033",
       "added": [
         {
@@ -465,7 +466,7 @@
     {
       "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793392502,
+      "timestamp": 1793396140,
       "date_text": "\ue033",
       "added": [
         {
@@ -478,7 +479,7 @@
     {
       "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793392501,
+      "timestamp": 1793396139,
       "date_text": "\ue035",
       "added": [
         {
@@ -491,7 +492,7 @@
     {
       "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793392500,
+      "timestamp": 1793396138,
       "date_text": "\ue035",
       "added": [
         {
@@ -504,7 +505,7 @@
     {
       "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793392499,
+      "timestamp": 1793396137,
       "date_text": "\ue033",
       "added": [
         {
@@ -517,7 +518,7 @@
     {
       "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793392498,
+      "timestamp": 1793396136,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -535,7 +536,7 @@
     {
       "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793392497,
+      "timestamp": 1793396135,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -553,7 +554,7 @@
     {
       "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793392496,
+      "timestamp": 1793396134,
       "date_text": "\ue035",
       "added": [
         {
@@ -566,7 +567,7 @@
     {
       "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793392495,
+      "timestamp": 1793396133,
       "date_text": "\ue035",
       "added": [
         {
@@ -579,7 +580,7 @@
     {
       "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793392494,
+      "timestamp": 1793396132,
       "date_text": "\ue035",
       "added": [
         {
@@ -592,7 +593,7 @@
     {
       "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793392493,
+      "timestamp": 1793396131,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -610,7 +611,7 @@
     {
       "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793392492,
+      "timestamp": 1793396130,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -628,7 +629,7 @@
     {
       "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793392491,
+      "timestamp": 1793396129,
       "date_text": "\ue035",
       "added": [
         {
@@ -641,7 +642,7 @@
     {
       "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793392490,
+      "timestamp": 1793396128,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -725,7 +726,7 @@
   },
   "availability_snapshot": {
     "source": "yahoo_available_players",
-    "updated_at": "2026-10-30T20:35:19.931079+00:00",
+    "updated_at": "2026-10-30T21:35:59.672289+00:00",
     "players": [
       {
         "name": "Jakob Poeltl",
@@ -1535,7 +1536,7 @@
         "name": "Ochai Agbaji",
         "status": "FA",
         "yahoo_player_id": "6704",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Landry Shamet",
@@ -3988,7 +3989,7 @@
     ],
     "scan_complete": true,
     "pages_scanned": 22,
-    "sync_id": "ebf452c4136715a4c112f89e97c5655483a152ae0abf91205d5c3f62e68a26b3"
+    "sync_id": "3f3b7cc37326db44dbfa10e2f0d2969f9b5ce83625ccb5c8189dd1df2e7b1251"
   },
   "yahoo_team_slots": {
     "1": "11",
@@ -4021,6 +4022,30 @@
     "12": "saved_id",
     "13": "saved_id",
     "14": "saved_id"
+  },
+  "team_names": {
+    "11": "NBA Fantasy 2025",
+    "1": "NBA Fantasy 2025",
+    "5": "NBA Fantasy 2025",
+    "8": "NBA Fantasy 2025",
+    "10": "NBA Fantasy 2025",
+    "3": "NBA Fantasy 2025",
+    "4": "NBA Fantasy 2025",
+    "12": "NBA Fantasy 2025",
+    "9": "NBA Fantasy 2025",
+    "6": "NBA Fantasy 2025",
+    "13": "NBA Fantasy 2025",
+    "2": "NBA Fantasy 2025",
+    "0": "NBA Fantasy 2025",
+    "7": "NBA Fantasy 2025"
+  },
+  "fantasy_calendar": null,
+  "fantasy_calendar_audit": {
+    "received_weeks": 0,
+    "accepted_weeks": 0,
+    "errors": [
+      "No complete, dated 14-team fantasy week could be verified in Yahoo HTML."
+    ]
   },
   "yahoo_roster_players": {
     "11": [
@@ -4289,14 +4314,14 @@
     ],
     "8": [
       {
-        "name": "Anthony Edwards",
-        "yahoo_player_id": "6355",
+        "name": "Ja Morant",
+        "yahoo_player_id": "6164",
         "selected_position": "PG",
         "status": "O"
       },
       {
-        "name": "Stephon Castle",
-        "yahoo_player_id": "10290",
+        "name": "RJ Barrett",
+        "yahoo_player_id": "6165",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
@@ -4307,8 +4332,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "RJ Barrett",
-        "yahoo_player_id": "6165",
+        "name": "Paul George",
+        "yahoo_player_id": "4725",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
@@ -4343,16 +4368,16 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Paul George",
-        "yahoo_player_id": "4725",
+        "name": "Jalen Duren",
+        "yahoo_player_id": "6703",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "O"
       },
       {
-        "name": "Ja Morant",
-        "yahoo_player_id": "6164",
+        "name": "Stephon Castle",
+        "yahoo_player_id": "10290",
         "selected_position": "BN",
-        "status": "O"
+        "status": "HEALTHY"
       },
       {
         "name": "Kyle Kuzma",
@@ -4367,8 +4392,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Jalen Duren",
-        "yahoo_player_id": "6703",
+        "name": "Anthony Edwards",
+        "yahoo_player_id": "6355",
         "selected_position": "IL",
         "status": "O"
       },
