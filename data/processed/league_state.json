@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-30T08:28:54.345836+00:00",
-  "sync_id": "862cdc75f354161657f7b52b92e259c2284615c6209ccc2b91c9f5175b1e9f0a",
+  "updated_at": "2026-10-30T20:35:19.931079+00:00",
+  "sync_id": "ebf452c4136715a4c112f89e97c5655483a152ae0abf91205d5c3f62e68a26b3",
   "league_id": "64691",
   "capture_metrics": {
-    "rosters_ms": 1486,
-    "matchup_ms": 489,
-    "available_and_transactions_ms": 11605,
-    "total_ms": 13580
+    "rosters_ms": 1545,
+    "matchup_ms": 576,
+    "available_and_transactions_ms": 11009,
+    "total_ms": 13130
   },
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -22,6 +22,7 @@
       "Nikola Joki\u0107",
       "Sandro Mamukelashvili",
       "Naji Marshall",
+      "Jeremiah Fears",
       "Scotty Pippen Jr.",
       "Cameron Boozer",
       "Evan Mobley",
@@ -36,12 +37,12 @@
       "OG Anunoby",
       "John Collins",
       "Mitchell Robinson",
-      "Victor Wembanyama",
+      "Jalen Smith",
       "Obi Toppin",
       "Damian Lillard",
+      "Victor Wembanyama",
       "Peyton Watson",
       "Chet Holmgren",
-      "Jalen Smith",
       "Robert Williams III",
       "Tobias Harris"
     ],
@@ -160,19 +161,19 @@
       "Paolo Banchero"
     ],
     "9": [
-      "Kingston Flemings",
+      "Nolan Traore",
       "Austin Reaves",
       "Fred VanVleet",
       "Duncan Robinson",
-      "Zion Williamson",
+      "Mikal Bridges",
       "Pascal Siakam",
-      "Onyeka Okongwu",
       "Rudy Gobert",
+      "Draymond Green",
       "Wendell Carter Jr.",
       "Keaton Wagler",
-      "Mikal Bridges",
+      "Zion Williamson",
+      "Onyeka Okongwu",
       "Devin Vassell",
-      "Draymond Green",
       "Tyrese Haliburton"
     ],
     "10": [
@@ -216,8 +217,8 @@
       "Kyshawn George",
       "Scottie Barnes",
       "Julius Randle",
-      "Isaiah Hartenstein",
       "P.J. Washington",
+      "Isaiah Hartenstein",
       "Payton Pritchard",
       "VJ Edgecombe",
       "Collin Gillespie",
@@ -320,22 +321,15 @@
         "name": "Anthony Edwards",
         "status": "O",
         "slot": "PG"
-      }
-    ],
-    "10": [
+      },
       {
-        "name": "Dejounte Murray",
+        "name": "Ja Morant",
         "status": "O",
-        "slot": "G"
+        "slot": "BN"
       }
     ],
-    "3": [
-      {
-        "name": "Meleek Thomas",
-        "status": "O",
-        "slot": "SG"
-      }
-    ],
+    "10": [],
+    "3": [],
     "4": [],
     "12": [],
     "9": [],
@@ -358,14 +352,45 @@
     "6": 0,
     "13": 0,
     "2": 0,
-    "0": 1,
+    "0": 0,
     "7": 0
   },
   "transactions": [
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793348923,
+      "timestamp": 1793392509,
+      "date_text": "\ue035\ue033",
+      "added": [
+        {
+          "player_name": "Nolan Traore",
+          "team_name": "Redeem Team"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "Kingston Flemings",
+          "team_name": "Redeem Team"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793392508,
+      "date_text": "\ue035",
+      "added": [
+        {
+          "player_name": "Jeremiah Fears",
+          "team_name": "MuCa Tand\u0131rs"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_2",
+      "type": "add/drop",
+      "timestamp": 1793392507,
       "date_text": "\ue035",
       "added": [
         {
@@ -376,9 +401,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793348922,
+      "timestamp": 1793392506,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -394,9 +419,9 @@
       ]
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793348921,
+      "timestamp": 1793392505,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -412,9 +437,9 @@
       ]
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793348920,
+      "timestamp": 1793392504,
       "date_text": "\ue035",
       "added": [
         {
@@ -425,9 +450,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793348919,
+      "timestamp": 1793392503,
       "date_text": "\ue033",
       "added": [
         {
@@ -438,9 +463,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793348918,
+      "timestamp": 1793392502,
       "date_text": "\ue033",
       "added": [
         {
@@ -451,9 +476,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793348917,
+      "timestamp": 1793392501,
       "date_text": "\ue035",
       "added": [
         {
@@ -464,9 +489,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793348916,
+      "timestamp": 1793392500,
       "date_text": "\ue035",
       "added": [
         {
@@ -477,9 +502,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793348915,
+      "timestamp": 1793392499,
       "date_text": "\ue033",
       "added": [
         {
@@ -490,9 +515,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793348914,
+      "timestamp": 1793392498,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -508,9 +533,9 @@
       ]
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793348913,
+      "timestamp": 1793392497,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -526,9 +551,9 @@
       ]
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793348912,
+      "timestamp": 1793392496,
       "date_text": "\ue035",
       "added": [
         {
@@ -539,9 +564,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793348911,
+      "timestamp": 1793392495,
       "date_text": "\ue035",
       "added": [
         {
@@ -552,9 +577,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_13",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793348910,
+      "timestamp": 1793392494,
       "date_text": "\ue035",
       "added": [
         {
@@ -565,9 +590,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_14",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793348909,
+      "timestamp": 1793392493,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -583,9 +608,9 @@
       ]
     },
     {
-      "transaction_id": "dom_15",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793348908,
+      "timestamp": 1793392492,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -601,9 +626,9 @@
       ]
     },
     {
-      "transaction_id": "dom_16",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793348907,
+      "timestamp": 1793392491,
       "date_text": "\ue035",
       "added": [
         {
@@ -614,9 +639,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_17",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793348906,
+      "timestamp": 1793392490,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -630,32 +655,6 @@
           "team_name": "Samurai Strikers"
         }
       ]
-    },
-    {
-      "transaction_id": "dom_18",
-      "type": "add/drop",
-      "timestamp": 1793348905,
-      "date_text": "\ue035",
-      "added": [
-        {
-          "player_name": "Jake LaRavia",
-          "team_name": "Berk's Best Team"
-        }
-      ],
-      "dropped": []
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793348904,
-      "date_text": "\ue033",
-      "added": [
-        {
-          "player_name": "Cason Wallace",
-          "team_name": "MuCa Tand\u0131rs"
-        }
-      ],
-      "dropped": []
     }
   ],
   "waivers": {
@@ -718,11 +717,15 @@
     "Jaylon Tyson": {
       "date": "2026-11-02",
       "display": "Nov 2"
+    },
+    "Kingston Flemings": {
+      "date": "2026-11-02",
+      "display": "Nov 2"
     }
   },
   "availability_snapshot": {
     "source": "yahoo_available_players",
-    "updated_at": "2026-10-30T08:28:54.345836+00:00",
+    "updated_at": "2026-10-30T20:35:19.931079+00:00",
     "players": [
       {
         "name": "Jakob Poeltl",
@@ -1057,6 +1060,16 @@
         "status": "FA",
         "yahoo_player_id": "10573",
         "status_evidence": "add_button"
+      },
+      {
+        "name": "Kingston Flemings",
+        "status": "W",
+        "yahoo_player_id": "10574",
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "De'Anthony Melton",
@@ -1738,12 +1751,6 @@
         "name": "Tyrese Martin",
         "status": "FA",
         "yahoo_player_id": "6741",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nolan Traore",
-        "status": "FA",
-        "yahoo_player_id": "10455",
         "status_evidence": "add_button"
       },
       {
@@ -3981,7 +3988,7 @@
     ],
     "scan_complete": true,
     "pages_scanned": 22,
-    "sync_id": "862cdc75f354161657f7b52b92e259c2284615c6209ccc2b91c9f5175b1e9f0a"
+    "sync_id": "ebf452c4136715a4c112f89e97c5655483a152ae0abf91205d5c3f62e68a26b3"
   },
   "yahoo_team_slots": {
     "1": "11",
@@ -4152,8 +4159,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Victor Wembanyama",
-        "yahoo_player_id": "10094",
+        "name": "Jalen Smith",
+        "yahoo_player_id": "6402",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -4170,6 +4177,12 @@
         "status": "HEALTHY"
       },
       {
+        "name": "Victor Wembanyama",
+        "yahoo_player_id": "10094",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
         "name": "Peyton Watson",
         "yahoo_player_id": "6720",
         "selected_position": "BN",
@@ -4182,16 +4195,10 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Jalen Smith",
-        "yahoo_player_id": "6402",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
         "name": "Robert Williams III",
         "yahoo_player_id": "6038",
         "selected_position": "IL",
-        "status": "O"
+        "status": "HEALTHY"
       },
       {
         "name": "Tobias Harris",
@@ -4345,7 +4352,7 @@
         "name": "Ja Morant",
         "yahoo_player_id": "6164",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "O"
       },
       {
         "name": "Kyle Kuzma",
@@ -4389,7 +4396,7 @@
         "name": "Dejounte Murray",
         "yahoo_player_id": "5660",
         "selected_position": "G",
-        "status": "O"
+        "status": "HEALTHY"
       },
       {
         "name": "Jaden McDaniels",
@@ -4475,7 +4482,7 @@
         "name": "Meleek Thomas",
         "yahoo_player_id": "10617",
         "selected_position": "SG",
-        "status": "O"
+        "status": "HEALTHY"
       },
       {
         "name": "Stephen Curry",
@@ -4680,14 +4687,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Isaiah Hartenstein",
-        "yahoo_player_id": "5856",
+        "name": "P.J. Washington",
+        "yahoo_player_id": "6174",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "P.J. Washington",
-        "yahoo_player_id": "6174",
+        "name": "Isaiah Hartenstein",
+        "yahoo_player_id": "5856",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -4736,8 +4743,8 @@
     ],
     "9": [
       {
-        "name": "Kingston Flemings",
-        "yahoo_player_id": "10574",
+        "name": "Nolan Traore",
+        "yahoo_player_id": "10455",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
@@ -4760,8 +4767,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Zion Williamson",
-        "yahoo_player_id": "6163",
+        "name": "Mikal Bridges",
+        "yahoo_player_id": "6021",
         "selected_position": "PF",
         "status": "HEALTHY"
       },
@@ -4772,14 +4779,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Onyeka Okongwu",
-        "yahoo_player_id": "6398",
+        "name": "Rudy Gobert",
+        "yahoo_player_id": "5197",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "Rudy Gobert",
-        "yahoo_player_id": "5197",
+        "name": "Draymond Green",
+        "yahoo_player_id": "5069",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -4796,20 +4803,20 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Mikal Bridges",
-        "yahoo_player_id": "6021",
+        "name": "Zion Williamson",
+        "yahoo_player_id": "6163",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Onyeka Okongwu",
+        "yahoo_player_id": "6398",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
         "name": "Devin Vassell",
         "yahoo_player_id": "6403",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Draymond Green",
-        "yahoo_player_id": "5069",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -5134,9 +5141,15 @@
         "status": "HEALTHY"
       },
       {
+        "name": "Jeremiah Fears",
+        "yahoo_player_id": "10440",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
         "name": "Scotty Pippen Jr.",
         "yahoo_player_id": "6757",
-        "selected_position": "UTIL",
+        "selected_position": "BN",
         "status": "HEALTHY"
       },
       {

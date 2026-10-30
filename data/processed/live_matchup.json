@@ -1,7 +1,7 @@
 {
   "week": 1,
-  "updated_at": "2026-10-30T08:28:54.345836+00:00",
-  "sync_id": "862cdc75f354161657f7b52b92e259c2284615c6209ccc2b91c9f5175b1e9f0a",
+  "updated_at": "2026-10-30T20:35:19.931079+00:00",
+  "sync_id": "ebf452c4136715a4c112f89e97c5655483a152ae0abf91205d5c3f62e68a26b3",
   "matchup": {
     "team_a": {
       "name": "Berk's Best Team",
@@ -25,8 +25,8 @@
     "team_b": {
       "name": "Mordor Tulums",
       "games_played": 27,
-      "games_remaining": 13,
-      "total_scheduled": 40,
+      "games_remaining": 16,
+      "total_scheduled": 43,
       "yahoo_team_id": 2,
       "FGM": 128,
       "FGA": 287,
