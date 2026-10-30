@@ -1,26 +1,37 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-30T08:29:46.935179+00:00
-Matchup: **Berk's Best Team vs SILE BULLS**
+Generated: 2026-10-30T08:48:56.055806+00:00
+Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-30 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **4.923**.
-Expected category points: **4.92 / 9**.
-Expected category wins: 4.79; ties: 0.26.
-Secondary weekly W/L/D: 59.4% / 34.7% / 5.9%.
+Objective value: **5.761**.
+Expected category points: **5.76 / 9**.
+Expected category wins: 5.69; ties: 0.14.
+Secondary weekly W/L/D: 88.5% / 9.5% / 2.0%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 60.2% | 0.8% | 38.9% |
-| REB | 72.4% | 1.7% | 25.9% |
-| AST | 17.0% | 1.9% | 81.2% |
-| STL | 40.6% | 5.8% | 53.6% |
-| BLK | 64.8% | 7.0% | 28.2% |
-| TOV | 66.6% | 4.1% | 29.3% |
-| FG3M | 42.1% | 4.5% | 53.3% |
-| FG_PCT | 69.3% | 0.0% | 30.7% |
-| FT_PCT | 46.4% | 0.0% | 53.6% |
+| PTS | 37.3% | 0.8% | 61.9% |
+| REB | 76.7% | 1.5% | 21.8% |
+| AST | 99.4% | 0.1% | 0.5% |
+| STL | 99.7% | 0.1% | 0.2% |
+| BLK | 22.8% | 5.9% | 71.2% |
+| TOV | 1.8% | 0.7% | 97.5% |
+| FG3M | 54.4% | 4.6% | 41.0% |
+| FG_PCT | 79.0% | 0.0% | 21.0% |
+| FT_PCT | 98.1% | 0.0% | 1.9% |
+
+## Why the weekly forecast changed
+
+Sequential attribution from the previous archived forecast; not causal identification.
+
+FG% %36 → %79: skor +45, kalan beklenti -2, maçların tamamlanması +0 yüzde puan.
+BLK %38 → %23: skor -7, kalan beklenti -9, maçların tamamlanması +0 yüzde puan.
+Eklenen skor sen/rakip: 2/3; önceki aktif kadro planının beklentisi: 0.0/0.0.
+- Remaining opponent plan: Chet Holmgren, BLK expectation change +1.3; active games 0 → 1; status None → QUESTIONABLE.
+- Remaining opponent plan: Peyton Watson, BLK expectation change -0.9; active games 2 → 1; status HEALTHY → HEALTHY.
+Player examples are NBA boxscores for the old planned lineup; actual Yahoo starters can differ.
 
 ## Realized scores and remaining projections
 
@@ -28,19 +39,26 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 0 / 0 | 232.85 / 220.38 | 46.18 |
-| REB | 0 / 0 | 91.49 / 79.37 | 19.52 |
-| AST | 0 / 0 | 49.36 / 62.33 | 14.11 |
-| STL | 0 / 0 | 17.23 / 18.34 | 6.77 |
-| BLK | 0 / 0 | 11.40 / 8.98 | 5.04 |
-| TOV | 0 / 0 | 24.03 / 28.22 | 8.62 |
-| FG3M | 0 / 0 | 24.94 / 26.17 | 8.71 |
+| PTS | 268 / 347 | 232.85 / 168.64 | 47.27 |
+| REB | 131 / 139 | 91.49 / 68.26 | 20.21 |
+| AST | 61 / 53 | 49.36 / 27.10 | 11.85 |
+| STL | 30 / 20 | 17.23 / 10.47 | 5.97 |
+| BLK | 17 / 22 | 11.40 / 9.94 | 5.43 |
+| TOV | 31 / 23 | 24.03 / 16.52 | 7.65 |
+| FG3M | 34 / 36 | 24.94 / 21.49 | 8.59 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Eligibility | Δ category_points | Conservative ranking gain |
 |---|---|---|---:|---:|
-| No eligible recommendation | — | — | — | — |
+| Jay Huff | Jaxson Hayes | FA | +0.356 | +0.281 |
+| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.174 | +0.174 |
+| Jarace Walker | Jaxson Hayes | FA | +0.178 | +0.143 |
+| Noah Clowney | Jaxson Hayes | FA | +0.128 | +0.128 |
+| Jakob Poeltl | Jaxson Hayes | FA | +0.125 | +0.125 |
+| Collin Sexton | Jaxson Hayes | FA | +0.115 | +0.105 |
+| Royce O'Neale | Jaxson Hayes | FA | +0.103 | +0.103 |
+| De'Anthony Melton | Jaxson Hayes | FA | +0.100 | +0.100 |
 
 ## Forecast active lineups
 
@@ -50,8 +68,6 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 ## Assumptions and data quality
 
-- NBA schedule clock predates current Eastern day; refresh schedule
-- No valid live scoreboard: totals describe remaining games only; in-week add/drop recommendations withheld.
 - Local caches only; no data fetched and no notifications sent.
 - Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.
 - Return dates, rotations and future lineup choices remain model assumptions.
