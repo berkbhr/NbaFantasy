@@ -1,6 +1,6 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-30T08:48:56.055806+00:00
+Generated: 2026-10-30T13:16:57.928810+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-30 – 2026-11-01
 
@@ -26,11 +26,6 @@ Secondary weekly W/L/D: 88.5% / 9.5% / 2.0%.
 
 Sequential attribution from the previous archived forecast; not causal identification.
 
-FG% %36 → %79: skor +45, kalan beklenti -2, maçların tamamlanması +0 yüzde puan.
-BLK %38 → %23: skor -7, kalan beklenti -9, maçların tamamlanması +0 yüzde puan.
-Eklenen skor sen/rakip: 2/3; önceki aktif kadro planının beklentisi: 0.0/0.0.
-- Remaining opponent plan: Chet Holmgren, BLK expectation change +1.3; active games 0 → 1; status None → QUESTIONABLE.
-- Remaining opponent plan: Peyton Watson, BLK expectation change -0.9; active games 2 → 1; status HEALTHY → HEALTHY.
 Player examples are NBA boxscores for the old planned lineup; actual Yahoo starters can differ.
 
 ## Realized scores and remaining projections
