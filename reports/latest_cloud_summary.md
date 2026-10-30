@@ -1,6 +1,6 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-30T13:16:57.928810+00:00
+Generated: 2026-10-30T18:08:38.348953+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-30 – 2026-11-01
 
@@ -49,11 +49,11 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 | Jay Huff | Jaxson Hayes | FA | +0.356 | +0.281 |
 | Ryan Kalkbrenner | Jaxson Hayes | FA | +0.174 | +0.174 |
 | Jarace Walker | Jaxson Hayes | FA | +0.178 | +0.143 |
-| Noah Clowney | Jaxson Hayes | FA | +0.128 | +0.128 |
 | Jakob Poeltl | Jaxson Hayes | FA | +0.125 | +0.125 |
 | Collin Sexton | Jaxson Hayes | FA | +0.115 | +0.105 |
 | Royce O'Neale | Jaxson Hayes | FA | +0.103 | +0.103 |
 | De'Anthony Melton | Jaxson Hayes | FA | +0.100 | +0.100 |
+| Graham Ike | Jaxson Hayes | FA | +0.101 | +0.099 |
 
 ## Forecast active lineups
 

@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-30T13:16:57.928810+00:00",
+  "forecast_at": "2026-10-30T18:08:38.348953+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -773,124 +773,6 @@
     },
     {
       "action": "ADD / DROP",
-      "add_id": 1641730,
-      "add_name": "Noah Clowney",
-      "drop_id": 1629637,
-      "drop_name": "Jaxson Hayes",
-      "rem_games_add": 2,
-      "rem_games_drop": 1,
-      "fa_avail": 0.8496998335430936,
-      "observed_games": 3,
-      "observed_minutes": 20.666666666666668,
-      "role_base_minutes": 22.398830395613004,
-      "projected_minutes": 24.327477800804516,
-      "prior_role_minutes": 24.130994124559344,
-      "is_waiver": false,
-      "waiver_clear_date": null,
-      "waiver_display": "",
-      "base_expected_wins": 5.760582235306559,
-      "new_expected_wins": 5.888874000374125,
-      "delta_expected_wins": 0.12829176506756568,
-      "objective": "category_points",
-      "base_objective_value": 5.760582235306559,
-      "new_objective_value": 5.888874000374125,
-      "delta_objective_value": 0.12829176506756568,
-      "base_win_probability": 0.8853742933227002,
-      "new_win_probability": 0.9073158238324134,
-      "new_draw_probability": 0.016379177828781948,
-      "cat_details": [
-        {
-          "cat": "FG3M",
-          "base_pct": 54,
-          "new_pct": 66,
-          "delta_pct": 11.71,
-          "is_flip": false,
-          "is_crit": true,
-          "score": 0.11713515308241562
-        },
-        {
-          "cat": "PTS",
-          "base_pct": 37,
-          "new_pct": 44,
-          "delta_pct": 6.7,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.06702134984282881
-        },
-        {
-          "cat": "REB",
-          "base_pct": 77,
-          "new_pct": 79,
-          "delta_pct": 2.11,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.021127072301451943
-        },
-        {
-          "cat": "FT_PCT",
-          "base_pct": 98,
-          "new_pct": 98,
-          "delta_pct": 0.32,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.0031903443350993488
-        },
-        {
-          "cat": "AST",
-          "base_pct": 99,
-          "new_pct": 100,
-          "delta_pct": 0.1,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.001030366781743286
-        },
-        {
-          "cat": "STL",
-          "base_pct": 100,
-          "new_pct": 100,
-          "delta_pct": 0.05,
-          "is_flip": false,
-          "is_crit": false,
-          "score": 0.000456238998621461
-        }
-      ],
-      "cat_gains": [
-        [
-          "FG3M",
-          0.11710000000000001
-        ],
-        [
-          "PTS",
-          0.067
-        ]
-      ],
-      "target_cats": [
-        "FG3M",
-        "PTS"
-      ],
-      "key_cat_gains": "FG3M (%54 → %66), PTS (%37 → %44)",
-      "exp_stats_pg": {
-        "PTS": 10.6,
-        "REB": 4.0,
-        "AST": 1.3,
-        "STL": 0.6,
-        "BLK": 0.6,
-        "3PT": 1.7
-      },
-      "exp_stats": {
-        "PTS": 18.0,
-        "REB": 6.8,
-        "AST": 2.3,
-        "STL": 1.1,
-        "BLK": 1.0,
-        "3PT": 2.9
-      },
-      "delta_without_spillover": 0.1561795824518697,
-      "robust_delta_objective_value": 0.12829176506756568,
-      "ranking_basis": "minimum_gain_with_and_without_spillover"
-    },
-    {
-      "action": "ADD / DROP",
       "add_id": 1627751,
       "add_name": "Jakob Poeltl",
       "drop_id": 1629637,
@@ -1260,7 +1142,7 @@
       "delta_objective_value": 0.09958764967818912,
       "base_win_probability": 0.8853742933227002,
       "new_win_probability": 0.9029480762434514,
-      "new_draw_probability": 0.01661538308801689,
+      "new_draw_probability": 0.01661538308801688,
       "cat_details": [
         {
           "cat": "FG3M",
@@ -1351,6 +1233,124 @@
       "delta_without_spillover": 0.12895803127831407,
       "robust_delta_objective_value": 0.09958764967818912,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
+    },
+    {
+      "action": "ADD / DROP",
+      "add_id": 1643633,
+      "add_name": "Graham Ike",
+      "drop_id": 1629637,
+      "drop_name": "Jaxson Hayes",
+      "rem_games_add": 2,
+      "rem_games_drop": 1,
+      "fa_avail": 0.7838458977586056,
+      "observed_games": 3,
+      "observed_minutes": 16.666666666666668,
+      "role_base_minutes": 16.294871794871796,
+      "projected_minutes": 18.63303231584551,
+      "prior_role_minutes": 15.923076923076923,
+      "is_waiver": false,
+      "waiver_clear_date": null,
+      "waiver_display": "",
+      "base_expected_wins": 5.760582235306559,
+      "new_expected_wins": 5.861187984230004,
+      "delta_expected_wins": 0.10060574892344487,
+      "objective": "category_points",
+      "base_objective_value": 5.760582235306559,
+      "new_objective_value": 5.861187984230004,
+      "delta_objective_value": 0.10060574892344487,
+      "base_win_probability": 0.8853742933227002,
+      "new_win_probability": 0.9063791661054085,
+      "new_draw_probability": 0.016234430104472217,
+      "cat_details": [
+        {
+          "cat": "PTS",
+          "base_pct": 37,
+          "new_pct": 43,
+          "delta_pct": 5.58,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.055819537972294275
+        },
+        {
+          "cat": "FG3M",
+          "base_pct": 54,
+          "new_pct": 60,
+          "delta_pct": 5.3,
+          "is_flip": false,
+          "is_crit": true,
+          "score": 0.05298208009286709
+        },
+        {
+          "cat": "REB",
+          "base_pct": 77,
+          "new_pct": 81,
+          "delta_pct": 4.47,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.04472724828739394
+        },
+        {
+          "cat": "FT_PCT",
+          "base_pct": 98,
+          "new_pct": 98,
+          "delta_pct": 0.28,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.002849319073658929
+        },
+        {
+          "cat": "AST",
+          "base_pct": 99,
+          "new_pct": 100,
+          "delta_pct": 0.14,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.0014239345660136404
+        },
+        {
+          "cat": "STL",
+          "base_pct": 100,
+          "new_pct": 100,
+          "delta_pct": 0.05,
+          "is_flip": false,
+          "is_crit": false,
+          "score": 0.0005009231554138349
+        }
+      ],
+      "cat_gains": [
+        [
+          "PTS",
+          0.0558
+        ],
+        [
+          "FG3M",
+          0.053
+        ]
+      ],
+      "target_cats": [
+        "PTS",
+        "FG3M"
+      ],
+      "key_cat_gains": "PTS (%37 → %43), FG3M (%54 → %60)",
+      "exp_stats_pg": {
+        "PTS": 10.1,
+        "REB": 5.5,
+        "AST": 1.8,
+        "STL": 0.8,
+        "BLK": 0.4,
+        "3PT": 0.8
+      },
+      "exp_stats": {
+        "PTS": 15.8,
+        "REB": 8.6,
+        "AST": 2.8,
+        "STL": 1.2,
+        "BLK": 0.7,
+        "3PT": 1.3
+      },
+      "delta_without_spillover": 0.09880012918976622,
+      "robust_delta_objective_value": 0.09880012918976622,
+      "ranking_basis": "minimum_gain_with_and_without_spillover"
     }
   ],
   "notes": [
@@ -1364,12 +1364,12 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "2315ae41244f3a9f7711d6a27d1e6f6c3f6adad9205fd409176da058716b3fe0",
+    "data/processed/league_state.json": "2401639f8d8fdd6ef2ccf2504143bc9a61e6154824d70dd9cc8fa20f9a768bf3",
     "data/processed/live_matchup.json": "d238c281e6d13a668c1226dd5d1621963acfbda879dbc48902ad0609d2980b51",
-    "data/processed/injuries.db": "6fc461b8e7c66a9db074a2063c8ac54deae09f3d91d7dfd2b4475b7542f08286",
+    "data/processed/injuries.db": "6fdf7e91ff632049a704aacfe7813605eaf1d929ab09ae21b68f4fe5a9a90297",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
-    "data/processed/schedule_2026_27.parquet": "245bb8f4bf68e98cbddb1f930f259e9c53a94f46687e159815003f5dc5ebef61",
+    "data/processed/schedule_2026_27.parquet": "183be44f0578057dae77d264cdf851ab0344bde0f66be9a06cc38daf49a1b2e4",
     "config/model_policy.json": "ab27322f752d4a3d9051306af3c8fb759fb0f062b3b659eacae6d5cc43421fbe",
     "config/rotation_policy.json": "39f2ac5aaed4d086c660dd8ab0e8c10900dd64e871c7112e201b197dfd27d1e8",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
@@ -1452,7 +1452,7 @@
           "injury_status": "HEALTHY",
           "p": 0.8496998335430936,
           "mean": {
-            "PTS": 12.97228664706176,
+            "PTS": 12.972286647061761,
             "REB": 8.18058953670146,
             "AST": 4.987432802352482,
             "STL": 1.3734077497356483,
@@ -1468,7 +1468,7 @@
             "FT_rate": 0.7630903368183587
           },
           "var": {
-            "PTS": 32.23438179338345,
+            "PTS": 32.234381793383456,
             "REB": 10.73499255657433,
             "AST": 6.0832490920282005,
             "STL": 1.4981227442854563,
@@ -1477,10 +1477,10 @@
             "FG3M": 1.962993679628671,
             "PTS_shared": 0.6658259459709988,
             "REB_shared": 0.40795959525027586,
-            "AST_shared": 0.2559889596908721,
+            "AST_shared": 0.25598895969087204,
             "STL_shared": 0.0671873715731277,
             "BLK_shared": 0.014974518828984446,
-            "TOV_shared": 0.10244975819452024,
+            "TOV_shared": 0.10244975819452022,
             "FG3M_shared": 0.08293795893209513,
             "FGM": 6.547555582710177,
             "FGA": 16.46992728858601,
@@ -1659,8 +1659,8 @@
             "PTS": 7.613486334177427,
             "REB": 5.279303132233342,
             "AST": 1.7471176336629872,
-            "STL": 1.1222532446439861,
-            "BLK": 0.5750442364598697,
+            "STL": 1.122253244643986,
+            "BLK": 0.5750442364598696,
             "TOV": 0.46755499792096056,
             "FG3M": 1.5729371950861777,
             "MIN": 29.153762293896545,
@@ -1675,16 +1675,16 @@
             "PTS": 21.40573443923671,
             "REB": 8.277120052943527,
             "AST": 2.1794871354581473,
-            "STL": 1.3114541102858819,
-            "BLK": 0.654844171287725,
+            "STL": 1.3114541102858817,
+            "BLK": 0.6548441712877249,
             "TOV": 0.5286079670252032,
             "FG3M": 2.0297382056520457,
             "PTS_shared": 0.4774258395847106,
             "REB_shared": 0.3252203482641211,
             "AST_shared": 0.10955810078234336,
-            "STL_shared": 0.06831944684195063,
-            "BLK_shared": 0.035006986464140834,
-            "TOV_shared": 0.02914615940137611,
+            "STL_shared": 0.06831944684195061,
+            "BLK_shared": 0.03500698646414083,
+            "TOV_shared": 0.029146159401376107,
             "FG3M_shared": 0.09689748240827217,
             "FGM": 4.464846785000267,
             "FGA": 12.54980545437252,
@@ -1710,8 +1710,8 @@
             "PTS": 7.613486334177427,
             "REB": 5.279303132233342,
             "AST": 1.7471176336629872,
-            "STL": 1.1222532446439861,
-            "BLK": 0.5750442364598697,
+            "STL": 1.122253244643986,
+            "BLK": 0.5750442364598696,
             "TOV": 0.46755499792096056,
             "FG3M": 1.5729371950861777,
             "MIN": 29.153762293896545,
@@ -1726,16 +1726,16 @@
             "PTS": 21.40573443923671,
             "REB": 8.277120052943527,
             "AST": 2.1794871354581473,
-            "STL": 1.3114541102858819,
-            "BLK": 0.654844171287725,
+            "STL": 1.3114541102858817,
+            "BLK": 0.6548441712877249,
             "TOV": 0.5286079670252032,
             "FG3M": 2.0297382056520457,
             "PTS_shared": 0.4774258395847106,
             "REB_shared": 0.3252203482641211,
             "AST_shared": 0.10955810078234336,
-            "STL_shared": 0.06831944684195063,
-            "BLK_shared": 0.035006986464140834,
-            "TOV_shared": 0.02914615940137611,
+            "STL_shared": 0.06831944684195061,
+            "BLK_shared": 0.03500698646414083,
+            "TOV_shared": 0.029146159401376107,
             "FG3M_shared": 0.09689748240827217,
             "FGM": 4.464846785000267,
             "FGA": 12.54980545437252,
@@ -1786,7 +1786,7 @@
             "AST_shared": 0.08100947528495675,
             "STL_shared": 0.059815318052956874,
             "BLK_shared": 0.04393981110133923,
-            "TOV_shared": 0.05471774551437458,
+            "TOV_shared": 0.05471774551437457,
             "FG3M_shared": 0.021804027848587308,
             "FGM": 8.178268478030338,
             "FGA": 21.062928440646786,
@@ -1835,8 +1835,8 @@
             "PTS_shared": 0.970854703812045,
             "REB_shared": 0.13601992933796428,
             "AST_shared": 0.21299950381593763,
-            "STL_shared": 0.06098104969908643,
-            "BLK_shared": 0.024725816553186755,
+            "STL_shared": 0.060981049699086416,
+            "BLK_shared": 0.02472581655318675,
             "TOV_shared": 0.08073677154785096,
             "FG3M_shared": 0.09952691578326084,
             "FGM": 10.48953530472698,
@@ -1886,8 +1886,8 @@
             "PTS_shared": 0.970854703812045,
             "REB_shared": 0.13601992933796428,
             "AST_shared": 0.21299950381593763,
-            "STL_shared": 0.06098104969908643,
-            "BLK_shared": 0.024725816553186755,
+            "STL_shared": 0.060981049699086416,
+            "BLK_shared": 0.02472581655318675,
             "TOV_shared": 0.08073677154785096,
             "FG3M_shared": 0.09952691578326084,
             "FGM": 10.48953530472698,
@@ -1939,7 +1939,7 @@
             "AST_shared": 0.1860937712532524,
             "STL_shared": 0.04825810462804806,
             "BLK_shared": 0.021222578057322704,
-            "TOV_shared": 0.10101043372779545,
+            "TOV_shared": 0.10101043372779543,
             "FG3M_shared": 0.0999910865643051,
             "FGM": 8.875701167644639,
             "FGA": 24.567011358029234,
@@ -1990,7 +1990,7 @@
             "AST_shared": 0.1860937712532524,
             "STL_shared": 0.04825810462804806,
             "BLK_shared": 0.021222578057322704,
-            "TOV_shared": 0.10101043372779545,
+            "TOV_shared": 0.10101043372779543,
             "FG3M_shared": 0.0999910865643051,
             "FGM": 8.875701167644639,
             "FGA": 24.567011358029234,
@@ -2041,7 +2041,7 @@
             "AST_shared": 0.22816956850226358,
             "STL_shared": 0.04474506060967127,
             "BLK_shared": 0.016384401511904925,
-            "TOV_shared": 0.08564327009170845,
+            "TOV_shared": 0.08564327009170844,
             "FG3M_shared": 0.0908318263748265,
             "FGM": 8.880150407939276,
             "FGA": 23.332342990504483,
@@ -2092,7 +2092,7 @@
             "AST_shared": 0.22816956850226358,
             "STL_shared": 0.04474506060967127,
             "BLK_shared": 0.016384401511904925,
-            "TOV_shared": 0.08564327009170845,
+            "TOV_shared": 0.08564327009170844,
             "FG3M_shared": 0.0908318263748265,
             "FGM": 8.880150407939276,
             "FGA": 23.332342990504483,
@@ -2117,9 +2117,9 @@
           "mean": {
             "PTS": 10.593708247354899,
             "REB": 5.013689826342671,
-            "AST": 1.5021813314567485,
+            "AST": 1.5021813314567487,
             "STL": 0.9032626332999008,
-            "BLK": 0.6293670993030532,
+            "BLK": 0.6293670993030531,
             "TOV": 0.8275670963778073,
             "FG3M": 2.296130428100439,
             "MIN": 26.690965626427573,
@@ -2133,16 +2133,16 @@
           "var": {
             "PTS": 26.46422541985925,
             "REB": 6.286470936048269,
-            "AST": 1.6840757669866842,
+            "AST": 1.6840757669866844,
             "STL": 0.9720443077923027,
-            "BLK": 0.6832997824356641,
+            "BLK": 0.683299782435664,
             "TOV": 0.9061142448180016,
             "FG3M": 2.7786225222834933,
-            "PTS_shared": 0.4464247003274426,
+            "PTS_shared": 0.4464247003274425,
             "REB_shared": 0.20519961987067664,
-            "AST_shared": 0.06330274867636645,
-            "STL_shared": 0.03625576965742742,
-            "BLK_shared": 0.025261964506306172,
+            "AST_shared": 0.06330274867636644,
+            "STL_shared": 0.03625576965742741,
+            "BLK_shared": 0.02526196450630617,
             "TOV_shared": 0.034536376480856446,
             "FG3M_shared": 0.09397571595756339,
             "FGM": 4.736393042783692,
@@ -2169,8 +2169,8 @@
             "PTS": 13.658571518630207,
             "REB": 5.9363465275069505,
             "AST": 1.5247684381448774,
-            "STL": 0.7112054416238419,
-            "BLK": 0.7968615926240463,
+            "STL": 0.711205441623842,
+            "BLK": 0.7968615926240464,
             "TOV": 1.146531127279529,
             "FG3M": 1.9508454371450525,
             "MIN": 30.451496830759552,
@@ -2186,7 +2186,7 @@
             "REB": 7.30364172735944,
             "AST": 1.6918335557815716,
             "STL": 0.7574598629734225,
-            "BLK": 0.8665114626240905,
+            "BLK": 0.8665114626240906,
             "TOV": 1.2596874666534048,
             "FG3M": 2.3022285770933277,
             "PTS_shared": 0.6300542672614196,
@@ -2220,8 +2220,8 @@
             "PTS": 13.658571518630207,
             "REB": 5.9363465275069505,
             "AST": 1.5247684381448774,
-            "STL": 0.7112054416238419,
-            "BLK": 0.7968615926240463,
+            "STL": 0.711205441623842,
+            "BLK": 0.7968615926240464,
             "TOV": 1.146531127279529,
             "FG3M": 1.9508454371450525,
             "MIN": 30.451496830759552,
@@ -2237,7 +2237,7 @@
             "REB": 7.30364172735944,
             "AST": 1.6918335557815716,
             "STL": 0.7574598629734225,
-            "BLK": 0.8665114626240905,
+            "BLK": 0.8665114626240906,
             "TOV": 1.2596874666534048,
             "FG3M": 2.3022285770933277,
             "PTS_shared": 0.6300542672614196,
@@ -2296,7 +2296,7 @@
             "AST_shared": 0.055419183452539496,
             "STL_shared": 0.03269506181858453,
             "BLK_shared": 0.012487864888387585,
-            "TOV_shared": 0.031436926546392005,
+            "TOV_shared": 0.031436926546392,
             "FG3M_shared": 0.027184307997242328,
             "FGM": 3.532227280614732,
             "FGA": 9.991249363492908,
@@ -2347,7 +2347,7 @@
             "AST_shared": 0.055419183452539496,
             "STL_shared": 0.03269506181858453,
             "BLK_shared": 0.012487864888387585,
-            "TOV_shared": 0.031436926546392005,
+            "TOV_shared": 0.031436926546392,
             "FG3M_shared": 0.027184307997242328,
             "FGM": 3.532227280614732,
             "FGA": 9.991249363492908,
@@ -2449,7 +2449,7 @@
             "BLK": 0.9882571492541027,
             "TOV": 1.911149373912108,
             "FG3M": 1.9135360172888496,
-            "PTS_shared": 0.7996563679842476,
+            "PTS_shared": 0.7996563679842474,
             "REB_shared": 0.32551853323986824,
             "AST_shared": 0.06362304984285162,
             "STL_shared": 0.042571833560361955,
@@ -2500,9 +2500,9 @@
             "BLK": 0.7440386012776666,
             "TOV": 2.074237766258752,
             "FG3M": 2.7310650186125245,
-            "PTS_shared": 0.9002924261914247,
+            "PTS_shared": 0.9002924261914246,
             "REB_shared": 0.272411649578704,
-            "AST_shared": 0.12588596577840164,
+            "AST_shared": 0.1258859657784016,
             "STL_shared": 0.0677243422105277,
             "BLK_shared": 0.03424519654857158,
             "TOV_shared": 0.09661138524998927,
@@ -2530,7 +2530,7 @@
           "mean": {
             "PTS": 5.153844483310833,
             "REB": 6.999169783435777,
-            "AST": 0.8706009092482435,
+            "AST": 0.8706009092482436,
             "STL": 0.751978429214583,
             "BLK": 1.0497877543921732,
             "TOV": 0.6829489720787302,
@@ -2546,16 +2546,16 @@
           "var": {
             "PTS": 13.40592062617046,
             "REB": 12.242229573775896,
-            "AST": 1.0053049072196385,
+            "AST": 1.0053049072196387,
             "STL": 0.8428071143505691,
             "BLK": 1.2279785447226086,
             "TOV": 0.7758236934346342,
             "FG3M": 0.039838362843645524,
-            "PTS_shared": 0.23525338135113116,
+            "PTS_shared": 0.23525338135113114,
             "REB_shared": 0.31018529770847936,
             "AST_shared": 0.03973961736161028,
-            "STL_shared": 0.03267577267675382,
-            "BLK_shared": 0.04561650266642155,
+            "STL_shared": 0.03267577267675381,
+            "BLK_shared": 0.045616502666421546,
             "TOV_shared": 0.030868560773630142,
             "FG3M_shared": 0.0015595939436963062,
             "FGM": 3.1846262439345403,
@@ -2581,7 +2581,7 @@
           "mean": {
             "PTS": 5.153844483310833,
             "REB": 6.999169783435777,
-            "AST": 0.8706009092482435,
+            "AST": 0.8706009092482436,
             "STL": 0.751978429214583,
             "BLK": 1.0497877543921732,
             "TOV": 0.6829489720787302,
@@ -2597,16 +2597,16 @@
           "var": {
             "PTS": 13.40592062617046,
             "REB": 12.242229573775896,
-            "AST": 1.0053049072196385,
+            "AST": 1.0053049072196387,
             "STL": 0.8428071143505691,
             "BLK": 1.2279785447226086,
             "TOV": 0.7758236934346342,
             "FG3M": 0.039838362843645524,
-            "PTS_shared": 0.23525338135113116,
+            "PTS_shared": 0.23525338135113114,
             "REB_shared": 0.31018529770847936,
             "AST_shared": 0.03973961736161028,
-            "STL_shared": 0.03267577267675382,
-            "BLK_shared": 0.04561650266642155,
+            "STL_shared": 0.03267577267675381,
+            "BLK_shared": 0.045616502666421546,
             "TOV_shared": 0.030868560773630142,
             "FG3M_shared": 0.0015595939436963062,
             "FGM": 3.1846262439345403,
@@ -2658,7 +2658,7 @@
             "AST_shared": 0.28773608137316514,
             "STL_shared": 0.06361417465999918,
             "BLK_shared": 0.011185938730648522,
-            "TOV_shared": 0.10166646566349882,
+            "TOV_shared": 0.10166646566349881,
             "FG3M_shared": 0.1362342637522512,
             "FGM": 10.825400497596156,
             "FGA": 29.529339683838735,
@@ -2709,7 +2709,7 @@
             "AST_shared": 0.14835662398289376,
             "STL_shared": 0.04520851450373504,
             "BLK_shared": 0.02004578669705923,
-            "TOV_shared": 0.07684835940389273,
+            "TOV_shared": 0.07684835940389272,
             "FG3M_shared": 0.12582520105417438,
             "FGM": 9.343843280105544,
             "FGA": 25.07587184391401,
@@ -2760,7 +2760,7 @@
             "AST_shared": 0.14835662398289376,
             "STL_shared": 0.04520851450373504,
             "BLK_shared": 0.02004578669705923,
-            "TOV_shared": 0.07684835940389273,
+            "TOV_shared": 0.07684835940389272,
             "FG3M_shared": 0.12582520105417438,
             "FGM": 9.343843280105544,
             "FGA": 25.07587184391401,
@@ -2787,7 +2787,7 @@
             "REB": 6.441838203548813,
             "AST": 1.1579081614477087,
             "STL": 0.5191312125058591,
-            "BLK": 0.6902652416277404,
+            "BLK": 0.6902652416277403,
             "TOV": 0.9146853494729653,
             "FG3M": 1.379762138132812,
             "MIN": 19.341706642284695,
@@ -2803,14 +2803,14 @@
             "REB": 10.031069266467927,
             "AST": 1.3402396291643355,
             "STL": 0.5642276836443366,
-            "BLK": 0.7729978895780454,
+            "BLK": 0.7729978895780453,
             "TOV": 1.0414394562314973,
             "FG3M": 1.7012728437996796,
             "PTS_shared": 0.46585212291077527,
             "REB_shared": 0.2892547523476404,
             "AST_shared": 0.05337445265143586,
             "STL_shared": 0.022906255347898558,
-            "BLK_shared": 0.03045740942098616,
+            "BLK_shared": 0.03045740942098615,
             "TOV_shared": 0.04179603617806537,
             "FG3M_shared": 0.061954793484939034,
             "FGM": 5.280733580870441,
@@ -2837,8 +2837,8 @@
             "PTS": 18.377838781045774,
             "REB": 5.002640186472967,
             "AST": 3.2096471149530057,
-            "STL": 1.1505456390039661,
-            "BLK": 0.34775033763053054,
+            "STL": 1.1505456390039663,
+            "BLK": 0.3477503376305306,
             "TOV": 1.679783947215521,
             "FG3M": 2.723488993420898,
             "MIN": 31.469382570190998,
@@ -2853,8 +2853,8 @@
             "PTS": 48.52885120265557,
             "REB": 6.079951648301767,
             "AST": 3.7354216324265717,
-            "STL": 1.2437907817172311,
-            "BLK": 0.3746649801253672,
+            "STL": 1.2437907817172313,
+            "BLK": 0.37466498012536725,
             "TOV": 1.8785292682474284,
             "FG3M": 3.2905519391830147,
             "PTS_shared": 0.8794699594930434,
@@ -2885,9 +2885,9 @@
           "injury_status": "HEALTHY",
           "p": 0.9051333871555298,
           "mean": {
-            "PTS": 7.743678518030578,
+            "PTS": 7.743678518030576,
             "REB": 3.1275492902559283,
-            "AST": 1.1726498073094578,
+            "AST": 1.1726498073094576,
             "STL": 0.43162744368483436,
             "BLK": 0.22233173559979405,
             "TOV": 0.38490839502221075,
@@ -2901,16 +2901,16 @@
             "FT_rate": 0.7885612646520248
           },
           "var": {
-            "PTS": 21.040868758666697,
+            "PTS": 21.040868758666694,
             "REB": 4.103903895329894,
-            "AST": 1.3544588232026367,
+            "AST": 1.3544588232026364,
             "STL": 0.463179203179097,
             "BLK": 0.239262436454529,
             "TOV": 0.41987928575349687,
             "FG3M": 2.6959360490873125,
-            "PTS_shared": 0.28711067769171206,
+            "PTS_shared": 0.28711067769171195,
             "REB_shared": 0.11257047620035764,
-            "AST_shared": 0.043478080874320785,
+            "AST_shared": 0.043478080874320764,
             "STL_shared": 0.015231437472945222,
             "BLK_shared": 0.007845728946541121,
             "TOV_shared": 0.014130764485281461,
@@ -2936,9 +2936,9 @@
           "injury_status": "HEALTHY",
           "p": 0.9051333871555298,
           "mean": {
-            "PTS": 7.743678518030578,
+            "PTS": 7.743678518030576,
             "REB": 3.1275492902559283,
-            "AST": 1.1726498073094578,
+            "AST": 1.1726498073094576,
             "STL": 0.43162744368483436,
             "BLK": 0.22233173559979405,
             "TOV": 0.38490839502221075,
@@ -2952,16 +2952,16 @@
             "FT_rate": 0.7885612646520248
           },
           "var": {
-            "PTS": 21.040868758666697,
+            "PTS": 21.040868758666694,
             "REB": 4.103903895329894,
-            "AST": 1.3544588232026367,
+            "AST": 1.3544588232026364,
             "STL": 0.463179203179097,
             "BLK": 0.239262436454529,
             "TOV": 0.41987928575349687,
             "FG3M": 2.6959360490873125,
-            "PTS_shared": 0.28711067769171206,
+            "PTS_shared": 0.28711067769171195,
             "REB_shared": 0.11257047620035764,
-            "AST_shared": 0.043478080874320785,
+            "AST_shared": 0.043478080874320764,
             "STL_shared": 0.015231437472945222,
             "BLK_shared": 0.007845728946541121,
             "TOV_shared": 0.014130764485281461,
@@ -2990,7 +2990,7 @@
             "PTS": 10.048751344347984,
             "REB": 2.955160746274834,
             "AST": 1.5350624680481815,
-            "STL": 0.9130597815484877,
+            "STL": 0.9130597815484879,
             "BLK": 0.3436958393073884,
             "TOV": 1.0839921011708422,
             "FG3M": 1.6182655760063989,
@@ -3006,14 +3006,14 @@
             "PTS": 31.559577456575173,
             "REB": 4.058130304587331,
             "AST": 1.8836694732467936,
-            "STL": 1.0413425159434422,
+            "STL": 1.0413425159434424,
             "BLK": 0.37854971005516885,
             "TOV": 1.2789671951279173,
             "FG3M": 2.0948320142310193,
             "PTS_shared": 0.43505530976648726,
             "REB_shared": 0.12462489286311862,
             "AST_shared": 0.06645970774500666,
-            "STL_shared": 0.037836924969298254,
+            "STL_shared": 0.03783692496929826,
             "BLK_shared": 0.014242653051784925,
             "TOV_shared": 0.04652172960016602,
             "FG3M_shared": 0.06824541585025311,
@@ -3061,12 +3061,12 @@
             "BLK": 2.94172707303776,
             "TOV": 2.264877568274649,
             "FG3M": 1.7852587894807384,
-            "PTS_shared": 1.1607126222868513,
+            "PTS_shared": 1.1607126222868511,
             "REB_shared": 0.6174747319016926,
-            "AST_shared": 0.12325475324902391,
+            "AST_shared": 0.12325475324902388,
             "STL_shared": 0.04755491350264026,
             "BLK_shared": 0.14175531238332573,
-            "TOV_shared": 0.11509612840260601,
+            "TOV_shared": 0.115096128402606,
             "FG3M_shared": 0.08579833534416474,
             "FGM": 9.873595932766662,
             "FGA": 23.359630408363504,
@@ -3140,7 +3140,7 @@
           "injury_status": "HEALTHY",
           "p": 0.8402921284310239,
           "mean": {
-            "PTS": 24.061741211185502,
+            "PTS": 24.0617412111855,
             "REB": 11.2911590839448,
             "AST": 3.0886039991715384,
             "STL": 0.9846404287205764,
@@ -3156,18 +3156,18 @@
             "FT_rate": 0.8025383150137075
           },
           "var": {
-            "PTS": 69.02070688948105,
+            "PTS": 69.02070688948103,
             "REB": 16.14808362963513,
             "AST": 3.6146644976937976,
             "STL": 1.0642399053046194,
             "BLK": 3.793630708215543,
             "TOV": 2.904339529552005,
             "FG3M": 2.390998154070762,
-            "PTS_shared": 1.2108682808775149,
+            "PTS_shared": 1.2108682808775144,
             "REB_shared": 0.5519434160795865,
-            "AST_shared": 0.1554290099774536,
-            "STL_shared": 0.047208723028210116,
-            "BLK_shared": 0.15512082046642023,
+            "AST_shared": 0.15542900997745357,
+            "STL_shared": 0.04720872302821011,
+            "BLK_shared": 0.1551208204664202,
             "TOV_shared": 0.12567553697045084,
             "FG3M_shared": 0.09786997823668854,
             "FGM": 11.436533171112055,
@@ -3243,7 +3243,7 @@
   "forecast_changes": {
     "since_previous": {
       "status": "explained",
-      "previous_at": "2026-10-30T08:48:56.055806+00:00",
+      "previous_at": "2026-10-30T13:16:57.928810+00:00",
       "method": "Sequential: resolve old planned games at expected scores, replace with actual scores, then update remaining outlook. Order-dependent arithmetic attribution, not causal identification.",
       "player_note": "Player examples use planned lineup NBA boxscores; actual Yahoo daily starting slots may differ.",
       "categories": [
@@ -3264,7 +3264,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 30.25663966498237,
               "new_minutes": 30.25663966498237,
-              "expected_stat_change": 3.552713678800501e-15
+              "expected_stat_change": -3.552713678800501e-15
             },
             {
               "side": "opponent",
@@ -3275,17 +3275,17 @@
               "new_status": "HEALTHY",
               "old_minutes": 20.306267360144528,
               "new_minutes": 20.306267360144528,
-              "expected_stat_change": 3.552713678800501e-15
+              "expected_stat_change": -3.552713678800501e-15
             },
             {
               "side": "mine",
-              "name": "Dean Wade",
+              "name": "Ayo Dosunmu",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 29.153762293896545,
-              "new_minutes": 29.153762293896545,
+              "old_minutes": 31.145026101834453,
+              "new_minutes": 31.145026101834453,
               "expected_stat_change": 0.0
             }
           ],
@@ -3309,24 +3309,13 @@
           "remaining_player_changes": [
             {
               "side": "mine",
-              "name": "Dean Wade",
+              "name": "Ayo Dosunmu",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 29.153762293896545,
-              "new_minutes": 29.153762293896545,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
+              "old_minutes": 31.145026101834453,
+              "new_minutes": 31.145026101834453,
               "expected_stat_change": 0.0
             },
             {
@@ -3338,6 +3327,17 @@
               "new_status": "HEALTHY",
               "old_minutes": 31.848055358586247,
               "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
               "expected_stat_change": 0.0
             }
           ],
@@ -3368,7 +3368,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 20.306267360144528,
               "new_minutes": 20.306267360144528,
-              "expected_stat_change": 4.440892098500626e-16
+              "expected_stat_change": -4.440892098500626e-16
             },
             {
               "side": "mine",
@@ -3379,7 +3379,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 26.690965626427573,
               "new_minutes": 26.690965626427573,
-              "expected_stat_change": -2.220446049250313e-16
+              "expected_stat_change": 2.220446049250313e-16
             },
             {
               "side": "opponent",
@@ -3390,7 +3390,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 17.687047907950202,
               "new_minutes": 17.687047907950202,
-              "expected_stat_change": -2.220446049250313e-16
+              "expected_stat_change": 2.220446049250313e-16
             }
           ],
           "score_added": {
@@ -3420,7 +3420,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 29.153762293896545,
               "new_minutes": 29.153762293896545,
-              "expected_stat_change": 2.220446049250313e-16
+              "expected_stat_change": -2.220446049250313e-16
             },
             {
               "side": "mine",
@@ -3431,7 +3431,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 30.451496830759552,
               "new_minutes": 30.451496830759552,
-              "expected_stat_change": -2.220446049250313e-16
+              "expected_stat_change": 2.220446049250313e-16
             },
             {
               "side": "opponent",
@@ -3442,7 +3442,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 31.469382570190998,
               "new_minutes": 31.469382570190998,
-              "expected_stat_change": -2.220446049250313e-16
+              "expected_stat_change": 2.220446049250313e-16
             }
           ],
           "score_added": {
@@ -3472,7 +3472,7 @@
               "new_status": "HEALTHY",
               "old_minutes": 29.153762293896545,
               "new_minutes": 29.153762293896545,
-              "expected_stat_change": 2.220446049250313e-16
+              "expected_stat_change": -2.220446049250313e-16
             },
             {
               "side": "mine",
@@ -3483,17 +3483,17 @@
               "new_status": "HEALTHY",
               "old_minutes": 26.690965626427573,
               "new_minutes": 26.690965626427573,
-              "expected_stat_change": 1.1102230246251565e-16
+              "expected_stat_change": -1.1102230246251565e-16
             },
             {
               "side": "opponent",
-              "name": "Trey Murphy III",
+              "name": "Jalen Smith",
               "old_active_games": 1,
               "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 31.469382570190998,
-              "new_minutes": 31.469382570190998,
+              "old_status": "QUESTIONABLE",
+              "new_status": "QUESTIONABLE",
+              "old_minutes": 19.341706642284695,
+              "new_minutes": 19.341706642284695,
               "expected_stat_change": -5.551115123125783e-17
             }
           ],
@@ -3517,24 +3517,13 @@
           "remaining_player_changes": [
             {
               "side": "mine",
-              "name": "Dean Wade",
+              "name": "Ayo Dosunmu",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 29.153762293896545,
-              "new_minutes": 29.153762293896545,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
+              "old_minutes": 31.145026101834453,
+              "new_minutes": 31.145026101834453,
               "expected_stat_change": 0.0
             },
             {
@@ -3546,6 +3535,17 @@
               "new_status": "HEALTHY",
               "old_minutes": 31.848055358586247,
               "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
               "expected_stat_change": 0.0
             }
           ],
@@ -3569,24 +3569,13 @@
           "remaining_player_changes": [
             {
               "side": "mine",
-              "name": "Dean Wade",
+              "name": "Ayo Dosunmu",
               "old_active_games": 2,
               "new_active_games": 2,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 29.153762293896545,
-              "new_minutes": 29.153762293896545,
-              "expected_stat_change": 0.0
-            },
-            {
-              "side": "mine",
-              "name": "Julian Champagnie",
-              "old_active_games": 1,
-              "new_active_games": 1,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 26.690965626427573,
-              "new_minutes": 26.690965626427573,
+              "old_minutes": 31.145026101834453,
+              "new_minutes": 31.145026101834453,
               "expected_stat_change": 0.0
             },
             {
@@ -3598,6 +3587,17 @@
               "new_status": "HEALTHY",
               "old_minutes": 31.848055358586247,
               "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Julian Champagnie",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 26.690965626427573,
+              "new_minutes": 26.690965626427573,
               "expected_stat_change": 0.0
             }
           ],
@@ -3634,5 +3634,5 @@
     },
     "first_record_at": "2026-10-27T23:42:28.400397+00:00"
   },
-  "prospective_forecast_id": "20261030T131657928810Z"
+  "prospective_forecast_id": "20261030T180838348953Z"
 }
