@@ -1,40 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-29T22:53:28.195661+00:00
-Matchup: **Berk's Best Team vs Mordor Tulums**
+Generated: 2026-10-30T02:37:40.029174+00:00
+Matchup: **Berk's Best Team vs SILE BULLS**
 Window: 2026-10-29 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.345**.
-Expected category points: **5.35 / 9**.
-Expected category wins: 5.27; ties: 0.14.
-Secondary weekly W/L/D: 76.4% / 20.0% / 3.6%.
+Objective value: **5.383**.
+Expected category points: **5.38 / 9**.
+Expected category wins: 5.27; ties: 0.23.
+Secondary weekly W/L/D: 72.3% / 23.0% / 4.8%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 30.0% | 0.7% | 69.3% |
-| REB | 83.7% | 1.1% | 15.2% |
-| AST | 99.2% | 0.2% | 0.7% |
-| STL | 98.4% | 0.5% | 1.1% |
-| BLK | 38.4% | 6.9% | 54.7% |
-| TOV | 2.4% | 0.7% | 96.9% |
-| FG3M | 50.5% | 4.2% | 45.3% |
-| FG_PCT | 35.5% | 0.0% | 64.5% |
-| FT_PCT | 89.3% | 0.0% | 10.7% |
-
-## Why the weekly forecast changed
-
-Sequential attribution from the previous archived forecast; not causal identification.
-
-REB %70 → %84: skor +0, kalan beklenti +14, maçların tamamlanması +0 yüzde puan.
-Eklenen skor sen/rakip: 0/0; önceki aktif kadro planının beklentisi: 0.0/0.0.
-BLK %27 → %38: skor +0, kalan beklenti +12, maçların tamamlanması +0 yüzde puan.
-Eklenen skor sen/rakip: 0/0; önceki aktif kadro planının beklentisi: 0.0/0.0.
-- Remaining opponent plan: Robert Williams III, REB expectation change -8.7; active games 2 → 2; status HEALTHY → DOUBTFUL.
-- Remaining mine plan: Dean Wade, REB expectation change +0.5; active games 2 → 2; status HEALTHY → HEALTHY.
-- Remaining opponent plan: Robert Williams III, BLK expectation change -1.8; active games 2 → 2; status HEALTHY → DOUBTFUL.
-- Remaining mine plan: Tyrese Maxey, BLK expectation change +0.1; active games 2 → 2; status HEALTHY → HEALTHY.
-Player examples are NBA boxscores for the old planned lineup; actual Yahoo starters can differ.
+| PTS | 73.9% | 0.6% | 25.5% |
+| REB | 89.5% | 0.8% | 9.7% |
+| AST | 27.5% | 2.3% | 70.3% |
+| STL | 49.9% | 5.6% | 44.5% |
+| BLK | 75.3% | 5.5% | 19.1% |
+| TOV | 54.1% | 4.3% | 41.7% |
+| FG3M | 43.6% | 4.3% | 52.1% |
+| FG_PCT | 71.5% | 0.0% | 28.5% |
+| FT_PCT | 41.3% | 0.0% | 58.7% |
 
 ## Realized scores and remaining projections
 
@@ -42,26 +28,19 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 206 / 285 | 272.64 / 220.79 | 52.85 |
-| REB | 109 / 119 | 109.64 / 77.84 | 21.69 |
-| AST | 54 / 39 | 57.75 / 39.34 | 13.72 |
-| STL | 26 / 17 | 19.88 / 14.15 | 6.67 |
-| BLK | 15 / 19 | 13.39 / 10.57 | 5.69 |
-| TOV | 26 / 16 | 28.84 / 22.12 | 8.67 |
-| FG3M | 30 / 28 | 27.45 / 28.83 | 9.56 |
+| PTS | 0 / 0 | 273.21 / 240.80 | 49.84 |
+| REB | 0 / 0 | 109.82 / 83.03 | 21.02 |
+| AST | 0 / 0 | 57.92 / 66.39 | 14.97 |
+| STL | 0 / 0 | 19.93 / 19.44 | 7.13 |
+| BLK | 0 / 0 | 13.41 / 9.26 | 5.33 |
+| TOV | 0 / 0 | 28.92 / 30.37 | 9.24 |
+| FG3M | 0 / 0 | 27.52 / 28.50 | 9.15 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Eligibility | Δ category_points | Conservative ranking gain |
 |---|---|---|---:|---:|
-| Jay Huff | Jaxson Hayes | Waiver: Oct 30 | +0.337 | +0.267 |
-| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.166 | +0.166 |
-| Jeremiah Fears | Jaxson Hayes | FA | +0.167 | +0.147 |
-| Isaiah Stewart | Jaxson Hayes | FA | +0.122 | +0.122 |
-| Isaiah Jackson | Jaxson Hayes | Waiver: Oct 30 | +0.121 | +0.121 |
-| Jarace Walker | Jaxson Hayes | FA | +0.146 | +0.119 |
-| Sam Merrill | Jaxson Hayes | FA | +0.117 | +0.117 |
-| Noah Clowney | Jaxson Hayes | FA | +0.113 | +0.113 |
+| No eligible recommendation | — | — | — | — |
 
 ## Forecast active lineups
 
@@ -72,6 +51,8 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 ## Assumptions and data quality
 
+- Today's NBA games have started; partial-game score coverage is unverified, refresh next Eastern pregame day
+- No valid live scoreboard: totals describe remaining games only; in-week add/drop recommendations withheld.
 - Local caches only; no data fetched and no notifications sent.
 - Category marginals use moment/normal approximations. Weekly W/L/D assumes category independence.
 - Return dates, rotations and future lineup choices remain model assumptions.
