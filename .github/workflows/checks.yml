@@ -36,6 +36,18 @@ jobs:
           points, probabilities, _ = MatchupEngine.evaluate_h2h_matchup(dist, dist)
           assert abs(points - 4.5) < 1e-10
           assert all(abs(p - 1) < 1e-10 for p in probabilities.ties.values())
+          import pandas as pd
+          from src.snapshots import validate_pregame_window
+          clock = pd.DataFrame([{'GAME_DATE': pd.Timestamp('2026-10-30'),
+                                 'TIPOFF_UTC': '2026-10-30T23:00Z',
+                                 'CLOCK_OBSERVED_AT': '2026-10-29T10:00Z'}])
+          validate_pregame_window(clock, '2026-10-30T08:30Z')
+          try:
+              validate_pregame_window(clock, '2026-10-30T23:00Z')
+          except ValueError:
+              pass
+          else:
+              raise AssertionError('Started game must not be projected a second time')
           PY
       - run: python -m ruff check src
       - run: python -m ruff format --check src

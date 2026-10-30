@@ -53,7 +53,7 @@ jobs:
         run: |
           if git ls-remote --exit-code --heads origin nba-fantasy-bot >/dev/null 2>&1; then
             git fetch origin nba-fantasy-bot
-            for path in data/raw/player_logs_2026_27.parquet data/processed/injuries.db; do
+            for path in data/raw/player_logs_2026_27.parquet data/processed/injuries.db data/processed/schedule_2026_27.parquet; do
               if git cat-file -e "origin/nba-fantasy-bot:$path" 2>/dev/null; then
                 mkdir -p "$(dirname "$path")"
                 git show "origin/nba-fantasy-bot:$path" > "$path"
@@ -105,7 +105,7 @@ jobs:
           else
             git worktree add --detach "$runtime_dir" HEAD
           fi
-          for path in data/archive data/processed/injuries.db data/processed/league_state.json data/processed/live_matchup.json data/raw/player_logs_2026_27.parquet reports/latest_cloud_summary.md reports/latest_forecast.json reports/prospective_status.json reports/telegram_preview.html reports/delivery_receipt.json; do
+          for path in data/archive data/processed/injuries.db data/processed/schedule_2026_27.parquet data/processed/league_state.json data/processed/live_matchup.json data/raw/player_logs_2026_27.parquet reports/latest_cloud_summary.md reports/latest_forecast.json reports/prospective_status.json reports/telegram_preview.html reports/delivery_receipt.json; do
             if [ -e "$path" ]; then
               mkdir -p "$runtime_dir/$(dirname "$path")"
               if [ -d "$path" ]; then

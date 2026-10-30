@@ -126,7 +126,8 @@ def build_local_forecast(
             live_block_reason = str(exc)
             notes.append(str(exc))
     my_slot = draft_data.MY_TEAM_IDX
-    opponent = int(live["team_b"].get("slot", 13)) - 1 if live else 12
+    identity_board = live or verified_scoreboard
+    opponent = int(identity_board["team_b"].get("slot", 13)) - 1 if identity_board else 12
     if opponent not in rosters or opponent == my_slot:
         raise ValueError("Opponent slot must identify a different known team")
     start, end = fantasy_week_window(now, True)

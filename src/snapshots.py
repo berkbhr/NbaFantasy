@@ -7,7 +7,7 @@ import pandas as pd
 BOX_SCORE_KEYS = ("PTS", "REB", "AST", "STL", "BLK", "FG3M", "TOV", "FGM", "FGA", "FTM", "FTA")
 
 
-def validate_pregame_window(schedule, now):
+def validate_pregame_window(schedule, now, max_clock_age_hours=72):
     """Daily model cannot estimate residual production for games already started.
 
     Fail closed after tipoff, even after a same-day final: Yahoo game coverage
@@ -30,8 +30,11 @@ def validate_pregame_window(schedule, now):
     stamps = pd.to_datetime(today.CLOCK_OBSERVED_AT, utc=True, errors="coerce")
     if stamps.isna().any() or (stamps > current + pd.Timedelta(minutes=5)).any():
         raise ValueError("NBA schedule clock timestamp invalid")
-    if (stamps.dt.tz_convert("America/New_York").dt.tz_localize(None).dt.normalize() != day).any():
-        raise ValueError("NBA schedule clock predates current Eastern day; refresh schedule")
+    # Tipoffs are dated instants, not daily scores. Crossing Eastern midnight
+    # does not invalidate a recently verified future tipoff. Keep a bounded
+    # cache lifetime for outages rather than requiring a successful fetch daily.
+    if (current - stamps > pd.Timedelta(hours=max_clock_age_hours)).any():
+        raise ValueError("NBA schedule clock cache expired; refresh schedule")
     if (tipoffs <= current).any():
         raise ValueError(
             "Today's NBA games have started; partial-game score coverage is unverified, refresh next Eastern pregame day"

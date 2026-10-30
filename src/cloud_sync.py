@@ -125,7 +125,8 @@ def run_cloud_sync():
     try:
         from src.game_clock import refresh_schedule
 
-        refresh_schedule()
+        clock_result = refresh_schedule()
+        print(f"  [CLOCK] Schedule verified via {clock_result['source']}")
     except Exception as exc:
         print(
             f"  [CLOCK] Exact schedule refresh unavailable ({type(exc).__name__}); cached guards apply"
@@ -510,14 +511,11 @@ def run_cloud_sync():
                 pass
 
     from src.forecast import render_report
+    from src.notification_state import notification_snapshot
     from src.notifications import DeliveryError, render_preview, render_telegram, send_telegram
     from src.probability import CategoryProbabilities
     from src.prospective import ARCHIVE, write_once
 
-    canonical_probs = CategoryProbabilities(
-        {c: v["win"] for c, v in prospective["categories"].items()}
-    )
-    canonical_probs.ties.update({c: v["tie"] for c, v in prospective["categories"].items()})
     with open(os.path.join(REPORTS_DIR, "latest_forecast.json"), "w", encoding="utf-8") as handle:
         json.dump(prospective, handle, indent=2, ensure_ascii=False, default=str)
     with open(summary_path, "w", encoding="utf-8") as handle:
@@ -528,19 +526,25 @@ def run_cloud_sync():
         with open(gh_summary, "a", encoding="utf-8") as handle:
             handle.write(render_report(prospective))
 
+    displayed, display_context = notification_snapshot(prospective, ARCHIVE)
+    canonical_probs = CategoryProbabilities(
+        {c: v["win"] for c, v in displayed["categories"].items()}
+    )
+    canonical_probs.ties.update({c: v["tie"] for c, v in displayed["categories"].items()})
     notification = render_telegram(
         now=pd.Timestamp(prospective["forecast_at"]).to_pydatetime(),
-        opponent=prospective["opponent"],
-        points=prospective["objective_value"],
+        opponent=displayed["opponent"],
+        points=displayed["objective_value"],
         probabilities=canonical_probs,
-        health=prospective["roster_health"],
-        recommendations=prospective["recommendations"],
-        live=prospective["live_score"],
-        objective=prospective["objective"],
-        ownership_audit=prospective.get("ownership_audit"),
-        live_score_block_reason=prospective.get("live_score_block_reason"),
-        forecast_changes=prospective.get("forecast_changes"),
-        scoreboard=prospective.get("verified_scoreboard"),
+        health=displayed["roster_health"],
+        recommendations=displayed["recommendations"],
+        live=displayed["live_score"],
+        objective=displayed["objective"],
+        ownership_audit=displayed.get("ownership_audit"),
+        live_score_block_reason=displayed.get("live_score_block_reason"),
+        forecast_changes=displayed.get("forecast_changes"),
+        scoreboard=displayed.get("verified_scoreboard"),
+        display_context=display_context,
     )
     preview_path = os.path.join(REPORTS_DIR, "telegram_preview.html")
     with open(preview_path, "w", encoding="utf-8") as handle:
@@ -556,6 +560,7 @@ def run_cloud_sync():
         "prediction_sha256": hashlib.sha256(prediction_file.read_bytes()).hexdigest(),
         "rendered_text_sha256": hashlib.sha256(notification.encode()).hexdigest(),
         "source_revision": os.environ.get("GITHUB_SHA"),
+        "display_context": display_context,
         "renderer_sha256_LF": hashlib.sha256(
             (Path(SRC_DIR) / "notifications.py").read_text(encoding="utf-8").encode()
         ).hexdigest(),

@@ -92,6 +92,7 @@ def render_telegram(
     live_score_block_reason=None,
     forecast_changes=None,
     scoreboard=None,
+    display_context=None,
 ):
     def label(category):
         return category.replace("_PCT", "%").replace("FG3M", "3PT")
@@ -103,6 +104,18 @@ def render_telegram(
         + escape(str(opponent)[:65]),
         "",
     ]
+    cached = bool(display_context and display_context.get("mode") == "last_valid_forecast")
+    if cached:
+        stamp = datetime.fromisoformat(display_context["forecast_at"]).astimezone(
+            ZoneInfo("Europe/Berlin")
+        )
+        lines.extend(
+            [
+                "<b>Son geçerli tahmin · " + escape(stamp.strftime("%d.%m %H:%M %Z")) + "</b>",
+                "Aşağıdaki maç sayıları ve olasılıklar bu kayda aittir; canlı güncelleme değildir.",
+                "",
+            ]
+        )
     if live:
         lines.append(
             f"<b>Beklenen kategori puanı: {points:.2f} / 9</b>"
@@ -170,10 +183,14 @@ def render_telegram(
             for r in recommendations
             if r.get("robust_delta_objective_value", r.get("delta_objective_value", 0)) >= threshold
         ]
-        if live
+        if live and not cached
         else []
     )
-    if not live:
+    if cached:
+        lines.append(
+            "Yeni hamle hesabı şu an doğrulanamadı. Önceki hamleler güncel öneri olarak gösterilmedi."
+        )
+    elif not live:
         reason = str(live_score_block_reason or "")
         if "different synchronization" in reason:
             lines.append(
