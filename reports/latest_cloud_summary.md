@@ -1,26 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-30T20:36:14.563398+00:00
+Generated: 2026-10-30T21:36:55.542403+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-30 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.932**.
-Expected category points: **5.93 / 9**.
+Objective value: **5.923**.
+Expected category points: **5.92 / 9**.
 Expected category wins: 5.86; ties: 0.13.
-Secondary weekly W/L/D: 91.6% / 6.9% / 1.5%.
+Secondary weekly W/L/D: 91.5% / 7.0% / 1.6%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 43.8% | 0.8% | 55.4% |
-| REB | 80.8% | 1.3% | 17.8% |
-| AST | 99.6% | 0.1% | 0.3% |
-| STL | 99.8% | 0.1% | 0.1% |
+| PTS | 43.5% | 0.8% | 55.7% |
+| REB | 80.8% | 1.3% | 17.9% |
+| AST | 99.5% | 0.1% | 0.4% |
+| STL | 99.7% | 0.1% | 0.2% |
 | BLK | 24.4% | 6.1% | 69.5% |
-| TOV | 1.4% | 0.6% | 98.0% |
-| FG3M | 59.2% | 4.4% | 36.4% |
-| FG_PCT | 79.3% | 0.0% | 20.7% |
-| FT_PCT | 98.2% | 0.0% | 1.8% |
+| TOV | 1.5% | 0.6% | 97.9% |
+| FG3M | 58.5% | 4.5% | 37.1% |
+| FG_PCT | 79.5% | 0.0% | 20.5% |
+| FT_PCT | 98.1% | 0.0% | 1.9% |
 
 ## Why the weekly forecast changed
 
@@ -34,26 +34,26 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 268 / 347 | 236.55 / 164.45 | 47.47 |
-| REB | 131 / 139 | 92.80 / 66.64 | 20.25 |
-| AST | 61 / 53 | 50.21 / 26.45 | 11.90 |
-| STL | 30 / 20 | 17.63 / 10.26 | 6.00 |
-| BLK | 17 / 22 | 11.57 / 9.83 | 5.44 |
-| TOV | 31 / 23 | 24.40 / 16.17 | 7.66 |
-| FG3M | 34 / 36 | 25.41 / 20.91 | 8.60 |
+| PTS | 268 / 347 | 237.71 / 165.99 | 47.74 |
+| REB | 131 / 139 | 93.36 / 67.11 | 20.36 |
+| AST | 61 / 53 | 50.41 / 26.71 | 11.95 |
+| STL | 30 / 20 | 17.70 / 10.37 | 6.02 |
+| BLK | 17 / 22 | 11.63 / 9.92 | 5.46 |
+| TOV | 31 / 23 | 24.53 / 16.35 | 7.70 |
+| FG3M | 34 / 36 | 25.45 / 21.11 | 8.63 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Eligibility | Δ category_points | Conservative ranking gain |
 |---|---|---|---:|---:|
-| Jay Huff | Jaxson Hayes | FA | +0.357 | +0.279 |
-| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.153 | +0.153 |
+| Jay Huff | Jaxson Hayes | FA | +0.356 | +0.279 |
+| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.152 | +0.152 |
 | Jarace Walker | Jaxson Hayes | FA | +0.171 | +0.139 |
-| Jakob Poeltl | Jaxson Hayes | FA | +0.117 | +0.117 |
+| Jakob Poeltl | Jaxson Hayes | FA | +0.116 | +0.116 |
 | Collin Sexton | Jaxson Hayes | FA | +0.117 | +0.104 |
-| Anfernee Simons | Jaxson Hayes | FA | +0.098 | +0.098 |
+| Anfernee Simons | Jaxson Hayes | FA | +0.100 | +0.100 |
 | Adem Bona | Jaxson Hayes | FA | +0.148 | +0.093 |
-| De'Anthony Melton | Jaxson Hayes | FA | +0.087 | +0.087 |
+| De'Anthony Melton | Jaxson Hayes | FA | +0.088 | +0.088 |
 
 ## Forecast active lineups
 

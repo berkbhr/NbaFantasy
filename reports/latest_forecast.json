@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-10-30T20:36:14.563398+00:00",
+  "forecast_at": "2026-10-30T21:36:55.542403+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -92,51 +92,51 @@
     "PTS": {
       "my_actual": 268.0,
       "opponent_actual": 347.0,
-      "my_remaining_mean": 236.5539804774666,
-      "opponent_remaining_mean": 164.4503120227463,
-      "difference_sd": 47.47338943407476
+      "my_remaining_mean": 237.70730466782823,
+      "opponent_remaining_mean": 165.99431311047397,
+      "difference_sd": 47.73548967026408
     },
     "REB": {
       "my_actual": 131.0,
       "opponent_actual": 139.0,
-      "my_remaining_mean": 92.80247330473935,
-      "opponent_remaining_mean": 66.64280872139074,
-      "difference_sd": 20.248488780575748
+      "my_remaining_mean": 93.35649604174614,
+      "opponent_remaining_mean": 67.11476502164138,
+      "difference_sd": 20.364008931401184
     },
     "AST": {
       "my_actual": 61.0,
       "opponent_actual": 53.0,
-      "my_remaining_mean": 50.209361762016016,
-      "opponent_remaining_mean": 26.45385271102964,
-      "difference_sd": 11.902599232523762
+      "my_remaining_mean": 50.40716670654501,
+      "opponent_remaining_mean": 26.712653781340265,
+      "difference_sd": 11.947261440047484
     },
     "STL": {
       "my_actual": 30.0,
       "opponent_actual": 20.0,
-      "my_remaining_mean": 17.631657012532415,
-      "opponent_remaining_mean": 10.25859680521614,
-      "difference_sd": 6.00038541860985
+      "my_remaining_mean": 17.697382098725996,
+      "opponent_remaining_mean": 10.365307250921163,
+      "difference_sd": 6.022803566151777
     },
     "BLK": {
       "my_actual": 17.0,
       "opponent_actual": 22.0,
-      "my_remaining_mean": 11.5663770620606,
-      "opponent_remaining_mean": 9.834174348186671,
-      "difference_sd": 5.438850000917982
+      "my_remaining_mean": 11.627614709733248,
+      "opponent_remaining_mean": 9.916486243567721,
+      "difference_sd": 5.460456901260783
     },
     "TOV": {
       "my_actual": 31.0,
       "opponent_actual": 23.0,
-      "my_remaining_mean": 24.404558271139713,
-      "opponent_remaining_mean": 16.170032840521316,
-      "difference_sd": 7.66367678693439
+      "my_remaining_mean": 24.53266055373045,
+      "opponent_remaining_mean": 16.346298237336427,
+      "difference_sd": 7.701935360700405
     },
     "FG3M": {
       "my_actual": 34.0,
       "opponent_actual": 36.0,
-      "my_remaining_mean": 25.409900782404108,
-      "opponent_remaining_mean": 20.914373307424533,
-      "difference_sd": 8.599579113160683
+      "my_remaining_mean": 25.453134808995202,
+      "opponent_remaining_mean": 21.10565216368356,
+      "difference_sd": 8.625873342588418
     }
   },
   "rotation_policy": {
@@ -290,85 +290,85 @@
   "opponent": "Mordor Tulums",
   "phase": "regular_season",
   "objective": "category_points",
-  "objective_value": 5.932276163737305,
-  "expected_category_points": 5.932276163737305,
-  "expected_category_wins": 5.864958535164431,
-  "expected_category_ties": 0.13463525714574953,
-  "win": 0.91604233074586,
-  "loss": 0.06860419238874713,
-  "draw": 0.015353476865392943,
+  "objective_value": 5.922958979438523,
+  "expected_category_points": 5.922958979438523,
+  "expected_category_wins": 5.855675614864738,
+  "expected_category_ties": 0.13456672914757062,
+  "win": 0.914623807158791,
+  "loss": 0.0698647751400606,
+  "draw": 0.015511417701148063,
   "categories": {
     "PTS": {
-      "win": 0.4380955223474552,
-      "tie": 0.008315140593604942,
-      "loss": 0.5535893370589399
+      "win": 0.435208715932515,
+      "tie": 0.008260392802461602,
+      "loss": 0.5565308912650234
     },
     "REB": {
-      "win": 0.8084359843213326,
-      "tie": 0.013178085518072424,
-      "loss": 0.178385930160595
+      "win": 0.8081856486359976,
+      "tie": 0.01311575674229326,
+      "loss": 0.17869859462170912
     },
     "AST": {
-      "win": 0.9956794950859865,
-      "tie": 0.0009558886896301275,
-      "loss": 0.0033646162243833513
+      "win": 0.9954863409634521,
+      "tie": 0.000991258778900583,
+      "loss": 0.003522400257647296
     },
     "STL": {
-      "win": 0.9975382447454829,
-      "tie": 0.0010141584419190754,
-      "loss": 0.0014475968125980086
+      "win": 0.9974027995141727,
+      "tie": 0.0010627947529971375,
+      "loss": 0.001534405732830207
     },
     "BLK": {
-      "win": 0.2442312686845829,
-      "tie": 0.06118204877034672,
-      "loss": 0.6945866825450704
+      "win": 0.24388047367759397,
+      "tie": 0.06088623277309868,
+      "loss": 0.6952332935493074
     },
     "TOV": {
-      "win": 0.014495247160813197,
-      "tie": 0.005534733903981404,
-      "loss": 0.9799700189352054
+      "win": 0.015135908471527838,
+      "tie": 0.0057052517541952286,
+      "loss": 0.979158839774277
     },
     "FG3M": {
-      "win": 0.5917501910520665,
-      "tie": 0.04445520122819485,
-      "loss": 0.36379460771973865
+      "win": 0.5847963418436133,
+      "tie": 0.04454504154362404,
+      "loss": 0.37065861661276267
     },
     "FG_PCT": {
-      "win": 0.7931343305070769,
-      "tie": 0.0,
-      "loss": 0.20686566949292307
+      "win": 0.7945476791171451,
+      "tie": 5.551115123125783e-17,
+      "loss": 0.20545232088285487
     },
     "FT_PCT": {
-      "win": 0.9815982512596333,
-      "tie": 0.0,
-      "loss": 0.018401748740366708
+      "win": 0.9810317067087204,
+      "tie": 2.7755575615628914e-17,
+      "loss": 0.018968293291279553
     }
   },
   "my_projected_stats": {
-    "PTS": 504.5539804774666,
-    "REB": 223.80247330473935,
-    "AST": 111.20936176201602,
-    "STL": 47.631657012532415,
-    "BLK": 28.5663770620606,
-    "TOV": 55.40455827113971,
-    "FG3M": 59.40990078240411,
-    "FGM": 181.97615999689742,
-    "FGA": 381.35870077367576,
-    "FTM": 81.75123768502179,
-    "FTA": 100.8984931046671
+    "PTS": 505.7073046678282,
+    "REB": 224.35649604174614,
+    "AST": 111.40716670654501,
+    "STL": 47.697382098725996,
+    "BLK": 28.627614709733248,
+    "TOV": 55.53266055373045,
+    "FG3M": 59.4531348089952,
+    "FGM": 182.38338509542598,
+    "FGA": 382.07747006510584,
+    "FTM": 82.0050258665314,
+    "FTA": 101.23474793073957
   },
   "opponent_projected_stats": {
-    "PTS": 511.4503120227463,
-    "REB": 205.64280872139074,
-    "AST": 79.45385271102964,
-    "STL": 30.25859680521614,
-    "BLK": 31.83417434818667,
-    "TOV": 39.170032840521316,
-    "FG3M": 56.91437330742453,
-    "FGM": 185.92984105358067,
-    "FGA": 405.4525677971755,
-    "FTM": 80.7417149148564,
-    "FTA": 110.19483421530762
+    "PTS": 512.994313110474,
+    "REB": 206.11476502164138,
+    "AST": 79.71265378134026,
+    "STL": 30.365307250921163,
+    "BLK": 31.91648624356772,
+    "TOV": 39.34629823733643,
+    "FG3M": 57.10565216368356,
+    "FGM": 186.4767774526656,
+    "FGA": 406.61681585670726,
+    "FTM": 80.99365706301381,
+    "FTA": 110.51116935791586
   },
   "my_lineups": {
     "2026-10-30": [
@@ -416,96 +416,96 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.288846825191621,
-      "delta_expected_wins": 0.3565706614543158,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.279155489021063,
+      "delta_expected_wins": 0.35619650958254034,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.288846825191621,
-      "delta_objective_value": 0.3565706614543158,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9548466717056617,
-      "new_draw_probability": 0.00963104512144738,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.279155489021063,
+      "delta_objective_value": 0.35619650958254034,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9538311180221277,
+      "new_draw_probability": 0.00978743111363459,
       "cat_details": [
         {
           "cat": "BLK",
           "base_pct": 24,
           "new_pct": 39,
-          "delta_pct": 14.82,
+          "delta_pct": 14.76,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.1482449638692402
+          "score": 0.1475677615822905
         },
         {
           "cat": "FG3M",
-          "base_pct": 59,
-          "new_pct": 71,
-          "delta_pct": 11.64,
+          "base_pct": 58,
+          "new_pct": 70,
+          "delta_pct": 11.71,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.11643490430866787
+          "score": 0.11710630602007288
         },
         {
           "cat": "PTS",
           "base_pct": 44,
           "new_pct": 52,
-          "delta_pct": 8.18,
+          "delta_pct": 8.14,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.08182129051096365
+          "score": 0.08137841746396546
         },
         {
           "cat": "REB",
           "base_pct": 81,
           "new_pct": 84,
-          "delta_pct": 2.78,
+          "delta_pct": 2.77,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.027774698666263475
+          "score": 0.027656481569040436
         },
         {
           "cat": "FT_PCT",
           "base_pct": 98,
-          "new_pct": 99,
-          "delta_pct": 0.35,
+          "new_pct": 98,
+          "delta_pct": 0.36,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.003540997513715838
+          "score": 0.003612500265520957
         },
         {
           "cat": "AST",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.11,
+          "delta_pct": 0.12,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0011140618777377709
+          "score": 0.0011576347217482352
         },
         {
           "cat": "STL",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.02,
+          "delta_pct": 0.03,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0002463262731852156
+          "score": 0.0002586746281193486
         }
       ],
       "cat_gains": [
         [
           "BLK",
-          0.1482
+          0.1476
         ],
         [
           "FG3M",
-          0.1164
+          0.11710000000000001
         ]
       ],
       "target_cats": [
         "BLK",
         "FG3M"
       ],
-      "key_cat_gains": "BLK (%24 → %39), FG3M (%59 → %71)",
+      "key_cat_gains": "BLK (%24 → %39), FG3M (%58 → %70)",
       "exp_stats_pg": {
         "PTS": 10.3,
         "REB": 4.0,
@@ -543,52 +543,52 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.085054828849468,
-      "delta_expected_wins": 0.15277866511216232,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.074897433315098,
+      "delta_expected_wins": 0.1519384538765749,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.085054828849468,
-      "delta_objective_value": 0.15277866511216232,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9371003009977827,
-      "new_draw_probability": 0.012444682780327553,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.074897433315098,
+      "delta_objective_value": 0.1519384538765749,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.935886443619782,
+      "new_draw_probability": 0.012599018800854015,
       "cat_details": [
         {
           "cat": "BLK",
           "base_pct": 24,
           "new_pct": 32,
-          "delta_pct": 7.96,
+          "delta_pct": 7.92,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.07959200581091369
+          "score": 0.0792090081465231
         },
         {
           "cat": "REB",
           "base_pct": 81,
           "new_pct": 85,
-          "delta_pct": 4.21,
+          "delta_pct": 4.2,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.04214816417629064
+          "score": 0.041980554839330275
         },
         {
           "cat": "PTS",
           "base_pct": 44,
           "new_pct": 46,
-          "delta_pct": 2.03,
+          "delta_pct": 2.02,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.020340845523118434
+          "score": 0.02020943608346909
         },
         {
           "cat": "FG_PCT",
           "base_pct": 79,
-          "new_pct": 80,
-          "delta_pct": 1.18,
+          "new_pct": 81,
+          "delta_pct": 1.17,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.011815576776796344
+          "score": 0.011724354729315767
         },
         {
           "cat": "FT_PCT",
@@ -597,7 +597,7 @@
           "delta_pct": 0.19,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0018819499351938607
+          "score": 0.0019183492989742756
         },
         {
           "cat": "AST",
@@ -606,17 +606,17 @@
           "delta_pct": 0.03,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.00025221601248170966
+          "score": 0.00026156224503948167
         }
       ],
       "cat_gains": [
         [
           "BLK",
-          0.0796
+          0.07919999999999999
         ],
         [
           "REB",
-          0.0421
+          0.042
         ]
       ],
       "target_cats": [
@@ -641,7 +641,7 @@
         "3PT": 0.0
       },
       "delta_without_spillover": 0.20575217525002198,
-      "robust_delta_objective_value": 0.15277866511216232,
+      "robust_delta_objective_value": 0.1519384538765749,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     },
     {
@@ -661,52 +661,52 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.1031876692324225,
-      "delta_expected_wins": 0.17091150549511713,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.094202173423511,
+      "delta_expected_wins": 0.17124319398498855,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.1031876692324225,
-      "delta_objective_value": 0.17091150549511713,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9430453251276654,
-      "new_draw_probability": 0.010710014418987756,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.094202173423511,
+      "delta_objective_value": 0.17124319398498855,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9418255247405446,
+      "new_draw_probability": 0.010865881655282584,
       "cat_details": [
         {
           "cat": "FG3M",
-          "base_pct": 59,
-          "new_pct": 71,
-          "delta_pct": 11.74,
+          "base_pct": 58,
+          "new_pct": 70,
+          "delta_pct": 11.8,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.11738598963059876
+          "score": 0.11804564317760846
         },
         {
           "cat": "PTS",
           "base_pct": 44,
-          "new_pct": 53,
-          "delta_pct": 9.03,
+          "new_pct": 52,
+          "delta_pct": 8.98,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.09027824526275541
+          "score": 0.0897850704085491
         },
         {
           "cat": "REB",
           "base_pct": 81,
           "new_pct": 86,
-          "delta_pct": 5.33,
+          "delta_pct": 5.31,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.053295551896712534
+          "score": 0.05309006623973589
         },
         {
           "cat": "AST",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.21,
+          "delta_pct": 0.22,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0020967242621324766
+          "score": 0.0021810493364884387
         },
         {
           "cat": "FT_PCT",
@@ -715,7 +715,7 @@
           "delta_pct": 0.17,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0017062968668641876
+          "score": 0.0017446425577778424
         },
         {
           "cat": "STL",
@@ -724,24 +724,24 @@
           "delta_pct": 0.07,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0007131914290694485
+          "score": 0.0007495543524823622
         }
       ],
       "cat_gains": [
         [
           "FG3M",
-          0.1174
+          0.11800000000000001
         ],
         [
           "PTS",
-          0.09029999999999999
+          0.0898
         ]
       ],
       "target_cats": [
         "FG3M",
         "PTS"
       ],
-      "key_cat_gains": "FG3M (%59 → %71), PTS (%44 → %53)",
+      "key_cat_gains": "FG3M (%58 → %70), PTS (%44 → %52)",
       "exp_stats_pg": {
         "PTS": 11.1,
         "REB": 5.4,
@@ -779,43 +779,43 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.049176281008521,
-      "delta_expected_wins": 0.11690011727121519,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.039137113840667,
+      "delta_expected_wins": 0.1161781344021442,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.049176281008521,
-      "delta_objective_value": 0.11690011727121519,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9371296138451052,
-      "new_draw_probability": 0.011755001712857146,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.039137113840667,
+      "delta_objective_value": 0.1161781344021442,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9358952295840222,
+      "new_draw_probability": 0.011901300296947408,
       "cat_details": [
         {
           "cat": "REB",
           "base_pct": 81,
           "new_pct": 87,
-          "delta_pct": 5.79,
+          "delta_pct": 5.77,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.05787347831567169
+          "score": 0.05768305386335515
         },
         {
           "cat": "PTS",
           "base_pct": 44,
-          "new_pct": 49,
-          "delta_pct": 4.82,
+          "new_pct": 48,
+          "delta_pct": 4.79,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.048213933942618026
+          "score": 0.04793794146776953
         },
         {
           "cat": "FG_PCT",
           "base_pct": 79,
           "new_pct": 81,
-          "delta_pct": 1.5,
+          "delta_pct": 1.49,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.01502748309636781
+          "score": 0.014902851854764587
         },
         {
           "cat": "BLK",
@@ -824,42 +824,42 @@
           "delta_pct": 0.31,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.003130902840943084
+          "score": 0.0031158295822698023
         },
         {
           "cat": "AST",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.11,
+          "delta_pct": 0.12,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0011456836834418116
+          "score": 0.0011910685617547712
         },
         {
           "cat": "STL",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.04,
+          "delta_pct": 0.05,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.00044079020499043775
+          "score": 0.0004635450604172364
         }
       ],
       "cat_gains": [
         [
           "REB",
-          0.0579
+          0.057699999999999994
         ],
         [
           "PTS",
-          0.0482
+          0.0479
         ]
       ],
       "target_cats": [
         "REB",
         "PTS"
       ],
-      "key_cat_gains": "REB (%81 → %87), PTS (%44 → %49)",
+      "key_cat_gains": "REB (%81 → %87), PTS (%44 → %48)",
       "exp_stats_pg": {
         "PTS": 9.8,
         "REB": 6.9,
@@ -877,7 +877,7 @@
         "3PT": 0.1
       },
       "delta_without_spillover": 0.15502534247656197,
-      "robust_delta_objective_value": 0.11690011727121519,
+      "robust_delta_objective_value": 0.1161781344021442,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     },
     {
@@ -897,43 +897,43 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.048820153439589,
-      "delta_expected_wins": 0.11654398970228375,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.040058824040801,
+      "delta_expected_wins": 0.1170998446022784,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.048820153439589,
-      "delta_objective_value": 0.11654398970228375,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.934065156151694,
-      "new_draw_probability": 0.011891524395335988,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.040058824040801,
+      "delta_objective_value": 0.1170998446022784,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9327885333270844,
+      "new_draw_probability": 0.012046678550624945,
       "cat_details": [
         {
           "cat": "PTS",
           "base_pct": 44,
           "new_pct": 56,
-          "delta_pct": 12.5,
+          "delta_pct": 12.44,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.12497163244741705
+          "score": 0.12437319358445731
         },
         {
           "cat": "FG3M",
-          "base_pct": 59,
+          "base_pct": 58,
           "new_pct": 69,
-          "delta_pct": 10.19,
+          "delta_pct": 10.25,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.10194615162423026
+          "score": 0.10251281539345525
         },
         {
           "cat": "FT_PCT",
           "base_pct": 98,
           "new_pct": 99,
-          "delta_pct": 0.64,
+          "delta_pct": 0.65,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.006374533670788107
+          "score": 0.0065182839188242525
         },
         {
           "cat": "AST",
@@ -942,7 +942,7 @@
           "delta_pct": 0.22,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.002159485212169465
+          "score": 0.0022483393763111925
         },
         {
           "cat": "STL",
@@ -951,24 +951,24 @@
           "delta_pct": 0.09,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0008516535847766793
+          "score": 0.0008974396415991626
         }
       ],
       "cat_gains": [
         [
           "PTS",
-          0.125
+          0.1244
         ],
         [
           "FG3M",
-          0.10189999999999999
+          0.1025
         ]
       ],
       "target_cats": [
         "PTS",
         "FG3M"
       ],
-      "key_cat_gains": "PTS (%44 → %56), FG3M (%59 → %69)",
+      "key_cat_gains": "PTS (%44 → %56), FG3M (%58 → %69)",
       "exp_stats_pg": {
         "PTS": 14.2,
         "REB": 2.2,
@@ -1006,43 +1006,43 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.030757996515211,
-      "delta_expected_wins": 0.09848183277790579,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.022610740428525,
+      "delta_expected_wins": 0.09965176099000228,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.030757996515211,
-      "delta_objective_value": 0.09848183277790579,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9304574450766632,
-      "new_draw_probability": 0.012721602984981949,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.022610740428525,
+      "delta_objective_value": 0.09965176099000228,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9291595367204333,
+      "new_draw_probability": 0.012885678581979323,
       "cat_details": [
         {
           "cat": "FG3M",
-          "base_pct": 59,
+          "base_pct": 58,
           "new_pct": 72,
-          "delta_pct": 13.27,
+          "delta_pct": 13.36,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.13274478668475298
+          "score": 0.13361154097218775
         },
         {
           "cat": "PTS",
           "base_pct": 44,
-          "new_pct": 52,
-          "delta_pct": 7.74,
+          "new_pct": 51,
+          "delta_pct": 7.7,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.07739762764449276
+          "score": 0.07697709123470153
         },
         {
           "cat": "FT_PCT",
           "base_pct": 98,
           "new_pct": 99,
-          "delta_pct": 0.52,
+          "delta_pct": 0.53,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0052207848180677585
+          "score": 0.005329206087591132
         },
         {
           "cat": "AST",
@@ -1051,33 +1051,33 @@
           "delta_pct": 0.16,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.001567953024796842
+          "score": 0.0016311293095387924
         },
         {
           "cat": "STL",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.02,
+          "delta_pct": 0.03,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.00024174085577577387
+          "score": 0.00025462594930769633
         }
       ],
       "cat_gains": [
         [
           "FG3M",
-          0.13269999999999998
+          0.1336
         ],
         [
           "PTS",
-          0.0774
+          0.077
         ]
       ],
       "target_cats": [
         "FG3M",
         "PTS"
       ],
-      "key_cat_gains": "FG3M (%59 → %72), PTS (%44 → %52)",
+      "key_cat_gains": "FG3M (%58 → %72), PTS (%44 → %51)",
       "exp_stats_pg": {
         "PTS": 11.5,
         "REB": 2.6,
@@ -1095,7 +1095,7 @@
         "3PT": 3.4
       },
       "delta_without_spillover": 0.10548665029031579,
-      "robust_delta_objective_value": 0.09848183277790579,
+      "robust_delta_objective_value": 0.09965176099000228,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     },
     {
@@ -1115,61 +1115,61 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.080705228626907,
-      "delta_expected_wins": 0.1484290648896014,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.0706250054337705,
+      "delta_expected_wins": 0.1476660259952478,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.080705228626907,
-      "delta_objective_value": 0.1484290648896014,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9355251031862603,
-      "new_draw_probability": 0.012733145702046063,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.0706250054337705,
+      "delta_objective_value": 0.1476660259952478,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9342921792820524,
+      "new_draw_probability": 0.012886356514188974,
       "cat_details": [
         {
           "cat": "BLK",
           "base_pct": 24,
           "new_pct": 34,
-          "delta_pct": 9.43,
+          "delta_pct": 9.39,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.09430768679471468
+          "score": 0.09385827126099916
         },
         {
           "cat": "REB",
           "base_pct": 81,
           "new_pct": 86,
-          "delta_pct": 5.29,
+          "delta_pct": 5.27,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.052863706124145926
+          "score": 0.05267229662657347
         },
         {
           "cat": "PTS",
           "base_pct": 44,
           "new_pct": 45,
-          "delta_pct": 1.34,
+          "delta_pct": 1.33,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.013350961499573821
+          "score": 0.013263105823000831
         },
         {
           "cat": "FG3M",
-          "base_pct": 59,
+          "base_pct": 58,
           "new_pct": 59,
           "delta_pct": 0.24,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.0024116063757820827
+          "score": 0.0024173278291713673
         },
         {
           "cat": "FT_PCT",
           "base_pct": 98,
           "new_pct": 98,
-          "delta_pct": 0.14,
+          "delta_pct": 0.15,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.001432381551776385
+          "score": 0.0014624445085976712
         },
         {
           "cat": "STL",
@@ -1178,17 +1178,17 @@
           "delta_pct": 0.03,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.00033181571401341703
+          "score": 0.000348639082797475
         }
       ],
       "cat_gains": [
         [
           "BLK",
-          0.0943
+          0.09390000000000001
         ],
         [
           "REB",
-          0.0529
+          0.0527
         ]
       ],
       "target_cats": [
@@ -1233,43 +1233,43 @@
       "is_waiver": false,
       "waiver_clear_date": null,
       "waiver_display": "",
-      "base_expected_wins": 5.932276163737305,
-      "new_expected_wins": 6.019297219617043,
-      "delta_expected_wins": 0.0870210558797373,
+      "base_expected_wins": 5.922958979438523,
+      "new_expected_wins": 6.01072137762369,
+      "delta_expected_wins": 0.08776239818516718,
       "objective": "category_points",
-      "base_objective_value": 5.932276163737305,
-      "new_objective_value": 6.019297219617043,
-      "delta_objective_value": 0.0870210558797373,
-      "base_win_probability": 0.91604233074586,
-      "new_win_probability": 0.9292595387992514,
-      "new_draw_probability": 0.012846276974882333,
+      "base_objective_value": 5.922958979438523,
+      "new_objective_value": 6.01072137762369,
+      "delta_objective_value": 0.08776239818516718,
+      "base_win_probability": 0.914623807158791,
+      "new_win_probability": 0.9279391436233811,
+      "new_draw_probability": 0.013004501485331329,
       "cat_details": [
         {
           "cat": "FG3M",
-          "base_pct": 59,
-          "new_pct": 70,
-          "delta_pct": 10.51,
+          "base_pct": 58,
+          "new_pct": 69,
+          "delta_pct": 10.57,
           "is_flip": false,
           "is_crit": true,
-          "score": 0.10507035085030536
+          "score": 0.10565886141661718
         },
         {
           "cat": "PTS",
           "base_pct": 44,
           "new_pct": 51,
-          "delta_pct": 7.69,
+          "delta_pct": 7.65,
           "is_flip": true,
           "is_crit": true,
-          "score": 0.07687500434404826
+          "score": 0.076468022636907
         },
         {
           "cat": "FT_PCT",
           "base_pct": 98,
           "new_pct": 99,
-          "delta_pct": 0.46,
+          "delta_pct": 0.47,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.004636255256882715
+          "score": 0.004733660145402774
         },
         {
           "cat": "AST",
@@ -1278,33 +1278,33 @@
           "delta_pct": 0.18,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0017609412281792691
+          "score": 0.0018325631566736833
         },
         {
           "cat": "STL",
           "base_pct": 100,
           "new_pct": 100,
-          "delta_pct": 0.09,
+          "delta_pct": 0.1,
           "is_flip": false,
           "is_crit": false,
-          "score": 0.0009290140655604517
+          "score": 0.000978506680812008
         }
       ],
       "cat_gains": [
         [
           "FG3M",
-          0.1051
+          0.1057
         ],
         [
           "PTS",
-          0.07690000000000001
+          0.0765
         ]
       ],
       "target_cats": [
         "FG3M",
         "PTS"
       ],
-      "key_cat_gains": "FG3M (%59 → %70), PTS (%44 → %51)",
+      "key_cat_gains": "FG3M (%58 → %69), PTS (%44 → %51)",
       "exp_stats_pg": {
         "PTS": 11.9,
         "REB": 3.2,
@@ -1322,7 +1322,7 @@
         "3PT": 2.6
       },
       "delta_without_spillover": 0.12626489663263474,
-      "robust_delta_objective_value": 0.0870210558797373,
+      "robust_delta_objective_value": 0.08776239818516718,
       "ranking_basis": "minimum_gain_with_and_without_spillover"
     }
   ],
@@ -1337,12 +1337,12 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "8486948cef2e27603c966c88157d4a82545d27d33f621ba3c0abd86969065808",
-    "data/processed/live_matchup.json": "b851022d5cc2ba22f62ac270880d34568537973c41d224e19d2cdb3e0be6ec5e",
-    "data/processed/injuries.db": "0fa45406dd5c65aeb2ae58416b5f25f82454ec654fc3b109409d83207295b75d",
+    "data/processed/league_state.json": "3fbfc06f67a28f75290b2749fe3de81e71c88afaa9457da6b558ecd053e7e330",
+    "data/processed/live_matchup.json": "f9b6d0048d0f90ca433e35528d02707676f32209e102dd83e985fb9bc079aa3c",
+    "data/processed/injuries.db": "5238fba7d55451f37f1633d98ba89b83af5fbe0f976f79327b645dc5484da987",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
-    "data/processed/schedule_2026_27.parquet": "3d965d748b16c70a58822861e74f269d62b36afb1c2c86062115f813829be854",
+    "data/processed/schedule_2026_27.parquet": "aa90051d3ecb15684ed0e40e7b3e53d8ea12fc059383aa351bb9dad0ba08e92b",
     "config/model_policy.json": "ab27322f752d4a3d9051306af3c8fb759fb0f062b3b659eacae6d5cc43421fbe",
     "config/rotation_policy.json": "39f2ac5aaed4d086c660dd8ab0e8c10900dd64e871c7112e201b197dfd27d1e8",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
@@ -1374,48 +1374,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8000572812570765,
           "mean": {
-            "PTS": 15.383160636616998,
-            "REB": 8.73976144844157,
-            "AST": 1.6950715359372126,
-            "STL": 0.9084612076907346,
-            "BLK": 0.9769008774445203,
-            "TOV": 1.414768038710552,
-            "FG3M": 0.08434068398803209,
-            "MIN": 27.771250873930704,
-            "FGM": 5.7629287093529165,
-            "FGA": 9.282921142649792,
+            "PTS": 16.45576980901386,
+            "REB": 9.349151710664072,
+            "AST": 1.813262414929095,
+            "STL": 0.9718047459371182,
+            "BLK": 1.0450164530678643,
+            "TOV": 1.5134144229602697,
+            "FG3M": 0.09022143849542848,
+            "MIN": 29.707634372742245,
+            "FGM": 6.164755768143906,
+            "FGA": 9.9301838605949,
             "FG_rate": 0.620809831387612,
-            "FTM": 3.1256433095261253,
-            "FTA": 4.385705303756138,
+            "FTM": 3.343582506979366,
+            "FTA": 4.691503822497531,
             "FT_rate": 0.7126888591554857
           },
           "var": {
-            "PTS": 46.384812468898694,
-            "REB": 13.89568186099673,
-            "AST": 1.9887314492157977,
-            "STL": 1.003426097231845,
-            "BLK": 1.1025244814247932,
-            "TOV": 1.6357534350288032,
-            "FG3M": 0.09584897245229479,
-            "PTS_shared": 0.76503243329904,
-            "REB_shared": 0.4244490838603966,
-            "AST_shared": 0.08429897680891478,
-            "STL_shared": 0.04342700482445402,
-            "BLK_shared": 0.04669861383034289,
-            "TOV_shared": 0.06980451306622132,
-            "FG3M_shared": 0.0040960301104400075,
-            "FGM": 8.872303804073878,
-            "FGA": 17.178592002099073,
-            "FGM_cond": 2.251591186166793,
+            "PTS": 51.587695506653716,
+            "REB": 15.514686156742638,
+            "AST": 2.157499954351567,
+            "STL": 1.0836252592654516,
+            "BLK": 1.1909427322165558,
+            "TOV": 1.7716934387958367,
+            "FG3M": 0.10292792775568749,
+            "PTS_shared": 0.8754374159320896,
+            "REB_shared": 0.485703080021241,
+            "AST_shared": 0.09646450949154564,
+            "STL_shared": 0.049694134824124346,
+            "BLK_shared": 0.05343788320575142,
+            "TOV_shared": 0.07987828996421616,
+            "FG3M_shared": 0.004687145092660388,
+            "FGM": 9.777311040387465,
+            "FGA": 19.106342378525582,
+            "FGM_cond": 2.4136340840862567,
             "FG_rate": 0.00070528839288291,
-            "FGA_shared": 0.4367825989561281,
-            "FGM_shared": 0.22942274046482097,
-            "FTM": 5.737331960428316,
-            "FTA": 9.466437275730975,
-            "FTM_cond": 0.9290879262508769,
+            "FGA_shared": 0.49981649549855073,
+            "FGM_shared": 0.2625316814379735,
+            "FTM": 6.226482113027306,
+            "FTA": 10.29789225538628,
+            "FTM_cond": 0.9959209674415469,
             "FT_rate": 0.001277219761329115,
-            "FTA_shared": 0.1999279896602998,
-            "FTM_shared": 0.12637042793207226
+            "FTA_shared": 0.22878042161683865,
+            "FTM_shared": 0.14460746507441502
           }
         },
         {
@@ -1425,7 +1425,7 @@
           "injury_status": "HEALTHY",
           "p": 0.8496998335430936,
           "mean": {
-            "PTS": 12.959556864847631,
+            "PTS": 12.959556864847633,
             "REB": 8.172561875424874,
             "AST": 4.982538604813613,
             "STL": 1.372060016523995,
@@ -1441,7 +1441,7 @@
             "FT_rate": 0.7630903368183587
           },
           "var": {
-            "PTS": 32.20697962306967,
+            "PTS": 32.20697962306968,
             "REB": 10.726004068556247,
             "AST": 6.077754850061867,
             "STL": 1.4966432130361949,
@@ -1450,10 +1450,10 @@
             "FG3M": 1.961068403866741,
             "PTS_shared": 0.6645198291961815,
             "REB_shared": 0.4071593217343092,
-            "AST_shared": 0.2554867992141837,
+            "AST_shared": 0.25548679921418366,
             "STL_shared": 0.06705557353551958,
             "BLK_shared": 0.014945144079688921,
-            "TOV_shared": 0.10224878773284996,
+            "TOV_shared": 0.10224878773284994,
             "FG3M_shared": 0.08277526377116634,
             "FGM": 6.541672292483678,
             "FGA": 16.45634984192639,
@@ -1632,8 +1632,8 @@
             "PTS": 7.97178109286464,
             "REB": 5.527749974950971,
             "AST": 1.8293379284760714,
-            "STL": 1.1750670854820024,
-            "BLK": 0.6021061272801048,
+            "STL": 1.1750670854820022,
+            "BLK": 0.6021061272801047,
             "TOV": 0.48955838740641505,
             "FG3M": 1.6469604648481024,
             "MIN": 30.525754015878746,
@@ -1648,16 +1648,16 @@
             "PTS": 22.18623187997413,
             "REB": 8.561866184881621,
             "AST": 2.27390620006383,
-            "STL": 1.3708495575776183,
-            "BLK": 0.68581972488809,
+            "STL": 1.370849557577618,
+            "BLK": 0.6858197248880897,
             "TOV": 0.5538592419816344,
             "FG3M": 2.119018030483337,
             "PTS_shared": 0.5234190250133434,
             "REB_shared": 0.356550700630234,
             "AST_shared": 0.12011246467868017,
-            "STL_shared": 0.0749010532956707,
-            "BLK_shared": 0.038379411427865884,
-            "TOV_shared": 0.03195397708264371,
+            "STL_shared": 0.07490105329567068,
+            "BLK_shared": 0.03837941142786587,
+            "TOV_shared": 0.031953977082643706,
             "FG3M_shared": 0.10623217589668484,
             "FGM": 4.6403544212689365,
             "FGA": 12.97375697560641,
@@ -1683,8 +1683,8 @@
             "PTS": 7.97178109286464,
             "REB": 5.527749974950971,
             "AST": 1.8293379284760714,
-            "STL": 1.1750670854820024,
-            "BLK": 0.6021061272801048,
+            "STL": 1.1750670854820022,
+            "BLK": 0.6021061272801047,
             "TOV": 0.48955838740641505,
             "FG3M": 1.6469604648481024,
             "MIN": 30.525754015878746,
@@ -1699,16 +1699,16 @@
             "PTS": 22.18623187997413,
             "REB": 8.561866184881621,
             "AST": 2.27390620006383,
-            "STL": 1.3708495575776183,
-            "BLK": 0.68581972488809,
+            "STL": 1.370849557577618,
+            "BLK": 0.6858197248880897,
             "TOV": 0.5538592419816344,
             "FG3M": 2.119018030483337,
             "PTS_shared": 0.5234190250133434,
             "REB_shared": 0.356550700630234,
             "AST_shared": 0.12011246467868017,
-            "STL_shared": 0.0749010532956707,
-            "BLK_shared": 0.038379411427865884,
-            "TOV_shared": 0.03195397708264371,
+            "STL_shared": 0.07490105329567068,
+            "BLK_shared": 0.03837941142786587,
+            "TOV_shared": 0.031953977082643706,
             "FG3M_shared": 0.10623217589668484,
             "FGM": 4.6403544212689365,
             "FGA": 12.97375697560641,
@@ -1759,7 +1759,7 @@
             "AST_shared": 0.08100947528495675,
             "STL_shared": 0.059815318052956874,
             "BLK_shared": 0.04393981110133923,
-            "TOV_shared": 0.05471774551437458,
+            "TOV_shared": 0.05471774551437457,
             "FG3M_shared": 0.021804027848587308,
             "FGM": 8.178268478030338,
             "FGA": 21.062928440646786,
@@ -1808,9 +1808,9 @@
             "PTS_shared": 1.0643827383556486,
             "REB_shared": 0.14912351383911382,
             "AST_shared": 0.23351897482683792,
-            "STL_shared": 0.06685570602033297,
-            "BLK_shared": 0.027107797106636244,
-            "TOV_shared": 0.08851461052686292,
+            "STL_shared": 0.06685570602033296,
+            "BLK_shared": 0.02710779710663624,
+            "TOV_shared": 0.08851461052686291,
             "FG3M_shared": 0.10911491775806227,
             "FGM": 10.916264591010323,
             "FGA": 30.696273474063716,
@@ -1859,9 +1859,9 @@
             "PTS_shared": 1.0643827383556486,
             "REB_shared": 0.14912351383911382,
             "AST_shared": 0.23351897482683792,
-            "STL_shared": 0.06685570602033297,
-            "BLK_shared": 0.027107797106636244,
-            "TOV_shared": 0.08851461052686292,
+            "STL_shared": 0.06685570602033296,
+            "BLK_shared": 0.02710779710663624,
+            "TOV_shared": 0.08851461052686291,
             "FG3M_shared": 0.10911491775806227,
             "FGM": 10.916264591010323,
             "FGA": 30.696273474063716,
@@ -1912,7 +1912,7 @@
             "AST_shared": 0.1860937712532524,
             "STL_shared": 0.04825810462804806,
             "BLK_shared": 0.021222578057322704,
-            "TOV_shared": 0.10101043372779545,
+            "TOV_shared": 0.10101043372779543,
             "FG3M_shared": 0.0999910865643051,
             "FGM": 8.875701167644639,
             "FGA": 24.567011358029234,
@@ -1963,7 +1963,7 @@
             "AST_shared": 0.1860937712532524,
             "STL_shared": 0.04825810462804806,
             "BLK_shared": 0.021222578057322704,
-            "TOV_shared": 0.10101043372779545,
+            "TOV_shared": 0.10101043372779543,
             "FG3M_shared": 0.0999910865643051,
             "FGM": 8.875701167644639,
             "FGA": 24.567011358029234,
@@ -2014,7 +2014,7 @@
             "AST_shared": 0.22816956850226358,
             "STL_shared": 0.04474506060967127,
             "BLK_shared": 0.016384401511904925,
-            "TOV_shared": 0.08564327009170845,
+            "TOV_shared": 0.08564327009170844,
             "FG3M_shared": 0.0908318263748265,
             "FGM": 8.880150407939276,
             "FGA": 23.332342990504483,
@@ -2065,7 +2065,7 @@
             "AST_shared": 0.22816956850226358,
             "STL_shared": 0.04474506060967127,
             "BLK_shared": 0.016384401511904925,
-            "TOV_shared": 0.08564327009170845,
+            "TOV_shared": 0.08564327009170844,
             "FG3M_shared": 0.0908318263748265,
             "FGM": 8.880150407939276,
             "FGA": 23.332342990504483,
@@ -2090,9 +2090,9 @@
           "mean": {
             "PTS": 10.593708247354899,
             "REB": 5.013689826342671,
-            "AST": 1.5021813314567485,
+            "AST": 1.5021813314567487,
             "STL": 0.9032626332999008,
-            "BLK": 0.6293670993030532,
+            "BLK": 0.6293670993030531,
             "TOV": 0.8275670963778073,
             "FG3M": 2.296130428100439,
             "MIN": 26.690965626427573,
@@ -2106,16 +2106,16 @@
           "var": {
             "PTS": 26.46422541985925,
             "REB": 6.286470936048269,
-            "AST": 1.6840757669866842,
+            "AST": 1.6840757669866844,
             "STL": 0.9720443077923027,
-            "BLK": 0.6832997824356641,
+            "BLK": 0.683299782435664,
             "TOV": 0.9061142448180016,
             "FG3M": 2.7786225222834933,
-            "PTS_shared": 0.4464247003274426,
+            "PTS_shared": 0.4464247003274425,
             "REB_shared": 0.20519961987067664,
-            "AST_shared": 0.06330274867636645,
-            "STL_shared": 0.03625576965742742,
-            "BLK_shared": 0.025261964506306172,
+            "AST_shared": 0.06330274867636644,
+            "STL_shared": 0.03625576965742741,
+            "BLK_shared": 0.02526196450630617,
             "TOV_shared": 0.034536376480856446,
             "FG3M_shared": 0.09397571595756339,
             "FGM": 4.736393042783692,
@@ -2142,8 +2142,8 @@
             "PTS": 13.658571518630207,
             "REB": 5.9363465275069505,
             "AST": 1.5247684381448774,
-            "STL": 0.7112054416238419,
-            "BLK": 0.7968615926240463,
+            "STL": 0.711205441623842,
+            "BLK": 0.7968615926240464,
             "TOV": 1.146531127279529,
             "FG3M": 1.9508454371450525,
             "MIN": 30.451496830759552,
@@ -2159,7 +2159,7 @@
             "REB": 7.30364172735944,
             "AST": 1.6918335557815716,
             "STL": 0.7574598629734225,
-            "BLK": 0.8665114626240905,
+            "BLK": 0.8665114626240906,
             "TOV": 1.2596874666534048,
             "FG3M": 2.3022285770933277,
             "PTS_shared": 0.6300542672614196,
@@ -2193,8 +2193,8 @@
             "PTS": 13.658571518630207,
             "REB": 5.9363465275069505,
             "AST": 1.5247684381448774,
-            "STL": 0.7112054416238419,
-            "BLK": 0.7968615926240463,
+            "STL": 0.711205441623842,
+            "BLK": 0.7968615926240464,
             "TOV": 1.146531127279529,
             "FG3M": 1.9508454371450525,
             "MIN": 30.451496830759552,
@@ -2210,7 +2210,7 @@
             "REB": 7.30364172735944,
             "AST": 1.6918335557815716,
             "STL": 0.7574598629734225,
-            "BLK": 0.8665114626240905,
+            "BLK": 0.8665114626240906,
             "TOV": 1.2596874666534048,
             "FG3M": 2.3022285770933277,
             "PTS_shared": 0.6300542672614196,
@@ -2269,7 +2269,7 @@
             "AST_shared": 0.0682825037225255,
             "STL_shared": 0.04028389704167319,
             "BLK_shared": 0.015386417258528682,
-            "TOV_shared": 0.03873373659081599,
+            "TOV_shared": 0.038733736590815984,
             "FG3M_shared": 0.033494044776131056,
             "FGM": 3.941976054166459,
             "FGA": 11.173338677220574,
@@ -2320,7 +2320,7 @@
             "AST_shared": 0.0682825037225255,
             "STL_shared": 0.04028389704167319,
             "BLK_shared": 0.015386417258528682,
-            "TOV_shared": 0.03873373659081599,
+            "TOV_shared": 0.038733736590815984,
             "FG3M_shared": 0.033494044776131056,
             "FGM": 3.941976054166459,
             "FGA": 11.173338677220574,
@@ -2343,48 +2343,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8669238941015469,
           "mean": {
-            "PTS": 18.770618331890187,
-            "REB": 4.227277921994544,
-            "AST": 6.565524280064788,
-            "STL": 0.956836121206776,
-            "BLK": 0.42868779266917806,
-            "TOV": 3.12739492650129,
-            "FG3M": 2.45011861043677,
-            "MIN": 29.178359236295798,
-            "FGM": 5.452354440397232,
-            "FGA": 12.776914313267904,
+            "PTS": 19.111104289251255,
+            "REB": 4.303957802478624,
+            "AST": 6.684618322708939,
+            "STL": 0.9741924627511163,
+            "BLK": 0.4364638909795884,
+            "TOV": 3.184123694662691,
+            "FG3M": 2.4945620574225,
+            "MIN": 29.707634372742245,
+            "FGM": 5.551256356609366,
+            "FGA": 13.008678649698012,
             "FG_rate": 0.4267348364961136,
-            "FTM": 5.050705127343478,
-            "FTA": 5.824876703605558,
+            "FTM": 5.142321404454091,
+            "FTA": 5.930535914499417,
             "FT_rate": 0.8670921951390193
           },
           "var": {
-            "PTS": 51.87396067134988,
-            "REB": 5.14205887376021,
-            "AST": 8.538358843463724,
-            "STL": 1.0330218644872609,
-            "BLK": 0.46336075818393363,
-            "TOV": 3.6844166620951464,
-            "FG3M": 2.972822996324485,
-            "PTS_shared": 0.8612566731530792,
-            "REB_shared": 0.1894152686726592,
-            "AST_shared": 0.3012474868421104,
-            "STL_shared": 0.04220119954648454,
-            "BLK_shared": 0.018907249298612556,
-            "TOV_shared": 0.14236510312841813,
-            "FG3M_shared": 0.10978456667376935,
-            "FGM": 7.289155384790344,
-            "FGA": 22.33829392407142,
-            "FGM_cond": 3.221293519711007,
+            "PTS": 52.603485460685185,
+            "REB": 5.227206398371347,
+            "AST": 8.670862727386778,
+            "STL": 1.0519230924749963,
+            "BLK": 0.4719845282912967,
+            "TOV": 3.747491656478026,
+            "FG3M": 3.0248408732829564,
+            "PTS_shared": 0.8927852498982036,
+            "REB_shared": 0.1963493151900356,
+            "AST_shared": 0.31227544726812984,
+            "STL_shared": 0.04374608598987951,
+            "BLK_shared": 0.01959939912935709,
+            "TOV_shared": 0.14757675398666822,
+            "FG3M_shared": 0.1138035208876532,
+            "FGM": 7.405657292557406,
+            "FGA": 22.648305033242092,
+            "FGM_cond": 3.2813415920583724,
             "FG_rate": 0.0005534873636483141,
-            "FGA_shared": 0.554684405184113,
-            "FGM_shared": 0.1916730518050065,
-            "FTM": 9.887786914591578,
-            "FTA": 12.233669668873295,
-            "FTM_cond": 0.6899161385056748,
+            "FGA_shared": 0.5749900938171492,
+            "FGM_shared": 0.19868975044106135,
+            "FTM": 10.054289836895778,
+            "FTA": 12.438108188458806,
+            "FTM_cond": 0.702712189879215,
             "FT_rate": 0.0004620460990234735,
-            "FTA_shared": 0.24500292066835117,
-            "FTM_shared": 0.1999952221296554
+            "FTA_shared": 0.2539719001002223,
+            "FTM_shared": 0.20731657580519586
           }
         }
       ],
@@ -2422,7 +2422,7 @@
             "BLK": 0.9882571492541027,
             "TOV": 1.911149373912108,
             "FG3M": 1.9135360172888496,
-            "PTS_shared": 0.7996563679842476,
+            "PTS_shared": 0.7996563679842474,
             "REB_shared": 0.32551853323986824,
             "AST_shared": 0.06362304984285162,
             "STL_shared": 0.042571833560361955,
@@ -2473,7 +2473,7 @@
             "BLK": 0.743286354565653,
             "TOV": 2.0721884626073694,
             "FG3M": 2.7283934064227675,
-            "PTS_shared": 0.8985263684894012,
+            "PTS_shared": 0.898526368489401,
             "REB_shared": 0.27187727354946806,
             "AST_shared": 0.1256390217044854,
             "STL_shared": 0.06759149082502693,
@@ -2503,7 +2503,7 @@
           "mean": {
             "PTS": 5.153844483310833,
             "REB": 6.999169783435777,
-            "AST": 0.8706009092482435,
+            "AST": 0.8706009092482436,
             "STL": 0.751978429214583,
             "BLK": 1.0497877543921732,
             "TOV": 0.6829489720787302,
@@ -2519,16 +2519,16 @@
           "var": {
             "PTS": 13.40592062617046,
             "REB": 12.242229573775896,
-            "AST": 1.0053049072196385,
+            "AST": 1.0053049072196387,
             "STL": 0.8428071143505691,
             "BLK": 1.2279785447226086,
             "TOV": 0.7758236934346342,
             "FG3M": 0.039838362843645524,
-            "PTS_shared": 0.23525338135113116,
+            "PTS_shared": 0.23525338135113114,
             "REB_shared": 0.31018529770847936,
             "AST_shared": 0.03973961736161028,
-            "STL_shared": 0.03267577267675382,
-            "BLK_shared": 0.04561650266642155,
+            "STL_shared": 0.03267577267675381,
+            "BLK_shared": 0.045616502666421546,
             "TOV_shared": 0.030868560773630142,
             "FG3M_shared": 0.0015595939436963062,
             "FGM": 3.1846262439345403,
@@ -2554,7 +2554,7 @@
           "mean": {
             "PTS": 5.153844483310833,
             "REB": 6.999169783435777,
-            "AST": 0.8706009092482435,
+            "AST": 0.8706009092482436,
             "STL": 0.751978429214583,
             "BLK": 1.0497877543921732,
             "TOV": 0.6829489720787302,
@@ -2570,16 +2570,16 @@
           "var": {
             "PTS": 13.40592062617046,
             "REB": 12.242229573775896,
-            "AST": 1.0053049072196385,
+            "AST": 1.0053049072196387,
             "STL": 0.8428071143505691,
             "BLK": 1.2279785447226086,
             "TOV": 0.7758236934346342,
             "FG3M": 0.039838362843645524,
-            "PTS_shared": 0.23525338135113116,
+            "PTS_shared": 0.23525338135113114,
             "REB_shared": 0.31018529770847936,
             "AST_shared": 0.03973961736161028,
-            "STL_shared": 0.03267577267675382,
-            "BLK_shared": 0.04561650266642155,
+            "STL_shared": 0.03267577267675381,
+            "BLK_shared": 0.045616502666421546,
             "TOV_shared": 0.030868560773630142,
             "FG3M_shared": 0.0015595939436963062,
             "FGM": 3.1846262439345403,
@@ -2631,7 +2631,7 @@
             "AST_shared": 0.28773608137316514,
             "STL_shared": 0.06361417465999918,
             "BLK_shared": 0.011185938730648522,
-            "TOV_shared": 0.10166646566349882,
+            "TOV_shared": 0.10166646566349881,
             "FG3M_shared": 0.1362342637522512,
             "FGM": 10.825400497596156,
             "FGA": 29.529339683838735,
@@ -2760,7 +2760,7 @@
             "REB": 6.059814222802763,
             "AST": 1.0892400777117799,
             "STL": 0.48834488008575,
-            "BLK": 0.6493300509189778,
+            "BLK": 0.6493300509189776,
             "TOV": 0.8604412459586528,
             "FG3M": 1.2979373223214186,
             "MIN": 18.19467445482036,
@@ -2776,14 +2776,14 @@
             "REB": 9.591622739642721,
             "AST": 1.263505093910346,
             "STL": 0.5306896639020459,
-            "BLK": 0.727538580243084,
+            "BLK": 0.7275385802430837,
             "TOV": 0.9809534642112244,
             "FG3M": 1.604995859994618,
             "PTS_shared": 0.4122370995347915,
             "REB_shared": 0.2559643592249639,
             "AST_shared": 0.04723157514621695,
             "STL_shared": 0.02026996937744897,
-            "BLK_shared": 0.026952059465994445,
+            "BLK_shared": 0.026952059465994434,
             "TOV_shared": 0.03698572117357705,
             "FG3M_shared": 0.054824402664362136,
             "FGM": 5.016346208399658,
@@ -2807,48 +2807,48 @@
           "injury_status": "HEALTHY",
           "p": 0.8496998335430936,
           "mean": {
-            "PTS": 18.377838781045774,
-            "REB": 5.002640186472967,
-            "AST": 3.2096471149530057,
-            "STL": 1.1505456390039661,
-            "BLK": 0.34775033763053054,
-            "TOV": 1.679783947215521,
-            "FG3M": 2.723488993420898,
-            "MIN": 31.469382570190998,
-            "FGM": 6.355241869819169,
-            "FGA": 13.510069367491289,
+            "PTS": 19.224193222839922,
+            "REB": 5.23302672936103,
+            "AST": 3.357460964268843,
+            "STL": 1.203531706825075,
+            "BLK": 0.36376528075825926,
+            "TOV": 1.7571430220185194,
+            "FG3M": 2.848913807199142,
+            "MIN": 32.91864175872355,
+            "FGM": 6.647919765695864,
+            "FGA": 14.132248468872689,
             "FG_rate": 0.47040778969732905,
-            "FTM": 2.6202561088628973,
-            "FTA": 3.0562606984064833,
+            "FTM": 2.7409267395499826,
+            "FTA": 3.1970106444798496,
             "FT_rate": 0.8573405109809787
           },
           "var": {
-            "PTS": 48.52885120265557,
-            "REB": 6.079951648301767,
-            "AST": 3.7354216324265717,
-            "STL": 1.2437907817172311,
-            "BLK": 0.3746649801253672,
-            "TOV": 1.8785292682474284,
-            "FG3M": 3.2905519391830147,
-            "PTS_shared": 0.8794699594930434,
-            "REB_shared": 0.23319023191482066,
-            "AST_shared": 0.15359739802952257,
-            "STL_shared": 0.05269912106666655,
-            "BLK_shared": 0.01592821399039028,
-            "TOV_shared": 0.079684726472694,
-            "FG3M_shared": 0.12695117104575168,
-            "FGM": 8.536026661284247,
-            "FGA": 22.890079427524924,
-            "FGM_cond": 3.470830031049002,
+            "PTS": 50.34674750084424,
+            "REB": 6.33691870532084,
+            "AST": 3.900664759207881,
+            "STL": 1.3017425222270294,
+            "BLK": 0.3925010877010864,
+            "TOV": 1.9649439660905228,
+            "FG3M": 3.437972948250316,
+            "PTS_shared": 0.9623396520037136,
+            "REB_shared": 0.2551630151880689,
+            "AST_shared": 0.16807039850867794,
+            "STL_shared": 0.05766479375535579,
+            "BLK_shared": 0.01742907957582616,
+            "TOV_shared": 0.08719316801672976,
+            "FG3M_shared": 0.13891338123255018,
+            "FGM": 8.885342248790876,
+            "FGA": 23.725098639408046,
+            "FGM_cond": 3.635369654295492,
             "FG_rate": 0.0005479017976084158,
-            "FGA_shared": 0.6080573556204137,
-            "FGM_shared": 0.23489032647350055,
-            "FTM": 4.843486030031922,
-            "FTA": 6.0659588344123865,
-            "FTM_cond": 0.38480761585554707,
+            "FGA_shared": 0.6653526907767858,
+            "FGM_shared": 0.25702330431825876,
+            "FTM": 5.062194774331866,
+            "FTA": 6.338861037932124,
+            "FTM_cond": 0.40292430253852113,
             "FT_rate": 0.0008909180013138395,
-            "FTA_shared": 0.13281566763185287,
-            "FTM_shared": 0.106064017544953
+            "FTA_shared": 0.14533047091586213,
+            "FTM_shared": 0.11605809684865445
           }
         },
         {
@@ -2858,9 +2858,9 @@
           "injury_status": "HEALTHY",
           "p": 0.9051333871555298,
           "mean": {
-            "PTS": 7.743678518030578,
+            "PTS": 7.743678518030576,
             "REB": 3.1275492902559283,
-            "AST": 1.1726498073094578,
+            "AST": 1.1726498073094576,
             "STL": 0.43162744368483436,
             "BLK": 0.22233173559979405,
             "TOV": 0.38490839502221075,
@@ -2874,16 +2874,16 @@
             "FT_rate": 0.7885612646520248
           },
           "var": {
-            "PTS": 21.040868758666697,
+            "PTS": 21.040868758666694,
             "REB": 4.103903895329894,
-            "AST": 1.3544588232026367,
+            "AST": 1.3544588232026364,
             "STL": 0.463179203179097,
             "BLK": 0.239262436454529,
             "TOV": 0.41987928575349687,
             "FG3M": 2.6959360490873125,
-            "PTS_shared": 0.28711067769171206,
+            "PTS_shared": 0.28711067769171195,
             "REB_shared": 0.11257047620035764,
-            "AST_shared": 0.043478080874320785,
+            "AST_shared": 0.043478080874320764,
             "STL_shared": 0.015231437472945222,
             "BLK_shared": 0.007845728946541121,
             "TOV_shared": 0.014130764485281461,
@@ -2909,9 +2909,9 @@
           "injury_status": "HEALTHY",
           "p": 0.9051333871555298,
           "mean": {
-            "PTS": 7.743678518030578,
+            "PTS": 7.743678518030576,
             "REB": 3.1275492902559283,
-            "AST": 1.1726498073094578,
+            "AST": 1.1726498073094576,
             "STL": 0.43162744368483436,
             "BLK": 0.22233173559979405,
             "TOV": 0.38490839502221075,
@@ -2925,16 +2925,16 @@
             "FT_rate": 0.7885612646520248
           },
           "var": {
-            "PTS": 21.040868758666697,
+            "PTS": 21.040868758666694,
             "REB": 4.103903895329894,
-            "AST": 1.3544588232026367,
+            "AST": 1.3544588232026364,
             "STL": 0.463179203179097,
             "BLK": 0.239262436454529,
             "TOV": 0.41987928575349687,
             "FG3M": 2.6959360490873125,
-            "PTS_shared": 0.28711067769171206,
+            "PTS_shared": 0.28711067769171195,
             "REB_shared": 0.11257047620035764,
-            "AST_shared": 0.043478080874320785,
+            "AST_shared": 0.043478080874320764,
             "STL_shared": 0.015231437472945222,
             "BLK_shared": 0.007845728946541121,
             "TOV_shared": 0.014130764485281461,
@@ -2963,7 +2963,7 @@
             "PTS": 10.048751344347984,
             "REB": 2.955160746274834,
             "AST": 1.5350624680481815,
-            "STL": 0.9130597815484877,
+            "STL": 0.9130597815484879,
             "BLK": 0.3436958393073884,
             "TOV": 1.0839921011708422,
             "FG3M": 1.6182655760063989,
@@ -2979,14 +2979,14 @@
             "PTS": 31.559577456575173,
             "REB": 4.058130304587331,
             "AST": 1.8836694732467936,
-            "STL": 1.0413425159434422,
+            "STL": 1.0413425159434424,
             "BLK": 0.37854971005516885,
             "TOV": 1.2789671951279173,
             "FG3M": 2.0948320142310193,
             "PTS_shared": 0.43505530976648726,
             "REB_shared": 0.12462489286311862,
             "AST_shared": 0.06645970774500666,
-            "STL_shared": 0.037836924969298254,
+            "STL_shared": 0.03783692496929826,
             "BLK_shared": 0.014242653051784925,
             "TOV_shared": 0.04652172960016602,
             "FG3M_shared": 0.06824541585025311,
@@ -3034,12 +3034,12 @@
             "BLK": 2.94172707303776,
             "TOV": 2.264877568274649,
             "FG3M": 1.7852587894807384,
-            "PTS_shared": 1.1607126222868513,
+            "PTS_shared": 1.1607126222868511,
             "REB_shared": 0.6174747319016926,
-            "AST_shared": 0.12325475324902391,
+            "AST_shared": 0.12325475324902388,
             "STL_shared": 0.04755491350264026,
             "BLK_shared": 0.14175531238332573,
-            "TOV_shared": 0.11509612840260601,
+            "TOV_shared": 0.115096128402606,
             "FG3M_shared": 0.08579833534416474,
             "FGM": 9.873595932766662,
             "FGA": 23.359630408363504,
@@ -3062,48 +3062,48 @@
           "injury_status": "HEALTHY",
           "p": 0.7905049079935809,
           "mean": {
-            "PTS": 12.251713962213842,
-            "REB": 4.102405890426203,
-            "AST": 1.9784998397329778,
-            "STL": 0.9162666612336849,
-            "BLK": 1.0204738174214223,
-            "TOV": 1.6417740325255148,
-            "FG3M": 1.2581458856987822,
-            "MIN": 27.376073545275343,
-            "FGM": 4.429935836748463,
-            "FGA": 9.440431039558739,
+            "PTS": 13.295165876396657,
+            "REB": 4.451798905340059,
+            "AST": 2.1470043813299258,
+            "STL": 0.9943031061355888,
+            "BLK": 1.1073853598754724,
+            "TOV": 1.7816003672063512,
+            "FG3M": 1.3652994428910696,
+            "MIN": 29.707634372742245,
+            "FGM": 4.807223867045162,
+            "FGA": 10.244452082599679,
             "FG_rate": 0.4692514375864267,
-            "FTM": 2.2191908819556505,
-            "FTA": 2.9222163463459165,
+            "FTM": 2.408194557756065,
+            "FTA": 3.171095176659384,
             "FT_rate": 0.7594204599979862
           },
           "var": {
-            "PTS": 33.46606537574133,
-            "REB": 5.260942577549658,
-            "AST": 2.3242213914707452,
-            "STL": 1.0062497508459252,
-            "BLK": 1.1465532403350358,
-            "TOV": 1.8996198621969995,
-            "FG3M": 1.5054379924043446,
-            "PTS_shared": 0.6209693273503711,
-            "REB_shared": 0.2030603610782977,
-            "AST_shared": 0.10027884412180668,
-            "STL_shared": 0.044642667174408804,
-            "BLK_shared": 0.04971988496231468,
-            "TOV_shared": 0.08255774918331418,
-            "FG3M_shared": 0.06227554383036129,
-            "FGM": 6.134137176206227,
-            "FGA": 16.846600886127586,
-            "FGM_cond": 2.4245676888271332,
+            "PTS": 37.49474358613281,
+            "REB": 5.854458077880116,
+            "AST": 2.5612987492637007,
+            "STL": 1.102652142905771,
+            "BLK": 1.256913081821284,
+            "TOV": 2.0896983290986615,
+            "FG3M": 1.6516450752447416,
+            "PTS_shared": 0.7312467878297031,
+            "REB_shared": 0.2391216928662622,
+            "AST_shared": 0.11808728615346288,
+            "STL_shared": 0.052570723759786775,
+            "BLK_shared": 0.05854960071069803,
+            "TOV_shared": 0.09721911573047154,
+            "FG3M_shared": 0.07333500928396922,
+            "FGM": 6.819284566979706,
+            "FGA": 18.989464208331896,
+            "FGM_cond": 2.637863193905461,
             "FG_rate": 0.0007602527949065772,
-            "FGA_shared": 0.45275312058316747,
-            "FGM_shared": 0.1677940962929415,
-            "FTM": 4.0042767661509755,
-            "FTA": 5.986743131596421,
-            "FTM_cond": 0.5516056494260809,
+            "FGA_shared": 0.5331571955719362,
+            "FGM_shared": 0.1975925195122732,
+            "FTM": 4.3910843164208,
+            "FTA": 6.573694164723783,
+            "FTM_cond": 0.5999071314607245,
             "FT_rate": 0.0015265355430083604,
-            "FTA_shared": 0.135788731384463,
-            "FTM_shared": 0.09155490558518362
+            "FTA_shared": 0.15990334671125142,
+            "FTM_shared": 0.10781407014881804
           }
         },
         {
@@ -3113,7 +3113,7 @@
           "injury_status": "HEALTHY",
           "p": 0.8402921284310239,
           "mean": {
-            "PTS": 24.061741211185502,
+            "PTS": 24.0617412111855,
             "REB": 11.2911590839448,
             "AST": 3.0886039991715384,
             "STL": 0.9846404287205764,
@@ -3129,18 +3129,18 @@
             "FT_rate": 0.8025383150137075
           },
           "var": {
-            "PTS": 69.02070688948105,
+            "PTS": 69.02070688948103,
             "REB": 16.14808362963513,
             "AST": 3.6146644976937976,
             "STL": 1.0642399053046194,
             "BLK": 3.793630708215543,
             "TOV": 2.904339529552005,
             "FG3M": 2.390998154070762,
-            "PTS_shared": 1.2108682808775149,
+            "PTS_shared": 1.2108682808775144,
             "REB_shared": 0.5519434160795865,
-            "AST_shared": 0.1554290099774536,
-            "STL_shared": 0.047208723028210116,
-            "BLK_shared": 0.15512082046642023,
+            "AST_shared": 0.15542900997745357,
+            "STL_shared": 0.04720872302821011,
+            "BLK_shared": 0.1551208204664202,
             "TOV_shared": 0.12567553697045084,
             "FG3M_shared": 0.09786997823668854,
             "FGM": 11.436533171112055,
@@ -3216,102 +3216,50 @@
   "forecast_changes": {
     "since_previous": {
       "status": "explained",
-      "previous_at": "2026-10-30T18:08:38.348953+00:00",
+      "previous_at": "2026-10-30T20:36:14.563398+00:00",
       "method": "Sequential: resolve old planned games at expected scores, replace with actual scores, then update remaining outlook. Order-dependent arithmetic attribution, not causal identification.",
       "player_note": "Player examples use planned lineup NBA boxscores; actual Yahoo daily starting slots may differ.",
       "categories": [
         {
-          "category": "PTS",
-          "before": 0.37314918427763866,
-          "after": 0.4380955223474552,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 6.494633806981653,
-          "remaining_player_changes": [
-            {
-              "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -3.864847700463116
-            },
-            {
-              "side": "mine",
-              "name": "Tyrese Maxey",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 30.32283071883355,
-              "new_minutes": 31.74983942919876,
-              "expected_stat_change": 1.8238169757561167
-            },
-            {
-              "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 1.318038845982219
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
           "category": "FG3M",
-          "before": 0.5441375015446648,
-          "after": 0.5917501910520665,
+          "before": 0.5917501910520665,
+          "after": 0.5847963418436133,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 4.761268950740172,
+          "remaining_outlook_pp": -0.6953849208453211,
           "remaining_player_changes": [
             {
               "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -0.528417867767851
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.10657344338954733
+            },
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.08470541286947397
             },
             {
               "side": "mine",
-              "name": "Tyrese Maxey",
-              "old_active_games": 2,
-              "new_active_games": 2,
+              "name": "James Harden",
+              "old_active_games": 1,
+              "new_active_games": 1,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 30.32283071883355,
-              "new_minutes": 31.74983942919876,
-              "expected_stat_change": 0.19236164894504792
-            },
-            {
-              "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 0.16132163209847206
+              "old_minutes": 29.178359236295798,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.03852908612816508
             }
           ],
           "score_added": {
@@ -3325,149 +3273,45 @@
           "planned_player_surprises": []
         },
         {
-          "category": "REB",
-          "before": 0.7668337742605595,
-          "after": 0.8084359843213326,
+          "category": "PTS",
+          "before": 0.4380955223474552,
+          "after": 0.435208715932515,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 4.160221006077302,
+          "remaining_outlook_pp": -0.2886806414940213,
           "remaining_player_changes": [
             {
-              "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -1.414698750465707
-            },
-            {
               "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
+              "name": "Jarrett Allen",
+              "old_active_games": 1,
+              "new_active_games": 1,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 0.6627207595934905
+              "old_minutes": 27.771250873930704,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.8581487783192365
             },
-            {
-              "side": "mine",
-              "name": "Dean Wade",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 29.153762293896545,
-              "new_minutes": 30.525754015878746,
-              "expected_stat_change": 0.3975981620871849
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "BLK",
-          "before": 0.22830667563369506,
-          "after": 0.2442312686845829,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 1.5924593050887836,
-          "remaining_player_changes": [
             {
               "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -0.08566651130735387
-            },
-            {
-              "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 0.07543897890633566
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.8248538594168124
             },
-            {
-              "side": "mine",
-              "name": "Tyrese Maxey",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 30.32283071883355,
-              "new_minutes": 31.74983942919876,
-              "expected_stat_change": 0.04870420769527639
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "TOV",
-          "before": 0.018143209849288293,
-          "after": 0.014495247160813197,
-          "games_resolved_pp": 3.469446951953614e-16,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": -0.36479626884750993,
-          "remaining_player_changes": [
             {
               "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -0.31715223027508843
-            },
-            {
-              "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 0.18326594837160903
-            },
-            {
-              "side": "mine",
-              "name": "Tyrese Maxey",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 30.32283071883355,
-              "new_minutes": 31.74983942919876,
-              "expected_stat_change": 0.15311388597585518
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.7191472283109466
             }
           ],
           "score_added": {
@@ -3482,104 +3326,52 @@
         },
         {
           "category": "FG_PCT",
-          "before": 0.7895917505400167,
-          "after": 0.7931343305070769,
+          "before": 0.7931343305070769,
+          "after": 0.7945476791171451,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.35425799670602
+          "remaining_outlook_pp": 0.14133486100681436
         },
         {
-          "category": "AST",
-          "before": 0.993983774467534,
-          "after": 0.9956794950859865,
+          "category": "TOV",
+          "before": 0.014495247160813197,
+          "after": 0.015135908471527838,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.16957206184524676,
+          "remaining_outlook_pp": 0.06406613107146406,
           "remaining_player_changes": [
             {
               "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -0.6069491417816972
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.11053340383195431
             },
             {
               "side": "mine",
-              "name": "Tyrese Maxey",
-              "old_active_games": 2,
-              "new_active_games": 2,
+              "name": "Jarrett Allen",
+              "old_active_games": 1,
+              "new_active_games": 1,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 30.32283071883355,
-              "new_minutes": 31.74983942919876,
-              "expected_stat_change": 0.4001341388796984
-            },
-            {
-              "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 0.3202106380329286
-            }
-          ],
-          "score_added": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "score_expected": {
-            "mine": 0.0,
-            "opponent": 0.0
-          },
-          "planned_player_surprises": []
-        },
-        {
-          "category": "STL",
-          "before": 0.9967832428987449,
-          "after": 0.9975382447454829,
-          "games_resolved_pp": 0.0,
-          "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.0755001846738046,
-          "remaining_player_changes": [
-            {
-              "side": "mine",
-              "name": "Jake LaRavia",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "HEALTHY",
-              "new_status": "HEALTHY",
-              "old_minutes": 19.74542276968784,
-              "new_minutes": 21.917503980357456,
-              "expected_stat_change": 0.19751031108345107
+              "old_minutes": 27.771250873930704,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.07892275798867021
             },
             {
               "side": "opponent",
-              "name": "Obi Toppin",
-              "old_active_games": 2,
-              "new_active_games": 2,
-              "old_status": "AVAILABLE",
-              "new_status": "QUESTIONABLE",
-              "old_minutes": 26.05727476715785,
-              "new_minutes": 26.436546332759406,
-              "expected_stat_change": -0.1932004853414433
-            },
-            {
-              "side": "mine",
-              "name": "Tyrese Maxey",
-              "old_active_games": 2,
-              "new_active_games": 2,
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
               "old_status": "HEALTHY",
               "new_status": "HEALTHY",
-              "old_minutes": 30.32283071883355,
-              "new_minutes": 31.74983942919876,
-              "expected_stat_change": 0.12011873110971116
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.06573199298315546
             }
           ],
           "score_added": {
@@ -3594,11 +3386,219 @@
         },
         {
           "category": "FT_PCT",
-          "before": 0.9810064482951344,
-          "after": 0.9815982512596333,
+          "before": 0.9815982512596333,
+          "after": 0.9810317067087204,
           "games_resolved_pp": 0.0,
           "score_surprise_pp": 0.0,
-          "remaining_outlook_pp": 0.05918029644988998
+          "remaining_outlook_pp": -0.056654455091287304
+        },
+        {
+          "category": "BLK",
+          "before": 0.2442312686845829,
+          "after": 0.24388047367759397,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.03507950069889243,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.06870400087121908
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.771250873930704,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.054496362244473406
+            },
+            {
+              "side": "opponent",
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.013607894509833185
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "REB",
+          "before": 0.8084359843213326,
+          "after": 0.8081856486359976,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.025033568533494588,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.771250873930704,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.48754711641827253
+            },
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.2761968931080774
+            },
+            {
+              "side": "opponent",
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.1957594071425559
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "AST",
+          "before": 0.9956794950859865,
+          "after": 0.9954863409634521,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.019315412253440023,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.1332036671515957
+            },
+            {
+              "side": "opponent",
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.125597403159031
+            },
+            {
+              "side": "mine",
+              "name": "James Harden",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 29.178359236295798,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.1032454712133628
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "STL",
+          "before": 0.9975382447454829,
+          "after": 0.9974027995141727,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": -0.013544523131026054,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Peyton Watson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.376073545275343,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.06168819269732562
+            },
+            {
+              "side": "mine",
+              "name": "Jarrett Allen",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 27.771250873930704,
+              "new_minutes": 29.707634372742245,
+              "expected_stat_change": 0.050678458994605324
+            },
+            {
+              "side": "opponent",
+              "name": "Trey Murphy III",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.469382570190998,
+              "new_minutes": 32.91864175872355,
+              "expected_stat_change": 0.04502225300769935
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
         }
       ]
     },
@@ -3607,5 +3607,5 @@
     },
     "first_record_at": "2026-10-27T23:42:28.400397+00:00"
   },
-  "prospective_forecast_id": "20261030T203614563398Z"
+  "prospective_forecast_id": "20261030T213655542403Z"
 }
