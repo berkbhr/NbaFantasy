@@ -1,26 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-30T18:08:38.348953+00:00
+Generated: 2026-10-30T20:36:14.563398+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-30 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.761**.
-Expected category points: **5.76 / 9**.
-Expected category wins: 5.69; ties: 0.14.
-Secondary weekly W/L/D: 88.5% / 9.5% / 2.0%.
+Objective value: **5.932**.
+Expected category points: **5.93 / 9**.
+Expected category wins: 5.86; ties: 0.13.
+Secondary weekly W/L/D: 91.6% / 6.9% / 1.5%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 37.3% | 0.8% | 61.9% |
-| REB | 76.7% | 1.5% | 21.8% |
-| AST | 99.4% | 0.1% | 0.5% |
-| STL | 99.7% | 0.1% | 0.2% |
-| BLK | 22.8% | 5.9% | 71.2% |
-| TOV | 1.8% | 0.7% | 97.5% |
-| FG3M | 54.4% | 4.6% | 41.0% |
-| FG_PCT | 79.0% | 0.0% | 21.0% |
-| FT_PCT | 98.1% | 0.0% | 1.9% |
+| PTS | 43.8% | 0.8% | 55.4% |
+| REB | 80.8% | 1.3% | 17.8% |
+| AST | 99.6% | 0.1% | 0.3% |
+| STL | 99.8% | 0.1% | 0.1% |
+| BLK | 24.4% | 6.1% | 69.5% |
+| TOV | 1.4% | 0.6% | 98.0% |
+| FG3M | 59.2% | 4.4% | 36.4% |
+| FG_PCT | 79.3% | 0.0% | 20.7% |
+| FT_PCT | 98.2% | 0.0% | 1.8% |
 
 ## Why the weekly forecast changed
 
@@ -34,26 +34,26 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 268 / 347 | 232.85 / 168.64 | 47.27 |
-| REB | 131 / 139 | 91.49 / 68.26 | 20.21 |
-| AST | 61 / 53 | 49.36 / 27.10 | 11.85 |
-| STL | 30 / 20 | 17.23 / 10.47 | 5.97 |
-| BLK | 17 / 22 | 11.40 / 9.94 | 5.43 |
-| TOV | 31 / 23 | 24.03 / 16.52 | 7.65 |
-| FG3M | 34 / 36 | 24.94 / 21.49 | 8.59 |
+| PTS | 268 / 347 | 236.55 / 164.45 | 47.47 |
+| REB | 131 / 139 | 92.80 / 66.64 | 20.25 |
+| AST | 61 / 53 | 50.21 / 26.45 | 11.90 |
+| STL | 30 / 20 | 17.63 / 10.26 | 6.00 |
+| BLK | 17 / 22 | 11.57 / 9.83 | 5.44 |
+| TOV | 31 / 23 | 24.40 / 16.17 | 7.66 |
+| FG3M | 34 / 36 | 25.41 / 20.91 | 8.60 |
 
 ## Alternative add/drop recommendations
 
 | Add | Drop | Eligibility | Δ category_points | Conservative ranking gain |
 |---|---|---|---:|---:|
-| Jay Huff | Jaxson Hayes | FA | +0.356 | +0.281 |
-| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.174 | +0.174 |
-| Jarace Walker | Jaxson Hayes | FA | +0.178 | +0.143 |
-| Jakob Poeltl | Jaxson Hayes | FA | +0.125 | +0.125 |
-| Collin Sexton | Jaxson Hayes | FA | +0.115 | +0.105 |
-| Royce O'Neale | Jaxson Hayes | FA | +0.103 | +0.103 |
-| De'Anthony Melton | Jaxson Hayes | FA | +0.100 | +0.100 |
-| Graham Ike | Jaxson Hayes | FA | +0.101 | +0.099 |
+| Jay Huff | Jaxson Hayes | FA | +0.357 | +0.279 |
+| Ryan Kalkbrenner | Jaxson Hayes | FA | +0.153 | +0.153 |
+| Jarace Walker | Jaxson Hayes | FA | +0.171 | +0.139 |
+| Jakob Poeltl | Jaxson Hayes | FA | +0.117 | +0.117 |
+| Collin Sexton | Jaxson Hayes | FA | +0.117 | +0.104 |
+| Anfernee Simons | Jaxson Hayes | FA | +0.098 | +0.098 |
+| Adem Bona | Jaxson Hayes | FA | +0.148 | +0.093 |
+| De'Anthony Melton | Jaxson Hayes | FA | +0.087 | +0.087 |
 
 ## Forecast active lineups
 
