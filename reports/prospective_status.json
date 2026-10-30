@@ -1,6 +1,6 @@
 {
   "status": "provisional",
-  "unique_player_games": 64,
+  "unique_player_games": 76,
   "review": "pending",
   "note": "Earliest next-day forecast only; no causal category-gain claim",
   "all": {
@@ -27,8 +27,8 @@
     "adoption": "none"
   },
   "availability_descriptive": {
-    "n": 64,
-    "brier": 0.3185898966241642
+    "n": 76,
+    "brier": 0.3169866942512196
   },
   "rotation_tuning_descriptive": {
     "n": 0
