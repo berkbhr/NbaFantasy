@@ -1,26 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-31T12:54:24.057243+00:00
+Generated: 2026-10-31T17:19:34.689688+00:00
 Matchup: **Berk's Best Team vs SILE BULLS**
 Window: 2026-10-31 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.341**.
-Expected category points: **5.34 / 9**.
-Expected category wins: 5.17; ties: 0.34.
-Secondary weekly W/L/D: 70.1% / 23.5% / 6.4%.
+Objective value: **5.431**.
+Expected category points: **5.43 / 9**.
+Expected category wins: 5.26; ties: 0.33.
+Secondary weekly W/L/D: 72.5% / 21.5% / 6.0%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 74.8% | 0.9% | 24.3% |
-| REB | 81.7% | 1.7% | 16.6% |
-| AST | 28.9% | 3.4% | 67.8% |
-| STL | 49.7% | 7.9% | 42.3% |
-| BLK | 75.9% | 7.4% | 16.7% |
-| TOV | 49.0% | 6.3% | 44.8% |
-| FG3M | 50.9% | 6.3% | 42.9% |
-| FG_PCT | 64.9% | 0.0% | 35.1% |
-| FT_PCT | 41.5% | 0.0% | 58.5% |
+| PTS | 77.1% | 0.8% | 22.0% |
+| REB | 83.0% | 1.6% | 15.4% |
+| AST | 30.8% | 3.4% | 65.8% |
+| STL | 51.4% | 7.8% | 40.8% |
+| BLK | 76.8% | 7.2% | 16.1% |
+| TOV | 47.6% | 6.2% | 46.2% |
+| FG3M | 53.3% | 6.1% | 40.5% |
+| FG_PCT | 64.7% | 0.0% | 35.3% |
+| FT_PCT | 41.8% | 0.0% | 58.2% |
 
 ## Realized scores and remaining projections
 
@@ -28,13 +28,13 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 0 / 0 | 140.87 / 116.97 | 35.02 |
-| REB | 0 / 0 | 56.41 / 42.19 | 15.15 |
-| AST | 0 / 0 | 28.25 / 33.57 | 10.44 |
-| STL | 0 / 0 | 10.13 / 9.66 | 4.99 |
-| BLK | 0 / 0 | 7.44 / 4.28 | 3.80 |
-| TOV | 0 / 0 | 14.36 / 14.70 | 6.36 |
-| FG3M | 0 / 0 | 14.15 / 13.51 | 6.34 |
+| PTS | 0 / 0 | 144.91 / 117.97 | 35.56 |
+| REB | 0 / 0 | 57.69 / 42.59 | 15.32 |
+| AST | 0 / 0 | 29.03 / 33.83 | 10.56 |
+| STL | 0 / 0 | 10.44 / 9.76 | 5.05 |
+| BLK | 0 / 0 | 7.62 / 4.31 | 3.83 |
+| TOV | 0 / 0 | 14.69 / 14.81 | 6.42 |
+| FG3M | 0 / 0 | 14.69 / 13.65 | 6.44 |
 
 ## Alternative add/drop recommendations
 
