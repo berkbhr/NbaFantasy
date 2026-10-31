@@ -1,24 +1,18 @@
 {
-  "forecast_id": "20261031T022413297314Z",
+  "forecast_id": "20261031T125424057243Z",
   "status": "api_accepted",
   "receipts": [
     {
       "part": 1,
-      "message_id": 70,
-      "api_date": 1793413464,
-      "accepted_at": "2026-10-31T02:24:25.087408+00:00",
-      "text_sha256": "b64d4c2e77ed8109d6df8a824b79b983fa854ea861f0c059b0f06b07e08b04c0"
+      "message_id": 71,
+      "api_date": 1793451274,
+      "accepted_at": "2026-10-31T12:54:34.427449+00:00",
+      "text_sha256": "08694e68ffc993ec9469677ac675f6d79f83258cbeea2ad79d363a289a734fd8"
     }
   ],
-  "prediction_sha256": "dc593a2205c0f7e651ae4291f8f9b43b553a59daffacb2fc3f6cad93c3e97480",
-  "rendered_text_sha256": "b64d4c2e77ed8109d6df8a824b79b983fa854ea861f0c059b0f06b07e08b04c0",
+  "prediction_sha256": "fd26751f3adcb896a30df9c01aed737cea9eea062b020f721a4522c29f0542a5",
+  "rendered_text_sha256": "08694e68ffc993ec9469677ac675f6d79f83258cbeea2ad79d363a289a734fd8",
   "source_revision": "1c8c048981a2a1eeb832676fc2ad9ba598d2c4e7",
-  "display_context": {
-    "mode": "last_valid_forecast",
-    "forecast_id": "20261030T223226739653Z",
-    "forecast_at": "2026-10-30T22:32:26.739653+00:00",
-    "prediction_sha256": "45df49fe239fe4829177d629beed92cc9003772cbda7a2a4d4bc32bd294604bc",
-    "current_block_reason": "Today's NBA games have started; partial-game score coverage is unverified, refresh next Eastern pregame day"
-  },
+  "display_context": null,
   "renderer_sha256_LF": "5ee8dcaf58fef1d4552a7545a505bcd2e271facd505d6902c0d0712491b3b384"
 }
