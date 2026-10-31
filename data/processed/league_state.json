@@ -1,32 +1,40 @@
 {
-  "updated_at": "2026-10-30T21:35:59.672289+00:00",
-  "sync_id": "3f3b7cc37326db44dbfa10e2f0d2969f9b5ce83625ccb5c8189dd1df2e7b1251",
+  "updated_at": "2026-10-31T18:19:57.931455+00:00",
+  "roster_captured_at": "2026-10-31T18:19:57.931455+00:00",
+  "sync_id": "bad0ea79b899a10a5b6556a1a0337dba6efb98269b94cd5433c2856d64195071",
   "league_id": "64691",
   "capture_metrics": {
-    "rosters_ms": 1387,
-    "matchup_ms": 803,
-    "fantasy_calendar_ms": 2108,
-    "available_and_transactions_ms": 15173,
-    "total_ms": 17363
+    "rosters_ms": 6628,
+    "matchup_ms": 531,
+    "fantasy_calendar_ms": 1392,
+    "available_and_transactions_ms": 4989,
+    "total_ms": 13540,
+    "yahoo_requests": {
+      "requests": 28,
+      "cache_hits": 1,
+      "network_errors": 0,
+      "http_errors": 0,
+      "denials": 0
+    }
   },
   "league_key": "nba.l.64691",
   "live_synced": true,
   "sync_status": "Taray\u0131c\u0131 K\u00f6pr\u00fcs\u00fc Aktif (14 Tak\u0131m Canl\u0131 Kadro & Skor)",
   "rosters": {
     "0": [
-      "Jalen Brunson",
+      "Scotty Pippen Jr.",
       "Jared McCain",
       "Norman Powell",
       "Derrick Jones Jr.",
-      "Josh Minott",
+      "Cameron Boozer",
       "Caleb Wilson",
-      "Nikola Joki\u0107",
       "Sandro Mamukelashvili",
+      "Evan Mobley",
       "Naji Marshall",
       "Jeremiah Fears",
-      "Scotty Pippen Jr.",
-      "Cameron Boozer",
-      "Evan Mobley",
+      "Jalen Brunson",
+      "Josh Minott",
+      "Nikola Joki\u0107",
       "Kon Knueppel",
       "Reed Sheppard"
     ],
@@ -34,39 +42,39 @@
       "Ty Jerome",
       "Trey Murphy III",
       "Aaron Wiggins",
-      "Sam Hauser",
+      "Peyton Watson",
       "OG Anunoby",
       "John Collins",
-      "Mitchell Robinson",
-      "Jalen Smith",
+      "Victor Wembanyama",
+      "Robert Williams III",
       "Obi Toppin",
       "Damian Lillard",
-      "Victor Wembanyama",
-      "Peyton Watson",
+      "Sam Hauser",
+      "Mitchell Robinson",
+      "Jalen Smith",
       "Chet Holmgren",
-      "Robert Williams III",
       "Tobias Harris"
     ],
     "2": [
       "Darius Garland",
-      "Immanuel Quickley",
+      "Bennedict Mathurin",
       "Trae Young",
-      "Jalen Green",
+      "Jerami Grant",
       "Jonathan Kuminga",
       "De'Andre Hunter",
       "Alex Sarr",
       "Joan Beringer",
       "Toumani Camara",
-      "Luka Don\u010di\u0107",
-      "Bennedict Mathurin",
-      "Jerami Grant",
       "Lauri Markkanen",
+      "Immanuel Quickley",
+      "Jalen Green",
+      "Luka Don\u010di\u0107",
       "Ivica Zubac"
     ],
     "3": [
-      "Tre Jones",
+      "Shai Gilgeous-Alexander",
       "Meleek Thomas",
-      "Stephen Curry",
+      "Jrue Holiday",
       "DeMar DeRozan",
       "Derik Queen",
       "Jaylen Brown",
@@ -74,107 +82,106 @@
       "Aday Mara",
       "Andrew Wiggins",
       "Tim Hardaway Jr.",
-      "Jrue Holiday",
-      "Shai Gilgeous-Alexander",
+      "Tre Jones",
+      "Stephen Curry",
       "Keegan Murray",
       "Nic Claxton"
     ],
     "4": [
-      "Cade Cunningham",
-      "Devin Booker",
-      "Mikel Brown Jr.",
-      "Cedric Coward",
-      "Miles Bridges",
-      "Naz Reid",
-      "Paul Reed",
-      "Walker Kessler",
-      "Michael Porter Jr.",
-      "Dennis Schr\u00f6der",
       "N. Alexander-Walker",
       "Darryn Peterson",
+      "Cedric Coward",
       "Ace Bailey",
-      "Alex Caruso",
-      "Cameron Johnson"
+      "Naz Reid",
+      "Miles Bridges",
+      "Paul Reed",
+      "Walker Kessler",
+      "Cade Cunningham",
+      "Michael Porter Jr.",
+      "Devin Booker",
+      "Cameron Johnson",
+      "Alex Caruso"
     ],
     "5": [
       "LaMelo Ball",
-      "Anthony Black",
-      "Luke Kennard",
+      "CJ McCollum",
+      "Dyson Daniels",
       "AJ Dybantsa",
       "Giannis Antetokounmpo",
       "Franz Wagner",
-      "Joel Embiid",
+      "Adem Bona",
+      "Aaron Nesmith",
+      "Ajay Mitchell",
       "Daniel Gafford",
       "Josh Giddey",
-      "Aaron Nesmith",
-      "CJ McCollum",
-      "Dyson Daniels",
-      "Ajay Mitchell"
+      "Luke Kennard",
+      "Anthony Black",
+      "Joel Embiid"
     ],
     "6": [
       "Amen Thompson",
+      "Terrence Shannon Jr.",
+      "Tyler Herro",
       "Pelle Larsson",
-      "Andrew Nembhard",
-      "Jayson Tatum",
-      "Ausar Thompson",
+      "Domantas Sabonis",
       "LeBron James",
       "Donovan Clingan",
       "Day'Ron Sharpe",
-      "Grayson Allen",
-      "Terrence Shannon Jr.",
       "Brandin Podziemski",
-      "Tyler Herro",
-      "Domantas Sabonis",
+      "Grayson Allen",
+      "Andrew Nembhard",
+      "Ausar Thompson",
+      "Jayson Tatum",
       "Mark Williams"
     ],
     "7": [
       "Tyrese Maxey",
       "Ayo Dosunmu",
-      "Desmond Bane",
+      "James Harden",
       "Jake LaRavia",
       "Precious Achiuwa",
-      "Josh Hart",
       "Jabari Smith Jr.",
-      "Neemias Queta",
-      "Julian Champagnie",
-      "Dean Wade",
-      "James Harden",
       "Jaxson Hayes",
       "Jarrett Allen",
+      "Julian Champagnie",
+      "Dean Wade",
+      "Desmond Bane",
+      "Josh Hart",
+      "Neemias Queta",
       "Kawhi Leonard",
       "Brandon Ingram"
     ],
     "8": [
+      "Keyonte George",
+      "Stephon Castle",
       "Ja Morant",
-      "RJ Barrett",
-      "Quentin Grimes",
-      "Paul George",
+      "Kyle Kuzma",
       "Trevon Brazile",
       "Bobby Portis Jr.",
       "Aaron Gordon",
       "Deandre Ayton",
-      "Dillon Brooks",
+      "Paul George",
       "Jalen Duren",
-      "Stephon Castle",
-      "Kyle Kuzma",
-      "Keyonte George",
-      "Anthony Edwards",
-      "Paolo Banchero"
+      "Quentin Grimes",
+      "RJ Barrett",
+      "Dillon Brooks",
+      "Paolo Banchero",
+      "Anthony Edwards"
     ],
     "9": [
       "Nolan Traore",
+      "Devin Vassell",
       "Austin Reaves",
-      "Fred VanVleet",
       "Duncan Robinson",
-      "Mikal Bridges",
+      "Zion Williamson",
       "Pascal Siakam",
       "Rudy Gobert",
-      "Draymond Green",
+      "Onyeka Okongwu",
       "Wendell Carter Jr.",
       "Keaton Wagler",
-      "Zion Williamson",
-      "Onyeka Okongwu",
-      "Devin Vassell",
+      "Mikal Bridges",
+      "Draymond Green",
+      "Fred VanVleet",
       "Tyrese Haliburton"
     ],
     "10": [
@@ -182,99 +189,99 @@
       "Cooper Flagg",
       "Dejounte Murray",
       "Jaden McDaniels",
-      "Kelly Oubre Jr.",
-      "Bam Adebayo",
-      "Karl-Anthony Towns",
-      "Mo Bamba",
-      "Yaxel Lendeborg",
-      "Zaccharie Risacher",
-      "Myles Turner",
       "Deni Avdija",
       "Saddiq Bey",
+      "Mo Bamba",
+      "Myles Turner",
+      "Karl-Anthony Towns",
+      "Kelly Oubre Jr.",
+      "Bam Adebayo",
+      "Zaccharie Risacher",
+      "Yaxel Lendeborg",
       "Jusuf Nurki\u0107",
       "Coby White"
     ],
     "11": [
-      "Kyrie Irving",
+      "Dylan Harper",
       "Kevin Durant",
-      "Herbert Jones",
+      "Darius Acuff Jr.",
       "Zach LaVine",
       "Anthony Davis",
       "Jaylen Wells",
-      "Khaman Maluach",
       "Isaiah Jackson",
+      "Zach Edey",
       "Jalen Johnson",
       "Ryan Rollins",
-      "Zach Edey",
-      "Darius Acuff Jr.",
-      "Dylan Harper",
+      "Kyrie Irving",
       "Rui Hachimura",
+      "Khaman Maluach",
       "Yves Missi"
     ],
     "12": [
-      "Kris Dunn",
-      "Derrick White",
-      "Ja'Kobe Walter",
+      "Donovan Mitchell",
+      "Sam Merrill",
+      "VJ Edgecombe",
       "Kyshawn George",
       "Scottie Barnes",
       "Julius Randle",
-      "P.J. Washington",
       "Isaiah Hartenstein",
-      "Payton Pritchard",
-      "VJ Edgecombe",
+      "P.J. Washington",
       "Collin Gillespie",
-      "Donovan Mitchell",
-      "Kasparas Jaku\u010dionis",
+      "Payton Pritchard",
+      "Ja'Kobe Walter",
+      "Kris Dunn",
+      "Derrick White",
       "Jimmy Butler III",
       "Jaren Jackson Jr."
     ],
     "13": [
-      "Jamal Murray",
+      "De'Aaron Fox",
+      "Cam Spencer",
       "Tari Eason",
+      "Brandon Miller",
+      "Alperen \u015eeng\u00fcn",
+      "Jaime Jaquez Jr.",
+      "Moussa Diabat\u00e9",
+      "Kel'el Ware",
+      "Jamal Murray",
       "Christian Braun",
       "Matas Buzelis",
-      "Alperen \u015eeng\u00fcn",
-      "Brandon Miller",
-      "Moussa Diabat\u00e9",
       "Collin Murray-Boyles",
       "Davion Mitchell",
-      "Tristan da Silva",
-      "Jaime Jaquez Jr.",
-      "Kel'el Ware",
-      "De'Aaron Fox",
       "Jalen Suggs"
     ]
   },
   "berk_roster_names": [
     "Tyrese Maxey",
     "Ayo Dosunmu",
-    "Desmond Bane",
+    "James Harden",
     "Jake LaRavia",
     "Precious Achiuwa",
-    "Josh Hart",
     "Jabari Smith Jr.",
-    "Neemias Queta",
-    "Julian Champagnie",
-    "Dean Wade",
-    "James Harden",
     "Jaxson Hayes",
     "Jarrett Allen",
+    "Julian Champagnie",
+    "Dean Wade",
+    "Desmond Bane",
+    "Josh Hart",
+    "Neemias Queta",
     "Kawhi Leonard",
     "Brandon Ingram"
   ],
   "il_slots": {
     "11": [
-      "Rui Hachimura",
       "Yves Missi"
     ],
     "1": [
-      "Robert Williams III",
+      "Chet Holmgren",
       "Tobias Harris"
     ],
-    "5": [],
+    "5": [
+      "Joel Embiid"
+    ],
     "8": [
-      "Anthony Edwards",
-      "Paolo Banchero"
+      "Paolo Banchero",
+      "Anthony Edwards"
     ],
     "10": [
       "Jusuf Nurki\u0107",
@@ -285,14 +292,14 @@
       "Nic Claxton"
     ],
     "4": [
-      "Alex Caruso",
-      "Cameron Johnson"
+      "Alex Caruso"
     ],
     "12": [
       "Jimmy Butler III",
       "Jaren Jackson Jr."
     ],
     "9": [
+      "Fred VanVleet",
       "Tyrese Haliburton"
     ],
     "6": [
@@ -321,7 +328,7 @@
       {
         "name": "Ja Morant",
         "status": "O",
-        "slot": "PG"
+        "slot": "G"
       },
       {
         "name": "Jalen Duren",
@@ -334,7 +341,13 @@
     "4": [],
     "12": [],
     "9": [],
-    "6": [],
+    "6": [
+      {
+        "name": "LeBron James",
+        "status": "O",
+        "slot": "F"
+      }
+    ],
     "13": [],
     "2": [],
     "0": [],
@@ -347,9 +360,9 @@
     "8": 0,
     "10": 0,
     "3": 1,
-    "4": 0,
+    "4": 1,
     "12": 0,
-    "9": 0,
+    "9": 1,
     "6": 0,
     "13": 0,
     "2": 0,
@@ -360,7 +373,103 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793396147,
+      "timestamp": 1793470793,
+      "date_text": "\ue033",
+      "added": [
+        {
+          "player_name": "Tristan da Silva",
+          "team_name": "YearOne Tyrants"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793470792,
+      "date_text": "\ue035",
+      "added": [
+        {
+          "player_name": "Adem Bona",
+          "team_name": "abu dhabi camels"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_2",
+      "type": "add/drop",
+      "timestamp": 1793470791,
+      "date_text": "\ue033",
+      "added": [
+        {
+          "player_name": "Mikel Brown Jr.",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_3",
+      "type": "add/drop",
+      "timestamp": 1793470790,
+      "date_text": "\ue035\ue033",
+      "added": [
+        {
+          "player_name": "Sam Merrill",
+          "team_name": "SILE BULLS"
+        }
+      ],
+      "dropped": [
+        {
+          "player_name": "Kasparas Jaku\u010dionis",
+          "team_name": "SILE BULLS"
+        }
+      ]
+    },
+    {
+      "transaction_id": "dom_4",
+      "type": "add/drop",
+      "timestamp": 1793470789,
+      "date_text": "\ue033",
+      "added": [
+        {
+          "player_name": "Herbert Jones",
+          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_5",
+      "type": "add/drop",
+      "timestamp": 1793470788,
+      "date_text": "\ue035",
+      "added": [
+        {
+          "player_name": "Cam Spencer",
+          "team_name": "YearOne Tyrants"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_6",
+      "type": "add/drop",
+      "timestamp": 1793470787,
+      "date_text": "\ue033",
+      "added": [
+        {
+          "player_name": "Dennis Schr\u00f6der",
+          "team_name": "Kuv\u00e2-yi Milfiye"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_7",
+      "type": "add/drop",
+      "timestamp": 1793470786,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -376,9 +485,9 @@
       ]
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793396146,
+      "timestamp": 1793470785,
       "date_text": "\ue035",
       "added": [
         {
@@ -389,9 +498,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793396145,
+      "timestamp": 1793470784,
       "date_text": "\ue035",
       "added": [
         {
@@ -402,9 +511,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793396144,
+      "timestamp": 1793470783,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -420,9 +529,9 @@
       ]
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793396143,
+      "timestamp": 1793470782,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -438,9 +547,9 @@
       ]
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793396142,
+      "timestamp": 1793470781,
       "date_text": "\ue035",
       "added": [
         {
@@ -451,9 +560,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793396141,
+      "timestamp": 1793470780,
       "date_text": "\ue033",
       "added": [
         {
@@ -464,9 +573,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793396140,
+      "timestamp": 1793470779,
       "date_text": "\ue033",
       "added": [
         {
@@ -477,9 +586,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793396139,
+      "timestamp": 1793470778,
       "date_text": "\ue035",
       "added": [
         {
@@ -490,9 +599,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793396138,
+      "timestamp": 1793470777,
       "date_text": "\ue035",
       "added": [
         {
@@ -503,9 +612,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793396137,
+      "timestamp": 1793470776,
       "date_text": "\ue033",
       "added": [
         {
@@ -516,9 +625,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793396136,
+      "timestamp": 1793470775,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -534,9 +643,9 @@
       ]
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793396135,
+      "timestamp": 1793470774,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -548,112 +657,6 @@
         {
           "player_name": "Bilal Coulibaly",
           "team_name": "Berk's Best Team"
-        }
-      ]
-    },
-    {
-      "transaction_id": "dom_13",
-      "type": "add/drop",
-      "timestamp": 1793396134,
-      "date_text": "\ue035",
-      "added": [
-        {
-          "player_name": "De'Andre Hunter",
-          "team_name": "Philadelphia Sikers"
-        }
-      ],
-      "dropped": []
-    },
-    {
-      "transaction_id": "dom_14",
-      "type": "add/drop",
-      "timestamp": 1793396133,
-      "date_text": "\ue035",
-      "added": [
-        {
-          "player_name": "Quenton Jackson",
-          "team_name": "Redeem Team"
-        }
-      ],
-      "dropped": []
-    },
-    {
-      "transaction_id": "dom_15",
-      "type": "add/drop",
-      "timestamp": 1793396132,
-      "date_text": "\ue035",
-      "added": [
-        {
-          "player_name": "Joan Beringer",
-          "team_name": "Philadelphia Sikers"
-        }
-      ],
-      "dropped": []
-    },
-    {
-      "transaction_id": "dom_16",
-      "type": "add/drop",
-      "timestamp": 1793396131,
-      "date_text": "\ue035\ue033",
-      "added": [
-        {
-          "player_name": "Herbert Jones",
-          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Keon Ellis",
-          "team_name": "Istanbul Brickmakers \ud83e\uddf1"
-        }
-      ]
-    },
-    {
-      "transaction_id": "dom_17",
-      "type": "add/drop",
-      "timestamp": 1793396130,
-      "date_text": "\ue035\ue033",
-      "added": [
-        {
-          "player_name": "Moussa Diabat\u00e9",
-          "team_name": "YearOne Tyrants"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Justin Champagnie",
-          "team_name": "YearOne Tyrants"
-        }
-      ]
-    },
-    {
-      "transaction_id": "dom_18",
-      "type": "add/drop",
-      "timestamp": 1793396129,
-      "date_text": "\ue035",
-      "added": [
-        {
-          "player_name": "Mikel Brown Jr.",
-          "team_name": "Kuv\u00e2-yi Milfiye"
-        }
-      ],
-      "dropped": []
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793396128,
-      "date_text": "\ue035\ue033",
-      "added": [
-        {
-          "player_name": "Terrence Shannon Jr.",
-          "team_name": "Samurai Strikers"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Jalen Smith",
-          "team_name": "Samurai Strikers"
         }
       ]
     }
@@ -722,22 +725,52 @@
     "Kingston Flemings": {
       "date": "2026-11-02",
       "display": "Nov 2"
+    },
+    "Jakob Poeltl": {
+      "date": "2026-11-02",
+      "display": "Nov 2"
+    },
+    "Tristan da Silva": {
+      "date": "2026-11-03",
+      "display": "Nov 3"
+    },
+    "Mikel Brown Jr.": {
+      "date": "2026-11-03",
+      "display": "Nov 3"
+    },
+    "Andre Drummond": {
+      "date": "2026-11-01",
+      "display": "Nov 1"
+    },
+    "Matisse Thybulle": {
+      "date": "2026-11-02",
+      "display": "Nov 2"
     }
   },
   "availability_snapshot": {
     "source": "yahoo_available_players",
-    "updated_at": "2026-10-30T21:35:59.672289+00:00",
+    "updated_at": "2026-10-31T18:19:57.931455+00:00",
     "players": [
       {
         "name": "Jakob Poeltl",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "5640",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "Gui Santos",
         "status": "FA",
         "yahoo_player_id": "6745",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Dennis Schr\u00f6der",
+        "status": "FA",
+        "yahoo_player_id": "5187",
         "status_evidence": "add_button"
       },
       {
@@ -750,7 +783,17 @@
         "name": "Kevin Porter Jr.",
         "status": "FA",
         "yahoo_player_id": "6218",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Tristan da Silva",
+        "status": "W",
+        "yahoo_player_id": "10275",
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-03",
+          "display": "Nov 3"
+        }
       },
       {
         "name": "Isaiah Collier",
@@ -759,10 +802,16 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Herbert Jones",
+        "status": "FA",
+        "yahoo_player_id": "6577",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Maxime Raynaud",
         "status": "FA",
         "yahoo_player_id": "10496",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Hugo Gonz\u00e1lez",
@@ -804,7 +853,17 @@
         "name": "Kristaps Porzi\u0146\u0123is",
         "status": "FA",
         "yahoo_player_id": "5464",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Mikel Brown Jr.",
+        "status": "W",
+        "yahoo_player_id": "10588",
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-03",
+          "display": "Nov 3"
+        }
       },
       {
         "name": "Scoot Henderson",
@@ -852,7 +911,7 @@
         "name": "Dylan Cardwell",
         "status": "FA",
         "yahoo_player_id": "10510",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Miles McBride",
@@ -928,25 +987,15 @@
       },
       {
         "name": "Jaylon Tyson",
-        "status": "W",
-        "yahoo_player_id": "10279",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-02",
-          "display": "Nov 2"
-        }
-      },
-      {
-        "name": "Cam Spencer",
         "status": "FA",
-        "yahoo_player_id": "10327",
+        "yahoo_player_id": "10279",
         "status_evidence": "add_button"
       },
       {
         "name": "Max Strus",
         "status": "FA",
         "yahoo_player_id": "6267",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jaylin Williams",
@@ -964,7 +1013,7 @@
         "name": "T.J. McConnell",
         "status": "FA",
         "yahoo_player_id": "5582",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jarace Walker",
@@ -1022,14 +1071,24 @@
       },
       {
         "name": "Andre Drummond",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "5015",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-01",
+          "display": "Nov 1"
+        }
       },
       {
         "name": "Leonard Miller",
         "status": "FA",
         "yahoo_player_id": "10050",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Kasparas Jaku\u010dionis",
+        "status": "FA",
+        "yahoo_player_id": "10452",
         "status_evidence": "add_button"
       },
       {
@@ -1064,13 +1123,9 @@
       },
       {
         "name": "Kingston Flemings",
-        "status": "W",
+        "status": "FA",
         "yahoo_player_id": "10574",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-02",
-          "display": "Nov 2"
-        }
+        "status_evidence": "add_button"
       },
       {
         "name": "De'Anthony Melton",
@@ -1088,12 +1143,6 @@
         "name": "Noah Clowney",
         "status": "FA",
         "yahoo_player_id": "10121",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Adem Bona",
-        "status": "FA",
-        "yahoo_player_id": "10335",
         "status_evidence": "add_button"
       },
       {
@@ -1151,6 +1200,12 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Jordan Goodwin",
+        "status": "FA",
+        "yahoo_player_id": "6616",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Harrison Barnes",
         "status": "FA",
         "yahoo_player_id": "5013",
@@ -1163,12 +1218,6 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Jordan Goodwin",
-        "status": "FA",
-        "yahoo_player_id": "6616",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Ryan Kalkbrenner",
         "status": "FA",
         "yahoo_player_id": "10476",
@@ -1178,7 +1227,7 @@
         "name": "Moses Moody",
         "status": "FA",
         "yahoo_player_id": "6556",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Goga Bitadze",
@@ -1187,32 +1236,16 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Russell Westbrook",
-        "status": "FA",
-        "yahoo_player_id": "4390",
-        "status_evidence": "row_fa_text"
-      },
-      {
         "name": "Gary Payton II",
         "status": "FA",
         "yahoo_player_id": "5739",
         "status_evidence": "add_button"
       },
       {
-        "name": "Sam Merrill",
+        "name": "Russell Westbrook",
         "status": "FA",
-        "yahoo_player_id": "6452",
+        "yahoo_player_id": "4390",
         "status_evidence": "add_button"
-      },
-      {
-        "name": "Jalen Williams",
-        "status": "W",
-        "yahoo_player_id": "6702",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-01",
-          "display": "Nov 1"
-        }
       },
       {
         "name": "Ronald Holland II",
@@ -1221,10 +1254,16 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Jalen Williams",
+        "status": "FA",
+        "yahoo_player_id": "6702",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Bruce Brown",
         "status": "FA",
         "yahoo_player_id": "6053",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jose Alvarado",
@@ -1242,19 +1281,19 @@
         "name": "Santi Aldama",
         "status": "FA",
         "yahoo_player_id": "6572",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Shaedon Sharpe",
         "status": "FA",
         "yahoo_player_id": "6697",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "John Konchar",
         "status": "FA",
         "yahoo_player_id": "6255",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Dru Smith",
@@ -1266,7 +1305,7 @@
         "name": "Jonas Valan\u010di\u016bnas",
         "status": "FA",
         "yahoo_player_id": "4886",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jock Landale",
@@ -1281,12 +1320,6 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Karlo Matkovi\u0107",
-        "status": "FA",
-        "yahoo_player_id": "6742",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "K. Caldwell-Pope",
         "status": "FA",
         "yahoo_player_id": "5159",
@@ -1296,6 +1329,12 @@
         "name": "Brandon Williams",
         "status": "FA",
         "yahoo_player_id": "6679",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Karlo Matkovi\u0107",
+        "status": "FA",
+        "yahoo_player_id": "6742",
         "status_evidence": "add_button"
       },
       {
@@ -1317,6 +1356,12 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Clint Capela",
+        "status": "FA",
+        "yahoo_player_id": "5336",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Jordan Walsh",
         "status": "FA",
         "yahoo_player_id": "10075",
@@ -1329,33 +1374,21 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Clint Capela",
-        "status": "FA",
-        "yahoo_player_id": "5336",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nicolas Batum",
-        "status": "FA",
-        "yahoo_player_id": "4487",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Simone Fontecchio",
         "status": "FA",
         "yahoo_player_id": "6766",
         "status_evidence": "add_button"
       },
       {
-        "name": "Mouhamed Gueye",
+        "name": "Nicolas Batum",
         "status": "FA",
-        "yahoo_player_id": "10069",
+        "yahoo_player_id": "4487",
         "status_evidence": "row_fa_text"
       },
       {
-        "name": "Luka Garza",
+        "name": "Mouhamed Gueye",
         "status": "FA",
-        "yahoo_player_id": "6594",
+        "yahoo_player_id": "10069",
         "status_evidence": "add_button"
       },
       {
@@ -1365,21 +1398,27 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Luka Garza",
+        "status": "FA",
+        "yahoo_player_id": "6594",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Craig Porter Jr.",
         "status": "FA",
         "yahoo_player_id": "10145",
         "status_evidence": "add_button"
       },
       {
-        "name": "Sion James",
-        "status": "FA",
-        "yahoo_player_id": "10498",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Buddy Hield",
         "status": "FA",
         "yahoo_player_id": "5637",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Sion James",
+        "status": "FA",
+        "yahoo_player_id": "10498",
         "status_evidence": "add_button"
       },
       {
@@ -1398,7 +1437,7 @@
         "name": "Caris LeVert",
         "status": "FA",
         "yahoo_player_id": "5651",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Ben Sheppard",
@@ -1416,7 +1455,7 @@
         "name": "Thomas Bryant",
         "status": "FA",
         "yahoo_player_id": "5855",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Tyus Jones",
@@ -1434,19 +1473,19 @@
         "name": "Guerschon Yabusele",
         "status": "FA",
         "yahoo_player_id": "5647",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Patrick Williams",
         "status": "FA",
         "yahoo_player_id": "6396",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jordan Miller",
         "status": "FA",
         "yahoo_player_id": "10084",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Kyle Anderson",
@@ -1488,7 +1527,7 @@
         "name": "Spencer Jones",
         "status": "FA",
         "yahoo_player_id": "10393",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Svi Mykhailiuk",
@@ -1503,10 +1542,14 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Taylor Hendricks",
-        "status": "FA",
-        "yahoo_player_id": "10110",
-        "status_evidence": "add_button"
+        "name": "Matisse Thybulle",
+        "status": "W",
+        "yahoo_player_id": "6208",
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "Jarred Vanderbilt",
@@ -1515,15 +1558,15 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Cody Williams",
+        "name": "Taylor Hendricks",
         "status": "FA",
-        "yahoo_player_id": "10283",
+        "yahoo_player_id": "10110",
         "status_evidence": "add_button"
       },
       {
-        "name": "Matisse Thybulle",
+        "name": "Cody Williams",
         "status": "FA",
-        "yahoo_player_id": "6208",
+        "yahoo_player_id": "10283",
         "status_evidence": "add_button"
       },
       {
@@ -1536,7 +1579,23 @@
         "name": "Ochai Agbaji",
         "status": "FA",
         "yahoo_player_id": "6704",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Quenton Jackson",
+        "status": "W",
+        "yahoo_player_id": "6776",
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-01",
+          "display": "Nov 1"
+        }
+      },
+      {
+        "name": "Danny Wolf",
+        "status": "FA",
+        "yahoo_player_id": "10456",
+        "status_evidence": "add_button"
       },
       {
         "name": "Landry Shamet",
@@ -1554,7 +1613,7 @@
         "name": "Nae'Qwan Tomlin",
         "status": "FA",
         "yahoo_player_id": "10397",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Kenrich Williams",
@@ -1575,28 +1634,16 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Danny Wolf",
-        "status": "FA",
-        "yahoo_player_id": "10456",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Quenton Jackson",
-        "status": "FA",
-        "yahoo_player_id": "6776",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Jamir Watkins",
         "status": "FA",
         "yahoo_player_id": "10489",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Julian Strawther",
         "status": "FA",
         "yahoo_player_id": "10112",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Taurean Prince",
@@ -1614,13 +1661,13 @@
         "name": "Tristan Vukcevic",
         "status": "FA",
         "yahoo_player_id": "10078",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Javon Small",
         "status": "FA",
         "yahoo_player_id": "10494",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Jevon Carter",
@@ -1638,7 +1685,7 @@
         "name": "Dwight Powell",
         "status": "FA",
         "yahoo_player_id": "5356",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Rayan Rupert",
@@ -1656,7 +1703,7 @@
         "name": "Lonzo Ball",
         "status": "FA",
         "yahoo_player_id": "5764",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Ousmane Dieng",
@@ -1671,15 +1718,21 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Kobe Brown",
+        "status": "FA",
+        "yahoo_player_id": "10117",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Ryan Nembhard",
         "status": "FA",
         "yahoo_player_id": "10511",
         "status_evidence": "add_button"
       },
       {
-        "name": "Kobe Brown",
+        "name": "Jaylen Clark",
         "status": "FA",
-        "yahoo_player_id": "10117",
+        "yahoo_player_id": "10086",
         "status_evidence": "add_button"
       },
       {
@@ -1692,12 +1745,12 @@
         "name": "Jaden Ivey",
         "status": "FA",
         "yahoo_player_id": "6695",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
-        "name": "Jaylen Clark",
+        "name": "Caleb Martin",
         "status": "FA",
-        "yahoo_player_id": "10086",
+        "yahoo_player_id": "6275",
         "status_evidence": "add_button"
       },
       {
@@ -1713,28 +1766,22 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Caleb Martin",
-        "status": "FA",
-        "yahoo_player_id": "6275",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Kevin Love",
         "status": "FA",
         "yahoo_player_id": "4391",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Jonathan Isaac",
         "status": "FA",
         "yahoo_player_id": "5768",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Gabe Vincent",
         "status": "FA",
         "yahoo_player_id": "6353",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Cameron Payne",
@@ -1746,7 +1793,7 @@
         "name": "Vince Williams Jr.",
         "status": "FA",
         "yahoo_player_id": "6737",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Tyrese Martin",
@@ -1773,21 +1820,27 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Marcus Sasser",
+        "name": "Tidjane Sala\u00fcn",
         "status": "FA",
-        "yahoo_player_id": "10114",
+        "yahoo_player_id": "10295",
         "status_evidence": "add_button"
       },
       {
         "name": "Jeremy Sochan",
         "status": "FA",
         "yahoo_player_id": "6699",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Zeke Nnaji",
         "status": "FA",
         "yahoo_player_id": "6414",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Marcus Sasser",
+        "status": "FA",
+        "yahoo_player_id": "10114",
         "status_evidence": "add_button"
       },
       {
@@ -1803,9 +1856,9 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Tidjane Sala\u00fcn",
+        "name": "Moritz Wagner",
         "status": "FA",
-        "yahoo_player_id": "10295",
+        "yahoo_player_id": "6036",
         "status_evidence": "add_button"
       },
       {
@@ -1815,22 +1868,22 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Bogdan Bogdanovi\u0107",
+        "status": "FA",
+        "yahoo_player_id": "5338",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Jalen Wilson",
         "status": "FA",
         "yahoo_player_id": "10077",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Dalton Knecht",
         "status": "FA",
         "yahoo_player_id": "10291",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Bogdan Bogdanovi\u0107",
-        "status": "FA",
-        "yahoo_player_id": "5338",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Dorian Finney-Smith",
@@ -1854,7 +1907,7 @@
         "name": "Dalen Terry",
         "status": "FA",
         "yahoo_player_id": "6708",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Carter Bryant",
@@ -1872,24 +1925,12 @@
         "name": "Amir Coffey",
         "status": "FA",
         "yahoo_player_id": "6315",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Moritz Wagner",
-        "status": "FA",
-        "yahoo_player_id": "6036",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Pete Nance",
         "status": "FA",
         "yahoo_player_id": "10168",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Cole Anthony",
-        "status": "FA",
-        "yahoo_player_id": "6407",
         "status_evidence": "add_button"
       },
       {
@@ -1899,10 +1940,16 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Cole Anthony",
+        "status": "FA",
+        "yahoo_player_id": "6407",
+        "status_evidence": "row_fa_text"
+      },
+      {
         "name": "Noah Penda",
         "status": "FA",
         "yahoo_player_id": "10479",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jamaree Bouyea",
@@ -1914,7 +1961,7 @@
         "name": "Gary Harris",
         "status": "FA",
         "yahoo_player_id": "5330",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Rob Dillingham",
@@ -1941,9 +1988,9 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Jordan Hawkins",
+        "name": "Larry Nance Jr.",
         "status": "FA",
-        "yahoo_player_id": "10098",
+        "yahoo_player_id": "5487",
         "status_evidence": "add_button"
       },
       {
@@ -1956,30 +2003,42 @@
         "name": "D'Angelo Russell",
         "status": "FA",
         "yahoo_player_id": "5433",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Jordan Hawkins",
+        "status": "FA",
+        "yahoo_player_id": "10098",
+        "status_evidence": "add_button"
       },
       {
         "name": "Keaton Wallace",
         "status": "FA",
         "yahoo_player_id": "10053",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Drew Eubanks",
         "status": "FA",
         "yahoo_player_id": "6109",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Cam Thomas",
         "status": "FA",
         "yahoo_player_id": "6569",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Sharife Cooper",
         "status": "FA",
         "yahoo_player_id": "6590",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Jamal Cain",
+        "status": "FA",
+        "yahoo_player_id": "6801",
         "status_evidence": "add_button"
       },
       {
@@ -1992,24 +2051,12 @@
         "name": "Devin Carter",
         "status": "FA",
         "yahoo_player_id": "10293",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Myron Gardner",
         "status": "FA",
         "yahoo_player_id": "10517",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Larry Nance Jr.",
-        "status": "FA",
-        "yahoo_player_id": "5487",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jonathan Mogbo",
-        "status": "FA",
-        "yahoo_player_id": "10330",
         "status_evidence": "add_button"
       },
       {
@@ -2019,16 +2066,16 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Jamal Cain",
+        "name": "Jonathan Mogbo",
         "status": "FA",
-        "yahoo_player_id": "6801",
+        "yahoo_player_id": "10330",
         "status_evidence": "add_button"
       },
       {
         "name": "J. Robinson-Earl",
         "status": "FA",
         "yahoo_player_id": "6574",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Cam Whitmore",
@@ -2046,7 +2093,13 @@
         "name": "Kelly Olynyk",
         "status": "FA",
         "yahoo_player_id": "5164",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Chaney Johnson",
+        "status": "FA",
+        "yahoo_player_id": "10527",
+        "status_evidence": "add_button"
       },
       {
         "name": "Tre Mann",
@@ -2058,7 +2111,7 @@
         "name": "Haywood Highsmith",
         "status": "FA",
         "yahoo_player_id": "6155",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Mohamed Diawara",
@@ -2070,18 +2123,12 @@
         "name": "Y. Konan Niederh\u00e4user",
         "status": "FA",
         "yahoo_player_id": "10441",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Rasheer Fleming",
         "status": "FA",
         "yahoo_player_id": "10495",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chaney Johnson",
-        "status": "FA",
-        "yahoo_player_id": "10527",
         "status_evidence": "add_button"
       },
       {
@@ -2100,24 +2147,24 @@
         "name": "Johnny Furphy",
         "status": "FA",
         "yahoo_player_id": "10305",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Georges Niang",
+        "status": "FA",
+        "yahoo_player_id": "5681",
         "status_evidence": "add_button"
       },
       {
         "name": "Bez Mbeng",
         "status": "FA",
         "yahoo_player_id": "10565",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Moussa Cisse",
         "status": "FA",
         "yahoo_player_id": "10524",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ethan Thompson",
-        "status": "FA",
-        "yahoo_player_id": "6637",
         "status_evidence": "add_button"
       },
       {
@@ -2127,28 +2174,34 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Ethan Thompson",
+        "status": "FA",
+        "yahoo_player_id": "6637",
+        "status_evidence": "row_fa_text"
+      },
+      {
         "name": "Bradley Beal",
         "status": "FA",
         "yahoo_player_id": "5009",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Mason Plumlee",
         "status": "FA",
         "yahoo_player_id": "5192",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Dereck Lively II",
         "status": "FA",
         "yahoo_player_id": "10097",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Christian Koloko",
         "status": "FA",
         "yahoo_player_id": "6723",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Elijah Harkless",
@@ -2160,12 +2213,12 @@
         "name": "Nick Smith Jr.",
         "status": "FA",
         "yahoo_player_id": "10120",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
-        "name": "Georges Niang",
+        "name": "Charles Bassey",
         "status": "FA",
-        "yahoo_player_id": "5681",
+        "yahoo_player_id": "6595",
         "status_evidence": "add_button"
       },
       {
@@ -2175,16 +2228,10 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Charles Bassey",
-        "status": "FA",
-        "yahoo_player_id": "6595",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Taelon Peter",
         "status": "FA",
         "yahoo_player_id": "10492",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Leaky Black",
@@ -2202,7 +2249,7 @@
         "name": "Jahmai Mashack",
         "status": "FA",
         "yahoo_player_id": "10491",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Jordan McLaughlin",
@@ -2214,1782 +2261,26 @@
         "name": "Malachi Smith",
         "status": "FA",
         "yahoo_player_id": "10252",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chris Boucher",
-        "status": "FA",
-        "yahoo_player_id": "5894",
         "status_evidence": "row_fa_text"
       },
       {
         "name": "Killian Hayes",
         "status": "FA",
         "yahoo_player_id": "6399",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Garrison Mathews",
-        "status": "FA",
-        "yahoo_player_id": "6259",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Seth Curry",
-        "status": "FA",
-        "yahoo_player_id": "5245",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "DeAndre Jordan",
-        "status": "FA",
-        "yahoo_player_id": "4497",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Maxi Kleber",
-        "status": "FA",
-        "yahoo_player_id": "5892",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Doug McDermott",
-        "status": "FA",
-        "yahoo_player_id": "5322",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Pat Connaughton",
-        "status": "FA",
-        "yahoo_player_id": "5501",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tony Bradley",
-        "status": "FA",
-        "yahoo_player_id": "5841",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Cormac Ryan",
-        "status": "FA",
-        "yahoo_player_id": "10412",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "E.J. Liddell",
-        "status": "FA",
-        "yahoo_player_id": "6731",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ron Harper Jr.",
-        "status": "FA",
-        "yahoo_player_id": "6761",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Trey Lyles",
-        "status": "FA",
-        "yahoo_player_id": "5472",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Keshad Johnson",
-        "status": "FA",
-        "yahoo_player_id": "10311",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "A.J. Lawson",
-        "status": "FA",
-        "yahoo_player_id": "6603",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Malaki Branham",
-        "status": "FA",
-        "yahoo_player_id": "6710",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tyson Etienne",
-        "status": "FA",
-        "yahoo_player_id": "6785",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Lindy Waters III",
-        "status": "FA",
-        "yahoo_player_id": "6687",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Kam Jones",
-        "status": "FA",
-        "yahoo_player_id": "10487",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Johnny Juzang",
-        "status": "FA",
-        "yahoo_player_id": "6762",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Blake Hinson",
-        "status": "FA",
-        "yahoo_player_id": "10307",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Bronny James",
-        "status": "FA",
-        "yahoo_player_id": "10339",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Julian Reese",
-        "status": "FA",
-        "yahoo_player_id": "10559",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Andre Jackson Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10082",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Malevy Leons",
-        "status": "FA",
-        "yahoo_player_id": "10411",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Cody Martin",
-        "status": "FA",
-        "yahoo_player_id": "6224",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "John Poulakidas",
-        "status": "FA",
-        "yahoo_player_id": "10532",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Liam McNeeley",
-        "status": "FA",
-        "yahoo_player_id": "10446",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tyler Burton",
-        "status": "FA",
-        "yahoo_player_id": "10529",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "DaQuan Jeffries",
-        "status": "FA",
-        "yahoo_player_id": "6276",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Caleb Houstan",
-        "status": "FA",
-        "yahoo_player_id": "6722",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Isaiah Livers",
-        "status": "FA",
-        "yahoo_player_id": "6584",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Dalano Banton",
-        "status": "FA",
-        "yahoo_player_id": "6588",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Cam Christie",
-        "status": "FA",
-        "yahoo_player_id": "10337",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "LJ Cryer",
-        "status": "FA",
-        "yahoo_player_id": "10544",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "PJ Hall",
-        "status": "FA",
-        "yahoo_player_id": "10329",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "KJ Simpson",
-        "status": "FA",
-        "yahoo_player_id": "10323",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ben Simmons",
-        "status": "FA",
-        "yahoo_player_id": "5600",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Brooks Barnhizer",
-        "status": "FA",
-        "yahoo_player_id": "10478",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "AJ Johnson",
-        "status": "FA",
-        "yahoo_player_id": "10300",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Eric Gordon",
-        "status": "FA",
-        "yahoo_player_id": "4469",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Brandon Boston",
-        "status": "FA",
-        "yahoo_player_id": "6593",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Adama Bal",
-        "status": "FA",
-        "yahoo_player_id": "10566",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "DaRon Holmes II",
-        "status": "FA",
-        "yahoo_player_id": "10286",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Blake Wesley",
-        "status": "FA",
-        "yahoo_player_id": "6715",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "David Roddy",
-        "status": "FA",
-        "yahoo_player_id": "6713",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Yuki Kawamura",
-        "status": "FA",
-        "yahoo_player_id": "10415",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kennedy Chandler",
-        "status": "FA",
-        "yahoo_player_id": "6728",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Drew Timme",
-        "status": "FA",
-        "yahoo_player_id": "10141",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jeff Green",
-        "status": "FA",
-        "yahoo_player_id": "4247",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "MarJon Beauchamp",
-        "status": "FA",
-        "yahoo_player_id": "6714",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Lucas Williamson",
-        "status": "FA",
-        "yahoo_player_id": "6797",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Antonio Reeves",
-        "status": "FA",
-        "yahoo_player_id": "10338",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nate Williams",
-        "status": "FA",
-        "yahoo_player_id": "6806",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Joe Ingles",
-        "status": "FA",
-        "yahoo_player_id": "5393",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "DeJon Jarreau",
-        "status": "FA",
-        "yahoo_player_id": "6621",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Bismack Biyombo",
-        "status": "FA",
-        "yahoo_player_id": "4888",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Xavier Tillman",
-        "status": "FA",
-        "yahoo_player_id": "6427",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Orlando Robinson",
-        "status": "FA",
-        "yahoo_player_id": "6802",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Taj Gibson",
-        "status": "FA",
-        "yahoo_player_id": "4631",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "JD Davison",
-        "status": "FA",
-        "yahoo_player_id": "6743",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chris Youngblood",
-        "status": "FA",
-        "yahoo_player_id": "10536",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "KJ Martin",
-        "status": "FA",
-        "yahoo_player_id": "6444",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Wendell Moore Jr.",
-        "status": "FA",
-        "yahoo_player_id": "6716",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Alondes Williams",
-        "status": "FA",
-        "yahoo_player_id": "6749",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Dariq Whitehead",
-        "status": "FA",
-        "yahoo_player_id": "10111",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tyler Smith",
-        "status": "FA",
-        "yahoo_player_id": "10262",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Hunter Tyson",
-        "status": "FA",
-        "yahoo_player_id": "10067",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Mont\u00e9 Morris",
-        "status": "FA",
-        "yahoo_player_id": "5864",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chaz Lanier",
-        "status": "FA",
-        "yahoo_player_id": "10486",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Andersson Garcia",
-        "status": "FA",
-        "yahoo_player_id": "10564",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Kadary Richmond",
-        "status": "FA",
-        "yahoo_player_id": "10554",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Mac McClung",
-        "status": "FA",
-        "yahoo_player_id": "6628",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "RayJ Dennis",
-        "status": "FA",
-        "yahoo_player_id": "10416",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Lachlan Olbrich",
-        "status": "FA",
-        "yahoo_player_id": "10482",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Patrick Baldwin Jr.",
-        "status": "FA",
-        "yahoo_player_id": "6718",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Trey Alexander",
-        "status": "FA",
-        "yahoo_player_id": "10385",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Luke Travers",
-        "status": "FA",
-        "yahoo_player_id": "6746",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Amari Williams",
-        "status": "FA",
-        "yahoo_player_id": "10473",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "TyTy Washington Jr.",
-        "status": "FA",
-        "yahoo_player_id": "6719",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kevin McCullar Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10303",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Alijah Martin",
-        "status": "FA",
-        "yahoo_player_id": "10490",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Colby Jones",
-        "status": "FA",
-        "yahoo_player_id": "10087",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Dillon Jones",
-        "status": "FA",
-        "yahoo_player_id": "10284",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tosan Evbuomwan",
-        "status": "FA",
-        "yahoo_player_id": "10199",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Mario Hezonja",
-        "status": "FA",
-        "yahoo_player_id": "5465",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Yang Hansen",
-        "status": "FA",
-        "yahoo_player_id": "10464",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Pac\u00f4me Dadiet",
-        "status": "FA",
-        "yahoo_player_id": "10297",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Colin Castleton",
-        "status": "FA",
-        "yahoo_player_id": "10147",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "T. Antetokounmpo",
-        "status": "FA",
-        "yahoo_player_id": "5362",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Miles Kelly",
-        "status": "FA",
-        "yahoo_player_id": "10504",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Isaiah Crawford",
-        "status": "FA",
-        "yahoo_player_id": "10320",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Graham Ike",
-        "status": "FA",
-        "yahoo_player_id": "10659",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "David Jones Garcia",
-        "status": "FA",
-        "yahoo_player_id": "10372",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Lonnie Walker IV",
-        "status": "FA",
-        "yahoo_player_id": "6029",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tristan Enaruna",
-        "status": "FA",
-        "yahoo_player_id": "10392",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Riley Minix",
-        "status": "FA",
-        "yahoo_player_id": "10367",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Garrett Temple",
-        "status": "FA",
-        "yahoo_player_id": "4682",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Elfrid Payton",
-        "status": "FA",
-        "yahoo_player_id": "5321",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Koby Brea",
-        "status": "FA",
-        "yahoo_player_id": "10475",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Reece Beekman",
-        "status": "FA",
-        "yahoo_player_id": "10332",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Rocco Zikarsky",
-        "status": "FA",
-        "yahoo_player_id": "10480",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kobe Bufkin",
-        "status": "FA",
-        "yahoo_player_id": "10105",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tolu Smith",
-        "status": "FA",
-        "yahoo_player_id": "10418",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nigel Hayes-Davis",
-        "status": "FA",
-        "yahoo_player_id": "5908",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Adou Thiero",
-        "status": "FA",
-        "yahoo_player_id": "10488",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Curtis Jones",
-        "status": "FA",
-        "yahoo_player_id": "10515",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Enrique Freeman",
-        "status": "FA",
-        "yahoo_player_id": "10324",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Keshon Gilbert",
-        "status": "FA",
-        "yahoo_player_id": "10530",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Isaiah Stevens",
-        "status": "FA",
-        "yahoo_player_id": "10383",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chris Ma\u00f1on",
-        "status": "FA",
-        "yahoo_player_id": "10516",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Isaac Jones",
-        "status": "FA",
-        "yahoo_player_id": "10341",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Zyon Pullin",
-        "status": "FA",
-        "yahoo_player_id": "10344",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Trey Jemison III",
-        "status": "FA",
-        "yahoo_player_id": "10220",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Skal Labissi\u00e8re",
-        "status": "FA",
-        "yahoo_player_id": "5659",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "John Tonje",
-        "status": "FA",
-        "yahoo_player_id": "10493",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Emanuel Sharp",
-        "status": "FA",
-        "yahoo_player_id": "10632",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Norchad Omier",
-        "status": "FA",
-        "yahoo_player_id": "10526",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tobe Awaka",
-        "status": "FA",
-        "yahoo_player_id": "10635",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Drew Peterson",
-        "status": "FA",
-        "yahoo_player_id": "10206",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Olivier Sarr",
-        "status": "FA",
-        "yahoo_player_id": "6673",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Payton Sandfort",
-        "status": "FA",
-        "yahoo_player_id": "10562",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "N'Faly Dante",
-        "status": "FA",
-        "yahoo_player_id": "10328",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nikola Topi\u0107",
-        "status": "FA",
-        "yahoo_player_id": "10301",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Mouhamadou Gueye",
-        "status": "FA",
-        "yahoo_player_id": "6773",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jahmir Young",
-        "status": "FA",
-        "yahoo_player_id": "10402",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Grant Nelson",
-        "status": "FA",
-        "yahoo_player_id": "10561",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Emanuel Miller",
-        "status": "FA",
-        "yahoo_player_id": "10410",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jaylen Martin",
-        "status": "FA",
-        "yahoo_player_id": "10134",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Vladislav Goldin",
-        "status": "FA",
-        "yahoo_player_id": "10505",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chris Livingston",
-        "status": "FA",
-        "yahoo_player_id": "10088",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Baba Miller",
-        "status": "FA",
-        "yahoo_player_id": "10623",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Sergio De Larrea",
-        "status": "FA",
-        "yahoo_player_id": "10586",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Lawson Lovering",
-        "status": "FA",
-        "yahoo_player_id": "10528",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Josh Oduro",
-        "status": "FA",
-        "yahoo_player_id": "10425",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Jacob Toppin",
-        "status": "FA",
-        "yahoo_player_id": "10129",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Markelle Fultz",
-        "status": "FA",
-        "yahoo_player_id": "5763",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Harrison Ingram",
-        "status": "FA",
-        "yahoo_player_id": "10336",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Dario \u0160ari\u0107",
-        "status": "FA",
-        "yahoo_player_id": "5323",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Bryce Hopkins",
-        "status": "FA",
-        "yahoo_player_id": "10618",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "CJ Huntley",
-        "status": "FA",
-        "yahoo_player_id": "10512",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jayson Kent",
-        "status": "FA",
-        "yahoo_player_id": "10563",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Lester Qui\u00f1ones",
-        "status": "FA",
-        "yahoo_player_id": "6750",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Hayden Gray",
-        "status": "FA",
-        "yahoo_player_id": "10569",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jaden Bradley",
-        "status": "FA",
-        "yahoo_player_id": "10621",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Cole Swider",
-        "status": "FA",
-        "yahoo_player_id": "6799",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Hunter Dickinson",
-        "status": "FA",
-        "yahoo_player_id": "10501",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Kevin Knox II",
-        "status": "FA",
-        "yahoo_player_id": "6020",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Javonte Cooke",
-        "status": "FA",
-        "yahoo_player_id": "10161",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Toby Okani",
-        "status": "FA",
-        "yahoo_player_id": "10567",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Stanley Umude",
-        "status": "FA",
-        "yahoo_player_id": "6782",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tobi Lawal",
-        "status": "FA",
-        "yahoo_player_id": "10601",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Adam Flagler",
-        "status": "FA",
-        "yahoo_player_id": "10244",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Bobi Klintman",
-        "status": "FA",
-        "yahoo_player_id": "10331",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kylor Kelley",
-        "status": "FA",
-        "yahoo_player_id": "10404",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "\u00d6mer Yurtseven",
-        "status": "FA",
-        "yahoo_player_id": "6511",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tristen Newton",
-        "status": "FA",
-        "yahoo_player_id": "10318",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Sean Pedulla",
-        "status": "FA",
-        "yahoo_player_id": "10560",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Noa Essengue",
-        "status": "FA",
-        "yahoo_player_id": "10442",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ryan Conwell",
-        "status": "FA",
-        "yahoo_player_id": "10622",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Labaron Philon Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10598",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Bruce Thornton",
-        "status": "FA",
-        "yahoo_player_id": "10602",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Alex Antetokounmpo",
-        "status": "FA",
-        "yahoo_player_id": "10160",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tarris Reed Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10593",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Max Shulga",
-        "status": "FA",
-        "yahoo_player_id": "10483",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Alpha Diallo",
-        "status": "FA",
-        "yahoo_player_id": "10644",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chris Cenac Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10589",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ja'Kobi Gillespie",
-        "status": "FA",
-        "yahoo_player_id": "10603",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Mark Sears",
-        "status": "FA",
-        "yahoo_player_id": "10500",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Trevor Keels",
-        "status": "FA",
-        "yahoo_player_id": "6732",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Trentyn Flowers",
-        "status": "FA",
-        "yahoo_player_id": "10395",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ebuka Okorie",
-        "status": "FA",
-        "yahoo_player_id": "10578",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nick Martinelli",
-        "status": "FA",
-        "yahoo_player_id": "10604",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Hannes Steinbach",
-        "status": "FA",
-        "yahoo_player_id": "10577",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Bogoljub Markovi\u0107",
-        "status": "FA",
-        "yahoo_player_id": "10477",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Buddy Boeheim",
-        "status": "FA",
-        "yahoo_player_id": "6752",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Koa Peat",
-        "status": "FA",
-        "yahoo_player_id": "10584",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Christian Anderson",
-        "status": "FA",
-        "yahoo_player_id": "10575",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Dailyn Swain",
-        "status": "FA",
-        "yahoo_player_id": "10580",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Zuby Ejiofor",
-        "status": "FA",
-        "yahoo_player_id": "10596",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Alex Karaban",
-        "status": "FA",
-        "yahoo_player_id": "10583",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "James Wiseman",
-        "status": "FA",
-        "yahoo_player_id": "6356",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Braden Smith",
-        "status": "FA",
-        "yahoo_player_id": "10624",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Maliq Brown",
-        "status": "FA",
-        "yahoo_player_id": "10612",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Phillip Wheeler",
-        "status": "FA",
-        "yahoo_player_id": "10436",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nate Ament",
-        "status": "FA",
-        "yahoo_player_id": "10581",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Alex Morales",
-        "status": "FA",
-        "yahoo_player_id": "10169",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Zach Cleveland",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "R.J. Davis",
-        "status": "FA",
-        "yahoo_player_id": "10520",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Fletcher Loyer",
-        "status": "FA",
-        "yahoo_player_id": "10674",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Noam Yaacov",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Quadir Copeland",
-        "status": "FA",
-        "yahoo_player_id": "10633",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Lajae Jones",
-        "status": "FA",
-        "yahoo_player_id": "10619",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Otega Oweh",
-        "status": "FA",
-        "yahoo_player_id": "10611",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tyler Nickel",
-        "status": "FA",
-        "yahoo_player_id": "10625",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "William Kyle",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jorge Diaz Graham",
-        "status": "FA",
-        "yahoo_player_id": "10707",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jalon Moore",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Gabe McGlothan",
-        "status": "FA",
-        "yahoo_player_id": "10400",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jonas Aidoo",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tamar Bates",
-        "status": "FA",
-        "yahoo_player_id": "10509",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Chance McMillian",
-        "status": "FA",
-        "yahoo_player_id": "10654",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kylan Boswell",
-        "status": "FA",
-        "yahoo_player_id": "10641",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jack Kayil",
-        "status": "FA",
-        "yahoo_player_id": "10606",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "AK Okereke",
-        "status": "FA",
-        "yahoo_player_id": "10620",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Taylor Funk",
-        "status": "FA",
-        "yahoo_player_id": "10197",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Henri Veesaar",
-        "status": "FA",
-        "yahoo_player_id": "10626",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Malik Williams",
-        "status": "FA",
-        "yahoo_player_id": "10268",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Zack Austin",
-        "status": "FA",
-        "yahoo_player_id": "10538",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Zhaire Smith",
-        "status": "FA",
-        "yahoo_player_id": "6027",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Sean McNeil",
-        "status": "FA",
-        "yahoo_player_id": "10656",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Steve Settle III",
-        "status": "FA",
-        "yahoo_player_id": "10555",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Boopie Miller",
-        "status": "FA",
-        "yahoo_player_id": "10663",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Terrell Brown Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10645",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Viktor Lakhin",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Deivon Smith",
-        "status": "FA",
-        "yahoo_player_id": "10552",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jake Stephens",
-        "status": "FA",
-        "yahoo_player_id": "10251",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Malik Dia",
-        "status": "FA",
-        "yahoo_player_id": "10648",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Vsevolod Ishchenko",
-        "status": "FA",
-        "yahoo_player_id": "10627",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Igor Milicic Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10537",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Izaiyah Nelson",
-        "status": "FA",
-        "yahoo_player_id": "10609",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Thomas Sorber",
-        "status": "FA",
-        "yahoo_player_id": "10463",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Justin Harmon",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Dane Goodwin",
-        "status": "FA",
-        "yahoo_player_id": "10250",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ben Humrichous",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tacko Fall",
-        "status": "FA",
-        "yahoo_player_id": "6268",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Mohamed Wague",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Jaden Akins",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tucker DeVries",
-        "status": "FA",
-        "yahoo_player_id": "10688",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Carson Cooper",
-        "status": "FA",
-        "yahoo_player_id": "10638",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Seth Lundy",
-        "status": "FA",
-        "yahoo_player_id": "10073",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Malique Lewis",
-        "status": "FA",
-        "yahoo_player_id": "10614",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Andrew Holifield",
-        "status": "FA",
-        "yahoo_player_id": "10683",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Gabe Madsen",
-        "status": "FA",
-        "yahoo_player_id": "10550",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Brice Williams",
-        "status": "FA",
-        "yahoo_player_id": "10543",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ibrahima Diallo",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Dillon Mitchell",
-        "status": "FA",
-        "yahoo_player_id": "10615",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Cameron Carr",
-        "status": "FA",
-        "yahoo_player_id": "10597",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tarik Biberovic",
-        "status": "FA",
-        "yahoo_player_id": "10085",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ernest Udeh Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10639",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Michael Ajayi",
-        "status": "FA",
-        "yahoo_player_id": "10640",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nate Bittle",
-        "status": "FA",
-        "yahoo_player_id": "10677",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Rafael Castro",
-        "status": "FA",
-        "yahoo_player_id": "10637",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Wyatt Fricks",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Richie Saunders",
-        "status": "FA",
-        "yahoo_player_id": "10628",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Alex Toohey",
-        "status": "FA",
-        "yahoo_player_id": "10484",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jarkel Joiner",
-        "status": "FA",
-        "yahoo_player_id": "10207",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kobe Stewart",
-        "status": "FA",
-        "yahoo_player_id": "10646",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jayden Quaintance",
-        "status": "FA",
-        "yahoo_player_id": "10594",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tyrone Marshall Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10668",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Rashaun Agee",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "John Ukomadu",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tyreke Key",
-        "status": "FA",
-        "yahoo_player_id": "10568",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Robert McCray V",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Coleman Hawkins",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jon Elmore",
-        "status": "FA",
-        "yahoo_player_id": "6817",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Jayden Nunn",
-        "status": "FA",
-        "yahoo_player_id": "10658",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Anthony Pritchard",
-        "status": "FA",
-        "yahoo_player_id": "10695",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "J'Vonne Hadley",
-        "status": "FA",
-        "yahoo_player_id": "10678",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jaelen House",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tre Donaldson",
-        "status": "FA",
-        "yahoo_player_id": "10600",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Trey Kaufman-Renn",
-        "status": "FA",
-        "yahoo_player_id": "10629",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "John Butler Jr.",
-        "status": "FA",
-        "yahoo_player_id": "6784",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Dain Dainja",
-        "status": "FA",
-        "yahoo_player_id": "10545",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ugonna Onyenso",
-        "status": "FA",
-        "yahoo_player_id": "10610",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Trey Townsend",
-        "status": "FA",
-        "yahoo_player_id": "10649",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Milos Uzan",
-        "status": "FA",
-        "yahoo_player_id": "10692",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Arthur Kaluma",
-        "status": "FA",
-        "yahoo_player_id": "10519",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Rienk Mast",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Christoph Tilly",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Khalifa Diop",
-        "status": "FA",
-        "yahoo_player_id": "6729",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Jaron Pierre Jr.",
-        "status": "FA",
-        "yahoo_player_id": "10613",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Tyson Degenhart",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Nimari Burnett",
-        "status": "FA",
-        "yahoo_player_id": "10669",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Ian Schieffelin",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Peter Suder",
-        "status": "FA",
-        "yahoo_player_id": "10634",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tyler Bilodeau",
-        "status": "FA",
-        "yahoo_player_id": "10605",
         "status_evidence": "add_button"
-      },
-      {
-        "name": "Jamarion Sharp",
-        "status": "FA",
-        "yahoo_player_id": "10394",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jaxson Robinson",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Marquel Sutton",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Keba Keita",
-        "status": "FA",
-        "yahoo_player_id": null,
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "James Johnson",
-        "status": "FA",
-        "yahoo_player_id": "4621",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Karim Lopez",
-        "status": "FA",
-        "yahoo_player_id": "10591",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Darius Brown",
-        "status": "FA",
-        "yahoo_player_id": "10556",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Jalen Bridges",
-        "status": "FA",
-        "yahoo_player_id": "10309",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Isaiah Evans",
-        "status": "FA",
-        "yahoo_player_id": "10631",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Chucky Hepburn",
-        "status": "FA",
-        "yahoo_player_id": "10506",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Liam Robbins",
-        "status": "FA",
-        "yahoo_player_id": "10227",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Felix Okpara",
-        "status": "FA",
-        "yahoo_player_id": "10608",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Hunter Sallis",
-        "status": "FA",
-        "yahoo_player_id": "10499",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Joshua Jefferson",
-        "status": "FA",
-        "yahoo_player_id": "10587",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Josh Dix",
-        "status": "FA",
-        "yahoo_player_id": "10616",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jaylin Sellers",
-        "status": "FA",
-        "yahoo_player_id": "10636",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Johni Broome",
-        "status": "FA",
-        "yahoo_player_id": "10474",
-        "status_evidence": "row_fa_text"
       },
       {
-        "name": "Jahmyl Telfort",
+        "name": "Chris Boucher",
         "status": "FA",
-        "yahoo_player_id": "10533",
+        "yahoo_player_id": "5894",
         "status_evidence": "add_button"
       }
     ],
-    "scan_complete": true,
-    "pages_scanned": 22,
-    "sync_id": "3f3b7cc37326db44dbfa10e2f0d2969f9b5ce83625ccb5c8189dd1df2e7b1251"
+    "scan_complete": false,
+    "pages_scanned": 10,
+    "page_limit": 10,
+    "sort": "OR",
+    "sync_id": "bad0ea79b899a10a5b6556a1a0337dba6efb98269b94cd5433c2856d64195071"
   },
   "yahoo_team_slots": {
     "1": "11",
@@ -4039,19 +2330,679 @@
     "0": "NBA Fantasy 2025",
     "7": "NBA Fantasy 2025"
   },
-  "fantasy_calendar": null,
-  "fantasy_calendar_audit": {
-    "received_weeks": 0,
-    "accepted_weeks": 0,
-    "errors": [
-      "No complete, dated 14-team fantasy week could be verified in Yahoo HTML."
+  "fantasy_calendar": {
+    "schema_version": 1,
+    "source": "yahoo_browser_schedule",
+    "league_id": "64691",
+    "season": "2026_27",
+    "regular_season_end_week": 18,
+    "team_slots": {
+      "1": "11",
+      "2": "1",
+      "3": "5",
+      "4": "8",
+      "5": "10",
+      "6": "3",
+      "7": "4",
+      "8": "12",
+      "9": "9",
+      "10": "6",
+      "11": "13",
+      "12": "2",
+      "13": "0",
+      "14": "7"
+    },
+    "weeks": [
+      {
+        "week": 2,
+        "start": "2026-10-26",
+        "end": "2026-11-01",
+        "fixtures": [
+          [
+            "11",
+            "12"
+          ],
+          [
+            "1",
+            "7"
+          ],
+          [
+            "5",
+            "2"
+          ],
+          [
+            "8",
+            "6"
+          ],
+          [
+            "10",
+            "13"
+          ],
+          [
+            "3",
+            "4"
+          ],
+          [
+            "9",
+            "0"
+          ]
+        ],
+        "captured_at": "2026-10-31T18:19:57.931455+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 3,
+        "start": "2026-11-02",
+        "end": "2026-11-08",
+        "fixtures": [
+          [
+            "11",
+            "1"
+          ],
+          [
+            "5",
+            "12"
+          ],
+          [
+            "8",
+            "13"
+          ],
+          [
+            "10",
+            "2"
+          ],
+          [
+            "3",
+            "7"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "9",
+            "6"
+          ]
+        ],
+        "captured_at": "2026-10-30T22:03:26.216991+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 4,
+        "start": "2026-11-09",
+        "end": "2026-11-15",
+        "fixtures": [
+          [
+            "11",
+            "3"
+          ],
+          [
+            "1",
+            "5"
+          ],
+          [
+            "8",
+            "2"
+          ],
+          [
+            "10",
+            "12"
+          ],
+          [
+            "4",
+            "9"
+          ],
+          [
+            "6",
+            "13"
+          ],
+          [
+            "0",
+            "7"
+          ]
+        ],
+        "captured_at": "2026-10-30T22:03:26.216991+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 5,
+        "start": "2026-11-16",
+        "end": "2026-11-22",
+        "fixtures": [
+          [
+            "11",
+            "0"
+          ],
+          [
+            "1",
+            "10"
+          ],
+          [
+            "5",
+            "3"
+          ],
+          [
+            "8",
+            "12"
+          ],
+          [
+            "4",
+            "6"
+          ],
+          [
+            "9",
+            "7"
+          ],
+          [
+            "13",
+            "2"
+          ]
+        ],
+        "captured_at": "2026-10-30T22:03:26.216991+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 6,
+        "start": "2026-11-23",
+        "end": "2026-11-29",
+        "fixtures": [
+          [
+            "11",
+            "9"
+          ],
+          [
+            "1",
+            "8"
+          ],
+          [
+            "5",
+            "0"
+          ],
+          [
+            "10",
+            "3"
+          ],
+          [
+            "4",
+            "7"
+          ],
+          [
+            "12",
+            "13"
+          ],
+          [
+            "6",
+            "2"
+          ]
+        ],
+        "captured_at": "2026-10-30T22:03:26.216991+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 7,
+        "start": "2026-11-30",
+        "end": "2026-12-13",
+        "fixtures": [
+          [
+            "11",
+            "4"
+          ],
+          [
+            "1",
+            "13"
+          ],
+          [
+            "5",
+            "9"
+          ],
+          [
+            "8",
+            "3"
+          ],
+          [
+            "10",
+            "0"
+          ],
+          [
+            "12",
+            "2"
+          ],
+          [
+            "6",
+            "7"
+          ]
+        ],
+        "captured_at": "2026-10-30T22:03:26.216991+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 8,
+        "start": "2026-12-14",
+        "end": "2026-12-20",
+        "fixtures": [
+          [
+            "11",
+            "7"
+          ],
+          [
+            "1",
+            "2"
+          ],
+          [
+            "5",
+            "4"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "9"
+          ],
+          [
+            "3",
+            "13"
+          ],
+          [
+            "12",
+            "6"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 9,
+        "start": "2026-12-21",
+        "end": "2026-12-27",
+        "fixtures": [
+          [
+            "11",
+            "6"
+          ],
+          [
+            "1",
+            "12"
+          ],
+          [
+            "5",
+            "7"
+          ],
+          [
+            "8",
+            "9"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "3",
+            "2"
+          ],
+          [
+            "13",
+            "0"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 10,
+        "start": "2026-12-28",
+        "end": "2027-01-03",
+        "fixtures": [
+          [
+            "11",
+            "5"
+          ],
+          [
+            "1",
+            "6"
+          ],
+          [
+            "8",
+            "4"
+          ],
+          [
+            "10",
+            "7"
+          ],
+          [
+            "3",
+            "12"
+          ],
+          [
+            "9",
+            "13"
+          ],
+          [
+            "2",
+            "0"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 11,
+        "start": "2027-01-04",
+        "end": "2027-01-10",
+        "fixtures": [
+          [
+            "11",
+            "10"
+          ],
+          [
+            "1",
+            "3"
+          ],
+          [
+            "5",
+            "6"
+          ],
+          [
+            "8",
+            "7"
+          ],
+          [
+            "4",
+            "13"
+          ],
+          [
+            "12",
+            "0"
+          ],
+          [
+            "9",
+            "2"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 12,
+        "start": "2027-01-11",
+        "end": "2027-01-17",
+        "fixtures": [
+          [
+            "11",
+            "8"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "5",
+            "10"
+          ],
+          [
+            "3",
+            "6"
+          ],
+          [
+            "4",
+            "2"
+          ],
+          [
+            "12",
+            "9"
+          ],
+          [
+            "13",
+            "7"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 13,
+        "start": "2027-01-18",
+        "end": "2027-01-24",
+        "fixtures": [
+          [
+            "11",
+            "13"
+          ],
+          [
+            "1",
+            "9"
+          ],
+          [
+            "5",
+            "8"
+          ],
+          [
+            "10",
+            "6"
+          ],
+          [
+            "3",
+            "0"
+          ],
+          [
+            "4",
+            "12"
+          ],
+          [
+            "2",
+            "7"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 14,
+        "start": "2027-01-25",
+        "end": "2027-01-31",
+        "fixtures": [
+          [
+            "11",
+            "2"
+          ],
+          [
+            "1",
+            "4"
+          ],
+          [
+            "5",
+            "13"
+          ],
+          [
+            "8",
+            "10"
+          ],
+          [
+            "3",
+            "9"
+          ],
+          [
+            "12",
+            "7"
+          ],
+          [
+            "6",
+            "0"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 15,
+        "start": "2027-02-01",
+        "end": "2027-02-07",
+        "fixtures": [
+          [
+            "11",
+            "12"
+          ],
+          [
+            "1",
+            "7"
+          ],
+          [
+            "5",
+            "2"
+          ],
+          [
+            "8",
+            "6"
+          ],
+          [
+            "10",
+            "13"
+          ],
+          [
+            "3",
+            "4"
+          ],
+          [
+            "9",
+            "0"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 16,
+        "start": "2027-02-08",
+        "end": "2027-02-14",
+        "fixtures": [
+          [
+            "11",
+            "1"
+          ],
+          [
+            "5",
+            "12"
+          ],
+          [
+            "8",
+            "13"
+          ],
+          [
+            "10",
+            "2"
+          ],
+          [
+            "3",
+            "7"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "9",
+            "6"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 17,
+        "start": "2027-02-15",
+        "end": "2027-02-28",
+        "fixtures": [
+          [
+            "11",
+            "3"
+          ],
+          [
+            "1",
+            "5"
+          ],
+          [
+            "8",
+            "2"
+          ],
+          [
+            "10",
+            "12"
+          ],
+          [
+            "4",
+            "9"
+          ],
+          [
+            "6",
+            "13"
+          ],
+          [
+            "0",
+            "7"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      },
+      {
+        "week": 18,
+        "start": "2027-03-01",
+        "end": "2027-03-07",
+        "fixtures": [
+          [
+            "11",
+            "0"
+          ],
+          [
+            "1",
+            "10"
+          ],
+          [
+            "5",
+            "3"
+          ],
+          [
+            "8",
+            "12"
+          ],
+          [
+            "4",
+            "6"
+          ],
+          [
+            "9",
+            "7"
+          ],
+          [
+            "13",
+            "2"
+          ]
+        ],
+        "captured_at": "2026-10-31T11:33:13.079495+00:00",
+        "source": "yahoo_browser_schedule"
+      }
     ]
+  },
+  "fantasy_calendar_audit": {
+    "received_weeks": 1,
+    "accepted_weeks": 1,
+    "errors": [],
+    "capture_diagnostics": {
+      "pages_fetched": 3,
+      "pages_failed": 0,
+      "matchup_pages_with_dated_evidence": 8,
+      "rejected_wrong_week_or_team": 0,
+      "date_conflicts": 0,
+      "weeks_attempted": 1,
+      "complete_weeks": 1
+    }
   },
   "yahoo_roster_players": {
     "11": [
       {
-        "name": "Kyrie Irving",
-        "yahoo_player_id": "4840",
+        "name": "Dylan Harper",
+        "yahoo_player_id": "10467",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
@@ -4062,8 +3013,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Herbert Jones",
-        "yahoo_player_id": "6577",
+        "name": "Darius Acuff Jr.",
+        "yahoo_player_id": "10582",
         "selected_position": "G",
         "status": "HEALTHY"
       },
@@ -4086,14 +3037,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Khaman Maluach",
-        "yahoo_player_id": "10447",
+        "name": "Isaiah Jackson",
+        "yahoo_player_id": "6564",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "Isaiah Jackson",
-        "yahoo_player_id": "6564",
+        "name": "Zach Edey",
+        "yahoo_player_id": "10287",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -4110,27 +3061,21 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Zach Edey",
-        "yahoo_player_id": "10287",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Darius Acuff Jr.",
-        "yahoo_player_id": "10582",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Dylan Harper",
-        "yahoo_player_id": "10467",
+        "name": "Kyrie Irving",
+        "yahoo_player_id": "4840",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
         "name": "Rui Hachimura",
         "yahoo_player_id": "6171",
-        "selected_position": "IL",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Khaman Maluach",
+        "yahoo_player_id": "10447",
+        "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
@@ -4160,8 +3105,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Sam Hauser",
-        "yahoo_player_id": "6619",
+        "name": "Peyton Watson",
+        "yahoo_player_id": "6720",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
@@ -4178,14 +3123,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Mitchell Robinson",
-        "yahoo_player_id": "6047",
+        "name": "Victor Wembanyama",
+        "yahoo_player_id": "10094",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "Jalen Smith",
-        "yahoo_player_id": "6402",
+        "name": "Robert Williams III",
+        "yahoo_player_id": "6038",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -4202,28 +3147,28 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Victor Wembanyama",
-        "yahoo_player_id": "10094",
+        "name": "Sam Hauser",
+        "yahoo_player_id": "6619",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Peyton Watson",
-        "yahoo_player_id": "6720",
+        "name": "Mitchell Robinson",
+        "yahoo_player_id": "6047",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Jalen Smith",
+        "yahoo_player_id": "6402",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
         "name": "Chet Holmgren",
         "yahoo_player_id": "6692",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Robert Williams III",
-        "yahoo_player_id": "6038",
         "selected_position": "IL",
-        "status": "HEALTHY"
+        "status": "O"
       },
       {
         "name": "Tobias Harris",
@@ -4240,14 +3185,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Anthony Black",
-        "yahoo_player_id": "10095",
+        "name": "CJ McCollum",
+        "yahoo_player_id": "5161",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
       {
-        "name": "Luke Kennard",
-        "yahoo_player_id": "5825",
+        "name": "Dyson Daniels",
+        "yahoo_player_id": "6698",
         "selected_position": "G",
         "status": "HEALTHY"
       },
@@ -4270,21 +3215,9 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Joel Embiid",
-        "yahoo_player_id": "5294",
+        "name": "Adem Bona",
+        "yahoo_player_id": "10335",
         "selected_position": "C",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Daniel Gafford",
-        "yahoo_player_id": "6226",
-        "selected_position": "C",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Josh Giddey",
-        "yahoo_player_id": "6548",
-        "selected_position": "UTIL",
         "status": "HEALTHY"
       },
       {
@@ -4294,46 +3227,64 @@
         "status": "HEALTHY"
       },
       {
-        "name": "CJ McCollum",
-        "yahoo_player_id": "5161",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Dyson Daniels",
-        "yahoo_player_id": "6698",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
         "name": "Ajay Mitchell",
         "yahoo_player_id": "10304",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Daniel Gafford",
+        "yahoo_player_id": "6226",
         "selected_position": "BN",
         "status": "HEALTHY"
+      },
+      {
+        "name": "Josh Giddey",
+        "yahoo_player_id": "6548",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Luke Kennard",
+        "yahoo_player_id": "5825",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Anthony Black",
+        "yahoo_player_id": "10095",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Joel Embiid",
+        "yahoo_player_id": "5294",
+        "selected_position": "IL",
+        "status": "O"
       }
     ],
     "8": [
       {
-        "name": "Ja Morant",
-        "yahoo_player_id": "6164",
+        "name": "Keyonte George",
+        "yahoo_player_id": "10100",
         "selected_position": "PG",
-        "status": "O"
+        "status": "HEALTHY"
       },
       {
-        "name": "RJ Barrett",
-        "yahoo_player_id": "6165",
+        "name": "Stephon Castle",
+        "yahoo_player_id": "10290",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
       {
-        "name": "Quentin Grimes",
-        "yahoo_player_id": "6567",
+        "name": "Ja Morant",
+        "yahoo_player_id": "6164",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "O"
       },
       {
-        "name": "Paul George",
-        "yahoo_player_id": "4725",
+        "name": "Kyle Kuzma",
+        "yahoo_player_id": "5840",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
@@ -4362,8 +3313,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Dillon Brooks",
-        "yahoo_player_id": "5858",
+        "name": "Paul George",
+        "yahoo_player_id": "4725",
         "selected_position": "UTIL",
         "status": "HEALTHY"
       },
@@ -4374,32 +3325,32 @@
         "status": "O"
       },
       {
-        "name": "Stephon Castle",
-        "yahoo_player_id": "10290",
+        "name": "Quentin Grimes",
+        "yahoo_player_id": "6567",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Kyle Kuzma",
-        "yahoo_player_id": "5840",
+        "name": "RJ Barrett",
+        "yahoo_player_id": "6165",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Keyonte George",
-        "yahoo_player_id": "10100",
+        "name": "Dillon Brooks",
+        "yahoo_player_id": "5858",
         "selected_position": "BN",
         "status": "HEALTHY"
-      },
-      {
-        "name": "Anthony Edwards",
-        "yahoo_player_id": "6355",
-        "selected_position": "IL",
-        "status": "O"
       },
       {
         "name": "Paolo Banchero",
         "yahoo_player_id": "6691",
+        "selected_position": "IL",
+        "status": "O"
+      },
+      {
+        "name": "Anthony Edwards",
+        "yahoo_player_id": "6355",
         "selected_position": "IL",
         "status": "O"
       }
@@ -4430,21 +3381,15 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Kelly Oubre Jr.",
-        "yahoo_player_id": "5475",
+        "name": "Deni Avdija",
+        "yahoo_player_id": "6401",
         "selected_position": "PF",
         "status": "HEALTHY"
       },
       {
-        "name": "Bam Adebayo",
-        "yahoo_player_id": "5827",
+        "name": "Saddiq Bey",
+        "yahoo_player_id": "6411",
         "selected_position": "F",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Karl-Anthony Towns",
-        "yahoo_player_id": "5432",
-        "selected_position": "C",
         "status": "HEALTHY"
       },
       {
@@ -4454,32 +3399,38 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Yaxel Lendeborg",
-        "yahoo_player_id": "10571",
+        "name": "Myles Turner",
+        "yahoo_player_id": "5471",
+        "selected_position": "C",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Karl-Anthony Towns",
+        "yahoo_player_id": "5432",
         "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Kelly Oubre Jr.",
+        "yahoo_player_id": "5475",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Bam Adebayo",
+        "yahoo_player_id": "5827",
+        "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
         "name": "Zaccharie Risacher",
         "yahoo_player_id": "10296",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Myles Turner",
-        "yahoo_player_id": "5471",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Deni Avdija",
-        "yahoo_player_id": "6401",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Saddiq Bey",
-        "yahoo_player_id": "6411",
+        "name": "Yaxel Lendeborg",
+        "yahoo_player_id": "10571",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -4498,8 +3449,8 @@
     ],
     "3": [
       {
-        "name": "Tre Jones",
-        "yahoo_player_id": "6433",
+        "name": "Shai Gilgeous-Alexander",
+        "yahoo_player_id": "6022",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
@@ -4510,8 +3461,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Stephen Curry",
-        "yahoo_player_id": "4612",
+        "name": "Jrue Holiday",
+        "yahoo_player_id": "4622",
         "selected_position": "G",
         "status": "HEALTHY"
       },
@@ -4558,14 +3509,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Jrue Holiday",
-        "yahoo_player_id": "4622",
+        "name": "Tre Jones",
+        "yahoo_player_id": "6433",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Shai Gilgeous-Alexander",
-        "yahoo_player_id": "6022",
+        "name": "Stephen Curry",
+        "yahoo_player_id": "4612",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -4584,38 +3535,38 @@
     ],
     "4": [
       {
-        "name": "Cade Cunningham",
-        "yahoo_player_id": "6512",
+        "name": "N. Alexander-Walker",
+        "yahoo_player_id": "6205",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
       {
-        "name": "Devin Booker",
-        "yahoo_player_id": "5473",
+        "name": "Darryn Peterson",
+        "yahoo_player_id": "10590",
         "selected_position": "SG",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Mikel Brown Jr.",
-        "yahoo_player_id": "10588",
-        "selected_position": "G",
         "status": "HEALTHY"
       },
       {
         "name": "Cedric Coward",
         "yahoo_player_id": "10465",
-        "selected_position": "SF",
+        "selected_position": "G",
         "status": "HEALTHY"
       },
       {
-        "name": "Miles Bridges",
-        "yahoo_player_id": "6023",
-        "selected_position": "PF",
+        "name": "Ace Bailey",
+        "yahoo_player_id": "10462",
+        "selected_position": "SF",
         "status": "HEALTHY"
       },
       {
         "name": "Naz Reid",
         "yahoo_player_id": "6253",
+        "selected_position": "PF",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Miles Bridges",
+        "yahoo_player_id": "6023",
         "selected_position": "F",
         "status": "HEALTHY"
       },
@@ -4632,32 +3583,26 @@
         "status": "HEALTHY"
       },
       {
+        "name": "Cade Cunningham",
+        "yahoo_player_id": "6512",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
         "name": "Michael Porter Jr.",
         "yahoo_player_id": "6025",
         "selected_position": "UTIL",
         "status": "HEALTHY"
       },
       {
-        "name": "Dennis Schr\u00f6der",
-        "yahoo_player_id": "5187",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "N. Alexander-Walker",
-        "yahoo_player_id": "6205",
+        "name": "Devin Booker",
+        "yahoo_player_id": "5473",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Darryn Peterson",
-        "yahoo_player_id": "10590",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Ace Bailey",
-        "yahoo_player_id": "10462",
+        "name": "Cameron Johnson",
+        "yahoo_player_id": "6173",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -4666,30 +3611,24 @@
         "yahoo_player_id": "5754",
         "selected_position": "IL",
         "status": "O"
-      },
-      {
-        "name": "Cameron Johnson",
-        "yahoo_player_id": "6173",
-        "selected_position": "IL",
-        "status": "O"
       }
     ],
     "12": [
       {
-        "name": "Kris Dunn",
-        "yahoo_player_id": "5636",
+        "name": "Donovan Mitchell",
+        "yahoo_player_id": "5826",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
       {
-        "name": "Derrick White",
-        "yahoo_player_id": "5842",
+        "name": "Sam Merrill",
+        "yahoo_player_id": "6452",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
       {
-        "name": "Ja'Kobe Walter",
-        "yahoo_player_id": "10278",
+        "name": "VJ Edgecombe",
+        "yahoo_player_id": "10454",
         "selected_position": "G",
         "status": "HEALTHY"
       },
@@ -4712,15 +3651,21 @@
         "status": "HEALTHY"
       },
       {
+        "name": "Isaiah Hartenstein",
+        "yahoo_player_id": "5856",
+        "selected_position": "C",
+        "status": "HEALTHY"
+      },
+      {
         "name": "P.J. Washington",
         "yahoo_player_id": "6174",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "Isaiah Hartenstein",
-        "yahoo_player_id": "5856",
-        "selected_position": "C",
+        "name": "Collin Gillespie",
+        "yahoo_player_id": "6751",
+        "selected_position": "UTIL",
         "status": "HEALTHY"
       },
       {
@@ -4730,26 +3675,20 @@
         "status": "HEALTHY"
       },
       {
-        "name": "VJ Edgecombe",
-        "yahoo_player_id": "10454",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Collin Gillespie",
-        "yahoo_player_id": "6751",
+        "name": "Ja'Kobe Walter",
+        "yahoo_player_id": "10278",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Donovan Mitchell",
-        "yahoo_player_id": "5826",
+        "name": "Kris Dunn",
+        "yahoo_player_id": "5636",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Kasparas Jaku\u010dionis",
-        "yahoo_player_id": "10452",
+        "name": "Derrick White",
+        "yahoo_player_id": "5842",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -4774,14 +3713,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Austin Reaves",
-        "yahoo_player_id": "6606",
+        "name": "Devin Vassell",
+        "yahoo_player_id": "6403",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
       {
-        "name": "Fred VanVleet",
-        "yahoo_player_id": "5727",
+        "name": "Austin Reaves",
+        "yahoo_player_id": "6606",
         "selected_position": "G",
         "status": "HEALTHY"
       },
@@ -4792,8 +3731,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Mikal Bridges",
-        "yahoo_player_id": "6021",
+        "name": "Zion Williamson",
+        "yahoo_player_id": "6163",
         "selected_position": "PF",
         "status": "HEALTHY"
       },
@@ -4810,8 +3749,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Draymond Green",
-        "yahoo_player_id": "5069",
+        "name": "Onyeka Okongwu",
+        "yahoo_player_id": "6398",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -4828,22 +3767,22 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Zion Williamson",
-        "yahoo_player_id": "6163",
+        "name": "Mikal Bridges",
+        "yahoo_player_id": "6021",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Onyeka Okongwu",
-        "yahoo_player_id": "6398",
+        "name": "Draymond Green",
+        "yahoo_player_id": "5069",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Devin Vassell",
-        "yahoo_player_id": "6403",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "name": "Fred VanVleet",
+        "yahoo_player_id": "5727",
+        "selected_position": "IL",
+        "status": "O"
       },
       {
         "name": "Tyrese Haliburton",
@@ -4860,26 +3799,26 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Pelle Larsson",
-        "yahoo_player_id": "10312",
+        "name": "Terrence Shannon Jr.",
+        "yahoo_player_id": "10280",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
       {
-        "name": "Andrew Nembhard",
-        "yahoo_player_id": "6721",
+        "name": "Tyler Herro",
+        "yahoo_player_id": "6175",
         "selected_position": "G",
         "status": "HEALTHY"
       },
       {
-        "name": "Jayson Tatum",
-        "yahoo_player_id": "5765",
+        "name": "Pelle Larsson",
+        "yahoo_player_id": "10312",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
       {
-        "name": "Ausar Thompson",
-        "yahoo_player_id": "10096",
+        "name": "Domantas Sabonis",
+        "yahoo_player_id": "5642",
         "selected_position": "PF",
         "status": "HEALTHY"
       },
@@ -4887,7 +3826,7 @@
         "name": "LeBron James",
         "yahoo_player_id": "3704",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "O"
       },
       {
         "name": "Donovan Clingan",
@@ -4902,32 +3841,32 @@
         "status": "HEALTHY"
       },
       {
+        "name": "Brandin Podziemski",
+        "yahoo_player_id": "10115",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
         "name": "Grayson Allen",
         "yahoo_player_id": "6032",
         "selected_position": "UTIL",
         "status": "HEALTHY"
       },
       {
-        "name": "Terrence Shannon Jr.",
-        "yahoo_player_id": "10280",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Brandin Podziemski",
-        "yahoo_player_id": "10115",
+        "name": "Andrew Nembhard",
+        "yahoo_player_id": "6721",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Tyler Herro",
-        "yahoo_player_id": "6175",
+        "name": "Ausar Thompson",
+        "yahoo_player_id": "10096",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Domantas Sabonis",
-        "yahoo_player_id": "5642",
+        "name": "Jayson Tatum",
+        "yahoo_player_id": "5765",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -4940,26 +3879,26 @@
     ],
     "13": [
       {
-        "name": "Jamal Murray",
-        "yahoo_player_id": "5638",
+        "name": "De'Aaron Fox",
+        "yahoo_player_id": "5767",
         "selected_position": "PG",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Cam Spencer",
+        "yahoo_player_id": "10327",
+        "selected_position": "SG",
         "status": "HEALTHY"
       },
       {
         "name": "Tari Eason",
         "yahoo_player_id": "6707",
-        "selected_position": "SG",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Christian Braun",
-        "yahoo_player_id": "6711",
         "selected_position": "G",
         "status": "HEALTHY"
       },
       {
-        "name": "Matas Buzelis",
-        "yahoo_player_id": "10265",
+        "name": "Brandon Miller",
+        "yahoo_player_id": "10104",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
@@ -4970,8 +3909,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Brandon Miller",
-        "yahoo_player_id": "10104",
+        "name": "Jaime Jaquez Jr.",
+        "yahoo_player_id": "10092",
         "selected_position": "F",
         "status": "HEALTHY"
       },
@@ -4982,38 +3921,38 @@
         "status": "HEALTHY"
       },
       {
+        "name": "Kel'el Ware",
+        "yahoo_player_id": "10274",
+        "selected_position": "C",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Jamal Murray",
+        "yahoo_player_id": "5638",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Christian Braun",
+        "yahoo_player_id": "6711",
+        "selected_position": "UTIL",
+        "status": "HEALTHY"
+      },
+      {
+        "name": "Matas Buzelis",
+        "yahoo_player_id": "10265",
+        "selected_position": "BN",
+        "status": "HEALTHY"
+      },
+      {
         "name": "Collin Murray-Boyles",
         "yahoo_player_id": "10443",
-        "selected_position": "C",
+        "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
         "name": "Davion Mitchell",
         "yahoo_player_id": "6551",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Tristan da Silva",
-        "yahoo_player_id": "10275",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Jaime Jaquez Jr.",
-        "yahoo_player_id": "10092",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Kel'el Ware",
-        "yahoo_player_id": "10274",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "De'Aaron Fox",
-        "yahoo_player_id": "5767",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -5032,8 +3971,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Immanuel Quickley",
-        "yahoo_player_id": "6417",
+        "name": "Bennedict Mathurin",
+        "yahoo_player_id": "6696",
         "selected_position": "SG",
         "status": "HEALTHY"
       },
@@ -5044,8 +3983,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Jalen Green",
-        "yahoo_player_id": "6513",
+        "name": "Jerami Grant",
+        "yahoo_player_id": "5350",
         "selected_position": "SF",
         "status": "HEALTHY"
       },
@@ -5080,26 +4019,26 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Luka Don\u010di\u0107",
-        "yahoo_player_id": "6014",
+        "name": "Lauri Markkanen",
+        "yahoo_player_id": "5769",
         "selected_position": "UTIL",
         "status": "HEALTHY"
       },
       {
-        "name": "Bennedict Mathurin",
-        "yahoo_player_id": "6696",
+        "name": "Immanuel Quickley",
+        "yahoo_player_id": "6417",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Jerami Grant",
-        "yahoo_player_id": "5350",
+        "name": "Jalen Green",
+        "yahoo_player_id": "6513",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Lauri Markkanen",
-        "yahoo_player_id": "5769",
+        "name": "Luka Don\u010di\u0107",
+        "yahoo_player_id": "6014",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -5112,8 +4051,8 @@
     ],
     "0": [
       {
-        "name": "Jalen Brunson",
-        "yahoo_player_id": "6044",
+        "name": "Scotty Pippen Jr.",
+        "yahoo_player_id": "6757",
         "selected_position": "PG",
         "status": "HEALTHY"
       },
@@ -5136,8 +4075,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Josh Minott",
-        "yahoo_player_id": "6735",
+        "name": "Cameron Boozer",
+        "yahoo_player_id": "10592",
         "selected_position": "PF",
         "status": "HEALTHY"
       },
@@ -5148,14 +4087,14 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Nikola Joki\u0107",
-        "yahoo_player_id": "5352",
+        "name": "Sandro Mamukelashvili",
+        "yahoo_player_id": "6596",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "Sandro Mamukelashvili",
-        "yahoo_player_id": "6596",
+        "name": "Evan Mobley",
+        "yahoo_player_id": "6514",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -5172,20 +4111,20 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Scotty Pippen Jr.",
-        "yahoo_player_id": "6757",
+        "name": "Jalen Brunson",
+        "yahoo_player_id": "6044",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Cameron Boozer",
-        "yahoo_player_id": "10592",
+        "name": "Josh Minott",
+        "yahoo_player_id": "6735",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Evan Mobley",
-        "yahoo_player_id": "6514",
+        "name": "Nikola Joki\u0107",
+        "yahoo_player_id": "5352",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -5216,8 +4155,8 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Desmond Bane",
-        "yahoo_player_id": "6422",
+        "name": "James Harden",
+        "yahoo_player_id": "4563",
         "selected_position": "G",
         "status": "HEALTHY"
       },
@@ -5234,20 +4173,20 @@
         "status": "HEALTHY"
       },
       {
-        "name": "Josh Hart",
-        "yahoo_player_id": "5843",
+        "name": "Jabari Smith Jr.",
+        "yahoo_player_id": "6693",
         "selected_position": "F",
         "status": "HEALTHY"
       },
       {
-        "name": "Jabari Smith Jr.",
-        "yahoo_player_id": "6693",
+        "name": "Jaxson Hayes",
+        "yahoo_player_id": "6170",
         "selected_position": "C",
         "status": "HEALTHY"
       },
       {
-        "name": "Neemias Queta",
-        "yahoo_player_id": "6581",
+        "name": "Jarrett Allen",
+        "yahoo_player_id": "5835",
         "selected_position": "C",
         "status": "HEALTHY"
       },
@@ -5264,20 +4203,20 @@
         "status": "HEALTHY"
       },
       {
-        "name": "James Harden",
-        "yahoo_player_id": "4563",
+        "name": "Desmond Bane",
+        "yahoo_player_id": "6422",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Jaxson Hayes",
-        "yahoo_player_id": "6170",
+        "name": "Josh Hart",
+        "yahoo_player_id": "5843",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
       {
-        "name": "Jarrett Allen",
-        "yahoo_player_id": "5835",
+        "name": "Neemias Queta",
+        "yahoo_player_id": "6581",
         "selected_position": "BN",
         "status": "HEALTHY"
       },
@@ -5293,6 +4232,110 @@
         "selected_position": "IL",
         "status": "O"
       }
+    ]
+  },
+  "playoff_snapshot": {
+    "schema_version": 1,
+    "source": "yahoo_browser_league",
+    "captured_at": "2026-10-31T18:19:57.931455+00:00",
+    "league_id": "64691",
+    "team_slots": {
+      "1": "11",
+      "2": "1",
+      "3": "5",
+      "4": "8",
+      "5": "10",
+      "6": "3",
+      "7": "4",
+      "8": "12",
+      "9": "9",
+      "10": "6",
+      "11": "13",
+      "12": "2",
+      "13": "0",
+      "14": "7"
+    },
+    "standings": {
+      "11": {
+        "W": 6,
+        "L": 3,
+        "T": 0
+      },
+      "1": {
+        "W": 3,
+        "L": 5,
+        "T": 1
+      },
+      "5": {
+        "W": 4,
+        "L": 5,
+        "T": 0
+      },
+      "8": {
+        "W": 5,
+        "L": 4,
+        "T": 0
+      },
+      "10": {
+        "W": 4,
+        "L": 5,
+        "T": 0
+      },
+      "3": {
+        "W": 3,
+        "L": 6,
+        "T": 0
+      },
+      "4": {
+        "W": 5,
+        "L": 3,
+        "T": 1
+      },
+      "12": {
+        "W": 3,
+        "L": 6,
+        "T": 0
+      },
+      "9": {
+        "W": 6,
+        "L": 3,
+        "T": 0
+      },
+      "6": {
+        "W": 5,
+        "L": 3,
+        "T": 1
+      },
+      "13": {
+        "W": 5,
+        "L": 4,
+        "T": 0
+      },
+      "2": {
+        "W": 3,
+        "L": 6,
+        "T": 0
+      },
+      "0": {
+        "W": 3,
+        "L": 5,
+        "T": 1
+      },
+      "7": {
+        "W": 6,
+        "L": 3,
+        "T": 0
+      }
+    },
+    "current_week": 2,
+    "completed_through_week": 1,
+    "tiebreak_rule": "unverified"
+  },
+  "yahoo_trade_audit": {
+    "offers": "unavailable",
+    "standings": "ready",
+    "errors": [
+      "Pending trade page markup has not been verified"
     ]
   }
 }
