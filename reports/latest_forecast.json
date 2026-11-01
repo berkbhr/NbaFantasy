@@ -1,5 +1,5 @@
 {
-  "forecast_at": "2026-11-01T09:57:07.034593+00:00",
+  "forecast_at": "2026-11-01T13:40:43.556824+00:00",
   "live_score_valid": true,
   "live_score": {
     "team_a": {
@@ -678,7 +678,7 @@
       "delta_objective_value": 3.688062711049156e-05,
       "base_win_probability": 0.9999999999999998,
       "new_win_probability": 1.0,
-      "new_draw_probability": 6.683240219813678e-22,
+      "new_draw_probability": 6.683240219813677e-22,
       "cat_details": [],
       "cat_gains": [],
       "target_cats": [],
@@ -780,7 +780,7 @@
       "delta_objective_value": 3.73494528043139e-05,
       "base_win_probability": 0.9999999999999998,
       "new_win_probability": 1.0,
-      "new_draw_probability": 1.6649140966129578e-21,
+      "new_draw_probability": 1.664914096612958e-21,
       "cat_details": [],
       "cat_gains": [],
       "target_cats": [],
@@ -817,12 +817,12 @@
     "data/raw/player_logs_2025_26.parquet": "f5818af0fd9d215ca0de3fa27a5d0067ab7f6b9a3101712f764a21d45ab5d062",
     "data/raw/player_logs_2026_27.parquet": "5c12e3796346ee09001ae4c8f5b8f4f07e6bb5c093696122a9e35090f6245851",
     "data/raw/preseason_logs_2026_27.parquet": "be7b1e05c459dc8db0fa25948308945f8bb9f5117b31638f4464c24001d01dff",
-    "data/processed/league_state.json": "0afc248ba19caeb2f6ba8022f9b9137688b8d3a33064622b71932e2c54f3a905",
+    "data/processed/league_state.json": "a539165939a571aa42d82985dd3b0b485024c884f68a46caae9b166511cbcfee",
     "data/processed/live_matchup.json": "c6a67eb55e94a6cd7c7c2708e3664c76e667ad312fac70b1dad6c8aa84fc1c74",
-    "data/processed/injuries.db": "57e9ad3275d9dc56314295d463f02e5bbfddd53b53ea0e67469648d038e8eb24",
+    "data/processed/injuries.db": "c8915cf817d96d42b808e163923ebd042a03ebec641e34a2403ebac9ef4716a9",
     "data/processed/active_roster_2026_27.parquet": "a2e7d507bdc33ac7131f46a34c9920b07a0fdee6c2f25ea6859a5ee94a97ee6d",
     "data/processed/player_positions.parquet": "589e938493ab7f8d2d931833e24f4197f17d48cc4f412fa8fce94fef6819d0b8",
-    "data/processed/schedule_2026_27.parquet": "daa17eaa5aeaf8dee19ffc119b3e23201431caa2a82d326d829657da5b752ffb",
+    "data/processed/schedule_2026_27.parquet": "33b8e440af77f9f74f9c556f79896cdd85c0c2e4c069327a802c44d9efae01ff",
     "config/model_policy.json": "ab27322f752d4a3d9051306af3c8fb759fb0f062b3b659eacae6d5cc43421fbe",
     "config/rotation_policy.json": "39f2ac5aaed4d086c660dd8ab0e8c10900dd64e871c7112e201b197dfd27d1e8",
     "config/prospective_protocol.json": "ed69f932bcaca46e5d9c842bde1ba25c76ecffef03246302512a1d3cb5e3a630"
@@ -931,8 +931,8 @@
             "PTS_shared": 0.9276881440692634,
             "REB_shared": 0.21092509614245972,
             "AST_shared": 0.19176117032842255,
-            "STL_shared": 0.04923298300868601,
-            "BLK_shared": 0.02165130257290305,
+            "STL_shared": 0.04923298300868602,
+            "BLK_shared": 0.021651302572903052,
             "TOV_shared": 0.1038786941272012,
             "FG3M_shared": 0.10241990184318073,
             "FGM": 8.879755958281574,
@@ -982,8 +982,8 @@
             "PTS_shared": 0.23506145027221761,
             "REB_shared": 0.1143876973181364,
             "AST_shared": 0.05710694885667103,
-            "STL_shared": 0.03335554587957755,
-            "BLK_shared": 0.012740136493206088,
+            "STL_shared": 0.03335554587957756,
+            "BLK_shared": 0.01274013649320609,
             "TOV_shared": 0.032329599591782866,
             "FG3M_shared": 0.027844623480131905,
             "FGM": 3.5333672355593864,
@@ -1014,7 +1014,7 @@
           "mean": {
             "PTS": 5.196543417385436,
             "REB": 7.057156998635544,
-            "AST": 0.8778137250306477,
+            "AST": 0.8778137250306476,
             "STL": 0.7582084731125958,
             "BLK": 1.0584851099802721,
             "TOV": 0.6886071158643134,
@@ -1035,7 +1035,7 @@
             "BLK": 1.2396952503086056,
             "TOV": 0.783544670759999,
             "FG3M": 0.040224006400581026,
-            "PTS_shared": 0.2464513548185741,
+            "PTS_shared": 0.24645135481857414,
             "REB_shared": 0.32300613993341587,
             "AST_shared": 0.04163120836984941,
             "STL_shared": 0.03389052189722483,
@@ -1089,8 +1089,8 @@
             "PTS_shared": 1.0258330189267042,
             "REB_shared": 0.36361181848404894,
             "AST_shared": 0.16110038964130016,
-            "STL_shared": 0.04860343245686859,
-            "BLK_shared": 0.02155111820130296,
+            "STL_shared": 0.048603432456868594,
+            "BLK_shared": 0.021551118201302965,
             "TOV_shared": 0.08328286566767922,
             "FG3M_shared": 0.13581618118718305,
             "FGM": 9.526501361676562,
@@ -1114,9 +1114,9 @@
           "injury_status": "HEALTHY",
           "p": 0.9051333871555298,
           "mean": {
-            "PTS": 7.996364740481455,
+            "PTS": 7.9963647404814555,
             "REB": 3.2296052593723585,
-            "AST": 1.2109148837039432,
+            "AST": 1.2109148837039434,
             "STL": 0.44571200414236073,
             "BLK": 0.22958670702827577,
             "TOV": 0.3974684526358278,
@@ -1132,14 +1132,14 @@
           "var": {
             "PTS": 21.730793660113555,
             "REB": 4.242064476449865,
-            "AST": 1.4012579386709434,
+            "AST": 1.4012579386709436,
             "STL": 0.479105496995415,
             "BLK": 0.2475008827110247,
             "TOV": 0.4344737982678567,
             "FG3M": 2.787337289903692,
-            "PTS_shared": 0.31547775395507943,
+            "PTS_shared": 0.31547775395507954,
             "REB_shared": 0.12295271759755083,
-            "AST_shared": 0.0477737972366047,
+            "AST_shared": 0.04777379723660473,
             "STL_shared": 0.016569802924099524,
             "BLK_shared": 0.008535122352765795,
             "TOV_shared": 0.015495887869840073,
@@ -1165,12 +1165,397 @@
   },
   "forecast_changes": {
     "since_previous": {
-      "status": "unverified_score"
+      "status": "explained",
+      "previous_at": "2026-11-01T09:57:07.034593+00:00",
+      "method": "Sequential: resolve old planned games at expected scores, replace with actual scores, then update remaining outlook. Order-dependent arithmetic attribution, not causal identification.",
+      "player_note": "Player examples use planned lineup NBA boxscores; actual Yahoo daily starting slots may differ.",
+      "categories": [
+        {
+          "category": "PTS",
+          "before": 0.9999999450344559,
+          "after": 0.9999999450344559,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Sam Hauser",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.96888706722109,
+              "new_minutes": 20.96888706722109,
+              "expected_stat_change": 8.881784197001252e-16
+            },
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.72258797680719,
+              "new_minutes": 20.72258797680719,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "REB",
+          "before": 0.9999285283389431,
+          "after": 0.9999285283389431,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.72258797680719,
+              "new_minutes": 20.72258797680719,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.848055358586247,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "AST",
+          "before": 1.0,
+          "after": 1.0,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "opponent",
+              "name": "Sam Hauser",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.96888706722109,
+              "new_minutes": 20.96888706722109,
+              "expected_stat_change": 2.220446049250313e-16
+            },
+            {
+              "side": "opponent",
+              "name": "Mitchell Robinson",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "QUESTIONABLE",
+              "new_status": "QUESTIONABLE",
+              "old_minutes": 17.833582809234372,
+              "new_minutes": 17.833582809234372,
+              "expected_stat_change": -5.551115123125783e-17
+            },
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "STL",
+          "before": 1.0,
+          "after": 1.0,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.72258797680719,
+              "new_minutes": 20.72258797680719,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.848055358586247,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "BLK",
+          "before": 1.4458251144236904e-07,
+          "after": 1.4458251144236904e-07,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.72258797680719,
+              "new_minutes": 20.72258797680719,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.848055358586247,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "TOV",
+          "before": 3.964013439727534e-25,
+          "after": 3.964013439727534e-25,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.72258797680719,
+              "new_minutes": 20.72258797680719,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.848055358586247,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "FG3M",
+          "before": 0.9999999999978422,
+          "after": 0.9999999999978422,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0,
+          "remaining_player_changes": [
+            {
+              "side": "mine",
+              "name": "Jake LaRavia",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 19.74542276968784,
+              "new_minutes": 19.74542276968784,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Neemias Queta",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 20.72258797680719,
+              "new_minutes": 20.72258797680719,
+              "expected_stat_change": 0.0
+            },
+            {
+              "side": "mine",
+              "name": "Desmond Bane",
+              "old_active_games": 1,
+              "new_active_games": 1,
+              "old_status": "HEALTHY",
+              "new_status": "HEALTHY",
+              "old_minutes": 31.848055358586247,
+              "new_minutes": 31.848055358586247,
+              "expected_stat_change": 0.0
+            }
+          ],
+          "score_added": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "score_expected": {
+            "mine": 0.0,
+            "opponent": 0.0
+          },
+          "planned_player_surprises": []
+        },
+        {
+          "category": "FG_PCT",
+          "before": 0.9999999998657491,
+          "after": 0.9999999998657491,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0
+        },
+        {
+          "category": "FT_PCT",
+          "before": 0.9999999999995279,
+          "after": 0.9999999999995279,
+          "games_resolved_pp": 0.0,
+          "score_surprise_pp": 0.0,
+          "remaining_outlook_pp": 0.0
+        }
+      ]
     },
     "since_first_record": {
       "status": "unverified_score"
     },
     "first_record_at": "2026-10-27T23:42:28.400397+00:00"
   },
-  "prospective_forecast_id": "20261101T095707034593Z"
+  "prospective_forecast_id": "20261101T134043556824Z"
 }
