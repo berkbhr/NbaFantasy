@@ -1,6 +1,6 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-11-01T13:40:43.556824+00:00
+Generated: 2026-11-01T18:02:24.492222+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-11-01 – 2026-11-01
 
@@ -34,13 +34,13 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 552 / 480 | 30.47 / 18.22 | 15.77 |
-| REB | 222 / 195 | 12.80 / 9.62 | 7.80 |
-| AST | 116 / 80 | 6.17 / 2.85 | 3.77 |
-| STL | 51 / 29 | 2.39 / 1.21 | 2.12 |
-| BLK | 27 / 37 | 1.79 / 0.94 | 1.88 |
-| TOV | 65 / 41 | 3.58 / 1.40 | 2.59 |
-| FG3M | 71 / 49 | 2.74 / 3.11 | 3.05 |
+| PTS | 552 / 480 | 30.87 / 15.91 | 15.45 |
+| REB | 222 / 195 | 13.12 / 6.11 | 6.58 |
+| AST | 116 / 80 | 6.24 / 2.46 | 3.70 |
+| STL | 51 / 29 | 2.41 / 0.84 | 1.99 |
+| BLK | 27 / 37 | 1.85 / 0.40 | 1.65 |
+| TOV | 65 / 41 | 3.63 / 1.06 | 2.51 |
+| FG3M | 71 / 49 | 2.74 / 3.19 | 3.08 |
 
 ## Alternative add/drop recommendations
 
@@ -50,10 +50,10 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 | Goga Bitadze | Jaxson Hayes | FA | +0.000 | +0.000 |
 | Al Horford | Jaxson Hayes | FA | +0.000 | +0.000 |
 | Charles Bassey | Jaxson Hayes | FA | +0.000 | +0.000 |
-| Noah Clowney | Jaxson Hayes | FA | +0.000 | +0.000 |
+| Keon Ellis | Jaxson Hayes | FA | +0.000 | +0.000 |
 | Allen Graves | Jaxson Hayes | FA | +0.000 | +0.000 |
-| Gui Santos | Jaxson Hayes | FA | +0.000 | +0.000 |
-| Danny Wolf | Jaxson Hayes | FA | +0.000 | +0.000 |
+| Jalen Slawson | Jaxson Hayes | FA | +0.000 | +0.000 |
+| Noah Clowney | Jaxson Hayes | FA | +0.000 | +0.000 |
 
 ## Forecast active lineups
 
