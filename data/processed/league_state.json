@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-01T02:14:45.733546+00:00",
+  "updated_at": "2026-11-01T09:56:43.632194+00:00",
   "league_id": "64691",
   "league_key": "nba.l.64691",
   "live_synced": true,
@@ -10,14 +10,14 @@
       "Jared McCain",
       "Norman Powell",
       "Derrick Jones Jr.",
-      "Cameron Boozer",
+      "Josh Minott",
       "Caleb Wilson",
       "Sandro Mamukelashvili",
       "Evan Mobley",
       "Naji Marshall",
       "Jeremiah Fears",
+      "Cameron Boozer",
       "Jalen Brunson",
-      "Josh Minott",
       "Nikola Joki\u0107",
       "Kon Knueppel",
       "Reed Sheppard"
@@ -26,37 +26,37 @@
       "Ty Jerome",
       "Trey Murphy III",
       "Aaron Wiggins",
-      "Peyton Watson",
+      "Sam Hauser",
       "OG Anunoby",
       "John Collins",
+      "Mitchell Robinson",
       "Victor Wembanyama",
-      "Robert Williams III",
       "Obi Toppin",
       "Damian Lillard",
-      "Sam Hauser",
-      "Mitchell Robinson",
+      "Peyton Watson",
       "Jalen Smith",
-      "Chet Holmgren",
-      "Tobias Harris"
+      "Robert Williams III",
+      "Tobias Harris",
+      "Chet Holmgren"
     ],
     "2": [
       "Darius Garland",
-      "Bennedict Mathurin",
-      "Trae Young",
-      "Jerami Grant",
+      "Immanuel Quickley",
+      "Luka Don\u010di\u0107",
+      "Jalen Green",
       "Jonathan Kuminga",
       "De'Andre Hunter",
       "Alex Sarr",
       "Joan Beringer",
       "Toumani Camara",
+      "Jerami Grant",
+      "Trae Young",
+      "Bennedict Mathurin",
       "Lauri Markkanen",
-      "Immanuel Quickley",
-      "Jalen Green",
-      "Luka Don\u010di\u0107",
       "Ivica Zubac"
     ],
     "3": [
-      "Shai Gilgeous-Alexander",
+      "Stephen Curry",
       "Meleek Thomas",
       "Jrue Holiday",
       "DeMar DeRozan",
@@ -66,24 +66,24 @@
       "Aday Mara",
       "Andrew Wiggins",
       "Tim Hardaway Jr.",
+      "Shai Gilgeous-Alexander",
       "Tre Jones",
-      "Stephen Curry",
       "Keegan Murray",
       "Nic Claxton"
     ],
     "4": [
-      "Nickeil Alexander-Walker",
+      "Cade Cunningham",
       "Darryn Peterson",
+      "Devin Booker",
       "Cedric Coward",
       "Ace Bailey",
       "Naz Reid",
-      "Miles Bridges",
       "Paul Reed",
       "Walker Kessler",
-      "Cade Cunningham",
       "Michael Porter Jr.",
-      "Devin Booker",
+      "Nickeil Alexander-Walker",
       "Cameron Johnson",
+      "Miles Bridges",
       "Alex Caruso"
     ],
     "5": [
@@ -103,85 +103,85 @@
       "Joel Embiid"
     ],
     "6": [
-      "Amen Thompson",
+      "Andrew Nembhard",
       "Terrence Shannon Jr",
       "Tyler Herro",
-      "Pelle Larsson",
+      "Jayson Tatum",
       "Domantas Sabonis",
       "LeBron James",
       "Donovan Clingan",
       "Day'Ron Sharpe",
       "Brandin Podziemski",
       "Grayson Allen",
-      "Andrew Nembhard",
+      "Amen Thompson",
+      "Pelle Larsson",
       "Ausar Thompson",
-      "Jayson Tatum",
       "Mark Williams"
     ],
     "7": [
       "Tyrese Maxey",
-      "Ayo Dosunmu",
+      "Desmond Bane",
       "James Harden",
       "Jake LaRavia",
       "Precious Achiuwa",
       "Jabari Smith Jr.",
-      "Jaxson Hayes",
       "Jarrett Allen",
+      "Neemias Queta",
       "Julian Champagnie",
       "Dean Wade",
-      "Desmond Bane",
+      "Ayo Dosunmu",
+      "Jaxson Hayes",
       "Josh Hart",
-      "Neemias Queta",
       "Kawhi Leonard",
       "Brandon Ingram"
     ],
     "8": [
-      "Keyonte George",
       "Stephon Castle",
+      "Quentin Grimes",
       "Ja Morant",
       "Kyle Kuzma",
-      "Trevon Brazile",
+      "RJ Barrett",
       "Bobby Portis Jr.",
       "Aaron Gordon",
       "Deandre Ayton",
       "Paul George",
-      "Jalen Duren",
-      "Quentin Grimes",
-      "RJ Barrett",
+      "Keyonte George",
+      "Trevon Brazile",
       "Dillon Brooks",
+      "Jalen Duren",
       "Paolo Banchero",
       "Anthony Edwards"
     ],
     "9": [
       "Nolan Traore",
       "Devin Vassell",
-      "Austin Reaves",
       "Duncan Robinson",
-      "Zion Williamson",
+      "Austin Reaves",
+      "Draymond Green",
       "Pascal Siakam",
       "Rudy Gobert",
       "Onyeka Okongwu",
       "Wendell Carter Jr.",
       "Keaton Wagler",
+      "Zion Williamson",
       "Mikal Bridges",
-      "Draymond Green",
-      "Fred VanVleet",
-      "Tyrese Haliburton"
+      "Tyrese Haliburton",
+      "Fred VanVleet"
     ],
     "10": [
       "Daniss Jenkins",
       "Cooper Flagg",
       "Dejounte Murray",
       "Jaden McDaniels",
-      "Deni Avdija",
-      "Saddiq Bey",
+      "Kelly Oubre Jr.",
+      "Yaxel Lendeborg",
+      "Karl-Anthony Towns",
       "Mo Bamba",
       "Myles Turner",
-      "Karl-Anthony Towns",
-      "Kelly Oubre Jr.",
+      "Deni Avdija",
+      "Saddiq Bey",
       "Bam Adebayo",
       "Zaccharie Risacher",
-      "Yaxel Lendeborg",
       "Jusuf Nurki\u0107",
       "Coby White"
     ],
@@ -189,22 +189,22 @@
       "Dylan Harper",
       "Kevin Durant",
       "Darius Acuff Jr.",
-      "Zach LaVine",
+      "Rui Hachimura",
       "Anthony Davis",
       "Jaylen Wells",
       "Isaiah Jackson",
       "Zach Edey",
       "Jalen Johnson",
       "Ryan Rollins",
+      "Zach LaVine",
       "Kyrie Irving",
-      "Rui Hachimura",
       "Khaman Maluach",
       "Yves Missi"
     ],
     "12": [
-      "Donovan Mitchell",
-      "Sam Merrill",
-      "VJ Edgecombe",
+      "Kris Dunn",
+      "Ja'Kobe Walter",
+      "Derrick White",
       "Kyshawn George",
       "Scottie Barnes",
       "Julius Randle",
@@ -212,9 +212,9 @@
       "P.J. Washington",
       "Collin Gillespie",
       "Payton Pritchard",
-      "Ja'Kobe Walter",
-      "Kris Dunn",
-      "Derrick White",
+      "Donovan Mitchell",
+      "VJ Edgecombe",
+      "Anfernee Simons",
       "Jimmy Butler III",
       "Jaren Jackson Jr."
     ],
@@ -223,32 +223,32 @@
       "Cam Spencer",
       "Tari Eason",
       "Brandon Miller",
-      "Alperen Sengun",
+      "Collin Murray-Boyles",
       "Jaime Jaquez Jr.",
       "Moussa Diabat\u00e9",
       "Kel'el Ware",
       "Jamal Murray",
       "Christian Braun",
+      "Alperen Sengun",
       "Matas Buzelis",
-      "Collin Murray-Boyles",
       "Davion Mitchell",
       "Jalen Suggs"
     ]
   },
   "berk_roster_names": [
     "Tyrese Maxey",
-    "Ayo Dosunmu",
+    "Desmond Bane",
     "James Harden",
     "Jake LaRavia",
     "Precious Achiuwa",
     "Jabari Smith Jr.",
-    "Jaxson Hayes",
     "Jarrett Allen",
+    "Neemias Queta",
     "Julian Champagnie",
     "Dean Wade",
-    "Desmond Bane",
+    "Ayo Dosunmu",
+    "Jaxson Hayes",
     "Josh Hart",
-    "Neemias Queta",
     "Kawhi Leonard",
     "Brandon Ingram"
   ],
@@ -258,8 +258,8 @@
       "Reed Sheppard"
     ],
     "1": [
-      "Chet Holmgren",
-      "Tobias Harris"
+      "Tobias Harris",
+      "Chet Holmgren"
     ],
     "2": [
       "Ivica Zubac"
@@ -286,8 +286,8 @@
       "Anthony Edwards"
     ],
     "9": [
-      "Fred VanVleet",
-      "Tyrese Haliburton"
+      "Tyrese Haliburton",
+      "Fred VanVleet"
     ],
     "10": [
       "Jusuf Nurki\u0107",
@@ -305,10 +305,28 @@
     ]
   },
   "unslotted_injured": {
-    "0": [],
-    "1": [],
+    "0": [
+      {
+        "name": "Scotty Pippen Jr.",
+        "status": "O",
+        "slot": "PG"
+      }
+    ],
+    "1": [
+      {
+        "name": "Ty Jerome",
+        "status": "O",
+        "slot": "PG"
+      }
+    ],
     "2": [],
-    "3": [],
+    "3": [
+      {
+        "name": "Stephen Curry",
+        "status": "O",
+        "slot": "PG"
+      }
+    ],
     "4": [],
     "5": [],
     "6": [
@@ -328,11 +346,28 @@
       {
         "name": "Jalen Duren",
         "status": "O",
-        "slot": "UTIL"
+        "slot": "BN"
       }
     ],
-    "9": [],
-    "10": [],
+    "9": [
+      {
+        "name": "Draymond Green",
+        "status": "O",
+        "slot": "PF"
+      },
+      {
+        "name": "Rudy Gobert",
+        "status": "O",
+        "slot": "C"
+      }
+    ],
+    "10": [
+      {
+        "name": "Dejounte Murray",
+        "status": "O",
+        "slot": "G"
+      }
+    ],
     "11": [],
     "12": [],
     "13": []
@@ -357,7 +392,33 @@
     {
       "transaction_id": "dom_0",
       "type": "add/drop",
-      "timestamp": 1793470793,
+      "timestamp": 1793526966,
+      "date_text": "\ue035",
+      "added": [
+        {
+          "player_name": "Anfernee Simons",
+          "team_name": "SILE BULLS"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_1",
+      "type": "add/drop",
+      "timestamp": 1793526965,
+      "date_text": "\ue033",
+      "added": [
+        {
+          "player_name": "Sam Merrill",
+          "team_name": "SILE BULLS"
+        }
+      ],
+      "dropped": []
+    },
+    {
+      "transaction_id": "dom_2",
+      "type": "add/drop",
+      "timestamp": 1793526964,
       "date_text": "\ue033",
       "added": [
         {
@@ -368,9 +429,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_1",
+      "transaction_id": "dom_3",
       "type": "add/drop",
-      "timestamp": 1793470792,
+      "timestamp": 1793526963,
       "date_text": "\ue035",
       "added": [
         {
@@ -381,9 +442,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_2",
+      "transaction_id": "dom_4",
       "type": "add/drop",
-      "timestamp": 1793470791,
+      "timestamp": 1793526962,
       "date_text": "\ue033",
       "added": [
         {
@@ -394,9 +455,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_3",
+      "transaction_id": "dom_5",
       "type": "add/drop",
-      "timestamp": 1793470790,
+      "timestamp": 1793526961,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -412,9 +473,9 @@
       ]
     },
     {
-      "transaction_id": "dom_4",
+      "transaction_id": "dom_6",
       "type": "add/drop",
-      "timestamp": 1793470789,
+      "timestamp": 1793526960,
       "date_text": "\ue033",
       "added": [
         {
@@ -425,9 +486,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_5",
+      "transaction_id": "dom_7",
       "type": "add/drop",
-      "timestamp": 1793470788,
+      "timestamp": 1793526959,
       "date_text": "\ue035",
       "added": [
         {
@@ -438,9 +499,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_6",
+      "transaction_id": "dom_8",
       "type": "add/drop",
-      "timestamp": 1793470787,
+      "timestamp": 1793526958,
       "date_text": "\ue033",
       "added": [
         {
@@ -451,9 +512,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_7",
+      "transaction_id": "dom_9",
       "type": "add/drop",
-      "timestamp": 1793470786,
+      "timestamp": 1793526957,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -469,9 +530,9 @@
       ]
     },
     {
-      "transaction_id": "dom_8",
+      "transaction_id": "dom_10",
       "type": "add/drop",
-      "timestamp": 1793470785,
+      "timestamp": 1793526956,
       "date_text": "\ue035",
       "added": [
         {
@@ -482,9 +543,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_9",
+      "transaction_id": "dom_11",
       "type": "add/drop",
-      "timestamp": 1793470784,
+      "timestamp": 1793526955,
       "date_text": "\ue035",
       "added": [
         {
@@ -495,9 +556,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_10",
+      "transaction_id": "dom_12",
       "type": "add/drop",
-      "timestamp": 1793470783,
+      "timestamp": 1793526954,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -513,9 +574,9 @@
       ]
     },
     {
-      "transaction_id": "dom_11",
+      "transaction_id": "dom_13",
       "type": "add/drop",
-      "timestamp": 1793470782,
+      "timestamp": 1793526953,
       "date_text": "\ue035\ue033",
       "added": [
         {
@@ -531,9 +592,9 @@
       ]
     },
     {
-      "transaction_id": "dom_12",
+      "transaction_id": "dom_14",
       "type": "add/drop",
-      "timestamp": 1793470781,
+      "timestamp": 1793526952,
       "date_text": "\ue035",
       "added": [
         {
@@ -544,9 +605,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_13",
+      "transaction_id": "dom_15",
       "type": "add/drop",
-      "timestamp": 1793470780,
+      "timestamp": 1793526951,
       "date_text": "\ue033",
       "added": [
         {
@@ -557,9 +618,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_14",
+      "transaction_id": "dom_16",
       "type": "add/drop",
-      "timestamp": 1793470779,
+      "timestamp": 1793526950,
       "date_text": "\ue033",
       "added": [
         {
@@ -570,9 +631,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_15",
+      "transaction_id": "dom_17",
       "type": "add/drop",
-      "timestamp": 1793470778,
+      "timestamp": 1793526949,
       "date_text": "\ue035",
       "added": [
         {
@@ -583,9 +644,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_16",
+      "transaction_id": "dom_18",
       "type": "add/drop",
-      "timestamp": 1793470777,
+      "timestamp": 1793526948,
       "date_text": "\ue035",
       "added": [
         {
@@ -596,9 +657,9 @@
       "dropped": []
     },
     {
-      "transaction_id": "dom_17",
+      "transaction_id": "dom_19",
       "type": "add/drop",
-      "timestamp": 1793470776,
+      "timestamp": 1793526947,
       "date_text": "\ue033",
       "added": [
         {
@@ -607,42 +668,6 @@
         }
       ],
       "dropped": []
-    },
-    {
-      "transaction_id": "dom_18",
-      "type": "add/drop",
-      "timestamp": 1793470775,
-      "date_text": "\ue035\ue033",
-      "added": [
-        {
-          "player_name": "Kingston Flemings",
-          "team_name": "Redeem Team"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Quenton Jackson",
-          "team_name": "Redeem Team"
-        }
-      ]
-    },
-    {
-      "transaction_id": "dom_19",
-      "type": "add/drop",
-      "timestamp": 1793470774,
-      "date_text": "\ue035\ue033",
-      "added": [
-        {
-          "player_name": "Dean Wade",
-          "team_name": "Berk's Best Team"
-        }
-      ],
-      "dropped": [
-        {
-          "player_name": "Bilal Coulibaly",
-          "team_name": "Berk's Best Team"
-        }
-      ]
     }
   ],
   "dropped_free_agents": [
@@ -661,7 +686,6 @@
   "added_streamers": [
     "Aday Mara",
     "Naji Marshall",
-    "Sam Merrill",
     "Dean Wade",
     "Kris Dunn",
     "Jusuf Nurki\u0107",
@@ -674,6 +698,7 @@
     "Mo Bamba",
     "Cam Spencer",
     "Terrence Shannon Jr",
+    "Anfernee Simons",
     "Nolan Traore",
     "Trevon Brazile",
     "Joan Beringer",
@@ -775,21 +800,33 @@
     "Matisse Thybulle": {
       "date": "2026-11-02",
       "display": "Nov 2"
+    },
+    "Dennis Schr\u00f6der": {
+      "date": "2026-11-02",
+      "display": "Nov 2"
+    },
+    "Herbert Jones": {
+      "date": "2026-11-02",
+      "display": "Nov 2"
+    },
+    "Kasparas Jaku\u010dionis": {
+      "date": "2026-11-03",
+      "display": "Nov 3"
+    },
+    "Sam Merrill": {
+      "date": "2026-11-04",
+      "display": "Nov 4"
     }
   },
   "availability_snapshot": {
     "source": "yahoo_available_players",
-    "updated_at": "2026-10-31T18:19:57.931455+00:00",
+    "updated_at": "2026-11-01T09:56:10.929238+00:00",
     "players": [
       {
         "name": "Jakob Poeltl",
-        "status": "W",
+        "status": "FA",
         "yahoo_player_id": "5640",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-02",
-          "display": "Nov 2"
-        }
+        "status_evidence": "add_button"
       },
       {
         "name": "Gui Santos",
@@ -799,9 +836,13 @@
       },
       {
         "name": "Dennis Schr\u00f6der",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "5187",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "Egor D\u00ebmin",
@@ -813,17 +854,13 @@
         "name": "Kevin Porter Jr.",
         "status": "FA",
         "yahoo_player_id": "6218",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Tristan da Silva",
-        "status": "W",
+        "status": "FA",
         "yahoo_player_id": "10275",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-03",
-          "display": "Nov 3"
-        }
+        "status_evidence": "add_button"
       },
       {
         "name": "Isaiah Collier",
@@ -833,15 +870,19 @@
       },
       {
         "name": "Herbert Jones",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "6577",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "Maxime Raynaud",
         "status": "FA",
         "yahoo_player_id": "10496",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Hugo Gonz\u00e1lez",
@@ -883,17 +924,13 @@
         "name": "Kristaps Porzi\u0146\u0123is",
         "status": "FA",
         "yahoo_player_id": "5464",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Mikel Brown Jr.",
-        "status": "W",
+        "status": "FA",
         "yahoo_player_id": "10588",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-03",
-          "display": "Nov 3"
-        }
+        "status_evidence": "add_button"
       },
       {
         "name": "Scoot Henderson",
@@ -905,12 +942,6 @@
         "name": "Kyle Filipowski",
         "status": "FA",
         "yahoo_player_id": "10315",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Anfernee Simons",
-        "status": "FA",
-        "yahoo_player_id": "6035",
         "status_evidence": "add_button"
       },
       {
@@ -941,7 +972,7 @@
         "name": "Dylan Cardwell",
         "status": "FA",
         "yahoo_player_id": "10510",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Miles McBride",
@@ -1017,15 +1048,19 @@
       },
       {
         "name": "Jaylon Tyson",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "10279",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "Max Strus",
         "status": "FA",
         "yahoo_player_id": "6267",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Jaylin Williams",
@@ -1043,7 +1078,7 @@
         "name": "T.J. McConnell",
         "status": "FA",
         "yahoo_player_id": "5582",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Jarace Walker",
@@ -1101,13 +1136,9 @@
       },
       {
         "name": "Andre Drummond",
-        "status": "W",
+        "status": "FA",
         "yahoo_player_id": "5015",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-01",
-          "display": "Nov 1"
-        }
+        "status_evidence": "add_button"
       },
       {
         "name": "Leonard Miller",
@@ -1117,9 +1148,13 @@
       },
       {
         "name": "Kasparas Jaku\u010dionis",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "10452",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-03",
+          "display": "Nov 3"
+        }
       },
       {
         "name": "Ziaire Williams",
@@ -1153,9 +1188,13 @@
       },
       {
         "name": "Kingston Flemings",
-        "status": "FA",
+        "status": "W",
         "yahoo_player_id": "10574",
-        "status_evidence": "add_button"
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-02",
+          "display": "Nov 2"
+        }
       },
       {
         "name": "De'Anthony Melton",
@@ -1188,16 +1227,16 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Donte DiVincenzo",
-        "status": "FA",
-        "yahoo_player_id": "6028",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Cason Wallace",
         "status": "FA",
         "yahoo_player_id": "10107",
         "status_evidence": "add_button"
+      },
+      {
+        "name": "Donte DiVincenzo",
+        "status": "FA",
+        "yahoo_player_id": "6028",
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Max Christie",
@@ -1257,13 +1296,23 @@
         "name": "Moses Moody",
         "status": "FA",
         "yahoo_player_id": "6556",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Goga Bitadze",
         "status": "FA",
         "yahoo_player_id": "6206",
         "status_evidence": "add_button"
+      },
+      {
+        "name": "Sam Merrill",
+        "status": "W",
+        "yahoo_player_id": "6452",
+        "status_evidence": "waiver_marker",
+        "waiver": {
+          "date": "2026-11-04",
+          "display": "Nov 4"
+        }
       },
       {
         "name": "Gary Payton II",
@@ -1275,7 +1324,7 @@
         "name": "Russell Westbrook",
         "status": "FA",
         "yahoo_player_id": "4390",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Ronald Holland II",
@@ -1305,7 +1354,7 @@
         "name": "Dominick Barlow",
         "status": "FA",
         "yahoo_player_id": "6791",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Santi Aldama",
@@ -1317,7 +1366,7 @@
         "name": "Shaedon Sharpe",
         "status": "FA",
         "yahoo_player_id": "6697",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "John Konchar",
@@ -1344,6 +1393,12 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Karlo Matkovi\u0107",
+        "status": "FA",
+        "yahoo_player_id": "6742",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "V\u00edt Krej\u010d\u00ed",
         "status": "FA",
         "yahoo_player_id": "6429",
@@ -1362,12 +1417,6 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Karlo Matkovi\u0107",
-        "status": "FA",
-        "yahoo_player_id": "6742",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Isaac Okoro",
         "status": "FA",
         "yahoo_player_id": "6397",
@@ -1380,15 +1429,15 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Quinten Post",
-        "status": "FA",
-        "yahoo_player_id": "10308",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Clint Capela",
         "status": "FA",
         "yahoo_player_id": "5336",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Quinten Post",
+        "status": "FA",
+        "yahoo_player_id": "10308",
         "status_evidence": "add_button"
       },
       {
@@ -1413,13 +1462,13 @@
         "name": "Nicolas Batum",
         "status": "FA",
         "yahoo_player_id": "4487",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Mouhamed Gueye",
         "status": "FA",
         "yahoo_player_id": "10069",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Terance Mann",
@@ -1440,15 +1489,15 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Buddy Hield",
-        "status": "FA",
-        "yahoo_player_id": "5637",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Sion James",
         "status": "FA",
         "yahoo_player_id": "10498",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Buddy Hield",
+        "status": "FA",
+        "yahoo_player_id": "5637",
         "status_evidence": "add_button"
       },
       {
@@ -1467,18 +1516,12 @@
         "name": "Caris LeVert",
         "status": "FA",
         "yahoo_player_id": "5651",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Ben Sheppard",
         "status": "FA",
         "yahoo_player_id": "10113",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Justin Edwards",
-        "status": "FA",
-        "yahoo_player_id": "10310",
         "status_evidence": "add_button"
       },
       {
@@ -1488,15 +1531,21 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Tyus Jones",
+        "name": "Justin Edwards",
         "status": "FA",
-        "yahoo_player_id": "5484",
+        "yahoo_player_id": "10310",
         "status_evidence": "add_button"
       },
       {
         "name": "Micah Potter",
         "status": "FA",
         "yahoo_player_id": "6655",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Tyus Jones",
+        "status": "FA",
+        "yahoo_player_id": "5484",
         "status_evidence": "add_button"
       },
       {
@@ -1515,18 +1564,12 @@
         "name": "Jordan Miller",
         "status": "FA",
         "yahoo_player_id": "10084",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Kyle Anderson",
         "status": "FA",
         "yahoo_player_id": "5341",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Corey Kispert",
-        "status": "FA",
-        "yahoo_player_id": "6557",
         "status_evidence": "add_button"
       },
       {
@@ -1536,15 +1579,27 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Walter Clayton Jr.",
+        "name": "Corey Kispert",
         "status": "FA",
-        "yahoo_player_id": "10461",
+        "yahoo_player_id": "6557",
         "status_evidence": "add_button"
       },
       {
         "name": "Olivier-Maxence Prosper",
         "status": "FA",
         "yahoo_player_id": "10116",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Walter Clayton Jr.",
+        "status": "FA",
+        "yahoo_player_id": "10461",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Svi Mykhailiuk",
+        "status": "FA",
+        "yahoo_player_id": "6058",
         "status_evidence": "add_button"
       },
       {
@@ -1560,12 +1615,6 @@
         "status_evidence": "row_fa_text"
       },
       {
-        "name": "Svi Mykhailiuk",
-        "status": "FA",
-        "yahoo_player_id": "6058",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Jordan Clarkson",
         "status": "FA",
         "yahoo_player_id": "5357",
@@ -1573,18 +1622,8 @@
       },
       {
         "name": "Matisse Thybulle",
-        "status": "W",
-        "yahoo_player_id": "6208",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-02",
-          "display": "Nov 2"
-        }
-      },
-      {
-        "name": "Jarred Vanderbilt",
         "status": "FA",
-        "yahoo_player_id": "6052",
+        "yahoo_player_id": "6208",
         "status_evidence": "add_button"
       },
       {
@@ -1594,9 +1633,9 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Cody Williams",
+        "name": "Jarred Vanderbilt",
         "status": "FA",
-        "yahoo_player_id": "10283",
+        "yahoo_player_id": "6052",
         "status_evidence": "add_button"
       },
       {
@@ -1606,20 +1645,28 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Ochai Agbaji",
+        "name": "Kenrich Williams",
         "status": "FA",
-        "yahoo_player_id": "6704",
+        "yahoo_player_id": "6076",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Cody Williams",
+        "status": "FA",
+        "yahoo_player_id": "10283",
         "status_evidence": "add_button"
       },
       {
         "name": "Quenton Jackson",
-        "status": "W",
+        "status": "FA",
         "yahoo_player_id": "6776",
-        "status_evidence": "waiver_marker",
-        "waiver": {
-          "date": "2026-11-01",
-          "display": "Nov 1"
-        }
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Ochai Agbaji",
+        "status": "FA",
+        "yahoo_player_id": "6704",
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Danny Wolf",
@@ -1643,13 +1690,7 @@
         "name": "Nae'Qwan Tomlin",
         "status": "FA",
         "yahoo_player_id": "10397",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Kenrich Williams",
-        "status": "FA",
-        "yahoo_player_id": "6076",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Pat Spencer",
@@ -1721,6 +1762,12 @@
         "name": "Rayan Rupert",
         "status": "FA",
         "yahoo_player_id": "10064",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Jabari Walker",
+        "status": "FA",
+        "yahoo_player_id": "6747",
         "status_evidence": "add_button"
       },
       {
@@ -1733,7 +1780,7 @@
         "name": "Lonzo Ball",
         "status": "FA",
         "yahoo_player_id": "5764",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Ousmane Dieng",
@@ -1742,9 +1789,9 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Jabari Walker",
+        "name": "Jaylen Clark",
         "status": "FA",
-        "yahoo_player_id": "6747",
+        "yahoo_player_id": "10086",
         "status_evidence": "add_button"
       },
       {
@@ -1760,16 +1807,10 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Jaylen Clark",
-        "status": "FA",
-        "yahoo_player_id": "10086",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Grant Williams",
         "status": "FA",
         "yahoo_player_id": "6210",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jaden Ivey",
@@ -1784,51 +1825,57 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Aaron Holiday",
+        "status": "FA",
+        "yahoo_player_id": "6034",
+        "status_evidence": "row_fa_text"
+      },
+      {
         "name": "Drake Powell",
         "status": "FA",
         "yahoo_player_id": "10457",
         "status_evidence": "add_button"
       },
       {
-        "name": "Aaron Holiday",
-        "status": "FA",
-        "yahoo_player_id": "6034",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Kevin Love",
         "status": "FA",
         "yahoo_player_id": "4391",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Jonathan Isaac",
         "status": "FA",
         "yahoo_player_id": "5768",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Gabe Vincent",
         "status": "FA",
         "yahoo_player_id": "6353",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Cameron Payne",
         "status": "FA",
         "yahoo_player_id": "5474",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Vince Williams Jr.",
         "status": "FA",
         "yahoo_player_id": "6737",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Tyrese Martin",
         "status": "FA",
         "yahoo_player_id": "6741",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Bryce McGowens",
+        "status": "FA",
+        "yahoo_player_id": "6730",
         "status_evidence": "add_button"
       },
       {
@@ -1838,9 +1885,9 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Bryce McGowens",
+        "name": "Tidjane Sala\u00fcn",
         "status": "FA",
-        "yahoo_player_id": "6730",
+        "yahoo_player_id": "10295",
         "status_evidence": "add_button"
       },
       {
@@ -1850,16 +1897,10 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Tidjane Sala\u00fcn",
-        "status": "FA",
-        "yahoo_player_id": "10295",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Jeremy Sochan",
         "status": "FA",
         "yahoo_player_id": "6699",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Zeke Nnaji",
@@ -1898,15 +1939,15 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Bogdan Bogdanovi\u0107",
-        "status": "FA",
-        "yahoo_player_id": "5338",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Jalen Wilson",
         "status": "FA",
         "yahoo_player_id": "10077",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Bogdan Bogdanovi\u0107",
+        "status": "FA",
+        "yahoo_player_id": "5338",
         "status_evidence": "add_button"
       },
       {
@@ -1928,6 +1969,12 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Carter Bryant",
+        "status": "FA",
+        "yahoo_player_id": "10466",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Jaden Hardy",
         "status": "FA",
         "yahoo_player_id": "6727",
@@ -1937,12 +1984,6 @@
         "name": "Dalen Terry",
         "status": "FA",
         "yahoo_player_id": "6708",
-        "status_evidence": "row_fa_text"
-      },
-      {
-        "name": "Carter Bryant",
-        "status": "FA",
-        "yahoo_player_id": "10466",
         "status_evidence": "add_button"
       },
       {
@@ -1961,7 +2002,7 @@
         "name": "Pete Nance",
         "status": "FA",
         "yahoo_player_id": "10168",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Caleb Love",
@@ -1979,7 +2020,7 @@
         "name": "Noah Penda",
         "status": "FA",
         "yahoo_player_id": "10479",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Jamaree Bouyea",
@@ -1997,7 +2038,7 @@
         "name": "Rob Dillingham",
         "status": "FA",
         "yahoo_player_id": "10281",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Kevon Looney",
@@ -2009,6 +2050,12 @@
         "name": "Trayce Jackson-Davis",
         "status": "FA",
         "yahoo_player_id": "10080",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Tyrese Proctor",
+        "status": "FA",
+        "yahoo_player_id": "10472",
         "status_evidence": "add_button"
       },
       {
@@ -2024,28 +2071,28 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Jonathan Mogbo",
+        "status": "FA",
+        "yahoo_player_id": "10330",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Julian Phillips",
         "status": "FA",
         "yahoo_player_id": "10083",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "D'Angelo Russell",
         "status": "FA",
         "yahoo_player_id": "5433",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Jordan Hawkins",
-        "status": "FA",
-        "yahoo_player_id": "10098",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Keaton Wallace",
         "status": "FA",
         "yahoo_player_id": "10053",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Drew Eubanks",
@@ -2054,9 +2101,15 @@
         "status_evidence": "row_fa_text"
       },
       {
-        "name": "Cam Thomas",
+        "name": "Jordan Hawkins",
         "status": "FA",
-        "yahoo_player_id": "6569",
+        "yahoo_player_id": "10098",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Jamal Cain",
+        "status": "FA",
+        "yahoo_player_id": "6801",
         "status_evidence": "add_button"
       },
       {
@@ -2066,22 +2119,16 @@
         "status_evidence": "row_fa_text"
       },
       {
-        "name": "Jamal Cain",
+        "name": "Cam Thomas",
         "status": "FA",
-        "yahoo_player_id": "6801",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Tyrese Proctor",
-        "status": "FA",
-        "yahoo_player_id": "10472",
-        "status_evidence": "add_button"
+        "yahoo_player_id": "6569",
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Devin Carter",
         "status": "FA",
         "yahoo_player_id": "10293",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Myron Gardner",
@@ -2096,15 +2143,15 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Jonathan Mogbo",
-        "status": "FA",
-        "yahoo_player_id": "10330",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "J. Robinson-Earl",
         "status": "FA",
         "yahoo_player_id": "6574",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Ariel Hukporti",
+        "status": "FA",
+        "yahoo_player_id": "10317",
         "status_evidence": "row_fa_text"
       },
       {
@@ -2114,21 +2161,21 @@
         "status_evidence": "add_button"
       },
       {
-        "name": "Ariel Hukporti",
-        "status": "FA",
-        "yahoo_player_id": "10317",
-        "status_evidence": "add_button"
-      },
-      {
         "name": "Kelly Olynyk",
         "status": "FA",
         "yahoo_player_id": "5164",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Chaney Johnson",
         "status": "FA",
         "yahoo_player_id": "10527",
+        "status_evidence": "add_button"
+      },
+      {
+        "name": "Asa Newell",
+        "status": "FA",
+        "yahoo_player_id": "10451",
         "status_evidence": "add_button"
       },
       {
@@ -2153,18 +2200,12 @@
         "name": "Y. Konan Niederh\u00e4user",
         "status": "FA",
         "yahoo_player_id": "10441",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Rasheer Fleming",
         "status": "FA",
         "yahoo_player_id": "10495",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Asa Newell",
-        "status": "FA",
-        "yahoo_player_id": "10451",
         "status_evidence": "add_button"
       },
       {
@@ -2177,7 +2218,7 @@
         "name": "Johnny Furphy",
         "status": "FA",
         "yahoo_player_id": "10305",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Georges Niang",
@@ -2207,19 +2248,19 @@
         "name": "Ethan Thompson",
         "status": "FA",
         "yahoo_player_id": "6637",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Bradley Beal",
         "status": "FA",
         "yahoo_player_id": "5009",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Mason Plumlee",
         "status": "FA",
         "yahoo_player_id": "5192",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Dereck Lively II",
@@ -2231,7 +2272,7 @@
         "name": "Christian Koloko",
         "status": "FA",
         "yahoo_player_id": "6723",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Elijah Harkless",
@@ -2243,7 +2284,7 @@
         "name": "Nick Smith Jr.",
         "status": "FA",
         "yahoo_player_id": "10120",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Charles Bassey",
@@ -2255,18 +2296,6 @@
         "name": "Duop Reath",
         "status": "FA",
         "yahoo_player_id": "10164",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Taelon Peter",
-        "status": "FA",
-        "yahoo_player_id": "10492",
-        "status_evidence": "add_button"
-      },
-      {
-        "name": "Leaky Black",
-        "status": "FA",
-        "yahoo_player_id": "10152",
         "status_evidence": "add_button"
       },
       {
@@ -2282,6 +2311,18 @@
         "status_evidence": "add_button"
       },
       {
+        "name": "Taelon Peter",
+        "status": "FA",
+        "yahoo_player_id": "10492",
+        "status_evidence": "row_fa_text"
+      },
+      {
+        "name": "Leaky Black",
+        "status": "FA",
+        "yahoo_player_id": "10152",
+        "status_evidence": "add_button"
+      },
+      {
         "name": "Jordan McLaughlin",
         "status": "FA",
         "yahoo_player_id": "6133",
@@ -2291,26 +2332,26 @@
         "name": "Malachi Smith",
         "status": "FA",
         "yahoo_player_id": "10252",
-        "status_evidence": "row_fa_text"
+        "status_evidence": "add_button"
       },
       {
         "name": "Killian Hayes",
         "status": "FA",
         "yahoo_player_id": "6399",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       },
       {
         "name": "Chris Boucher",
         "status": "FA",
         "yahoo_player_id": "5894",
-        "status_evidence": "add_button"
+        "status_evidence": "row_fa_text"
       }
     ],
     "scan_complete": false,
     "pages_scanned": 10,
     "page_limit": 10,
     "sort": "OR",
-    "sync_id": "bad0ea79b899a10a5b6556a1a0337dba6efb98269b94cd5433c2856d64195071"
+    "sync_id": "9f1cde3def214d9803020357d430846c9d84a4deaa5d69545f04fab52d435bcf"
   },
   "ownership_audit": {
     "source": "yahoo_available_players",
@@ -2334,92 +2375,186 @@
     "13": "0",
     "14": "7"
   },
-  "sync_id": "bad0ea79b899a10a5b6556a1a0337dba6efb98269b94cd5433c2856d64195071",
+  "sync_id": "9f1cde3def214d9803020357d430846c9d84a4deaa5d69545f04fab52d435bcf",
   "yahoo_roster_players": {
     "11": [
       {
         "name": "Dylan Harper",
         "yahoo_player_id": "10467",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.261Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Kevin Durant",
         "yahoo_player_id": "4244",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.261Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Darius Acuff Jr.",
         "yahoo_player_id": "10582",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
-        "name": "Zach LaVine",
-        "yahoo_player_id": "5324",
+        "name": "Rui Hachimura",
+        "yahoo_player_id": "6171",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Anthony Davis",
         "yahoo_player_id": "5007",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Jaylen Wells",
         "yahoo_player_id": "10340",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Isaiah Jackson",
         "yahoo_player_id": "6564",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Zach Edey",
         "yahoo_player_id": "10287",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Jalen Johnson",
         "yahoo_player_id": "6562",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "Q",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Ryan Rollins",
         "yahoo_player_id": "6734",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
+      },
+      {
+        "name": "Zach LaVine",
+        "yahoo_player_id": "5324",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.262Z",
+        "eligible_positions": [
+          "PG",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Kyrie Irving",
         "yahoo_player_id": "4840",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Rui Hachimura",
-        "yahoo_player_id": "6171",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.263Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Khaman Maluach",
         "yahoo_player_id": "10447",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.263Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Yves Missi",
         "yahoo_player_id": "10289",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.263Z",
+        "eligible_positions": [
+          "C"
+        ]
       }
     ],
     "1": [
@@ -2427,91 +2562,191 @@
         "name": "Ty Jerome",
         "yahoo_player_id": "6212",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Trey Murphy III",
         "yahoo_player_id": "6559",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Aaron Wiggins",
         "yahoo_player_id": "6597",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
-        "name": "Peyton Watson",
-        "yahoo_player_id": "6720",
+        "name": "Sam Hauser",
+        "yahoo_player_id": "6619",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "OG Anunoby",
         "yahoo_player_id": "5836",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "John Collins",
         "yahoo_player_id": "5832",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
+      },
+      {
+        "name": "Mitchell Robinson",
+        "yahoo_player_id": "6047",
+        "selected_position": "C",
+        "status": "Q",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Victor Wembanyama",
         "yahoo_player_id": "10094",
         "selected_position": "C",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Robert Williams III",
-        "yahoo_player_id": "6038",
-        "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Obi Toppin",
         "yahoo_player_id": "6400",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "Q",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Damian Lillard",
         "yahoo_player_id": "5012",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
-        "name": "Sam Hauser",
-        "yahoo_player_id": "6619",
+        "name": "Peyton Watson",
+        "yahoo_player_id": "6720",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Mitchell Robinson",
-        "yahoo_player_id": "6047",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Jalen Smith",
         "yahoo_player_id": "6402",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.288Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
-        "name": "Chet Holmgren",
-        "yahoo_player_id": "6692",
-        "selected_position": "IL",
-        "status": "O"
+        "name": "Robert Williams III",
+        "yahoo_player_id": "6038",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.289Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Tobias Harris",
         "yahoo_player_id": "4901",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.289Z",
+        "eligible_positions": [
+          "PF"
+        ]
+      },
+      {
+        "name": "Chet Holmgren",
+        "yahoo_player_id": "6692",
+        "selected_position": "IL",
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.289Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       }
     ],
     "5": [
@@ -2519,177 +2754,372 @@
         "name": "LaMelo Ball",
         "yahoo_player_id": "6395",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "CJ McCollum",
         "yahoo_player_id": "5161",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Dyson Daniels",
         "yahoo_player_id": "6698",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "AJ Dybantsa",
         "yahoo_player_id": "10599",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "SF"
+        ]
       },
       {
         "name": "Giannis Antetokounmpo",
         "yahoo_player_id": "5185",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Franz Wagner",
         "yahoo_player_id": "6550",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Adem Bona",
         "yahoo_player_id": "10335",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Aaron Nesmith",
         "yahoo_player_id": "6406",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "P",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Ajay Mitchell",
         "yahoo_player_id": "10304",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Daniel Gafford",
         "yahoo_player_id": "6226",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Josh Giddey",
         "yahoo_player_id": "6548",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.311Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Luke Kennard",
         "yahoo_player_id": "5825",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.312Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Anthony Black",
         "yahoo_player_id": "10095",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.312Z",
+        "eligible_positions": [
+          "PG",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Joel Embiid",
         "yahoo_player_id": "5294",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.312Z",
+        "eligible_positions": [
+          "C"
+        ]
       }
     ],
     "8": [
       {
-        "name": "Keyonte George",
-        "yahoo_player_id": "10100",
-        "selected_position": "PG",
-        "status": "HEALTHY"
-      },
-      {
         "name": "Stephon Castle",
         "yahoo_player_id": "10290",
+        "selected_position": "PG",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
+      },
+      {
+        "name": "Quentin Grimes",
+        "yahoo_player_id": "6567",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Ja Morant",
         "yahoo_player_id": "6164",
         "selected_position": "G",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Kyle Kuzma",
         "yahoo_player_id": "5840",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Trevon Brazile",
-        "yahoo_player_id": "10607",
+        "name": "RJ Barrett",
+        "yahoo_player_id": "6165",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Bobby Portis Jr.",
         "yahoo_player_id": "5482",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Aaron Gordon",
         "yahoo_player_id": "5295",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Deandre Ayton",
         "yahoo_player_id": "5958",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Paul George",
         "yahoo_player_id": "4725",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Jalen Duren",
-        "yahoo_player_id": "6703",
+        "name": "Keyonte George",
+        "yahoo_player_id": "10100",
         "selected_position": "UTIL",
-        "status": "O"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Quentin Grimes",
-        "yahoo_player_id": "6567",
+        "name": "Trevon Brazile",
+        "yahoo_player_id": "10607",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "RJ Barrett",
-        "yahoo_player_id": "6165",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PF"
+        ]
       },
       {
         "name": "Dillon Brooks",
         "yahoo_player_id": "5858",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
+      },
+      {
+        "name": "Jalen Duren",
+        "yahoo_player_id": "6703",
+        "selected_position": "BN",
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Paolo Banchero",
         "yahoo_player_id": "6691",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PF"
+        ]
       },
       {
         "name": "Anthony Edwards",
         "yahoo_player_id": "6355",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.330Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       }
     ],
     "10": [
@@ -2697,349 +3127,736 @@
         "name": "Daniss Jenkins",
         "yahoo_player_id": "10316",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Cooper Flagg",
         "yahoo_player_id": "10468",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Dejounte Murray",
         "yahoo_player_id": "5660",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Jaden McDaniels",
         "yahoo_player_id": "6420",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "SF"
+        ]
       },
       {
-        "name": "Deni Avdija",
-        "yahoo_player_id": "6401",
+        "name": "Kelly Oubre Jr.",
+        "yahoo_player_id": "5475",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Saddiq Bey",
-        "yahoo_player_id": "6411",
+        "name": "Yaxel Lendeborg",
+        "yahoo_player_id": "10571",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PF"
+        ]
+      },
+      {
+        "name": "Karl-Anthony Towns",
+        "yahoo_player_id": "5432",
+        "selected_position": "C",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Mo Bamba",
         "yahoo_player_id": "6017",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Myles Turner",
         "yahoo_player_id": "5471",
-        "selected_position": "C",
-        "status": "HEALTHY"
+        "selected_position": "UTIL",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
-        "name": "Karl-Anthony Towns",
-        "yahoo_player_id": "5432",
+        "name": "Deni Avdija",
+        "yahoo_player_id": "6401",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
-        "name": "Kelly Oubre Jr.",
-        "yahoo_player_id": "5475",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "name": "Saddiq Bey",
+        "yahoo_player_id": "6411",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Bam Adebayo",
         "yahoo_player_id": "5827",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Zaccharie Risacher",
         "yahoo_player_id": "10296",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Yaxel Lendeborg",
-        "yahoo_player_id": "10571",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.350Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Jusuf Nurki\u0107",
         "yahoo_player_id": "5327",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.351Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Coby White",
         "yahoo_player_id": "6169",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.351Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       }
     ],
     "3": [
       {
-        "name": "Shai Gilgeous-Alexander",
-        "yahoo_player_id": "6022",
+        "name": "Stephen Curry",
+        "yahoo_player_id": "4612",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Meleek Thomas",
         "yahoo_player_id": "10617",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "SG"
+        ]
       },
       {
         "name": "Jrue Holiday",
         "yahoo_player_id": "4622",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "DeMar DeRozan",
         "yahoo_player_id": "4614",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Derik Queen",
         "yahoo_player_id": "10444",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Jaylen Brown",
         "yahoo_player_id": "5602",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Brook Lopez",
         "yahoo_player_id": "4472",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Aday Mara",
         "yahoo_player_id": "10579",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Andrew Wiggins",
         "yahoo_player_id": "5292",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Tim Hardaway Jr.",
         "yahoo_player_id": "5194",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
+      },
+      {
+        "name": "Shai Gilgeous-Alexander",
+        "yahoo_player_id": "6022",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Tre Jones",
         "yahoo_player_id": "6433",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Stephen Curry",
-        "yahoo_player_id": "4612",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Keegan Murray",
         "yahoo_player_id": "6694",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Nic Claxton",
         "yahoo_player_id": "6219",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.369Z",
+        "eligible_positions": [
+          "C"
+        ]
       }
     ],
     "4": [
       {
-        "name": "N. Alexander-Walker",
-        "yahoo_player_id": "6205",
+        "name": "Cade Cunningham",
+        "yahoo_player_id": "6512",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Darryn Peterson",
         "yahoo_player_id": "10590",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "SG"
+        ]
+      },
+      {
+        "name": "Devin Booker",
+        "yahoo_player_id": "5473",
+        "selected_position": "G",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Cedric Coward",
         "yahoo_player_id": "10465",
-        "selected_position": "G",
-        "status": "HEALTHY"
+        "selected_position": "SF",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Ace Bailey",
         "yahoo_player_id": "10462",
-        "selected_position": "SF",
-        "status": "HEALTHY"
+        "selected_position": "PF",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Naz Reid",
         "yahoo_player_id": "6253",
-        "selected_position": "PF",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Miles Bridges",
-        "yahoo_player_id": "6023",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Paul Reed",
         "yahoo_player_id": "6450",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.390Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Walker Kessler",
         "yahoo_player_id": "6712",
         "selected_position": "C",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Cade Cunningham",
-        "yahoo_player_id": "6512",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.391Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Michael Porter Jr.",
         "yahoo_player_id": "6025",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.391Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Devin Booker",
-        "yahoo_player_id": "5473",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "name": "N. Alexander-Walker",
+        "yahoo_player_id": "6205",
+        "selected_position": "UTIL",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.391Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Cameron Johnson",
         "yahoo_player_id": "6173",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.391Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
+      },
+      {
+        "name": "Miles Bridges",
+        "yahoo_player_id": "6023",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.391Z",
+        "eligible_positions": [
+          "PF"
+        ]
       },
       {
         "name": "Alex Caruso",
         "yahoo_player_id": "5754",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.391Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       }
     ],
     "12": [
       {
-        "name": "Donovan Mitchell",
-        "yahoo_player_id": "5826",
+        "name": "Kris Dunn",
+        "yahoo_player_id": "5636",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.411Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Sam Merrill",
-        "yahoo_player_id": "6452",
+        "name": "Ja'Kobe Walter",
+        "yahoo_player_id": "10278",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.411Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "VJ Edgecombe",
-        "yahoo_player_id": "10454",
+        "name": "Derrick White",
+        "yahoo_player_id": "5842",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.411Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Kyshawn George",
         "yahoo_player_id": "10272",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.411Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Scottie Barnes",
         "yahoo_player_id": "6515",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "C",
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Julius Randle",
         "yahoo_player_id": "5318",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PF"
+        ]
       },
       {
         "name": "Isaiah Hartenstein",
         "yahoo_player_id": "5856",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "P.J. Washington",
         "yahoo_player_id": "6174",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Collin Gillespie",
         "yahoo_player_id": "6751",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Payton Pritchard",
         "yahoo_player_id": "6418",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
-        "name": "Ja'Kobe Walter",
-        "yahoo_player_id": "10278",
+        "name": "Donovan Mitchell",
+        "yahoo_player_id": "5826",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Kris Dunn",
-        "yahoo_player_id": "5636",
+        "name": "VJ Edgecombe",
+        "yahoo_player_id": "10454",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Derrick White",
-        "yahoo_player_id": "5842",
+        "name": "Anfernee Simons",
+        "yahoo_player_id": "6035",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Jimmy Butler III",
         "yahoo_player_id": "4912",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Jaren Jackson Jr.",
         "yahoo_player_id": "6015",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.412Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       }
     ],
     "9": [
@@ -3047,171 +3864,360 @@
         "name": "Nolan Traore",
         "yahoo_player_id": "10455",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Devin Vassell",
         "yahoo_player_id": "6403",
         "selected_position": "SG",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Austin Reaves",
-        "yahoo_player_id": "6606",
-        "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Duncan Robinson",
         "yahoo_player_id": "6073",
-        "selected_position": "SF",
-        "status": "HEALTHY"
+        "selected_position": "G",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
-        "name": "Zion Williamson",
-        "yahoo_player_id": "6163",
+        "name": "Austin Reaves",
+        "yahoo_player_id": "6606",
+        "selected_position": "SF",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "PG",
+          "SF",
+          "SG"
+        ]
+      },
+      {
+        "name": "Draymond Green",
+        "yahoo_player_id": "5069",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Pascal Siakam",
         "yahoo_player_id": "5658",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Rudy Gobert",
         "yahoo_player_id": "5197",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Onyeka Okongwu",
         "yahoo_player_id": "6398",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Wendell Carter Jr.",
         "yahoo_player_id": "6018",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Keaton Wagler",
         "yahoo_player_id": "10585",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "SG"
+        ]
+      },
+      {
+        "name": "Zion Williamson",
+        "yahoo_player_id": "6163",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Mikal Bridges",
         "yahoo_player_id": "6021",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Draymond Green",
-        "yahoo_player_id": "5069",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Fred VanVleet",
-        "yahoo_player_id": "5727",
-        "selected_position": "IL",
-        "status": "O"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Tyrese Haliburton",
         "yahoo_player_id": "6404",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
+      },
+      {
+        "name": "Fred VanVleet",
+        "yahoo_player_id": "5727",
+        "selected_position": "IL",
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.432Z",
+        "eligible_positions": [
+          "PG"
+        ]
       }
     ],
     "6": [
       {
-        "name": "Amen Thompson",
-        "yahoo_player_id": "10108",
+        "name": "Andrew Nembhard",
+        "yahoo_player_id": "6721",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Terrence Shannon Jr.",
         "yahoo_player_id": "10280",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Tyler Herro",
         "yahoo_player_id": "6175",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Pelle Larsson",
-        "yahoo_player_id": "10312",
+        "name": "Jayson Tatum",
+        "yahoo_player_id": "5765",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Domantas Sabonis",
         "yahoo_player_id": "5642",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "LeBron James",
         "yahoo_player_id": "3704",
         "selected_position": "F",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Donovan Clingan",
         "yahoo_player_id": "10285",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Day'Ron Sharpe",
         "yahoo_player_id": "6571",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Brandin Podziemski",
         "yahoo_player_id": "10115",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Grayson Allen",
         "yahoo_player_id": "6032",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
-        "name": "Andrew Nembhard",
-        "yahoo_player_id": "6721",
+        "name": "Amen Thompson",
+        "yahoo_player_id": "10108",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
+      },
+      {
+        "name": "Pelle Larsson",
+        "yahoo_player_id": "10312",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Ausar Thompson",
         "yahoo_player_id": "10096",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Jayson Tatum",
-        "yahoo_player_id": "5765",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Mark Williams",
         "yahoo_player_id": "6705",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.450Z",
+        "eligible_positions": [
+          "C"
+        ]
       }
     ],
     "13": [
@@ -3219,85 +4225,181 @@
         "name": "De'Aaron Fox",
         "yahoo_player_id": "5767",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Cam Spencer",
         "yahoo_player_id": "10327",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Tari Eason",
         "yahoo_player_id": "6707",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Brandon Miller",
         "yahoo_player_id": "10104",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Alperen \u015eeng\u00fcn",
-        "yahoo_player_id": "6558",
+        "name": "Collin Murray-Boyles",
+        "yahoo_player_id": "10443",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Jaime Jaquez Jr.",
         "yahoo_player_id": "10092",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Moussa Diabat\u00e9",
         "yahoo_player_id": "6733",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Kel'el Ware",
         "yahoo_player_id": "10274",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Jamal Murray",
         "yahoo_player_id": "5638",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Christian Braun",
         "yahoo_player_id": "6711",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
+      },
+      {
+        "name": "Alperen \u015eeng\u00fcn",
+        "yahoo_player_id": "6558",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Matas Buzelis",
         "yahoo_player_id": "10265",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Collin Murray-Boyles",
-        "yahoo_player_id": "10443",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Davion Mitchell",
         "yahoo_player_id": "6551",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Jalen Suggs",
         "yahoo_player_id": "6516",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.472Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       }
     ],
     "2": [
@@ -3305,85 +4407,179 @@
         "name": "Darius Garland",
         "yahoo_player_id": "6167",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
-        "name": "Bennedict Mathurin",
-        "yahoo_player_id": "6696",
+        "name": "Immanuel Quickley",
+        "yahoo_player_id": "6417",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Trae Young",
-        "yahoo_player_id": "6016",
+        "name": "Luka Don\u010di\u0107",
+        "yahoo_player_id": "6014",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
-        "name": "Jerami Grant",
-        "yahoo_player_id": "5350",
+        "name": "Jalen Green",
+        "yahoo_player_id": "6513",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Jonathan Kuminga",
         "yahoo_player_id": "6549",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "De'Andre Hunter",
         "yahoo_player_id": "6166",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Alex Sarr",
         "yahoo_player_id": "10294",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Joan Beringer",
         "yahoo_player_id": "10460",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Toumani Camara",
         "yahoo_player_id": "10065",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
+      },
+      {
+        "name": "Jerami Grant",
+        "yahoo_player_id": "5350",
+        "selected_position": "UTIL",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
+      },
+      {
+        "name": "Trae Young",
+        "yahoo_player_id": "6016",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PG"
+        ]
+      },
+      {
+        "name": "Bennedict Mathurin",
+        "yahoo_player_id": "6696",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Lauri Markkanen",
         "yahoo_player_id": "5769",
-        "selected_position": "UTIL",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Immanuel Quickley",
-        "yahoo_player_id": "6417",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Jalen Green",
-        "yahoo_player_id": "6513",
-        "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Luka Don\u010di\u0107",
-        "yahoo_player_id": "6014",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Ivica Zubac",
         "yahoo_player_id": "5663",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.490Z",
+        "eligible_positions": [
+          "C"
+        ]
       }
     ],
     "0": [
@@ -3391,91 +4587,192 @@
         "name": "Scotty Pippen Jr.",
         "yahoo_player_id": "6757",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Jared McCain",
         "yahoo_player_id": "10276",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Norman Powell",
         "yahoo_player_id": "5506",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Derrick Jones Jr.",
         "yahoo_player_id": "5747",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Cameron Boozer",
-        "yahoo_player_id": "10592",
+        "name": "Josh Minott",
+        "yahoo_player_id": "6735",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Caleb Wilson",
         "yahoo_player_id": "10595",
         "selected_position": "F",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PF"
+        ]
       },
       {
         "name": "Sandro Mamukelashvili",
         "yahoo_player_id": "6596",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Evan Mobley",
         "yahoo_player_id": "6514",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Naji Marshall",
         "yahoo_player_id": "6499",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Jeremiah Fears",
         "yahoo_player_id": "10440",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
+      },
+      {
+        "name": "Cameron Boozer",
+        "yahoo_player_id": "10592",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PF"
+        ]
       },
       {
         "name": "Jalen Brunson",
         "yahoo_player_id": "6044",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Josh Minott",
-        "yahoo_player_id": "6735",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
         "name": "Nikola Joki\u0107",
         "yahoo_player_id": "5352",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Kon Knueppel",
         "yahoo_player_id": "10450",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Reed Sheppard",
         "yahoo_player_id": "10288",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.510Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       }
     ],
     "7": [
@@ -3483,100 +4780,203 @@
         "name": "Tyrese Maxey",
         "yahoo_player_id": "6413",
         "selected_position": "PG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.530Z",
+        "eligible_positions": [
+          "PG"
+        ]
       },
       {
-        "name": "Ayo Dosunmu",
-        "yahoo_player_id": "6580",
+        "name": "Desmond Bane",
+        "yahoo_player_id": "6422",
         "selected_position": "SG",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.530Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "James Harden",
         "yahoo_player_id": "4563",
         "selected_position": "G",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.530Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
       },
       {
         "name": "Jake LaRavia",
         "yahoo_player_id": "6709",
         "selected_position": "SF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Precious Achiuwa",
         "yahoo_player_id": "6412",
         "selected_position": "PF",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Jabari Smith Jr.",
         "yahoo_player_id": "6693",
         "selected_position": "F",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Jaxson Hayes",
-        "yahoo_player_id": "6170",
-        "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "C",
+          "PF"
+        ]
       },
       {
         "name": "Jarrett Allen",
         "yahoo_player_id": "5835",
         "selected_position": "C",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "C"
+        ]
+      },
+      {
+        "name": "Neemias Queta",
+        "yahoo_player_id": "6581",
+        "selected_position": "C",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Julian Champagnie",
         "yahoo_player_id": "6754",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
         "name": "Dean Wade",
         "yahoo_player_id": "6256",
         "selected_position": "UTIL",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "PF",
+          "SF"
+        ]
       },
       {
-        "name": "Desmond Bane",
-        "yahoo_player_id": "6422",
+        "name": "Ayo Dosunmu",
+        "yahoo_player_id": "6580",
         "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "PG",
+          "SG"
+        ]
+      },
+      {
+        "name": "Jaxson Hayes",
+        "yahoo_player_id": "6170",
+        "selected_position": "BN",
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "C"
+        ]
       },
       {
         "name": "Josh Hart",
         "yahoo_player_id": "5843",
         "selected_position": "BN",
-        "status": "HEALTHY"
-      },
-      {
-        "name": "Neemias Queta",
-        "yahoo_player_id": "6581",
-        "selected_position": "BN",
-        "status": "HEALTHY"
+        "status": "HEALTHY",
+        "status_evidence": "yahoo_row_no_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Kawhi Leonard",
         "yahoo_player_id": "4896",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       },
       {
         "name": "Brandon Ingram",
         "yahoo_player_id": "5601",
         "selected_position": "IL",
-        "status": "O"
+        "status": "O",
+        "status_evidence": "yahoo_injury_badge",
+        "position_evidence": "yahoo_player_metadata",
+        "captured_at": "2026-11-01T09:56:03.531Z",
+        "eligible_positions": [
+          "PF",
+          "SF",
+          "SG"
+        ]
       }
     ]
   },
   "capture_metrics": {
-    "rosters_ms": 6628,
-    "matchup_ms": 531,
-    "fantasy_calendar_ms": 1392,
-    "available_and_transactions_ms": 4989,
-    "total_ms": 13540,
+    "rosters_ms": 6166,
+    "matchup_ms": 611,
+    "fantasy_calendar_ms": 1541,
+    "available_and_transactions_ms": 5227,
+    "total_ms": 13545,
     "yahoo_requests": {
       "requests": 28,
       "cache_hits": 1,
