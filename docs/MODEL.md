@@ -41,11 +41,15 @@ Sayma ve deneme önsel güveni `clip(120+.25*evidence_minutes,120,650)` dakika;
 şut isabeti güveni ayrı olarak deneme cinsindendir. Bunlar farklı birimlerdir.
 
 Canlı dakika tahmini, gözlemden sonra son beş maç ortalamasını sezon başı
-rol önseliyle harmanlar. `w=n/(n+k)`, `n=min(gözlenen_maç,5)`;
+rol önseliyle harmanlar. Etkin config politikası `adaptive_anchor`:
+`w=n/(n+k)`, `n=takas sonrası toplam gözlenen maç`. Ortalama penceresi
+her iki politikada da son beş maçtır. `recent_blend` gölge/referans kolu ise
+`n=min(gözlenen_maç,5)` kullanır;
 fark 6.5 dakikaya ulaşınca `k=1`, diğer durumlarda `k=3`.
-Ticarette geçmiş pencere sıfırlanır. `ewma` ve zamanla önsel ankrajını
-azaltan `adaptive_anchor` alternatifleri aynı `update_role` yordamıyla
-kalibrasyonda değerlendirilir. Rol değişimi sinyali gözlemden önce bilinmiş
+Ticarette geçmiş pencere sıfırlanır. `ewma` deneysel alternatiftir; bütün
+politikalar aynı `update_role` yordamını kullanır. Config yoksa dataclass
+fallback'i `recent_blend` olur; bu fallback etkin config ile karıştırılmaz.
+Rol değişimi sinyali gözlemden önce bilinmiş
 sayılmaz. Bu eşikler kalıcı rol değişimini kesin teşhis eden kurallar değildir.
 
 Kalibrasyon yalnızca önsel/rol politikalarını değiştirir. FG/FT momentleri,
@@ -138,3 +142,73 @@ fallback'idir. Tamamlanmış maçlar tekrar projekte edilmez. Oyun içindeki ma�
 için tam kalan dakika modeli yoktur; güvenilir kullanım maç başlamadan veya
 bittikten sonra güncel skorla çalışmaktır. Varsayımlar doğrulama raporundan
 bağımsız şekilde “kalibre edilmiş” diye sunulmaz.
+
+## Doğrulama ve aday model sınırları
+
+- **Yapısal rol kovaryansı ile olasılık kalibrasyonu ayrımı:** Haftalık toplamda
+  aynı oyuncunun maçları arasındaki yapısal rol/dakika kovaryansı (`role_covariance_correlation`,
+  varsayılan `0.0`) örnek ayarı ve alt seviye override ile deneysel olarak
+  kullanılabilir; eşleşme, simülasyon ve add/drop aynı örnek ayarını taşır.
+  A1B olasılık kalibrasyonu henüz uygulanmış bir katman değildir:
+  `WEEKLY_VAR_INFLATION_BY_CAT` yalnız nötr bir yer tutucudur ve değiştirilmesi
+  çıktıyı değiştirmez. Yeni kalibrasyon aktive edilmedi. İki aday birbirinin
+  mekanizma doğruluğuna kanıt oluşturmaz.
+- **Oynama önseli ve sezon içi güncelleme:** 82 maç oynayan bir oyuncunun başlangıç
+  ham Beta-Bernoulli filtre ortalaması `61/66 = %92,4242` olur. Sağlıklı etkin
+  olasılık `0.35*0.92 + 0.65*61/66 = %92,2758` değerindedir. Sezon içi
+  `availability_rate` ham tavanı `%98`, etkin sağlıklı olasılık tavanı ise
+  `0.35*0.92 + 0.65*0.98 = %95,9` olur. Bunlar ayrı büyüklüklerdir.
+  İki sezonlu önsellerde `eff_gp` MPG ölçeklemesinde kullanılırken
+  `AVAIL_GP` birincil sezonu (`gp1`) korur; sağlıklı taban veya `eff_gp` alternatifleri
+  doğrudan canlı varsayılan yapılmadan önce aday politika olarak test edilir.
+- **Geçici kabul ve kanıt borcu:** `adaptive_anchor` dakika politikası önceden tanımlı
+  seçim/değerlendirme kapılarını geçerek geçici (`provisional`) kabul almıştır ve
+  `recent_blend` gölge koluyla birlikte izlenir; buna karşın kazanımın küçük olması ve
+  mevcut sezgisel eşiklerin (sakatlıktan dönüş eğrisi, B2B indirimi, şut deneme/isabet
+  unutma hızları `FGA`/`FTA` vs `FG`/`FT`) bileşen bazlı ablasyon gerektirmesi açık araştırma
+  konusudur.
+- **Sakatlık spillover ve duyarlılık filtresi:** Canlı raporda (`src/forecast.py`)
+  `opportunity_sensitivity=True` aktiftir ve her add/drop adayını hem spillover açık hem
+  spillover kapalı kendi baz senaryolarına göre değerlendirip `min(delta_with_spillover, delta_without_spillover)`
+  ile sıralar. Bu kural kalibre edilmiş bir güven aralığı değil, muhafazakâr bir karar
+  duyarlılık filtresidir.
+- **Karar testi kapsamı ve tek haftalık ufuk:** `recommend_add_drop_moves` tek haftalık
+  ufukta alternatif tekil hamleleri sıralar; kalan haftalık ekleme hakkının gölge fiyatı
+  ve çok haftalık sıralı bütçe ayrımı yerel araştırma kontrollerinde (`roster_backtest`,
+  `weekly_controls`, `sequential`) ayrı değerlendirilir ve canlı motorda kanıtsız
+  varsayılan olarak sunulmaz.
+
+## Sezon kanıtının sınırı
+
+`LiveDraftAssistant` canlı hazırlıkta hedef sezon roster/preseason dosyalarını
+sezon adından yükler; `historical_replay=True` bu kanıtı devre dışı bırakır.
+Alt seviye `load_prior_season(..., include_target_evidence=False)` ve
+`MatchupEngine(..., include_target_evidence=False)` tarihsel replay sözleşmesidir.
+Gelecek sezonun açık canlı hazırlığında bu parametre `True` verilir; loader'ın
+`target_season` değeri önselin hemen sonraki sezonu olmalıdır. Tarihsel motorun
+as-of takım haritası ayrıca `team_map` ile verilmelidir. Repository'deki mevcut
+replay yükleyicileri target evidence'i açıkça kapatır. Eski doğrudan çağrıların
+2025–26 önsel / 2026–27 hedef varsayılanı yalnız geriye uyumluluk içindir;
+tarihsel deneyler bu varsayılana güvenmemelidir. Bir tam-sezon roster/preseason
+dosyası gün içi/as-of kanıt değildir; bu bayrak yalnız canlı sezon hazırlığı
+içindir, geçmiş kesime geri taşınamaz. Eksik dosyada veri uydurulmaz.
+
+## Mevcut tarihsel karar kanıtının kapsamı
+
+Yeni bir deney çalıştırılmadı. Aşağıdaki sayılar mevcut yerel arşivlerden gelir:
+
+| Deney | Kontrol / sağlık kapsamı | Kadro-haftası ve takvim haftası | Kanıt sınırı |
+|---|---|---|---|
+| `roster_20261028T172809Z` | Kaliteyi gözetmeyen schedule add kontrolü; canlı sakatlık/spillover kapalı | Sezon başına 440 hamle durumu / 22 takvim haftası; ayrıca 3.080 eşleşme olasılık kaydı | Sentetik lig/kadrolar, gerçek tarihsel oyuncu üretimi. Olasılık kayıtları bağımsız haftalar değildir. |
+| `weekly_controls_20261029T085904Z` | Aynı yasal hamle havuzunda beklenen toplam maç dakikası kontrolü; sakatlık/IL vekili dahil | Sezon başına 63 kadro-haftası / 21 takvim haftası | Değerlendirme sezonunda motor eksi kontrol %95 aralığı [+0,182; +0,738]; geliştirmede [-0,087; +0,230]. Evrensel üstünlük yok. |
+| `sequential_expanded_20261029T105309Z` | Üç haklı greedy/reserve, günlük bilgi kesimi, sentetik waiver ve IL varsayımları | 2024–25: 14 eşli kadro-haftası / 7 hafta; 2025–26: 16 / 8; toplam 30 tam-verili eşli durum | 32 planlı durumdan eksik raporlu 2 durum dışlandı. Reserve farkının aralıkları [-0,1071; +0,4643] ve [0; +0,0938]; kesin üstünlük yok. |
+
+63 sayısı bütün sequential deneylerine genellenmez. Takvim bloklarının,
+ortak oyuncuların ve yeniden kullanılan tarihsel sezonların bağımlılığı
+korunmalıdır. Bunlar gerçek Yahoo sahiplik/işlem geçmişi değildir; sağlık
+etiketi, tarihsel fikstür ve kadro vekillerinin seçilim sınırları vardır.
+Yeni seed yeni bağımsız NBA haftası değildir. Önceden incelenen sezonlar
+yeni bağımsız son test diye sunulamaz. Yerel kaynaklar:
+`research/current/data/archive/experiments/roster_20261028T172809Z/`,
+`research/current/runs/weekly_controls_20261029T085904Z/` ve
+`research/current/reports/research_stage1/report.md`.

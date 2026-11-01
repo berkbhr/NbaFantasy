@@ -38,6 +38,10 @@ class RotationPolicy:
     def to_dict(self):
         return asdict(self)
 
+    def variance_factor(self, player):
+        """Process-minute scale; rate posterior precision remains separate."""
+        return self.minute_variance_scale
+
 
 def load_rotation_policy():
     path = Path(__file__).resolve().parents[1] / "config/rotation_policy.json"

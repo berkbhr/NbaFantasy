@@ -45,6 +45,8 @@ DECAY_LAMBDA_BY_STAT = {
     "TOV": 0.014,
     "FG": 0.008,
     "FT": 0.004,
+    "FGA": 0.008,
+    "FTA": 0.004,
 }
 
 MIN_BETA_MINUTES = 60.0
@@ -327,7 +329,8 @@ class BayesianPlayer:
             self.alphas[stat] = max(rate * new_beta, 1e-4)
 
         for stat in PERCENTAGE_STATS:
-            lam_att = DECAY_LAMBDA_BY_STAT.get(stat, 0.012)
+            att_key = f"{stat}A"
+            lam_att = DECAY_LAMBDA_BY_STAT.get(att_key, DECAY_LAMBDA_BY_STAT.get(stat, 0.012))
             delta_att = float(np.exp(-lam_att * delta_days)) * event_mult
             if stat in self.att_betas and self.att_betas[stat] > 0:
                 att_rate = self.att_alphas[stat] / self.att_betas[stat]
@@ -462,6 +465,7 @@ class BayesianPlayer:
                 "variance": variance,
                 "rate_per_min": rate,
                 "shared_covariance": rate_var * m**2,
+                "role_variance": ((rate**2) + rate_var) * min_var,
             }
 
         # 2. Percentage Stats (Overdispersed Gamma-Poisson Attempts + Minutes Variance + Beta-Binomial Accuracy)
@@ -482,8 +486,10 @@ class BayesianPlayer:
                     raise ValueError("Projected attempts must be finite and nonnegative")
                 var_att = 0.0
                 shared_att_cov = 0.0
+                role_att_var = 0.0
             else:
-                lam_att = DECAY_LAMBDA_BY_STAT.get(stat, 0.012)
+                att_key = f"{stat}A"
+                lam_att = DECAY_LAMBDA_BY_STAT.get(att_key, DECAY_LAMBDA_BY_STAT.get(stat, 0.012))
                 idle_delta_att = float(np.exp(-lam_att * idle_days)) if idle_days > 2 else 1.0
                 att_beta_eff = max(
                     self.att_betas.get(stat, 400.0) * idle_delta_att, MIN_BETA_MINUTES
@@ -497,7 +503,8 @@ class BayesianPlayer:
                 # Include both overdispersion phi_att and minutes uncertainty att_rate^2 * min_var
                 att_rate_var = att_rate / att_beta_eff
                 shared_att_cov = (m**2) * att_rate_var
-                var_att = phi_att * n + shared_att_cov + ((att_rate**2) + att_rate_var) * min_var
+                role_att_var = ((att_rate**2) + att_rate_var) * min_var
+                var_att = phi_att * n + shared_att_cov + role_att_var
 
             expected_makes = n * p
 
@@ -515,6 +522,8 @@ class BayesianPlayer:
                 "rate": p,
                 "rate_variance": p * (1 - p) / (total_ab + 1),
                 "shared_attempts_covariance": shared_att_cov,
+                "role_attempts_variance": role_att_var,
+                "role_variance": (p**2 + p * (1 - p) / (total_ab + 1)) * role_att_var,
                 "shared_covariance": (n**2 + shared_att_cov) * p * (1 - p) / (total_ab + 1)
                 + p**2 * shared_att_cov,
             }

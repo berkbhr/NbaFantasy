@@ -41,6 +41,33 @@ def read_record(path):
     return record
 
 
+def optional_research_candidate():
+    """Private local extensions are optional; published serving needs none."""
+    try:
+        from research.current.tools.role_review import load_candidate
+    except ModuleNotFoundError as exc:
+        if exc.name == "research" or exc.name.startswith("research."):
+            return None, None
+        raise
+    return load_candidate(ROOT)
+
+
+def prediction_paths():
+    """Keep excluded test artifacts immutable, without grading them as live data."""
+    result = []
+    for path in sorted((ARCHIVE / "predictions").glob("*.json.gz")):
+        exclusion = ARCHIVE / "prediction_exclusions" / path.name
+        if exclusion.exists():
+            if (
+                read_record(exclusion)["prediction_sha256"]
+                != hashlib.sha256(path.read_bytes()).hexdigest()
+            ):
+                raise ValueError("Excluded prediction content changed")
+            continue
+        result.append(path)
+    return result
+
+
 def archive_official_snapshot(parsed, source_url, pdf_bytes, accepted_for_live=None):
     checksum = hashlib.sha256(pdf_bytes).hexdigest()
     path = ARCHIVE / "injury_reports" / f"{checksum}.json.gz"
@@ -110,10 +137,41 @@ def future_rows(assistant, engine, now):
                         "baseline_availability": bp.availability_rate,
                         "observed_gp": int(getattr(bp, "current_season_gp", 0)),
                         "observed_mpg": float(getattr(bp, "current_season_mpg", 0)),
+                        "recent_role_gp": int(getattr(bp, "recent_role_gp", 0)),
+                        "recent_role_mpg": float(
+                            getattr(bp, "recent_role_mpg", bp.base_expected_minutes)
+                        ),
+                        "role_anchor": float(
+                            getattr(bp, "prior_expected_minutes", bp.base_expected_minutes)
+                        ),
+                        "role_base_minutes": float(bp.base_expected_minutes),
                         "prediction": prediction,
                     }
                 )
     return rows
+
+
+def role_candidate_rows(primary, assistant, engine, cutoff, protocol):
+    from research.current.tools.opportunity_policy import OpportunityCandidatePolicy
+    from research.current.tools.role_review import candidate_block_reason
+
+    try:
+        reason = candidate_block_reason(primary, protocol, cutoff)
+        policy = OpportunityCandidatePolicy(**protocol["policy"])
+    except (ValueError, TypeError, KeyError):
+        return None, "Invalid research protocol or policy; primary forecast preserved"
+    if reason:
+        return None, reason
+    active = engine.rotation_policy
+    today = pd.Timestamp(cutoff).tz_convert("America/New_York").tz_localize(None).normalize()
+    try:
+        engine.rotation_policy = policy
+        return future_rows(assistant, engine, cutoff), None
+    finally:
+        engine.rotation_policy = active
+        engine.recompute_team_depth_and_injury_minutes(
+            game_date=today + pd.Timedelta(days=1), as_of_date=today
+        )
 
 
 def record_run(include_recommendations=True, fetch_results=False):
@@ -129,6 +187,20 @@ def record_run(include_recommendations=True, fetch_results=False):
     primary, assistant, engine, _ = build_local_forecast(
         now=cutoff, include_recommendations=include_recommendations, return_context=True
     )
+    # Archive exactly the current offer assessment shown in reports/notifications.
+    # Broad opportunity discovery is deliberately not part of this report loop.
+    from .trade_automation import run_pending_monitor
+
+    try:
+        primary["trade_analysis"] = run_pending_monitor(now=cutoff)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        primary["trade_analysis"] = {
+            "status": "needs_data",
+            "policy": "pending_only",
+            "offers": [],
+            "reasons": [str(exc)],
+            "wide_scan_ran": False,
+        }
     shadow_policy = replace(assistant.model_policy, role="recent_blend")
     shadow, shadow_assistant, shadow_engine, _ = build_local_forecast(
         now=cutoff, include_recommendations=False, model_policy=shadow_policy, return_context=True
@@ -183,7 +255,7 @@ def record_run(include_recommendations=True, fetch_results=False):
     low_role_cap2 = future_rows(assistant, engine, cutoff)
     engine.low_role_boost_cap = None
     engine.rotation_policy = active_rotation_policy
-    research_path = ROOT / "config/rotation_candidate.json"
+    research_path = ROOT / "research/current/config/rotation_candidate.json"
     research_rows = None
     research = (
         json.loads(research_path.read_text(encoding="utf-8")) if research_path.exists() else None
@@ -192,6 +264,12 @@ def record_run(include_recommendations=True, fetch_results=False):
         engine.rotation_policy = RotationPolicy(**research["policy"])
         research_rows = future_rows(assistant, engine, cutoff)
         engine.rotation_policy = active_rotation_policy
+    role_protocol, role_reason = optional_research_candidate()
+    role_rows, role_reason = (
+        role_candidate_rows(primary, assistant, engine, cutoff, role_protocol)
+        if role_protocol
+        else (None, role_reason)
+    )
     stamp = cutoff.strftime("%Y%m%dT%H%M%S%fZ")
     bundle = {
         "schema_version": 2,
@@ -222,6 +300,13 @@ def record_run(include_recommendations=True, fetch_results=False):
             bundle["arm_aliases"]["rotation_candidate"] = "primary"
         else:
             bundle["player_predictions"]["rotation_candidate"] = research_rows
+    if role_protocol:
+        bundle["role_uncertainty_candidate"] = role_protocol
+        bundle["role_uncertainty_block_reason"] = role_reason
+        if role_rows is not None:
+            bundle["player_predictions"]["role_uncertainty_candidate"] = role_rows
+    elif role_reason:
+        bundle["role_uncertainty_block_reason"] = role_reason
     write_once(ARCHIVE / "predictions" / f"{stamp}.json.gz", bundle)
     settle(fetch_results=fetch_results)
     monitor()
@@ -281,7 +366,7 @@ def settle(fetch_results=False):
     final_rosters = {}
     checked_games = set()
     checked_days = {}
-    for prediction in sorted((ARCHIVE / "predictions").glob("*.json.gz")):
+    for prediction in prediction_paths():
         bundle = read_record(prediction)
         for pred in bundle["player_predictions"]["primary"]:
             if (
@@ -344,13 +429,15 @@ def monitor():
     cap_selected = {}
     rotation_selected = {}
     research_selected = {}
+    role_selected = {}
+    role_protocol, _ = optional_research_candidate()
     from .rotation_policy import RotationPolicy, load_rotation_policy
 
     def policy_key(value):
         return json.dumps(RotationPolicy(**value).to_dict(), sort_keys=True)
 
     current_policy_key = policy_key(load_rotation_policy().to_dict())
-    for path in sorted((ARCHIVE / "predictions").glob("*.json.gz")):
+    for path in prediction_paths():
         bundle = read_record(path)
         outcomes = sorted(
             (ARCHIVE / "outcomes" / bundle["forecast_id"]).glob("*.json.gz"),
@@ -376,6 +463,26 @@ def monitor():
             (r["player_id"], r["game_id"]): r
             for r in bundle["player_predictions"].get("rotation_candidate", [])
         }
+        role_rows = {
+            (r["player_id"], r["game_id"]): r
+            for r in bundle["player_predictions"].get("role_uncertainty_candidate", [])
+        }
+        if role_protocol and bundle.get("role_uncertainty_candidate") == role_protocol:
+            from research.current.tools.role_review import candidate_block_reason
+
+            valid = (
+                candidate_block_reason(bundle["primary"], role_protocol, bundle["cutoff_at"])
+                is None
+            )
+            if valid:
+                for pred in bundle["player_predictions"]["primary"]:
+                    key = (pred["player_id"], pred["game_id"])
+                    if key not in role_selected and key in labels and key in role_rows:
+                        role_selected[key] = {
+                            "prediction": pred,
+                            "candidate": role_rows[key],
+                            "label": labels[key],
+                        }
         for pred in bundle["player_predictions"]["primary"]:
             key = (pred["player_id"], pred["game_id"])
             if key not in research_selected and key in labels and key in research:
@@ -532,6 +639,12 @@ def monitor():
         ) / len(availability)
     if result["review_ready"]:
         result["review"] = "Ready for single preregistered review; no automatic promotion"
+    if role_protocol:
+        from research.current.tools.role_review import describe_pairs
+
+        result["role_uncertainty_candidate"] = describe_pairs(
+            list(role_selected.values()), role_protocol, datetime.now(timezone.utc)
+        )
     path = ROOT / "reports" / "prospective_status.json"
     path.write_text(json.dumps(result, indent=2), encoding="utf-8")
 
@@ -581,7 +694,7 @@ def settle_weekly(yahoo_client=None, final=None):
     """Only explicit postevent Yahoo outcomes or supplied final snapshots qualify."""
     now = datetime.now(timezone.utc)
     fetched = {}
-    for path in sorted((ARCHIVE / "predictions").glob("*.json.gz")):
+    for path in prediction_paths():
         bundle = read_record(path)
         forecast = bundle["primary"]
         if not forecast.get("live_score_valid"):

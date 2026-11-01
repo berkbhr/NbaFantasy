@@ -123,10 +123,9 @@ def adjust_rotations(
             bp = players[pid]
             new_minutes = (base[pid] + delta[pid]) * scale
             bp.expected_minutes = new_minutes
-            bp.minutes_var = (
-                min(144.0, bp.base_minutes_var + 0.35 * delta[pid] ** 2)
-                * policy.minute_variance_scale
-            )
+            bp.minutes_var = min(
+                144.0, bp.base_minutes_var + 0.35 * delta[pid] ** 2
+            ) * policy.variance_factor(bp)
             if delta[pid] > 0:
                 summaries.append(
                     {

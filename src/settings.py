@@ -9,18 +9,23 @@ from pathlib import Path
 class LeagueSettings:
     phase: str = "regular_season"
     playoff_tie_credit: float | None = None
-    playoff_spots: int = 4
+    playoff_spots: int = 8
     max_weekly_adds: int = 3
     adds_used_this_week: int = 0
     protected_player_names: tuple = ()
+    future_fixture_weeks: int | None = None
 
     def __post_init__(self):
         if self.phase not in ("regular_season", "playoffs"):
             raise ValueError("phase must be regular_season or playoffs")
-        if self.playoff_spots != 4:
-            raise ValueError("This league qualifies four playoff teams")
+        if self.playoff_spots != 8:
+            raise ValueError("This league qualifies eight playoff teams")
         if self.max_weekly_adds < 0 or self.adds_used_this_week < 0:
             raise ValueError("Transaction counts must be nonnegative")
+        if self.future_fixture_weeks is not None and (
+            type(self.future_fixture_weeks) is not int or not 1 <= self.future_fixture_weeks <= 60
+        ):
+            raise ValueError("future_fixture_weeks must be 1..60 or null (all remaining weeks)")
         if self.phase == "playoffs" and self.playoff_tie_credit is None:
             raise ValueError(
                 "Configure playoff_tie_credit from your actual playoff tiebreak rule first"

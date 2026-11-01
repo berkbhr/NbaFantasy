@@ -7,6 +7,41 @@ import pandas as pd
 BOX_SCORE_KEYS = ("PTS", "REB", "AST", "STL", "BLK", "FG3M", "TOV", "FGM", "FGA", "FTM", "FTA")
 
 
+def select_replay_records(records, as_of, *, id_column, value_column):
+    """Select explicitly supplied historical evidence, never a live cache.
+
+    Both effective_at (when the fact applies) and observed_at (when it was
+    captured/available) must be <= the fixed replay cutoff. Timestamps without
+    a timezone are interpreted as UTC. A source's publisher/file date alone is
+    not availability evidence. Callers must supply trustworthy capture dates;
+    this validates their chronology, not their authenticity.
+
+    Undated/invalid/future rows are ignored. No eligible row means the caller's
+    pooled/no-injury-evidence fallback, not proof of a healthy historical player.
+    """
+    cutoff = pd.to_datetime(as_of, errors="coerce", utc=True)
+    if cutoff is None or pd.isna(cutoff):
+        raise ValueError("Historical evidence requires a valid replay_as_of timestamp")
+    frame = pd.DataFrame(records).copy()
+    required = {id_column, value_column, "effective_at", "observed_at"}
+    if not required.issubset(frame.columns):
+        return pd.DataFrame(columns=sorted(required))
+    for column in ("effective_at", "observed_at"):
+        frame[column] = pd.to_datetime(frame[column], errors="coerce", utc=True, format="mixed")
+    frame = frame.dropna(subset=list(required))
+    frame = frame[
+        (frame.effective_at <= cutoff)
+        & (frame.observed_at <= cutoff)
+        & frame[value_column].astype(str).str.strip().ne("")
+    ]
+    # Ambiguous versions do not get an arbitrary input-order tie breaker.
+    keys = [id_column, "effective_at", "observed_at"]
+    frame = frame.drop_duplicates().loc[lambda f: ~f.duplicated(keys, keep=False)]
+    return frame.sort_values(["effective_at", "observed_at"]).drop_duplicates(
+        id_column, keep="last"
+    )
+
+
 def validate_pregame_window(schedule, now, max_clock_age_hours=72):
     """Daily model cannot estimate residual production for games already started.
 

@@ -18,8 +18,11 @@ Zero-Cookie, Zero-Password, Zero-OAuth-Approval Solution:
 import json
 import os
 import sys
+import tempfile
+import threading
 import webbrowser
 from datetime import datetime, timezone
+from html import escape
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 sys.stdout.reconfigure(encoding="utf-8")
@@ -27,6 +30,8 @@ sys.stdout.reconfigure(encoding="utf-8")
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(PROJECT_ROOT, "src")
 PROCESSED_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
+STATE_WRITE_LOCK = threading.RLock()
+LOCAL_REPORT_STATE = {"status": "idle", "sync_id": None}
 
 sys.path.insert(0, PROJECT_ROOT)
 sys.path.insert(0, SRC_DIR)
@@ -47,6 +52,7 @@ BOOKMARKLET_JS_RAW = r"""
     const mPath = location.pathname.match(/\/nba\/(\d+)/);
     const leagueId = mPath ? mPath[1] : '64691';
     const parser = new DOMParser();
+    // FANTASY_CALENDAR_HELPERS
 
     function matchupReady(value) {
       return value && ['team_a','team_b'].every(side => {
@@ -85,12 +91,14 @@ BOOKMARKLET_JS_RAW = r"""
       const unslottedInj = [];
       const seen = new Set();
       let teamName = '';
+      const exactName = doc.querySelector('#team-card h1, #teamname, .TeamName');
+      if (exactName) teamName = exactName.textContent.trim();
       const titleEl = doc.querySelector('title');
-      if (titleEl && titleEl.textContent.includes('-')) {
-        teamName = titleEl.textContent.split('-')[0].replace(/Yahoo Fantasy.*/i, '').trim();
+      if (!teamName && titleEl) {
+        const label=titleEl.textContent.split(' | ')[0].trim();
+        if (!/^NBA Fantasy\b/i.test(label) && !/Yahoo Fantasy/i.test(label)) teamName=label;
       }
-      const h1El = doc.querySelector('#team-card h1, .TeamName, .Navitem-main, h1');
-      if (!teamName && h1El) teamName = h1El.textContent.trim();
+      if (/^NBA Fantasy\b/i.test(teamName)) teamName='';
 
       const links = doc.querySelectorAll('a[href*="/players/"], a[href*="/player/"], .ysf-player-name a, td.player a.name, a.Nowrap[href*="/nba/"]');
       links.forEach(a => {
@@ -114,15 +122,33 @@ BOOKMARKLET_JS_RAW = r"""
           }
         }
 
-        let status = 'HEALTHY';
+        // Read player eligibility from team/position metadata, never the
+        // selected lineup slot (a centre may be placed in UTIL or BN).
+        const cell=a.closest('td');
+        const positionSets=new Map();
+        const metadata=cell ? [cell,...cell.querySelectorAll('span,[data-eligible-positions]')] : [];
+        for(const el of metadata){
+          const explicit=el.getAttribute && el.getAttribute('data-eligible-positions');
+          const texts=explicit ? [explicit] : Array.from((el.textContent || '').matchAll(/\b[A-Z]{2,3}\s*[-–]\s*((?:PG|SG|SF|PF|C|G|F)(?:\s*[,/]\s*(?:PG|SG|SF|PF|C|G|F))*)(?=$|\s|\()/g)).map(m=>m[1]);
+          for(const text of texts){
+            const values=Array.from(new Set(text.toUpperCase().split(/\s*[,/]\s*/))).sort();
+            if(values.length && values.every(p=>/^(PG|SG|SF|PF|C|G|F)$/.test(p)))positionSets.set(values.join(','),values);
+          }
+        }
+        const eligible_positions=positionSets.size===1 ? Array.from(positionSets.values())[0] : [];
+        const playerId = (a.getAttribute('href') || '').match(/\/players?\/(\d+)/);
+        let status = 'UNKNOWN', status_evidence='unverified_row';
         const injEl = tr.querySelector('abbr.F-injury, span.F-injury, .ysf-player-status span');
         if (injEl) {
           const stTxt = (injEl.textContent || '').trim().toUpperCase();
-          if (/^(INJ|O|OUT|IL|GTD|DTD|SUSP)$/.test(stTxt)) status = stTxt;
+          if (/^(INJ|O|OUT|IL|GTD|DTD|Q|P|D|QUESTIONABLE|PROBABLE|DOUBTFUL|SUSP|SUSPENDED)$/.test(stTxt)) {status=stTxt;status_evidence='yahoo_injury_badge';}
+          else status_evidence='unrecognized_badge';
+        } else if(playerId && eligible_positions.length) {
+          status='HEALTHY';status_evidence='yahoo_row_no_injury_badge';
         }
-
-        const playerId = (a.getAttribute('href') || '').match(/\/players?\/(\d+)/);
-        players.push({ name, selected_position: selPos, status, yahoo_player_id: playerId ? playerId[1] : null });
+        players.push({ name, selected_position: selPos, status, status_evidence, eligible_positions,
+          position_evidence:eligible_positions.length?'yahoo_player_metadata':'unavailable',
+          captured_at:new Date().toISOString(), yahoo_player_id: playerId ? playerId[1] : null });
         if (selPos === 'IL' || selPos === 'IL+') {
           ilList.push(name);
         } else if (['INJ', 'O', 'OUT', 'IL', 'GTD', 'DTD'].includes(status)) {
@@ -199,7 +225,8 @@ BOOKMARKLET_JS_RAW = r"""
             if (!tA.name.toLowerCase().includes('berk') && tB.name.toLowerCase().includes('berk')) {
               const tmp = tA; tA = tB; tB = tmp;
             }
-            return { team_a: tA, team_b: tB };
+            const evidence = readYahooMatchupEvidence(doc, leagueId, location.origin);
+            return { team_a: tA, team_b: tB, week: evidence ? evidence.week : null };
           }
         }
       }
@@ -293,7 +320,7 @@ BOOKMARKLET_JS_RAW = r"""
     banner.textContent = '🏀 (1/3) 14 Takımın Canlı Kadroları & IL+ Yuvaları Çekiliyor...';
     const slotNums = Array.from({length: 14}, (_, i) => i + 1);
     const teamHtmls = await Promise.all(slotNums.map(s =>
-      fetch(`/nba/${leagueId}/${s}`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '')
+      fetch(`/nba/${leagueId}/${s}`, { credentials: 'same-origin', cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => '')
     ));
 
     const rostersBySlot = {};
@@ -322,7 +349,9 @@ BOOKMARKLET_JS_RAW = r"""
     if (!matchup) {
       // Preserve the actual matchup query (mid1/mid2/week). The generic URL
       // may return a league landing page rather than the user's score table.
-      const urls = [];
+      // A manager can run the bookmarklet while viewing a future week. The
+      // unqualified current-week endpoint takes precedence over that tab.
+      const urls = [`/nba/${leagueId}/matchup`];
       if (location.pathname.includes(`/nba/${leagueId}/matchup`)) urls.push(location.href);
       document.querySelectorAll(`a[href*="/nba/${leagueId}/matchup"]`).forEach(a => urls.push(a.href));
       urls.push(`/nba/${leagueId}/matchup`, `/nba/${leagueId}`);
@@ -334,10 +363,19 @@ BOOKMARKLET_JS_RAW = r"""
           if (matchupReady(parsed)) { matchup = parsed; break; }
         }
       }
-      if (!matchup) matchup = await renderedMatchup(urls[0]);
+      // No iframe fallback: its network traffic would bypass the guarded queue.
     }
     if (!matchup) throw new Error('Güncel matchup skoru ayrıştırılamadı. Kadro kaydı yenilenmedi; Yahoo Matchup sayfasından tekrar deneyin.');
     captureMetrics.matchup_ms = Math.round(performance.now() - syncStarted) - captureMetrics.rosters_ms;
+
+    banner.textContent = '🏀 Yahoo gelecek hafta–rakip fikstürü okunuyor...';
+    let fantasyCalendar = null;
+    const calendarStarted = performance.now();
+    try { fantasyCalendar = await collectFantasyCalendar(teamHtmls, leagueId, parser, parseMatchupDoc); }
+    catch (err) { fantasyCalendar = {errors: [String(err)]}; }
+    if (!Number.isInteger(matchup.week)) throw new Error('Yahoo hafta numarası doğrulanamadı; mevcut kayıt korundu.');
+    if (fantasyCalendar && fantasyCalendar.current_week && matchup.week !== fantasyCalendar.current_week) throw new Error('Yakalanan skor gelecek/geçmiş haftaya ait; güncel Matchup sayfasından tekrar deneyin.');
+    captureMetrics.fantasy_calendar_ms = Math.round(performance.now() - calendarStarted);
 
     let transactions = [];
     const txHtml = await fetch(`/nba/${leagueId}/transactions`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
@@ -349,8 +387,10 @@ BOOKMARKLET_JS_RAW = r"""
     const pendingPages = [new URL(`/nba/${leagueId}/players?status=A&sort=OR`, location.origin).href];
     const seenAvailablePages = new Set();
     let scanFailed = false, foundLastPage = false;
-    while (pendingPages.length && seenAvailablePages.size < 30) {
-      const batch = pendingPages.splice(0, Math.min(4, 30 - seenAvailablePages.size));
+    const faPageLimit = 10;
+    // Follow verified pagination to its end; fixed page counts cannot prove completeness.
+    while (pendingPages.length && seenAvailablePages.size < faPageLimit) {
+      const batch = pendingPages.splice(0, Math.min(2,faPageLimit-seenAvailablePages.size));
       batch.forEach(url => seenAvailablePages.add(url));
       await Promise.all(batch.map(async pageUrl => {
         const pHtml = await fetch(pageUrl, { credentials: 'same-origin', cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => '');
@@ -359,7 +399,8 @@ BOOKMARKLET_JS_RAW = r"""
         Object.assign(waivers, available.waivers);
         availablePlayers.push(...available.players);
         if (!available.next && available.rowCount < 25) foundLastPage = true;
-        for (const link of [...available.forward, available.next].filter(Boolean)) {
+        const nextPage = available.next || [...available.forward].sort((a,b)=>Number(new URL(a,pageUrl).searchParams.get('start'))-Number(new URL(b,pageUrl).searchParams.get('start')))[0];
+        for (const link of [nextPage].filter(Boolean)) {
           const url = new URL(link, pageUrl);
           if (url.origin === location.origin && url.pathname === `/nba/${leagueId}/players`
             && !seenAvailablePages.has(url.href) && !pendingPages.includes(url.href)) pendingPages.push(url.href);
@@ -367,14 +408,19 @@ BOOKMARKLET_JS_RAW = r"""
       }));
     }
     availableScanComplete = foundLastPage && !scanFailed && !pendingPages.length;
-    captureMetrics.available_and_transactions_ms = Math.round(performance.now() - syncStarted) - captureMetrics.rosters_ms - captureMetrics.matchup_ms;
+    availablePlayers=Array.from(new Map(availablePlayers.map(player=>[String(player.yahoo_player_id || player.name),player])).values());
+    const faScopeLabel=`FA havuzu: ${availablePlayers.length} oyuncu (${availableScanComplete ? 'tam tarama' : 'kısmi tarama'}; OR sırası, ${seenAvailablePages.size}/${faPageLimit} sayfa)`;
+    captureMetrics.available_and_transactions_ms = Math.round(performance.now() - syncStarted) - captureMetrics.rosters_ms - captureMetrics.matchup_ms - captureMetrics.fantasy_calendar_ms;
     captureMetrics.total_ms = Math.round(performance.now() - syncStarted);
+    captureMetrics.yahoo_requests = fetch.metrics();
 
     // 4. Send to local bridge (`http://127.0.0.1:8765/sync_league`)
     banner.textContent = '🏀 (3/3) Python Motoruna Gönderiliyor & Telegram Bildirimi Hazırlanıyor...';
     const payload = {
       league_id: leagueId,
+      week: matchup.week,
       capture_metrics: captureMetrics,
+      fantasy_calendar_capture: fantasyCalendar,
       rosters_by_slot: rostersBySlot,
       team_names_by_slot: teamNamesBySlot,
       il_players_by_slot: ilBySlot,
@@ -387,6 +433,9 @@ BOOKMARKLET_JS_RAW = r"""
         source: 'yahoo_available_players',
         players: availablePlayers,
         scan_complete: availableScanComplete,
+        scope_label: faScopeLabel,
+        page_limit: faPageLimit,
+        sort: 'OR',
         pages_scanned: seenAvailablePages.size
       }
     };
@@ -399,7 +448,7 @@ BOOKMARKLET_JS_RAW = r"""
     const resJson = await resp.json();
     if (!resp.ok || !resJson.ok) throw new Error(resJson.error || 'Sync rejected');
     banner.style.background = '#047857';
-    banner.textContent = `✅ Skor ve kadro kaydedildi (${resJson.teams_synced} takım, ${resJson.total_players} oyuncu). Rapor ve bildirim işlemi başlatıldı.`;
+    banner.textContent = `✅ Skor ve kadro kaydedildi (${resJson.teams_synced} takım). Fikstür: ${resJson.fantasy_calendar_weeks || 0} hafta. ${faScopeLabel}.`;
     setTimeout(() => banner.remove(), 7000);
   } catch (err) {
     banner.style.background = '#b91c1c';
@@ -440,13 +489,18 @@ def validate_browser_matchup(matchup, slot_map, captured_at):
     return result
 
 
-def apply_browser_sync_payload(payload, run_async_cloud=True):
+def apply_browser_sync_payload(payload, run_async_cloud=True, dispatch=True):
+    with STATE_WRITE_LOCK:
+        return _apply_browser_sync_payload(payload, run_async_cloud, dispatch)
+
+
+def _apply_browser_sync_payload(payload, run_async_cloud=True, dispatch=True):
     """
     Processes the JSON payload received from the Browser Bookmarklet:
       1. Maps each of the 14 Yahoo rosters to its canonical slot (`0..13`) in `draft_data.TEAM_NAMES`
          and updates `data/processed/league_state.json` (with `"live_synced": True`).
       2. Updates `data/processed/live_matchup.json` if live matchup stats (`FGM/A`, `PTS`, etc.) are present.
-      3. Pushes updated JSON state to GitHub and triggers `run_cloud_sync()` asynchronously so the
+      3. Runs the existing local report/notification pipeline asynchronously, without Git operations, so the
          browser receives an immediate `<1s` confirmation banner.
     """
     import threading
@@ -484,7 +538,7 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         prior_state.get("yahoo_team_slots", {}),
         payload.get("team_names_by_slot", {}),
     )
-    player_evidence = roster_player_evidence(rosters_by_slot, saved_slots)
+    player_evidence = roster_player_evidence(rosters_by_slot, saved_slots, now_iso)
 
     for s_key, p_list in rosters_by_slot.items():
         names = [
@@ -525,6 +579,33 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
             empty_clean[canon_key] = int(raw_empty.get(s_key, raw_empty.get(str(s_key), 0)))
 
     # Save live_matchup.json only if valid FGM/FGA & PTS stats are present
+    from src.fantasy_calendar import merge_capture
+
+    fantasy_calendar, calendar_audit = merge_capture(
+        prior_state.get("fantasy_calendar"),
+        payload.get("fantasy_calendar_capture"),
+        str(payload.get("league_id", "64691")),
+        saved_slots,
+        now_iso,
+    )
+    raw_capture = payload.get("fantasy_calendar_capture")
+    diagnostics = raw_capture.get("diagnostics", {}) if isinstance(raw_capture, dict) else {}
+    if not isinstance(diagnostics, dict):
+        diagnostics = {}
+    diagnostic_keys = (
+        "pages_fetched",
+        "pages_failed",
+        "matchup_pages_with_dated_evidence",
+        "rejected_wrong_week_or_team",
+        "date_conflicts",
+        "weeks_attempted",
+        "complete_weeks",
+    )
+    calendar_audit["capture_diagnostics"] = {
+        key: value
+        for key in diagnostic_keys
+        if type(value := diagnostics.get(key)) is int and 0 <= value <= 10000
+    }
     matchup_obj = payload.get("matchup")
     has_valid_matchup = (
         isinstance(matchup_obj, dict)
@@ -633,9 +714,14 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         ],
         "scan_complete": bool(availability_snapshot.get("scan_complete")),
         "pages_scanned": availability_snapshot.get("pages_scanned", 0),
+        "page_limit": availability_snapshot.get("page_limit"),
+        "sort": availability_snapshot.get("sort"),
     }
     state_data = {
         "updated_at": now_iso,
+        "roster_captured_at": now_iso
+        if len(rosters_clean) == 14
+        else prior_state.get("roster_captured_at", prior_state.get("updated_at")),
         "sync_id": sync_id,
         "league_id": str(payload.get("league_id", "64691")),
         "capture_metrics": payload.get("capture_metrics", {}),
@@ -652,76 +738,214 @@ def apply_browser_sync_payload(payload, run_async_cloud=True):
         "availability_snapshot": availability_snapshot,
         "yahoo_team_slots": saved_slots,
         "yahoo_identity_evidence": identity_evidence,
+        "team_names": {
+            **prior_state.get("team_names", {}),
+            **{
+                saved_slots[str(int(k) + 1)]: name
+                for k, name in payload.get("team_names_by_slot", {}).items()
+                if name and str(int(k) + 1) in saved_slots
+            },
+        },
+        "fantasy_calendar": fantasy_calendar,
+        "fantasy_calendar_audit": calendar_audit,
         "yahoo_roster_players": {**prior_state.get("yahoo_roster_players", {}), **player_evidence},
     }
     state_data["availability_snapshot"]["sync_id"] = sync_id
+    from src.yahoo_trade_sync import normalize_stage5_capture
+
+    for field in ("pending_offers_snapshot", "playoff_snapshot"):
+        if field in prior_state:
+            state_data[field] = prior_state[field]
+    try:
+        state_data.update(
+            normalize_stage5_capture(
+                state_data,
+                raw_capture.get("stage5") if isinstance(raw_capture, dict) else None,
+                now_iso,
+            )
+        )
+    except (ValueError, KeyError, TypeError) as exc:
+        state_data["yahoo_trade_audit"] = {
+            "offers": "unavailable",
+            "standings": "unavailable",
+            "errors": [str(exc)],
+        }
     with open(state_json_path, "w", encoding="utf-8") as f:
         json.dump(state_data, f, indent=2)
 
-    def _bg_sync_and_push():
-        # A successful push already queues the cloud report and notification.
-        # Do not run the entire network/forecast pipeline locally first and
-        # then repeat it in Actions (including a duplicate notification).
-        try:
-            import subprocess
+    def _local_report():
+        # Use the unchanged pipeline locally. Never stage, commit or push data.
+        # Serialize with snapshot writes and panel forecasts, and coalesce
+        # queued workers that would otherwise process the same latest snapshot.
+        with STATE_WRITE_LOCK:
+            with open(state_json_path, encoding="utf-8") as handle:
+                latest_id = json.load(handle).get("sync_id")
+            if LOCAL_REPORT_STATE == {"status": "complete", "sync_id": latest_id}:
+                return
+            LOCAL_REPORT_STATE.update(status="running", sync_id=latest_id)
+            try:
+                run_cloud_sync()
+                LOCAL_REPORT_STATE.update(status="complete", sync_id=latest_id)
+            except Exception:
+                LOCAL_REPORT_STATE.update(status="error", sync_id=latest_id)
+                print("[WARN] Yerel rapor tamamlanamadı; panelde veri durumunu kontrol edin.")
 
-            subprocess.run(
-                [
-                    "git",
-                    "add",
-                    "-f",
-                    "data/processed/league_state.json",
-                    "data/processed/live_matchup.json",
-                ],
-                cwd=PROJECT_ROOT,
-                check=False,
-                capture_output=True,
-                timeout=10,
-            )
-            commit_res = subprocess.run(
-                [
-                    "git",
-                    "commit",
-                    "-m",
-                    "🔄 [Browser Bridge] Sync live 14-team Yahoo rosters, FA pool & matchup",
-                ],
-                cwd=PROJECT_ROOT,
-                check=False,
-                capture_output=True,
-                timeout=10,
-            )
-            if commit_res.returncode == 0:
-                pushed = subprocess.run(
-                    ["git", "push"], cwd=PROJECT_ROOT, check=False, capture_output=True, timeout=25
-                )
-                if pushed.returncode == 0:
-                    print(
-                        "  [GIT] Kadro/skor pushlandi; rapor ve bildirim GitHub Actions'ta uretilecek."
-                    )
-                    return
-        except Exception as e:
-            print(f"[WARN] Git push error: {e}")
-        print("  [WARN] Cloud dispatch unavailable; generating the report locally.")
-        try:
-            run_cloud_sync()
-        except Exception as e:
-            print(f"[WARN] Cloud sync error: {e}")
-
-    if run_async_cloud:
-        threading.Thread(target=_bg_sync_and_push, daemon=True).start()
+    if not dispatch:
+        pass  # Local validation/import must not send notifications.
+    elif run_async_cloud:
+        threading.Thread(target=_local_report, daemon=True).start()
     else:
-        _bg_sync_and_push()
+        _local_report()
 
     return {
         "ok": True,
         "teams_synced": len(rosters_clean),
         "total_players": total_players,
         "matchup_synced": has_valid_matchup,
+        "fantasy_calendar_weeks": len((fantasy_calendar or {}).get("weeks", [])),
+        "fantasy_calendar_audit": calendar_audit,
     }
+
+
+CALENDAR_ONLY_JS_RAW = r"""
+(async function(){
+  // FANTASY_CALENDAR_HELPERS
+  const banner=document.createElement('div');
+  banner.style.cssText='position:fixed;top:14px;right:14px;z-index:999999;background:#065f46;color:white;padding:16px;border-radius:10px;font:600 14px system-ui;max-width:480px';
+  banner.textContent='Yahoo fantasy fikstürü okunuyor; kadro ve skor değiştirilmeyecek...';
+  document.body.appendChild(banner);
+  try {
+    const leagueId=location.pathname.match(/^\/nba\/(\d+)(?:\/|$)/)?.[1];
+    if (!leagueId || location.hostname!=='basketball.fantasysports.yahoo.com') throw new Error('Bu yer imini Yahoo Fantasy lig sayfasında çalıştırın.');
+    const parser=new DOMParser(), teamHtmls=Array(14).fill('');
+    // Calendar mode reads season schedules, not fourteen player rosters.
+    const capture=await collectFantasyCalendar(teamHtmls,leagueId,parser);
+    const response=await fetch('http://127.0.0.1:8765/sync_calendar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({league_id:leagueId,fantasy_calendar_capture:capture})});
+    const saved=await response.json();
+    if(!response.ok || !saved.ok) throw new Error(saved.error || 'Fikstür kaydı reddedildi.');
+    const count=saved.fantasy_calendar_audit.accepted_weeks;
+    banner.style.background=saved.calendar_complete ? '#047857' : '#92400e';
+    const detail=(saved.fantasy_calendar_audit.errors || []).slice(0,2).join(' | ');
+    const missing=(saved.calendar_missing_weeks || []).join(', ');
+    banner.textContent=`${saved.calendar_complete ? '✅' : '⚠️'} Bu çalıştırma: ${count} hafta; toplam kayıt: ${saved.fantasy_calendar_weeks} hafta. ${saved.calendar_complete ? 'Kalan normal sezon tam.' : `Kapsam eksik. Eksik haftalar: ${missing || 'takvim doğrulanamadı'}. ${detail}`}`;
+    setTimeout(()=>banner.remove(),12000);
+  } catch(error) { banner.style.background='#b91c1c';banner.textContent='❌ '+error.message;setTimeout(()=>banner.remove(),12000); }
+})();
+""".strip()
+
+
+def build_bookmarklet_js(calendar_only=False):
+    with open(os.path.join(SRC_DIR, "yahoo_fixtures.js"), encoding="utf-8") as handle:
+        helpers = handle.read()
+    with open(os.path.join(SRC_DIR, "yahoo_transport.js"), encoding="utf-8") as handle:
+        helpers = (
+            handle.read()
+            + "\nconst fetch=createYahooReadSession({maxPages:96,concurrency:2,minDelayMs:400});\nfinishYahooRead=()=>fetch.finish();\n"
+            + helpers
+        )
+    cached = []
+    try:
+        with open(os.path.join(PROCESSED_DIR, "league_state.json"), encoding="utf-8") as handle:
+            state = json.load(handle)
+        calendar = state.get("fantasy_calendar") or {}
+        cached = [
+            {
+                "week": row["week"],
+                "captured_at": row["captured_at"],
+                "season": calendar.get("season"),
+                "league_id": state.get("league_id"),
+            }
+            for row in calendar.get("weeks", [])
+        ]
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    helpers = "const cachedYahooFantasyWeeks=" + json.dumps(cached) + ";\n" + helpers
+    source = CALENDAR_ONLY_JS_RAW if calendar_only else BOOKMARKLET_JS_RAW
+    # Release only this run's lock on success or error, including parser errors.
+    generated = source.replace("// FANTASY_CALENDAR_HELPERS", helpers)
+    return generated.replace(
+        "(async function(){", "(async function(){let finishYahooRead=()=>{};try{", 1
+    ).replace("})();", "}finally{finishYahooRead();}})();")
+
+
+def apply_calendar_capture_payload(payload):
+    """Persist only the calendar against the latest roster identity; no dispatch."""
+    from src.fantasy_calendar import calendar_view, merge_capture
+
+    state_path = os.path.join(PROCESSED_DIR, "league_state.json")
+    with STATE_WRITE_LOCK:
+        with open(state_path, encoding="utf-8") as handle:
+            state = json.load(handle)
+        if str(payload.get("league_id")) != str(state.get("league_id")):
+            raise ValueError("Calendar belongs to a different Yahoo league")
+        if not state.get("sync_id") or not state.get("yahoo_team_slots"):
+            raise ValueError("Capture current Yahoo roster identities before importing a calendar")
+        capture = payload.get("fantasy_calendar_capture")
+        calendar, audit = merge_capture(
+            state.get("fantasy_calendar"),
+            capture,
+            state["league_id"],
+            state["yahoo_team_slots"],
+            datetime.now(timezone.utc).isoformat(),
+        )
+        diagnostics = capture.get("diagnostics", {}) if isinstance(capture, dict) else {}
+        keys = (
+            "pages_fetched",
+            "pages_failed",
+            "matchup_pages_with_dated_evidence",
+            "rejected_wrong_week_or_team",
+            "date_conflicts",
+            "weeks_attempted",
+            "complete_weeks",
+        )
+        audit["capture_diagnostics"] = {
+            key: value
+            for key in keys
+            if isinstance(diagnostics, dict)
+            and type(value := diagnostics.get(key)) is int
+            and 0 <= value <= 10000
+        }
+        state["fantasy_calendar"], state["fantasy_calendar_audit"] = calendar, audit
+        from src.yahoo_trade_sync import normalize_stage5_capture
+
+        try:
+            state.update(
+                normalize_stage5_capture(
+                    state, capture.get("stage5") if isinstance(capture, dict) else None
+                )
+            )
+        except (ValueError, KeyError, TypeError) as exc:
+            state["yahoo_trade_audit"] = {
+                "offers": "unavailable",
+                "standings": "unavailable",
+                "errors": [str(exc)],
+            }
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w", suffix=".json.tmp", dir=PROCESSED_DIR, encoding="utf-8", delete=False
+            ) as handle:
+                temporary = handle.name
+                json.dump(state, handle, ensure_ascii=False, indent=2)
+                handle.write("\n")
+            os.replace(temporary, state_path)
+        finally:
+            if temporary and os.path.exists(temporary):
+                os.unlink(temporary)
+        view = calendar_view(state)
+        return {
+            "ok": True,
+            "fantasy_calendar_weeks": len((calendar or {}).get("weeks", [])),
+            "fantasy_calendar_audit": audit,
+            "roster_sync_id": state["sync_id"],
+            "calendar_complete": bool(view.get("complete_remaining_season")),
+            "calendar_missing_weeks": view.get("missing_weeks", []),
+        }
 
 
 def build_setup_html():
     bookmarklet_href = "javascript:(function(){const s=document.createElement('script');s.src='http://127.0.0.1:8765/sync.js?t='+Date.now();document.head.appendChild(s);})()"
+    calendar_href = "javascript:(function(){const s=document.createElement('script');s.src='http://127.0.0.1:8765/calendar.js?t='+Date.now();document.head.appendChild(s);})()"
     return f"""<!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -739,6 +963,11 @@ def build_setup_html():
 </head>
 <body>
   <div class="card">
+    <h3>Yalnız fantasy fikstürü</h3>
+    <p>Bu yer imi yalnız hafta/rakip takvimini günceller. Mevcut kadro, skor ve senkronizasyon sürümü korunur; rapor/bildirim işlemi başlatılmaz.</p>
+    <p><a class="bm-btn" href="{calendar_href}">Yalnız fikstürü güncelle</a></p>
+  </div>
+  <div class="card">
     <h1>🏀 Yahoo Fantasy 1-Tıkla Senkronizasyon (Sıfır Cookie / Sıfır OAuth İzni)</h1>
     <p>Yahoo API başvurunuz onaylanana kadar <b>14 takımın tamamının güncel kadrolarını</b>, <b>boştaki (FA) oyuncuları</b>, <b>IL+ yuvalarını</b> ve <b>canlı Matchup skor tablosunu</b> tek tıkla çekmek için:</p>
     <ol>
@@ -752,7 +981,7 @@ def build_setup_html():
   </div>
   <div class="card">
     <h3>Alternatif: Tarayıcı Konsolundan (F12 -> Console) Çalıştırma Kodu</h3>
-    <pre id="rawJs">{BOOKMARKLET_JS_RAW}</pre>
+    <pre id="rawJs">{escape(build_bookmarklet_js())}</pre>
     <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('rawJs').innerText);this.innerText='✅ Kopyalandı!';">📋 Konsol Kodunu Kopyala</button>
   </div>
 </body>
@@ -772,8 +1001,8 @@ class BrowserSyncHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path.startswith("/sync.js"):
-            js_code = BOOKMARKLET_JS_RAW.encode("utf-8")
+        if self.path.startswith(("/sync.js", "/calendar.js")):
+            js_code = build_bookmarklet_js(self.path.startswith("/calendar.js")).encode("utf-8")
             self.send_response(200)
             self._send_cors()
             self.send_header("Content-Type", "application/javascript; charset=utf-8")
@@ -789,12 +1018,16 @@ class BrowserSyncHandler(BaseHTTPRequestHandler):
         self.wfile.write(html)
 
     def do_POST(self):
-        if self.path.startswith("/sync_league"):
+        if self.path.startswith(("/sync_league", "/sync_calendar")):
             length = int(self.headers.get("Content-Length", 0))
             raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
             try:
                 payload = json.loads(raw)
-                res = apply_browser_sync_payload(payload)
+                res = (
+                    apply_calendar_capture_payload(payload)
+                    if self.path.startswith("/sync_calendar")
+                    else apply_browser_sync_payload(payload)
+                )
                 out = json.dumps(res).encode("utf-8")
                 self.send_response(200)
                 self._send_cors()

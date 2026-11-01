@@ -60,4 +60,6 @@ def update_role(bp, history, anchor, policy, recent_window=5, recent_k=3.0):
     bp.prior_expected_minutes = anchor
     bp.current_season_gp = len(history)
     bp.current_season_mpg = float(np.mean([r[1] for r in history]))
+    bp.recent_role_gp = len(recent)
+    bp.recent_role_mpg = mean
     bp.role_observation_weight = weight

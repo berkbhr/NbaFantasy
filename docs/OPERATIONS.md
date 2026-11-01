@@ -30,7 +30,12 @@ yeniler. Yeni sezon için bu adaptörün sezonu açıkça güncellenmelidir.
 
 ## Yahoo ve kimlik bilgileri
 
-`python -m src.yahoo_browser_sync` localhost:8765 üzerinde çalışır. Sayfadaki
+`python -m src.report_panel` ana rapor/Excel ekranını localhost:8767,
+Yahoo köprüsünü 8765 ve mevcut takas panelini 8766 portunda birlikte başlatır.
+Kullanım: [Yerel panel](LOCAL_PANEL.md). Bu süreç açıkken ayrı köprü/takas
+komutlarını aynı portlarda başlatmayın.
+
+Tek başına `python -m src.yahoo_browser_sync` localhost:8765 üzerinde çalışır. Sayfadaki
 bookmarklet giriş yapılmış Yahoo sekmesinden kadro, IL, işlem ve skoru yerel
 köprüye iletir. Bu işlem canlı pipeline ve ayarlı bildirimleri tetikleyebilir.
 
@@ -76,7 +81,7 @@ olarak kopyalayın. Ayar yoksa normal sezon kategori puanı hedefi kullanılır.
 - `phase`: `regular_season` veya `playoffs`.
 - `playoff_tie_credit`: Normal sezonda kullanılmaz. Playoff'ta gerçek eşitlik
   kuralına göre 0–1 arasında değer zorunludur; null ile playoff açılmaz.
-- `playoff_spots`: Bu ligde 4.
+- `playoff_spots`: Bu ligde 8.
 - `max_weekly_adds`: Varsayılan 3; gerçek lig limitiyle eşleşmelidir.
 - `adds_used_this_week`: Varsayılan 0. Her hafta ve işlem sonrası güncelleyin;
   tüketim sayısı doğrulanmamış işlem geçmişinden uydurulmaz.
@@ -85,7 +90,7 @@ olarak kopyalayın. Ayar yoksa normal sezon kategori puanı hedefi kullanılır.
 Normal sezonda kategori beraberliği her zaman yarım puandır; haftalık
 beraberliğin değeriyle karıştırılmaz.
 
-## İlk dört hesabı
+## İlk sekiz hesabı
 
 `python -m src.playoffs league_outlook.json --simulations 20000` kullanılır.
 Girdinin `standings` alanı takım kimliğinden kategori `W`, `L`, `T` toplamlarına
@@ -99,7 +104,7 @@ haftalık sonuç sayıları değildir. Sıralama `(W+.5T)/(W+L+T)` ile yapılır
 Gerçek bir `tiebreak_priority` listesi verilmezse kesim noktasında tarafsız
 kura varsayılır. Bu Yahoo tiebreak kuralının doğrulandığı anlamına gelmez.
 Monte Carlo standart hatası yalnızca örnekleme hatasıdır. Gelecek kategori
-sonuçları ve haftalar bağımsız varsayılır. Veri sağlanmadan ilk dört yüzdesi
+sonuçları ve haftalar bağımsız varsayılır. Veri sağlanmadan ilk sekiz yüzdesi
 üretilmez; haftalık kazanma yüzdesi sezon sıralamasının yerine kullanılmaz.
 
 ## Otomasyon ve geliştirme
@@ -123,14 +128,16 @@ anlamına gelmez. Maç başladıysa kısmi süre kontrolü ayrıca önerileri en
 FA sayfaları Yahoo'nun sayfada sunduğu ileri bağlantılar üzerinden en fazla
 dört eşzamanlı istekle taranır. Skor ve sahiplik doğrulaması korunur.
 Yakalama aşamalarının süreleri `league_state.json` içindeki `capture_metrics`
-alanına yazılır. Başarılı Git push'ından sonra bildirim yalnızca Actions'ta
-üretilir; bütün veri/tahmin hattı önce yerelde tekrar çalıştırılmaz. Push
-başarısızsa yerel üretim denenir. Tam senkronizasyon süresi ve Python süresi
-ayrı ölçülmelidir; bulut aşama süreleri `[TIMING]` satırlarında yer alır.
+alanına yazılır. Köprü veriyi yerelde kaydeder ve mevcut canlı veri/tahmin
+hattını aynı bilgisayarda çalıştırır. Otomatik Git add/commit/push yapılmaz.
+Ayarlı Telegram/Discord bildirimi bu bilinçli yer imi senkronunun devamıdır;
+paneldeki **Raporu hesapla** düğmesi ise yalnız önbellekleri okur ve bildirim
+göndermez. Tam senkronizasyon süresi ve Python süresi ayrı ölçülmelidir;
+canlı hat aşama süreleri `[TIMING]` satırlarında yer alır.
 
-Actions'ın manuel `dry_run=true` girdisi gerçek veri/tahmin/arşiv hattını
-çalıştırır; Telegram ve Discord gönderimini kapatır. Normal zamanlanmış ve
-push koşularında bildirim davranışı sürer. NBA oyuncu log isteği bulutta
+Günlük bildirim/veri yayımlama workflow'u kaldırılmıştır. Mevcut GitHub
+Actions workflow'u yalnız kaynak/test kontrollerini çalıştırır; saatli
+bildirim, veri artifact'i veya bot dalına push üretmez. NBA oyuncu log isteği
 tek 10 saniyelik denemeyle, saat kaydı isteği 6 saniyeyle sınırlıdır;
 başarısız istekte önbellek kullanılır veya mevcut doğruluk kontrolleri öneriyi
 engeller. Zaman aşımında önbellek tarihi güncelmiş gibi değiştirilmez.
@@ -161,6 +168,16 @@ otomasyonun bu klasörlere bağımlılığı yoktur. Canlı model ayarları
 `config/model_policy.json` ve `config/rotation_policy.json` içindedir.
 Bir araştırma adayının bulunması bu ayarları otomatik değiştirmez.
 
-GitHub kaynak kontrolü yalnızca yayımlanan `src/` kodunu derler, temel
-karar hedefini ve deterministik beraberlik hesabını denetler, lint ve biçim
-kontrolü yapar. Ayrıntılı özel testler yerelde çalıştırılır.
+GitHub kaynak kontrolü yayımlanan `src/` kodunu derler, `tests/` altındaki
+Python ve JavaScript regresyonlarını çalıştırır, temel karar hedefini ve
+deterministik beraberlik hesabını denetler, lint ve biçim kontrolü yapar.
+Ayrıntılı özel araştırma testleri yerelde çalıştırılır.
+
+## Gerçek fantasy fikstürü
+
+Ana tahminin gelecek hafta/rakip görünümü ve takas analizi ortak
+`league_state.json.fantasy_calendar` kaydını kullanır. Önceden yapılan kadro
+senkronizasyonu bu yeni alanı doldurmaz; güncel tarayıcı köprüsünü yeniden
+başlatıp bookmarklet ile yeni bir yakalama yapmak gerekir. Doğrulanamayan
+haftalar tahmin edilmez. Kurulum, kapsam ve kontrol adımları:
+[Fantasy fikstürü](FANTASY_CALENDAR.md).

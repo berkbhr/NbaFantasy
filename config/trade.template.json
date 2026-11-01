@@ -1,0 +1,65 @@
+{
+  "proposal": {
+    "snapshot_id": null,
+    "our_team": "7",
+    "other_team": null,
+    "give_yahoo_ids": [],
+    "receive_yahoo_ids": [],
+    "effective_date": null
+  },
+  "rules": {
+    "verified": false,
+    "active_slots": ["PG", "SG", "G", "SF", "PF", "F", "C", "C", "UTIL", "UTIL"],
+    "roster_capacity": 13,
+    "il_capacity": 2,
+    "max_weekly_adds": 3,
+    "trade_add_cost": 0,
+    "review_days": null,
+    "trade_deadline": null
+  },
+  "calendar_verified": false,
+  "fixture_horizon_weeks": 4,
+  "regular_season_end": null,
+  "weeks": [],
+  "playoff_periods": [],
+  "eligible_positions": {},
+  "do_not_trade_yahoo_ids": [],
+  "do_not_drop_yahoo_ids": [],
+  "post_trade_il_yahoo_ids": {},
+  "drop_yahoo_ids": {},
+  "completion": {
+    "enabled": true,
+    "candidate_limit": 8,
+    "min_gain_per_week": 0.05,
+    "adds_used_by_week": {}
+  },
+  "streaming": {
+    "enabled": true,
+    "candidate_limit": 8,
+    "beam_width": 6,
+    "finalists": 6,
+    "min_gain_per_week": 0.05,
+    "adds_used_by_week": {}
+  },
+  "search": {
+    "package_types": ["1x1", "2x2", "2x1", "1x2"],
+    "shortlist_size": 40,
+    "per_shape_candidates": 8,
+    "streaming_finalists": 3,
+    "screen_with_fa": "asymmetric",
+    "screen_fa_candidates": 1,
+    "reuse_projections": true,
+    "min_gain_per_week": 0.05,
+    "max_partner_loss_per_week": 0.05,
+    "refinement_slack_per_week": 0.25,
+    "counter_improvement_per_week": 0.01,
+    "max_counter_edits": 2,
+    "require_market": false
+  },
+  "market_policy": {
+    "max_age_days": 7,
+    "max_value_ratio": 1.75,
+    "elite_rank": 20,
+    "extreme_rank_gap": 50
+  }
+}

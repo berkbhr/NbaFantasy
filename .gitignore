@@ -27,6 +27,14 @@ scratch/
 .pytest_cache/
 .ruff_cache/
 config/league.json
+config/trade.local.json
+reports/trades/
+reports/trade_search/
+reports/fantasy_fixture_check/
+config/trade_market.local.json
+config/trade_automation.json
+data/processed/trade_runtime.json
+data/processed/trade_scan_state.json
 reports/validation/player_forecasts.parquet
 reports/latest_forecast.json
 reports/forecasts/
@@ -39,3 +47,6 @@ research/
 # Raw injury PDF downloads & scratch files
 data/raw/injuries/*.pdf
 data/raw/injuries/*.txt
+
+# Local audit notes and task records are not part of the runtime delivery.
+/TARTIŞMA/

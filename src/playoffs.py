@@ -1,4 +1,4 @@
-"""Top-four qualification from category W/L/T standings and future fixtures.
+"""Top-eight qualification from category W/L/T standings and future fixtures.
 
 No league fixtures or standings are invented. Ties at the qualification cutoff
 are broken uniformly unless the caller supplies an actual tiebreak priority.
@@ -14,11 +14,12 @@ import numpy as np
 def estimate_playoff_probabilities(
     standings,
     fixtures,
-    playoff_spots=4,
+    playoff_spots=8,
     simulations=20000,
     seed=42,
     draw_value=0.5,
     tiebreak_priority=None,
+    return_draws=False,
 ):
     """standings: team -> category {W,L,T}; fixtures carry nine category marginals.
 
@@ -90,7 +91,7 @@ def estimate_playoff_probabilities(
             "mc_standard_error": float(np.sqrt(p * (1 - p) / simulations)),
             "expected_final_category_percentage": float(percentages[:, i].mean()),
         }
-    return {
+    report = {
         "teams": result,
         "playoff_spots": playoff_spots,
         "simulations": simulations,
@@ -100,6 +101,9 @@ def estimate_playoff_probabilities(
         "scoring": "Category wins + 0.5 category ties, divided by categories played",
         "assumption": "Future categories and fixtures independent conditional on supplied probabilities",
     }
+    if return_draws:
+        report["_qualification_draws"] = qualified
+    return report
 
 
 def main():
@@ -112,7 +116,7 @@ def main():
     result = estimate_playoff_probabilities(
         state["standings"],
         state["fixtures"],
-        playoff_spots=4,
+        playoff_spots=8,
         simulations=args.simulations,
         draw_value=state.get("draw_value", 0.5),
         tiebreak_priority=state.get("tiebreak_priority"),

@@ -1,8 +1,9 @@
 {
   "phase": "regular_season",
   "playoff_tie_credit": null,
-  "playoff_spots": 4,
+  "playoff_spots": 8,
   "max_weekly_adds": 3,
   "adds_used_this_week": 0,
-  "protected_player_names": []
+  "protected_player_names": [],
+  "future_fixture_weeks": null
 }

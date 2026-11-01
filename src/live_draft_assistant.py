@@ -14,15 +14,17 @@ try:
     from .injury_tracker import InjuryTracker, normalize_name
     from .matchup_engine import MatchupEngine, can_fill_roster_cached, norm_cdf, norm_pdf
     from .model_policy import ModelPolicy, load_model_policy, update_role
-    from .priors import get_positional_averages, load_prior_season
+    from .priors import _previous_season, get_positional_averages, load_prior_season
     from .probability import decision_value
+    from .snapshots import select_replay_records
 except ImportError:
     from bayesian_model import COUNT_STATS, PERCENTAGE_STATS, BayesianPlayer
     from injury_tracker import InjuryTracker, normalize_name
     from matchup_engine import MatchupEngine, can_fill_roster_cached, norm_cdf, norm_pdf
     from model_policy import ModelPolicy, load_model_policy, update_role
-    from priors import get_positional_averages, load_prior_season
+    from priors import _previous_season, get_positional_averages, load_prior_season
     from probability import decision_value
+    from snapshots import select_replay_records
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
@@ -34,9 +36,30 @@ class LiveDraftAssistant:
         self.prior_season = prior_season
         year = int(prior_season[:4]) + 1
         self.target_season = kwargs.get("target_season", f"{year}_{str(year + 1)[-2:]}")
+        self.historical_replay = bool(kwargs.get("historical_replay", False))
+        self.include_target_evidence = not self.historical_replay
         self.draw_value = float(kwargs.get("draw_value", 0.5))
         self.objective = kwargs.get("objective", "category_points")
-        self.use_live_injuries = bool(kwargs.get("use_live_injuries", True))
+        # Replay must never instantiate the mutable live tracker, even when a
+        # caller accidentally requests it. Historical evidence is explicit.
+        self.use_live_injuries = not self.historical_replay and bool(
+            kwargs.get("use_live_injuries", True)
+        )
+        self.replay_as_of = kwargs.get("replay_as_of")
+        self.historical_positions = kwargs.get("historical_positions")
+        historical_injuries = kwargs.get("historical_injuries")
+        if not self.historical_replay and (
+            self.historical_positions is not None or historical_injuries is not None
+        ):
+            raise ValueError("Historical evidence requires historical_replay=True")
+        self.replay_injuries = (
+            select_replay_records(
+                historical_injuries, self.replay_as_of, id_column="player_id", value_column="status"
+            ).to_dict("records")
+            if historical_injuries is not None
+            else []
+        )
+        self.use_injury_evidence = self.use_live_injuries or bool(self.replay_injuries)
         self.injury_db_path = kwargs.get("injury_db_path")
         self._ingested_games = set()
         self._availability_games = set()
@@ -44,7 +67,12 @@ class LiveDraftAssistant:
         self._role_prior_minutes = {}
         self.target_minutes = target_minutes
         self.model_policy = kwargs.get("model_policy") or load_model_policy()
-        self.priors = load_prior_season(prior_season, policy=self.model_policy)
+        self.priors = load_prior_season(
+            prior_season,
+            policy=self.model_policy,
+            target_season=self.target_season,
+            include_target_evidence=self.include_target_evidence,
+        )
 
         self.players = {}
         self.available_player_ids = set()
@@ -71,13 +99,28 @@ class LiveDraftAssistant:
         self.team_abbr_dict = {}
 
         self.load_data()
-        self.pos_averages = get_positional_averages(self.priors, pos_dict=self.pos_dict)
+        self.pos_averages = get_positional_averages(
+            self.priors, pos_dict=self.pos_dict, use_live_positions=not self.historical_replay
+        )
         self.initialize_ai()
         self.calculate_baselines()
 
     def load_data(self):
         pos_file = os.path.join(PROCESSED_DIR, "player_positions.parquet")
-        if os.path.exists(pos_file):
+        if getattr(self, "historical_replay", not self.include_target_evidence):
+            history = getattr(self, "historical_positions", None)
+            self.df_pos = (
+                select_replay_records(
+                    history,
+                    self.replay_as_of,
+                    id_column="PLAYER_ID",
+                    value_column="POSITION",
+                )
+                if history is not None
+                else pd.DataFrame(columns=["PLAYER_ID", "POSITION"])
+            )
+            self.pos_dict = self.df_pos.set_index("PLAYER_ID")["POSITION"].to_dict()
+        elif os.path.exists(pos_file):
             self.df_pos = pd.read_parquet(pos_file)
             self.pos_dict = self.df_pos.set_index("PLAYER_ID")["POSITION"].to_dict()
         else:
@@ -86,8 +129,8 @@ class LiveDraftAssistant:
             self.df_pos = pd.DataFrame()
 
         self.active_roster_df = pd.DataFrame()
-        roster_26_file = os.path.join(PROCESSED_DIR, "active_roster_2026_27.parquet")
-        if self.prior_season == "2025_26" and os.path.exists(roster_26_file):
+        roster_26_file = os.path.join(PROCESSED_DIR, f"active_roster_{self.target_season}.parquet")
+        if self.include_target_evidence and os.path.exists(roster_26_file):
             self.active_roster_df = pd.read_parquet(roster_26_file)
             for _, r in self.active_roster_df.iterrows():
                 pid = int(r["PLAYER_ID"])
@@ -123,28 +166,30 @@ class LiveDraftAssistant:
     def initialize_ai(self):
         logs_file = os.path.join(DATA_DIR, "raw", f"player_logs_{self.prior_season}.parquet")
         if not os.path.exists(logs_file):
-            logs_file = os.path.join(DATA_DIR, "raw", "player_logs_2024_25.parquet")
+            fallback_season = _previous_season(self.prior_season) or "2024_25"
+            logs_file = os.path.join(DATA_DIR, "raw", f"player_logs_{fallback_season}.parquet")
         df_logs = pd.read_parquet(logs_file)
         name_frames = [df_logs[["PLAYER_ID", "PLAYER_NAME"]].drop_duplicates()]
 
-        # Include players from 2024-25 (injured stars) and 2026-27 active roster / preseason rookies
-        if self.prior_season == "2025_26":
-            prev_logs = os.path.join(DATA_DIR, "raw", "player_logs_2024_25.parquet")
-            if os.path.exists(prev_logs):
-                df_prev = pd.read_parquet(
-                    prev_logs, columns=["PLAYER_ID", "PLAYER_NAME"]
-                ).drop_duplicates()
-                name_frames.append(df_prev)
-            if not self.active_roster_df.empty:
-                name_frames.append(
-                    self.active_roster_df[["PLAYER_ID", "PLAYER_NAME"]].drop_duplicates()
-                )
-            pre_logs = os.path.join(DATA_DIR, "raw", "preseason_logs_2026_27.parquet")
-            if os.path.exists(pre_logs):
-                df_pre = pd.read_parquet(
-                    pre_logs, columns=["PLAYER_ID", "PLAYER_NAME"]
-                ).drop_duplicates()
-                name_frames.append(df_pre)
+        # Completed previous-season names are safe in both modes. Target
+        # roster/preseason names are admitted only for explicit live preparation.
+        fallback_season = _previous_season(self.prior_season) or "2024_25"
+        prev_logs = os.path.join(DATA_DIR, "raw", f"player_logs_{fallback_season}.parquet")
+        if os.path.exists(prev_logs):
+            df_prev = pd.read_parquet(
+                prev_logs, columns=["PLAYER_ID", "PLAYER_NAME"]
+            ).drop_duplicates()
+            name_frames.append(df_prev)
+        if self.include_target_evidence and not self.active_roster_df.empty:
+            name_frames.append(
+                self.active_roster_df[["PLAYER_ID", "PLAYER_NAME"]].drop_duplicates()
+            )
+        pre_logs = os.path.join(DATA_DIR, "raw", f"preseason_logs_{self.target_season}.parquet")
+        if self.include_target_evidence and os.path.exists(pre_logs):
+            df_pre = pd.read_parquet(
+                pre_logs, columns=["PLAYER_ID", "PLAYER_NAME"]
+            ).drop_duplicates()
+            name_frames.append(df_pre)
 
         unique_players = pd.concat(name_frames, ignore_index=True).drop_duplicates(
             subset=["PLAYER_ID"], keep="first"
@@ -185,9 +230,13 @@ class LiveDraftAssistant:
             self.df_pos,
             season=self.target_season,
             prior_season=self.prior_season,
+            include_target_evidence=self.include_target_evidence,
             use_positional_depth_and_injury_boost=self.use_positional_depth_and_injury_boost,
             draw_value=self.draw_value,
             objective=self.objective,
+            evidence_as_of=(
+                self.replay_as_of if getattr(self, "historical_replay", False) else None
+            ),
         )
         self._refresh_projected_stats_dict()
 
@@ -198,14 +247,14 @@ class LiveDraftAssistant:
             and self.use_positional_depth_and_injury_boost
         ):
             self.engine.recompute_team_depth_and_injury_minutes(
-                use_live_injuries=self.use_live_injuries
+                use_live_injuries=self.use_injury_evidence
             )
 
         for pid, bp in self.players.items():
             preds = bp.predict_next_game(self.target_minutes)
             avail = getattr(bp, "availability_rate", 0.85)
             # Player-level availability; bench replacement is handled by dated lineups.
-            eff_avail = bp.get_effective_game_availability() if self.use_live_injuries else avail
+            eff_avail = bp.get_effective_game_availability() if self.use_injury_evidence else avail
             flat_stats = {"EXP_MIN": preds["MIN"]["mean"], "AVAIL": avail}
 
             for stat in COUNT_STATS:
@@ -434,25 +483,32 @@ class LiveDraftAssistant:
                     else InjuryTracker()
                 )
             self._sync_injuries_into_players()
+        elif self.replay_injuries:
+            self._sync_injuries_into_players()
 
     def _sync_injuries_into_players(self):
-        if not hasattr(self, "injury_tracker"):
+        if self.historical_replay:
+            injuries = self.replay_injuries
+        elif hasattr(self, "injury_tracker"):
+            injuries = self.injury_tracker.get_all_active_injuries()
+        else:
             return
         # First reset all players in memory to HEALTHY so any player cleared from injuries.db
         # immediately regains their healthy availability and their backups revert to baseline minutes!
         for bp in self.players.values():
             bp.update_injury_status("HEALTHY", desc="", is_b2b_rest=False, expected_return=None)
 
-        injuries = self.injury_tracker.get_all_active_injuries()
         for inj in injuries:
             pid = inj["player_id"]
             if pid in self.players:
                 self.players[pid].update_injury_status(
                     status=inj["status"],
-                    desc=inj["injury_desc"],
-                    is_b2b_rest=inj["is_b2b_rest"],
-                    expected_return=inj["expected_return"],
-                    report_date=inj.get("updated_at"),
+                    desc=inj.get("injury_desc", ""),
+                    is_b2b_rest=inj.get("is_b2b_rest", False),
+                    expected_return=inj.get("expected_return"),
+                    report_date=inj.get("observed_at")
+                    if self.historical_replay
+                    else inj.get("updated_at"),
                 )
             else:
                 norm_target = normalize_name(inj.get("player_name", ""))
@@ -460,14 +516,14 @@ class LiveDraftAssistant:
                     if normalize_name(bp.name) == norm_target:
                         bp.update_injury_status(
                             status=inj["status"],
-                            desc=inj["injury_desc"],
-                            is_b2b_rest=inj["is_b2b_rest"],
-                            expected_return=inj["expected_return"],
+                            desc=inj.get("injury_desc", ""),
+                            is_b2b_rest=inj.get("is_b2b_rest", False),
+                            expected_return=inj.get("expected_return"),
                             report_date=inj.get("updated_at"),
                         )
                         break
         if (
-            self.use_positional_depth_and_injury_boost
+            (self.use_positional_depth_and_injury_boost or self.historical_replay)
             and hasattr(self, "engine")
             and self.engine is not None
         ):
@@ -548,7 +604,7 @@ class LiveDraftAssistant:
         """Mean expected category points; playoff objective is an explicit option."""
         team_dists = {
             i: self.engine.get_expected_weekly_distribution(
-                sim_rosters[i], use_live_injuries=self.use_live_injuries
+                sim_rosters[i], use_live_injuries=self.use_injury_evidence
             )
             for i in range(self.num_teams)
         }

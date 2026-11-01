@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "our_team": "7",
+  "offer_max_age_hours": 6,
+  "max_offers_per_run": 3,
+  "max_seconds": 90,
+  "fixture_horizon_weeks": 4,
+  "effective_date_policy": "next_full_week_scenario",
+  "playoff_enabled": true,
+  "playoff_simulations": 5000,
+  "opportunity_cadence": "off",
+  "opportunity_analysis": {
+    "completion": {"enabled": true, "adds_used_by_week": {}},
+    "streaming": {"enabled": true, "adds_used_by_week": {}},
+    "search": {"shortlist_size": 40, "streaming_finalists": 3, "reuse_projections": true}
+  },
+  "analysis": {
+    "rules": {"verified": false},
+    "completion": {"enabled": true, "adds_used_by_week": {}},
+    "streaming": {"enabled": false, "adds_used_by_week": {}},
+    "search": {"shortlist_size": 40, "streaming_finalists": 3, "reuse_projections": true}
+  }
+}

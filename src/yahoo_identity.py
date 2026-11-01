@@ -47,7 +47,7 @@ def team_slots(rosters, prior, names=None):
     return mapping, evidence
 
 
-def roster_player_evidence(rosters, mapping):
+def roster_player_evidence(rosters, mapping, captured_at=None):
     result, seen = {}, {}
     for raw, players in rosters.items():
         slot = mapping[str(int(raw) + 1)]
@@ -61,14 +61,25 @@ def roster_player_evidence(rosters, mapping):
                 if not pid.isdigit() or int(pid) <= 0 or pid in seen:
                     raise ValueError("Invalid or multiply owned Yahoo player ID")
                 seen[pid] = slot
-            result[slot].append(
-                {
-                    "name": item["name"],
-                    "yahoo_player_id": pid,
-                    "selected_position": item.get("selected_position"),
-                    "status": item.get("status"),
-                }
-            )
+            record = {
+                "name": item["name"],
+                "yahoo_player_id": pid,
+                "selected_position": item.get("selected_position"),
+                "status": item.get("status"),
+            }
+            for field in ("status_evidence", "position_evidence", "captured_at"):
+                value = item.get(field) or (captured_at if field == "captured_at" else None)
+                if isinstance(value, str) and value:
+                    record[field] = value
+            raw_positions = item.get("eligible_positions")
+            if isinstance(raw_positions, (list, tuple)) and all(
+                isinstance(p, str) for p in raw_positions
+            ):
+                allowed = {"PG", "SG", "SF", "PF", "C", "G", "F", "UTIL", "BN", "IL", "IL+"}
+                positions = sorted({p.strip().upper() for p in raw_positions})
+                if positions and set(positions) <= allowed:
+                    record["eligible_positions"] = positions
+            result[slot].append(record)
     return result
 
 

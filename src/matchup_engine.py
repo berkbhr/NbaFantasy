@@ -158,6 +158,9 @@ class MatchupEngine:
         objective="category_points",
         low_role_boost_cap=None,
         rotation_policy=None,
+        role_covariance_correlation=0.0,
+        include_target_evidence=None,
+        evidence_as_of=None,
     ):
         self.players = bayesian_players_dict
         self.schedule = df_schedule.copy() if df_schedule is not None else pd.DataFrame()
@@ -180,7 +183,21 @@ class MatchupEngine:
                 else {}
             )
         )
+        # Fantasy eligibility and NBA positional roles are different evidence.
+        # Loaders can retain NBA roles here while using Yahoo positions in pos_dict.
+        self.rotation_pos_dict = None
         self.season, self.prior_season = season, prior_season
+        self.include_target_evidence = (
+            season == "2026_27" if include_target_evidence is None else include_target_evidence
+        )
+        self.evidence_as_of = (
+            pd.to_datetime(evidence_as_of, utc=True) if evidence_as_of is not None else None
+        )
+        if self.evidence_as_of is not None and pd.isna(self.evidence_as_of):
+            raise ValueError("Invalid replay evidence cutoff")
+        if not 0 <= role_covariance_correlation <= 1:
+            raise ValueError("role_covariance_correlation must be in [0, 1]")
+        self.role_covariance_correlation = role_covariance_correlation
         self.num_il_slots, self.max_weekly_adds = int(num_il_slots), int(max_weekly_adds)
         self.free_agent_pool = list(free_agent_pool or [])  # Candidates only; never silently added.
         self.il_eligible_statuses = set(il_eligible_statuses)
@@ -218,11 +235,18 @@ class MatchupEngine:
             yield
             return
         self._projection_cache = {}
+        player_state = {
+            pid: (bp.expected_minutes, bp.minutes_var) for pid, bp in self.players.items()
+        }
+        summary = self.last_injury_boost_summary
         try:
             yield
         finally:
             self._projection_cache = None
-            self.recompute_team_depth_and_injury_minutes()
+            for pid, (minutes, variance) in player_state.items():
+                self.players[pid].expected_minutes = minutes
+                self.players[pid].minutes_var = variance
+            self.last_injury_boost_summary = summary
 
     def _daily_projections(self, day, as_of, live, eligible):
         key = (
@@ -261,9 +285,9 @@ class MatchupEngine:
                 .items()
             }
         mapping = dict(self.prior_team_map)
-        # This snapshot is valid only for the live 2026-27 season.
-        roster = DATA_DIR / "processed" / "active_roster_2026_27.parquet"
-        if self.season == "2026_27" and roster.exists():
+        # Historical callers must disable snapshots or supply an as-of team_map.
+        roster = DATA_DIR / "processed" / f"active_roster_{self.season}.parquet"
+        if self.include_target_evidence and roster.exists():
             df = pd.read_parquet(roster)
             mapping.update(
                 {
@@ -294,7 +318,7 @@ class MatchupEngine:
         self.last_injury_boost_summary = adjust_rotations(
             self.players,
             self.team_map,
-            self.pos_dict,
+            self.rotation_pos_dict if self.rotation_pos_dict is not None else self.pos_dict,
             enabled=self.use_positional_depth_and_injury_boost and use_live_injuries,
             game_date=game_date,
             as_of_date=as_of_date,
@@ -322,6 +346,7 @@ class MatchupEngine:
         variances = {s: prediction[s]["variance"] for s in COUNT_STATS}
         for s in COUNT_STATS:
             variances[s + "_shared"] = prediction[s]["shared_covariance"]
+            variances[s + "_role"] = prediction[s].get("role_variance", 0.0)
         for s in PERCENTAGE_STATS:
             p = prediction[s]
             means.update({s + "M": p["mean"], s + "A": p["attempts"], s + "_rate": p["rate"]})
@@ -333,6 +358,8 @@ class MatchupEngine:
                     s + "_rate": p["rate_variance"],
                     s + "A_shared": p["shared_attempts_covariance"],
                     s + "M_shared": p["shared_covariance"],
+                    s + "A_role": p.get("role_attempts_variance", 0.0),
+                    s + "M_role": p.get("role_variance", 0.0),
                 }
             )
         return means, variances
@@ -383,6 +410,8 @@ class MatchupEngine:
         p_ref_fg=0.47,
         p_ref_ft=0.78,
         as_of_date=None,
+        player_end_dates=None,
+        role_covariance_correlation=None,
     ):
         """Project only the supplied roster; no hypothetical free-agent ownership.
 
@@ -390,7 +419,31 @@ class MatchupEngine:
         player's games. The optional availability correlation is a sensitivity
         assumption, independent by default until fitted injury histories exist.
         """
+        if role_covariance_correlation is None:
+            role_covariance_correlation = self.role_covariance_correlation
+        if not 0 <= role_covariance_correlation <= 1:
+            raise ValueError("role_covariance_correlation must be in [0, 1]")
         roster_ids = sorted(set(roster_ids), key=str)
+        if self.evidence_as_of is not None:
+            requested = pd.to_datetime(as_of_date or start_date, utc=True)
+            if requested is not None and requested < self.evidence_as_of:
+                # Date-only schedule starts may share the cutoff's UTC day.
+                if (
+                    as_of_date is not None
+                    or requested.normalize() < self.evidence_as_of.normalize()
+                ):
+                    raise ValueError("Projection predates replay evidence; build an earlier replay")
+            if (
+                start_date is not None
+                and pd.to_datetime(start_date, utc=True).normalize()
+                < self.evidence_as_of.normalize()
+            ):
+                raise ValueError("Projection games predate replay evidence")
+            # Model learning/idle dates are naive UTC calendar days. Keep the
+            # timestamp cutoff above for source safety, then use that convention.
+            as_of_date = pd.to_datetime(as_of_date or self.evidence_as_of, utc=True).tz_localize(
+                None
+            )
         dated = start_date is not None and end_date is not None and not self.schedule.empty
         dates = list(pd.date_range(start_date, end_date)) if dated else [None]
         if (
@@ -435,6 +488,19 @@ class MatchupEngine:
         }
         starts = {pid: [] for pid in eligible}
         lineup_meta = {}
+        # One immutable game-date set per NBA team for this projection. The
+        # previous inner loop rescanned the team's whole season for every
+        # player/day; membership on today's date gives the same result.
+        schedule_by_team = (
+            {
+                team: self._get_player_schedule(
+                    team, pd.Timestamp(start_date) - pd.Timedelta(days=1), end_date
+                )
+                for team in {self.team_map.get(pid) for pid in eligible}
+            }
+            if dated
+            else {}
+        )
         for day in dates:
             daily_projections = self._daily_projections(day, as_of, use_live_injuries, eligible)
             candidates = []
@@ -448,9 +514,13 @@ class MatchupEngine:
                         and day < pd.Timestamp(player_start_dates[pid])
                     ):
                         continue
-                    team_schedule = self._get_player_schedule(
-                        self.team_map.get(pid), day - pd.Timedelta(days=1), end_date
-                    )
+                    if (
+                        player_end_dates
+                        and pid in player_end_dates
+                        and day > pd.Timestamp(player_end_dates[pid])
+                    ):
+                        continue
+                    team_schedule = schedule_by_team[self.team_map.get(pid)]
                     if day not in team_schedule:
                         continue
                     # Completed yesterday games still matter for B2B rest.
@@ -535,8 +605,11 @@ class MatchupEngine:
                         shared = math.sqrt(
                             a["var"].get(cat + "_shared", 0) * b["var"].get(cat + "_shared", 0)
                         )
+                        role_cov = role_covariance_correlation * math.sqrt(
+                            a["var"].get(cat + "_role", 0) * b["var"].get(cat + "_role", 0)
+                        )
                         var[cat] += pairs * (
-                            joint * shared + cov_play * a["mean"][cat] * b["mean"][cat]
+                            joint * (shared + role_cov) + cov_play * a["mean"][cat] * b["mean"][cat]
                         )
             breakdown.append({"id": pid, "games": records})
         return {
@@ -551,6 +624,7 @@ class MatchupEngine:
                 "lineups": lineup_meta,
                 "schedule_mode": "dated" if dated else "draft_fallback",
                 "availability_correlation": self.availability_correlation,
+                "role_covariance_correlation": role_covariance_correlation,
             },
         }
 
@@ -582,6 +656,7 @@ class MatchupEngine:
             )
         total = 0.0
         rho = dist.get("meta", {}).get("availability_correlation", 0.0)
+        role_corr = dist.get("meta", {}).get("role_covariance_correlation", 0.0)
         for player in players:
             records = player["games"]
             for a in records:
@@ -603,7 +678,11 @@ class MatchupEngine:
                     )
                     ra, rb = a["mean"][stat + "_rate"], b["mean"][stat + "_rate"]
                     na, nb = a["mean"][stat + "A"], b["mean"][stat + "A"]
-                    cov_att = math.sqrt(a["var"][stat + "A_shared"] * b["var"][stat + "A_shared"])
+                    cov_att = math.sqrt(
+                        a["var"][stat + "A_shared"] * b["var"][stat + "A_shared"]
+                    ) + role_corr * math.sqrt(
+                        a["var"].get(stat + "A_role", 0.0) * b["var"].get(stat + "A_role", 0.0)
+                    )
                     var_rate = math.sqrt(a["var"][stat + "_rate"] * b["var"][stat + "_rate"])
                     shared = (na * nb + cov_att) * var_rate + (ra - p_ref) * (rb - p_ref) * cov_att
                     total += pairs * (
@@ -674,6 +753,7 @@ class MatchupEngine:
         my_rem_fraction=1.0,
         opp_rem_fraction=1.0,
         player_start_dates=None,
+        as_of_date=None,
     ):
         """Two-pass lineup policy, retaining the best evaluated weekly utility.
 
@@ -682,13 +762,19 @@ class MatchupEngine:
         """
         opp = self.combine_live_and_remaining_dist(
             opp_actual_stats,
-            self.get_expected_weekly_distribution(opp_ids, start_date, end_date),
+            self.get_expected_weekly_distribution(
+                opp_ids, start_date, end_date, as_of_date=as_of_date
+            ),
             opp_rem_fraction,
         )
         best = self.combine_live_and_remaining_dist(
             my_actual_stats,
             self.get_expected_weekly_distribution(
-                my_ids, start_date, end_date, player_start_dates=player_start_dates
+                my_ids,
+                start_date,
+                end_date,
+                player_start_dates=player_start_dates,
+                as_of_date=as_of_date,
             ),
             my_rem_fraction,
         )
@@ -709,6 +795,7 @@ class MatchupEngine:
                     player_start_dates=player_start_dates,
                     p_ref_fg=fg,
                     p_ref_ft=ft,
+                    as_of_date=as_of_date,
                 ),
                 my_rem_fraction,
             )

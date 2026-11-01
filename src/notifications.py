@@ -93,6 +93,7 @@ def render_telegram(
     forecast_changes=None,
     scoreboard=None,
     display_context=None,
+    trade_analysis=None,
 ):
     def label(category):
         return category.replace("_PCT", "%").replace("FG3M", "3PT")
@@ -272,6 +273,77 @@ def render_telegram(
             )
     if len(moves) > 1:
         lines.extend(["", "Hamleler birbirinin alternatifidir; kazançları toplanmaz."])
+    if trade_analysis is not None:
+        lines.extend(["", "<b>Bekleyen Yahoo takasları</b>"])
+        state = trade_analysis.get("status")
+        if state == "disabled":
+            lines.append("Takas izlemesi kapalı.")
+        elif state == "no_pending_offers":
+            lines.append("Doğrulanmış kayıtta bekleyen teklif yok.")
+        elif state not in ("analyzed", "partial"):
+            lines.append("Güncel teklif verisi doğrulanamadı; eski takas önerileri gösterilmedi.")
+        else:
+            if trade_analysis.get("captured_at"):
+                lines.append("Teklif kaydı: " + escape(str(trade_analysis["captured_at"])))
+            offers = trade_analysis.get("offers", [])
+            for offer in offers[:3]:
+                display = offer.get("display", {})
+                if display.get("our_team") or display.get("other_team"):
+                    lines.append(
+                        escape(str(display.get("our_team", "Bizim takım"))[:65])
+                        + " ↔ "
+                        + escape(str(display.get("other_team", "Karşı takım"))[:65])
+                    )
+                given = ", ".join(str(name) for name in display.get("give", []))[:180]
+                received = ", ".join(str(name) for name in display.get("receive", []))[:180]
+                lines.append(
+                    "• "
+                    + escape(given or "Teklif")
+                    + " → "
+                    + escape(received or "oyuncu bilgisi eksik")
+                )
+                analysis = offer.get("analysis") or {}
+                if offer.get("analysis_status") == "evaluated" and analysis:
+                    labels = {
+                        "conditional_accept": "Koşullu olumlu",
+                        "reject_suggested": "Olumsuz",
+                        "counter_or_review": "Karşı teklif / inceleme",
+                        "borderline": "Sınırda",
+                        "needs_data": "Veri eksik",
+                    }
+                    label = labels.get(analysis.get("verdict"), "Koşullu inceleme")
+                    delta = analysis.get("decision", {}).get("delta")
+                    lines.append(
+                        label + (f" · Δ {delta:+.3f} kategori puanı" if delta is not None else "")
+                    )
+                    bilateral = offer.get("bilateral", {})
+                    if bilateral.get("partner_conservative") is not None:
+                        lines.append(
+                            f"Karşı takım: Δ {bilateral['partner_conservative']:+.3f} kategori puanı (muhafazakâr)."
+                        )
+                    conditions = offer.get("conditions", [])
+                    if conditions:
+                        lines.append("Koşul: " + escape(str(conditions[0])[:160]))
+                    if offer.get("market", {}).get("requires_review"):
+                        lines.append("Piyasa doğrulaması gerekiyor.")
+                    impact = offer.get("playoff_impact") or {}
+                    if impact.get("status") in ("ready", "conditional_estimate"):
+                        mine = str(analysis.get("proposal", {}).get("our_team", ""))
+                        row = impact.get("teams", {}).get(mine)
+                        if row:
+                            from .trade_report import playoff_team_probabilities
+
+                            before, after, delta, _ = playoff_team_probabilities(row)
+                            lines.append(
+                                f"Koşullu playoff etkisi: {before:.1%} → {after:.1%} ({100 * delta:+.2f} yüzde puan; sabit kadro)."
+                            )
+                    elif impact:
+                        lines.append("Playoff etkisi için veri eksik.")
+                else:
+                    lines.append("Analiz bekliyor / veri eksik; karar üretilmedi.")
+            if len(offers) > 3:
+                lines.append(f"+{len(offers) - 3} teklif ayrıntılı raporda")
+        lines.append("Teklif değerlendirmeleri koşulludur; Yahoo işlemi yapılmaz.")
     if provisional:
         lines.extend(
             ["", "<i>Dakika güncellemesi geçici kabulde; eski yöntem paralel izleniyor.</i>"]

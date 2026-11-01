@@ -16,6 +16,10 @@ def free_agent_ids(assistant, state, rosters, now=None):
         "verified_candidates": 0,
         "reason": None,
         "scan_complete": bool(snapshot.get("scan_complete")),
+        "pages_scanned": snapshot.get("pages_scanned"),
+        "page_limit": snapshot.get("page_limit"),
+        "sort": snapshot.get("sort"),
+        "observed_players": len(snapshot.get("players", [])),
     }
     try:
         if state.get("sync_id") and snapshot.get("sync_id") != state["sync_id"]:

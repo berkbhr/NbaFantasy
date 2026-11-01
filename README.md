@@ -12,7 +12,7 @@ U=\sum_{c=1}^{9}\left[P(\text{kategori galibiyeti})
 
 8–1 sonucu 5–4'ten, 4–5 sonucu 1–8'den daha değerlidir. Haftalık eşleşme
 galibiyeti ana hedef değildir; haftalık W/L/D ikincil bir rapor metriğidir.
-Kategori sıralamasındaki ilk dört takım playoff'a katılır. Playoff hedefi ve
+Kategori sıralamasındaki ilk sekiz takım playoff'a katılır. Playoff hedefi ve
 beraberlik bozma kuralı ayrıca yapılandırılır.
 
 ## Kurulum ve kullanım
@@ -23,8 +23,20 @@ Python 3.11 veya üzeri, proje kök dizininde:
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -t . -p "test_*.py"
-.\.venv\Scripts\python.exe -m ruff check src tests research
+node --test tests/yahoo_fixtures.test.cjs tests/yahoo_fixture_capture.test.cjs tests/report_panel.test.cjs
+.\.venv\Scripts\python.exe -m ruff check src tests
+.\.venv\Scripts\python.exe -m ruff format --check src tests
 ```
+
+Ortak yerel paneli açmak için:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.report_panel
+```
+
+Bu komut ana rapor/Excel ekranını, Yahoo köprüsünü ve mevcut takas panelini
+birlikte başlatır. Yahoo Matchup sayfasındaki yer imi kullanılmaya devam eder.
+Kullanım ve Telegram ayarları: [Yerel panel](docs/LOCAL_PANEL.md).
 
 **Yerel önbelleklerden rapor üretmek** ağ erişimi veya bildirim gönderimi yapmaz:
 
@@ -33,8 +45,15 @@ python -m venv .venv
 ```
 
 Çıktılar: `reports/latest_cloud_summary.md` ve `reports/latest_forecast.json`.
+Ana rapor, doğrulanmış Yahoo fikstürü varsa kalan tam normal sezon haftalarını
+gerçek rakiplere göre de değerlendirir. Kaynak ve kurulum:
+[Fantasy fikstürü](docs/FANTASY_CALENDAR.md).
 Geçerli canlı skor yoksa yalnızca kalan maçlar gösterilir; hafta içi add/drop
 önerileri bekletilir. Rapor üretmek Yahoo senkronizasyonu yapmak değildir.
+
+Takas modülü güncel Yahoo tekliflerini ana rapor ve bildirimlerde değerlendirir;
+gerçek puan durumu ve kalan fikstür tam olduğunda playoff katılım etkisini ekler.
+Geniş fırsat taraması ayrı ve isteğe bağlıdır: [Aşama 0–5 ve çalışma periyodu](docs/TRADES.md).
 
 Canlı veri ve hesap bağlantıları:
 
@@ -55,28 +74,26 @@ data/raw/               Geçmiş ve güncel maç günlükleri
 data/processed/         Fikstür, pozisyon, kadro, skor ve sakatlık verileri
 docs/                   Model, işletim ve doğrulama açıklamaları
 reports/                Güncel rapor ve doğrulama özetleri
-research/               Ağsız deney çalıştırıcıları; geçici çıktılar research/runs/
-tests/unit/             Birim testleri
-tests/integration/      Senkronizasyon ve arşiv entegrasyon testleri
-tests/research/         Kalibrasyon ve backtest kontrolleri
+tests/                  Dağıtıma dahil edilmesi gereken kök testler (Git takibi ayrıca doğrulanır)
 src/
   bayesian_model.py     Oyuncu önselleri, güncellemeler ve tahmin momentleri
   priors.py             Geçmiş sezon önselleri ve popülasyon shrinkage tahmini
   model_policy.py       Canlı motor ve deney için ortak önsel/rol politikası
-  calibrate.py          Sınırlı aday seçimi, kronolojik değerlendirme ve kabul kuralları
+  rotation_policy.py    Rotasyon/sakatlık yeniden dağıtım ve varyans politikası
   probability.py        Kategori W/L/T ve haftalık W/L/D hesabı
   rotation.py           Dakika bütçeli sakatlık rol ayarlaması
   matchup_engine.py     Haftalık projeksiyon, kadro ve add/drop değerlendirmesi
   settings.py           Normal sezon / playoff karar politikası
-  playoffs.py           Kategori puanlarından ilk dört olasılığı
-  validation.py         Kronolojik geçmiş sezon doğrulaması
+  playoffs.py           Kategori puanlarından ilk sekiz olasılığı
+  prospective.py        Değiştirilemez prospektif tahmin, gölge aday ve sonuç arşivi
   forecast.py           Ağsız yerel rapor
+  report_panel.py       Yahoo köprüsü, rapor/Excel ve takas ekranı için ortak giriş
   snapshots.py          Canlı skor kontrolü ve hafta sınırları
   live_draft_assistant.py  Draft ve sezon içi gözlem işleme
   draft_data.py         Tarihsel draft için tek fallback kaynağı
   cloud_sync.py         Canlı senkronizasyon ve bildirimler
-  ...                   NBA, sakatlık ve Yahoo adaptörleri
-research/               Yalnızca yerel geliştirme; Git deposuna eklenmez
+  ...                   NBA, sakatlık, takas, streaming ve Yahoo adaptörleri
+research/               Yalnızca yerel geliştirme (tools/, experiments/, tests/); Git deposuna eklenmez
 ```
 
 ## Model ve doğrulama
@@ -98,7 +115,7 @@ Kategori olasılıkları moment/normal yaklaşımları içerir. Sakatlıktan dö
 rotasyon ve aday sıralaması varsayımlar taşır. Kadro ataması doğrusal bir
 alt problemi çözer; tüm haftanın global optimumunu garanti etmez. Kategori
 puanı beklentisi için kategori bağımsızlığı gerekmez; haftalık W/L/D ve ilk
-dört simülasyonu bu varsayımı kullanır.
+sekiz simülasyonu bu varsayımı kullanır.
 
 - [Matematik ve karar hedefleri](docs/MODEL.md)
 - [Veri, ayarlar ve otomasyon](docs/OPERATIONS.md)

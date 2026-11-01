@@ -63,12 +63,48 @@ def _load_single_season_totals(season):
     return prior_dict, last_15_mpg
 
 
-def load_prior_season(season="2025_26", blend_prev_season=True, policy=None):
+def _previous_season(season):
+    prev_season_map = {
+        "2026_27": "2025_26",
+        "2025_26": "2024_25",
+        "2024_25": "2023_24",
+        "2023_24": "2022_23",
+    }
+    if season in prev_season_map:
+        return prev_season_map[season]
+    if isinstance(season, str) and len(season) >= 4 and season[:4].isdigit():
+        year = int(season[:4]) - 1
+        return f"{year}_{str(year + 1)[-2:]}"
+    return None
+
+
+def _next_season(season):
+    if isinstance(season, str) and len(season) >= 4 and season[:4].isdigit():
+        year = int(season[:4]) + 1
+        return f"{year}_{str(year + 1)[-2:]}"
+    return "2026_27"
+
+
+def load_prior_season(
+    season="2025_26",
+    blend_prev_season=True,
+    policy=None,
+    *,
+    include_target_evidence=None,
+    target_season=None,
+):
     """Completed-season priors; default primary weight is clip(GP/65, .35, .80).
 
-    Explicit policies support controlled calibration. Only the 2026-27 live
-    preparation includes that season's preseason evidence.
+    Explicit live preparation may include the next season's preseason evidence.
+    Historical replays must pass include_target_evidence=False.
     """
+    # Preserve the legacy direct-call default. Replays must explicitly disable
+    # target evidence; live loaders explicitly enable it for their target season.
+    if include_target_evidence is None:
+        include_target_evidence = season == "2025_26"
+    target_season = target_season or _next_season(season)
+    if include_target_evidence and target_season != _next_season(season):
+        raise ValueError("Target evidence must belong to the season after the prior")
     if policy is not None and policy.blend == "single":
         blend_prev_season = False
     primary_dict, _ = _load_single_season_totals(season)
@@ -76,12 +112,7 @@ def load_prior_season(season="2025_26", blend_prev_season=True, policy=None):
         print(f"Prior data for {season} not found.")
         return {}
 
-    prev_season_map = {
-        "2025_26": "2024_25",
-        "2024_25": "2023_24",
-        "2023_24": "2022_23",
-    }
-    prev_season = prev_season_map.get(season)
+    prev_season = _previous_season(season)
     secondary_dict = {}
     if blend_prev_season and prev_season:
         secondary_dict, _ = _load_single_season_totals(prev_season)
@@ -90,8 +121,8 @@ def load_prior_season(season="2025_26", blend_prev_season=True, policy=None):
     blended_dict = {}
 
     pre_active_pids = set()
-    if season == "2025_26":
-        pre_path_chk = os.path.join(RAW_DIR, "preseason_logs_2026_27.parquet")
+    if include_target_evidence:
+        pre_path_chk = os.path.join(RAW_DIR, f"preseason_logs_{target_season}.parquet")
         if os.path.exists(pre_path_chk):
             df_pre_chk = pd.read_parquet(pre_path_chk, columns=["PLAYER_ID", "MIN"])
             pre_active_pids = set(
@@ -113,8 +144,8 @@ def load_prior_season(season="2025_26", blend_prev_season=True, policy=None):
             for col in AGG_COLS:
                 entry[col] = w1 * p1[col] + w0 * p0[col]
             raw_blended_min = max(1.0, entry["MIN"])
-            # Effective GP/MIN for availability & MPG: if healthy in 2026-27 preseason after a 2025-26 injury,
-            # regress GP and MPG back toward healthy multi-year baseline
+            # Effective GP/MIN for MPG scaling vs primary-season availability prior:
+            # Effective GP/MIN for MPG scaling (entry['GP'] = eff_gp); note that entry['AVAIL_GP'] retains gp1 below.
             if pid in pre_active_pids and gp0 >= 58 and gp1 < 50:
                 eff_gp = max(gp1, 0.30 * gp1 + 0.70 * gp0)
                 mpg1 = p1.get("ROLE_MPG", p1["MIN"] / max(1.0, gp1))
@@ -157,10 +188,10 @@ def load_prior_season(season="2025_26", blend_prev_season=True, policy=None):
             entry["GP"] = p0["GP"] * mult
             blended_dict[pid] = entry
 
-    # If preparing 2025_26 priors for the 2026-27 Draft, integrate 2026-27 Preseason logs for rookies
-    if season == "2025_26":
-        pre_path = os.path.join(RAW_DIR, "preseason_logs_2026_27.parquet")
-        roster_path = os.path.join(PROCESSED_DIR, "active_roster_2026_27.parquet")
+    # Target preseason evidence is live preparation, never implicit replay data.
+    if include_target_evidence:
+        pre_path = os.path.join(RAW_DIR, f"preseason_logs_{target_season}.parquet")
+        roster_path = os.path.join(PROCESSED_DIR, f"active_roster_{target_season}.parquet")
         if os.path.exists(pre_path) and os.path.exists(roster_path):
             df_pre = pd.read_parquet(pre_path)
             df_pre = df_pre[df_pre["MIN"] > 0].copy()
@@ -230,12 +261,12 @@ def load_prior_season(season="2025_26", blend_prev_season=True, policy=None):
     return blended_dict
 
 
-def get_positional_averages(prior_dict, pos_dict=None):
+def get_positional_averages(prior_dict, pos_dict=None, *, use_live_positions=True):
     """
     Calculates both league-wide per-minute averages and position-specific ('G', 'F', 'C')
     per-minute averages for Empirical Bayes shrinkage.
     """
-    if pos_dict is None:
+    if pos_dict is None and use_live_positions:
         pos_file = os.path.join(PROCESSED_DIR, "player_positions.parquet")
         if os.path.exists(pos_file):
             df_pos = pd.read_parquet(pos_file)
@@ -243,6 +274,7 @@ def get_positional_averages(prior_dict, pos_dict=None):
         else:
             pos_dict = {}
 
+    pos_dict = pos_dict or {}
     valid_items = [(pid, p) for pid, p in prior_dict.items() if p.get("MIN", 0) > 400]
     if not valid_items:
         return {}

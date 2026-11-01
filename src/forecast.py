@@ -10,15 +10,42 @@ from pathlib import Path
 import pandas as pd
 
 from . import draft_data
+from .fantasy_calendar import calendar_view
 from .forecast_changes import archived_comparisons, concise_lines, freeze_games
+from .future_outlook import build_future_outlook
+from .future_outlook import report_lines as future_report_lines
 from .live_draft_assistant import LiveDraftAssistant
 from .matchup_engine import MatchupEngine
 from .ownership import free_agent_ids
 from .settings import load_settings
 from .snapshots import fantasy_week_window, validate_live_snapshot, validate_pregame_window
 from .waivers import waiver_constraints
+from .yahoo_player_evidence import apply_yahoo_roster_evidence
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _apply_confirmed_il_evidence(engine, assistant, state, observations):
+    """Preserve existing Yahoo stashes; never infer new IL rights from model OUT."""
+    stashes = set()
+    for names in state.get("il_slots", {}).values():
+        for name in names:
+            pid = assistant.resolve_player_id(name, only_available=False)
+            if pid in assistant.players:
+                stashes.add(pid)
+    for team, items in state.get("yahoo_roster_players", {}).items():
+        owned = set(state.get("rosters", {}).get(str(team), []))
+        for item in items:
+            if item.get("name") in owned and item.get("selected_position") in ("IL", "IL+"):
+                pid = assistant.resolve_player_id(item["name"], only_available=False)
+                if pid in assistant.players:
+                    stashes.add(pid)
+    engine.yahoo_already_stashed_ids = stashes
+    engine.yahoo_il_eligible_ids = stashes | {
+        pid
+        for pid, item in observations.items()
+        if item.get("yahoo_status_verified") and item.get("yahoo_status") == "OUT"
+    }
 
 
 def local_source_paths():
@@ -45,6 +72,8 @@ def local_source_paths():
             "rotation_policy.json",
             "league.json",
             "prospective_protocol.json",
+            "trade_automation.json",
+            "trade_market.local.json",
         )
     ]
     return paths
@@ -98,13 +127,19 @@ def build_local_forecast(
                     )
     state_path = ROOT / "data" / "processed" / "league_state.json"
     state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {}
+    player_evidence = apply_yahoo_roster_evidence(assistant, state, now)
     roster_names = {str(k): v for k, v in draft_data.build_rosters().items()}
     roster_names.update(state.get("rosters", {}))
     rosters = draft_data.resolve_rosters(assistant, {int(k): v for k, v in roster_names.items()})
+    future_calendar = calendar_view(state, now, settings.future_fixture_weeks)
+    current_period = future_calendar.get("current_week")
+    from .yahoo_trade_sync import resolved_team_names
+
+    team_names = resolved_team_names(state)
     live_path = ROOT / "data" / "processed" / "live_matchup.json"
     live = None
     verified_scoreboard = None
-    notes = []
+    notes = list(player_evidence["warnings"])
     if state.get("availability_snapshot", {}).get("corrections"):
         notes.append(
             "Availability includes explicitly recorded user corrections; original Yahoo capture timestamps are preserved."
@@ -127,14 +162,28 @@ def build_local_forecast(
             notes.append(str(exc))
     my_slot = draft_data.MY_TEAM_IDX
     identity_board = live or verified_scoreboard
-    opponent = int(identity_board["team_b"].get("slot", 13)) - 1 if identity_board else 12
+    scheduled_opponent = None
+    if current_period:
+        for home, away in current_period["fixtures"]:
+            if str(my_slot) in (home, away):
+                scheduled_opponent = int(away if home == str(my_slot) else home)
+                break
+    opponent = int(identity_board["team_b"]["slot"]) - 1 if identity_board else scheduled_opponent
+    if opponent is None:
+        raise ValueError(
+            "Current fantasy opponent is unknown; synchronize Yahoo scoreboard/fixtures"
+        )
+    if scheduled_opponent is not None and identity_board and opponent != scheduled_opponent:
+        raise ValueError("Current Yahoo scoreboard conflicts with the saved fantasy fixture")
     if opponent not in rosters or opponent == my_slot:
         raise ValueError("Opponent slot must identify a different known team")
     start, end = fantasy_week_window(now, True)
+    if current_period:
+        end = pd.Timestamp(current_period["end"])
     if assistant.schedule_df.empty:
         raise ValueError("Current-season schedule is required for a live forecast")
     positions = pd.DataFrame(
-        [{"PLAYER_ID": pid, "POSITION": pos} for pid, pos in assistant.pos_dict.items()]
+        [{"PLAYER_ID": pid, "POSITION": pos} for pid, pos in player_evidence["positions"].items()]
     )
     engine = MatchupEngine(
         assistant.players,
@@ -145,13 +194,11 @@ def build_local_forecast(
         objective=settings.objective,
         draw_value=settings.draw_value,
         max_weekly_adds=settings.max_weekly_adds,
+        yahoo_il_eligible_ids=set(),
     )
     engine.completed_game_ids = known_completed_ids
-    for names in state.get("il_slots", {}).values():
-        for name in names:
-            pid = assistant.resolve_player_id(name, only_available=False)
-            if pid is not None:
-                engine.yahoo_already_stashed_ids.add(pid)
+    engine.rotation_pos_dict = dict(assistant.pos_dict)
+    _apply_confirmed_il_evidence(engine, assistant, state, player_evidence["players"])
     a = live["team_a"] if live else {}
     b = live["team_b"] if live else {}
     my, opp, points, probabilities, _ = engine.project_matchup(
@@ -167,6 +214,12 @@ def build_local_forecast(
     candidate_ids, ownership_audit = free_agent_ids(assistant, state, rosters, now=now)
     if ownership_audit.get("reason"):
         notes.append(ownership_audit["reason"])
+    notes.append(
+        f"FA havuzu: {ownership_audit['observed_players']} gözlenen oyuncu "
+        f"({'tam tarama' if ownership_audit['scan_complete'] else 'kısmi tarama'}; "
+        f"{ownership_audit.get('pages_scanned') or 0} sayfa). "
+        "Kısmi tarama dışında kalan anlamlı streamer adayları kaçırılabilir."
+    )
     if include_recommendations and live:
         # Cached waiver dates remain constraints, never guessed from drop time.
         waivers = waiver_constraints(assistant, state, now)
@@ -194,6 +247,26 @@ def build_local_forecast(
             "Return dates, rotations and future lineup choices remain model assumptions.",
             "Live moves are ranked by the lower category-point gain with and without teammate injury spillover; both scenarios must improve their own no-move baseline. This is a conservative sensitivity rule, not a fitted posterior or proven performance improvement.",
         ]
+    )
+    live_rosters = state.get("rosters", {})
+    resolved_rosters = {str(k): v for k, v in rosters.items()}
+    if (
+        not state.get("live_synced")
+        or set(live_rosters) != set(resolved_rosters)
+        or any(len(resolved_rosters[k]) != len(names) for k, names in live_rosters.items())
+    ):
+        future_calendar = {
+            "status": "unavailable",
+            "reason": "Future outlook requires complete resolved live rosters; draft fallback is not allowed",
+            "weeks": [],
+        }
+    future_outlook = build_future_outlook(
+        engine,
+        rosters,
+        my_slot,
+        future_calendar,
+        now,
+        team_names,
     )
     sources = {}
     data_sources = local_source_paths()
@@ -227,13 +300,14 @@ def build_local_forecast(
             if pid in assistant.players
         ],
         "model_policy": assistant.model_policy.to_dict(),
-        "id": f"{fantasy_week_window(now, False)[0].date()}:{my_slot}:{opponent}",
+        "id": f"{current_period['start'] if current_period else fantasy_week_window(now, False)[0].date()}:{my_slot}:{opponent}",
         "model_source_sha256": {
             name: hashlib.sha256((ROOT / "src" / name).read_bytes()).hexdigest()
             for name in (
                 "bayesian_model.py",
                 "priors.py",
                 "model_policy.py",
+                "yahoo_player_evidence.py",
                 "live_draft_assistant.py",
                 "matchup_engine.py",
                 "probability.py",
@@ -246,12 +320,15 @@ def build_local_forecast(
                 "game_clock.py",
                 "waivers.py",
                 "forecast_changes.py",
+                "fantasy_calendar.py",
+                "future_outlook.py",
             )
         },
         "week_start": str(start.date()),
         "week_end": str(end.date()),
-        "my_team": draft_data.TEAM_NAMES[my_slot],
-        "opponent": draft_data.TEAM_NAMES[opponent],
+        "my_team": team_names[str(my_slot)],
+        "opponent": team_names[str(opponent)],
+        "future_fixture_outlook": future_outlook,
         "phase": settings.phase,
         "objective": settings.objective,
         "objective_value": engine.matchup_utility(probabilities),
@@ -273,6 +350,8 @@ def build_local_forecast(
         "recommendations": recommendations,
         "notes": notes,
         "source_sha256": sources,
+        "player_evidence": player_evidence["players"],
+        "player_evidence_sha256": player_evidence["sha256"],
     }
     result["model_source_sha256_LF"] = {
         name: hashlib.sha256((ROOT / "src" / name).read_text(encoding="utf-8").encode()).hexdigest()
@@ -397,6 +476,11 @@ def render_report(result):
         )
     if not result["recommendations"]:
         lines.append("| No eligible recommendation | — | — | — | — |")
+    lines.extend(future_report_lines(result.get("future_fixture_outlook", {})))
+    if result.get("trade_analysis"):
+        from .trade_report import render_trade_monitor
+
+        lines.extend(["", render_trade_monitor(result["trade_analysis"]), ""])
     lines.extend(["", "## Forecast active lineups", ""])
     for day, names in result["my_lineups"].items():
         lines.append(f"- {day}: {', '.join(names) or 'No active games'}")

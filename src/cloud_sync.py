@@ -237,6 +237,14 @@ def run_cloud_sync():
                     roster_payload.get("team_names_by_slot", {}),
                 )
                 prior_state["yahoo_team_slots"] = mapping
+                prior_state["team_names"] = {
+                    **prior_state.get("team_names", {}),
+                    **{
+                        mapping[str(int(k) + 1)]: name
+                        for k, name in roster_payload.get("team_names_by_slot", {}).items()
+                        if name
+                    },
+                }
                 prior_state["yahoo_roster_players"] = roster_player_evidence(
                     roster_payload["rosters_by_slot"], mapping
                 )
@@ -265,6 +273,7 @@ def run_cloud_sync():
                         new_rosters[int(slot_idx)] = resolved_pids
                 if len(new_rosters) == draft_data.NUM_TEAMS:
                     prior_state["sync_id"] = "oauth:" + now_utc.isoformat()
+                    prior_state["roster_captured_at"] = now_utc.isoformat()
                     for s_idx, pids_list in new_rosters.items():
                         rosters[s_idx] = pids_list
                     il_players_by_slot = roster_payload.get(
@@ -319,6 +328,29 @@ def run_cloud_sync():
                     )
 
             sb_payload = yahoo_client.fetch_live_scoreboard()
+            from src.yahoo_trade_sync import normalize_stage5_capture
+
+            stage5_capture = yahoo_client.fetch_trade_and_standings(sb_payload)
+            prior_state.update(
+                normalize_stage5_capture(prior_state, stage5_capture, now_utc.isoformat())
+            )
+            from src.fantasy_calendar import calendar_view, merge_capture
+            from src.yahoo_fixtures import capture_api_calendar
+
+            calendar_status = calendar_view(prior_state, now_utc)
+            if not calendar_status.get("complete_remaining_season") and prior_state.get(
+                "yahoo_team_slots"
+            ):
+                capture = capture_api_calendar(yahoo_client, sb_payload)
+                calendar, calendar_audit = merge_capture(
+                    prior_state.get("fantasy_calendar"),
+                    capture,
+                    prior_state.get("league_id", "64691"),
+                    prior_state.get("yahoo_team_slots", {}),
+                    now_utc.isoformat(),
+                )
+                prior_state["fantasy_calendar"] = calendar
+                prior_state["fantasy_calendar_audit"] = calendar_audit
             if sb_payload:
                 from src.yahoo_identity import canonical_scoreboard
 
@@ -439,6 +471,7 @@ def run_cloud_sync():
 
     league_state = {
         "updated_at": now_utc.isoformat(),
+        "roster_captured_at": prior_state.get("roster_captured_at", prior_state.get("updated_at")),
         "league_id": "64691",
         "league_key": yahoo_client.league_key or "nba.l.64691",
         "live_synced": bool(live_rosters_synced),
@@ -469,6 +502,12 @@ def run_cloud_sync():
         "sync_id": prior_state.get("sync_id"),
         "yahoo_roster_players": prior_state.get("yahoo_roster_players", {}),
         "capture_metrics": prior_state.get("capture_metrics", {}),
+        "team_names": prior_state.get("team_names", {}),
+        "fantasy_calendar": prior_state.get("fantasy_calendar"),
+        "fantasy_calendar_audit": prior_state.get("fantasy_calendar_audit", {}),
+        "pending_offers_snapshot": prior_state.get("pending_offers_snapshot"),
+        "playoff_snapshot": prior_state.get("playoff_snapshot"),
+        "yahoo_trade_audit": prior_state.get("yahoo_trade_audit", {}),
     }
 
     # Save state JSON
@@ -545,6 +584,7 @@ def run_cloud_sync():
         forecast_changes=displayed.get("forecast_changes"),
         scoreboard=displayed.get("verified_scoreboard"),
         display_context=display_context,
+        trade_analysis=prospective.get("trade_analysis"),
     )
     preview_path = os.path.join(REPORTS_DIR, "telegram_preview.html")
     with open(preview_path, "w", encoding="utf-8") as handle:

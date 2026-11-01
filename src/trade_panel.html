@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Takas masası · NBA Fantasy</title>
+<style>
+:root{--bg:#f4f5f7;--ink:#172234;--muted:#687386;--line:#e4e7ec;--green:#147d64;--red:#b74a48}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}header{background:#152336;color:white;padding:22px max(28px,calc((100vw - 1320px)/2));display:flex;align-items:center;justify-content:space-between}.brand{font-size:18px;font-weight:750}.brand span{color:#80d6b5}header small{color:#b7c7d8}main{max-width:1380px;margin:auto;padding:32px}.eyebrow{color:var(--green);font-size:11px;font-weight:800;letter-spacing:2px}h1{font-size:32px;letter-spacing:-1px;margin:8px 0}p{color:var(--muted)}.top{display:flex;justify-content:space-between;align-items:center;gap:20px}.tabs{display:flex;border-bottom:1px solid var(--line);gap:25px;margin:28px 0}.tab{padding:14px 0;border:0;background:none;color:var(--muted)}.tab.active{border-bottom:3px solid var(--green);color:var(--ink);font-weight:750}.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap}.seg{padding:4px;background:#e7ebef;border-radius:9px}.seg button{border:0;padding:8px 15px;border-radius:6px;background:none}.seg .active{background:white;box-shadow:0 1px 4px #0001}input,select{border:1px solid #d7dde4;border-radius:7px;background:white;padding:10px;color:var(--ink)}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:24px}.teams{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.teams.triple{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden}.teamhead{padding:20px;border-top:4px solid #2b716c;border-bottom:1px solid var(--line)}.teamhead small{display:block;color:var(--muted);margin-bottom:8px}.teamhead select{width:100%;font-weight:700}.searchbox{padding:12px 15px;background:#fcfcfd;border-bottom:1px solid var(--line)}.searchbox input{width:100%;background:#f5f6f8;border:0}.roster{max-height:480px;overflow:auto;padding:5px 10px}.player{padding:11px 5px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f2f5}.avatar{width:34px;height:34px;background:#eaf1ef;color:#247568;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:750;flex-shrink:0}.player .name{flex:1;min-width:0}.player strong{font-size:13px}.player small{display:block;color:var(--muted);font-size:11px}.player select{font-size:11px;padding:5px;max-width:120px}.player input{accent-color:var(--green);width:17px;height:17px}.player.selected{background:#eff8f4}.side{padding:22px;align-self:start;position:sticky;top:20px}.side h2{font-size:18px;margin:0}.route{border-bottom:1px solid var(--line);padding:13px 0;font-size:12px}.route small{display:block;color:var(--green)}.empty{padding:30px 5px;text-align:center;color:var(--muted)}.primary{border:0;background:var(--green);color:white;border-radius:8px;padding:12px 20px;font-weight:700}.side .primary{width:100%;margin-top:20px}.secondary{background:white;border:1px solid #d7dde4;border-radius:8px;padding:9px 13px}.notice{padding:12px 16px;border-radius:8px;background:#fff4df;color:#85612a;margin-bottom:20px}.progress{margin:15px 0;color:var(--muted)}.result{margin-top:30px}.result h2{font-size:24px}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}.metric{padding:20px}.number{font-size:30px;font-weight:750;letter-spacing:-1px}.positive{color:var(--green)}.negative{color:var(--red)}.pill{display:inline-block;padding:4px 10px;border-radius:20px;background:#eef3f1;color:var(--green);font-size:12px}.category{margin-top:20px;padding:22px;overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-size:12px}.bar{height:6px;background:#edf0f3;border-radius:4px;min-width:100px}.bar i{height:100%;display:block;background:#4eaa8d;border-radius:4px}details{padding:18px;margin-top:18px}summary{cursor:pointer;font-weight:650}pre{white-space:pre-wrap;font:13px/1.7 system-ui}.foot{font-size:12px;color:var(--muted);margin-top:18px}#error:empty{display:none}#error{background:#fff0ee;color:#9e3636;padding:15px;border-radius:9px;margin:15px 0}[hidden]{display:none!important}@media(max-width:1100px){.workspace{grid-template-columns:1fr}.side{position:static}.teams.triple{grid-template-columns:1fr}}@media(max-width:650px){main{padding:18px}.teams{grid-template-columns:1fr}.top{display:block}h1{font-size:26px}header{padding:18px}.tabs{gap:15px}.roster{max-height:300px}}
+.impact-title{font-size:23px;line-height:1.25;margin:17px 0 12px}.technical-note{font-size:12px;line-height:1.65;color:var(--muted);background:#f7f8fa;border-radius:9px;padding:12px}.exchange{display:grid;gap:4px;margin:14px 0}.exchange small{color:var(--muted)}.exchange strong{font-size:15px;margin-bottom:8px}.metric-definition{font-size:12px;color:#526176;background:#edf2f5;padding:14px 16px;border-radius:9px;margin:12px 0 20px;line-height:1.7}.score-value{font-size:29px;font-weight:750;line-height:1.2;letter-spacing:-.5px}.score-unit{font-size:12px;color:var(--muted);display:block;margin-top:3px}.weekly-score{font-size:15px;font-weight:650;margin-top:8px}.score-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0}.score-pair section{min-width:0}.score-pair section>small{display:block;color:var(--muted);margin-bottom:6px}.effect-rating{display:inline-block;font-size:16px;font-weight:750;margin-top:10px;background:#eef2f1;padding:5px 9px;border-radius:7px}.scenario-breakdown{font-size:12px;color:#526176;line-height:1.7;margin-top:12px}.scenario-breakdown strong{color:var(--ink)}</style></head><body><header><div class="brand">NBA Fantasy <span>/ Takas masası</span></div><small>Karar desteği · Yerel analiz</small></header><main>
+<div class="top"><div><div class="eyebrow">KADRONUN BİR SONRAKİ ADIMI</div><h1>Bu takas takımını nasıl değiştirir?</h1><p>Paketi kur. Kategori etkisini gör. İki tarafın da kazancını karşılaştır.</p></div><button id="refresh" class="secondary">Kadroları yenile</button><span id="fresh" class="pill">Kadrolar yükleniyor…</span></div>
+<nav class="tabs" aria-label="Takas araçları"><button class="tab active" data-tab="manual">Takas oluştur</button><button class="tab" data-tab="pending">Bekleyen teklifler</button><button class="tab" data-tab="search">Fırsatları keşfet</button></nav>
+<div id="error" role="alert"></div><div id="updateNotice" class="notice" hidden></div><div id="manual"><div class="toolbar"><div class="seg"><button id="two" class="active">2 takım</button><button id="three">3 takım</button></div><label>Yürürlük günü <input id="date" type="date"></label><span style="color:var(--muted);font-size:12px">Boş bırakırsan ilk tam gelecek hafta değerlendirilir.</span></div><div class="workspace"><div id="teams" class="teams"></div><aside class="card side"><h2>Takas özeti</h2><div id="summary" class="empty">Oyuncu kartlarından takasa ekle.</div><div id="validation" class="foot"></div><button id="analyze" class="primary" disabled>Takası değerlendir</button><div class="foot">Gerçek rakipler ve günlük aktif kadro kısıtlarıyla hesaplanır.</div></aside></div></div>
+<section id="alternate" class="card category" hidden>
+  <h2 id="altTitle"></h2>
+  <p id="searchTeam"></p>
+  <p id="altDescription"></p>
+  <div id="searchControls" style="margin:20px 0" hidden>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end">
+      <div style="flex:1;min-width:280px">
+        <label style="display:block;font-weight:700;margin-bottom:6px">Hedef Takım (Kiminle takas aransın?):</label>
+        <select id="searchTargetTeam" style="width:100%"></select>
+      </div>
+    </div>
+    <div class="toolbar" style="margin:18px 0 8px;align-items:flex-end">
+      <label>Takımım için en az katkı<br><input id="searchMinGain" type="number" min="0" max="1" step="0.01" value="0.05" style="width:170px"><small style="display:block;color:var(--muted)">kategori puanı / hafta</small></label>
+      <label>Karşı tarafın izin verilen kaybı<br><input id="searchPartnerLoss" type="number" min="0" max="1" step="0.01" value="0.05" style="width:170px"><small style="display:block;color:var(--muted)">kategori puanı / hafta</small></label>
+      <label>Arama derinliği<br><select id="searchDepth"><option value="standard">Standart · 40 ön değerlendirme / 3 nihai</option><option value="wide">Geniş · 80 ön değerlendirme / 8 nihai</option></select></label>
+    </div>
+    <small id="searchDepthHelp" style="color:var(--muted);display:block;margin:8px 0 14px">40: hızlı sıralamadan sonra gerçek fikstür, günlük kadro ve kategori hesabıyla 40 paket karşılaştırılır. 3: bu paketlerden seçilen en fazla 3 paket, boş kadro yeri ve varsa FA/streaming planlarıyla ayrıntılı incelenir. Üç öneri çıkacağı anlamına gelmez. Sabit paket ve tek hedefte uygun karşı paket sayısı en fazla 200 ise tamamı ön değerlendirmeye girebilir.</small>
+    <small style="color:var(--muted);display:block">Bu filtreler değiştirilebilir tercihlerdir; istatistiksel güven sınırı değildir. Haftalık 0.05, dört haftada toplam 0.200 kategori puanıdır; %20 kazanma olasılığı anlamına gelmez. Oyuncu seçmesen de bu puan filtreleri uygulanır.</small>
+    <details id="searchAdvanced" style="padding:12px 0;margin-top:4px"><summary>Hazır sayısal filtre değerleri</summary>
+      <div class="toolbar" style="margin:12px 0 8px">
+        <label>En az katkı<br><select id="searchGainPreference"><option value="small">Pozitif katkı · en az +0.00 / hafta</option><option value="balanced" selected>En az +0.05 kategori puanı / hafta</option><option value="strong">En az +0.15 kategori puanı / hafta</option><option value="custom">Özel sayısal değer</option></select></label>
+        <label>Karşı tarafın kayıp toleransı<br><select id="searchBalancePreference"><option value="strict">Kayıp olmasın · 0.00 / hafta</option><option value="balanced" selected>En fazla −0.05 kategori puanı / hafta</option><option value="flexible">En fazla −0.10 kategori puanı / hafta</option><option value="custom">Özel sayısal değer</option></select></label>
+      </div>
+    </details>
+    <div style="margin-top:18px">
+      <label style="display:block;font-weight:700;margin-bottom:4px">Vermek istediğin tam paket (isteğe bağlı, en fazla 4 oyuncu):</label>
+      <small style="color:var(--muted);display:block;margin-bottom:10px">Seçtiğin oyuncuların tamamı birlikte verilir; pakete başka oyuncu eklenmez. Hiçbirini seçmezsen tüm kadrodan 1–2 oyunculuk paketler taranır. 3–4 oyunculuk paket aramak için oyuncuları seç. IL oyuncularını manuel takasta değerlendirebilirsin.</small>
+      <div id="searchPlayerList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;max-height:240px;overflow:auto;background:#fafbfc;padding:12px;border:1px solid var(--line);border-radius:8px"></div>
+    </div>
+  </div>
+  <button id="altRun" class="primary"></button>
+</section>
+<div id="progress" class="progress" role="status" aria-live="polite"></div><section id="result" class="result" hidden><div class="top"><h2>Kararın dayanağı</h2><button id="download" class="secondary">Raporu indir ↓</button></div><div id="resultScope" class="notice" hidden></div><div class="metric-definition"><strong>Beklenen kategori puanı</strong> = Σ[P(kazanma) + 0.5 × P(beraberlik)]. Her kategori haftada 0–1; 9 kategori toplamı haftada 0–9 puandır. <strong>Muhafazakâr fark</strong>, normal senaryo ile sakatlık kaynaklı ek dakika dağıtımı kapalı senaryonun farklarından küçük olanıdır; güven aralığı değildir.</div><div id="cards" class="metrics"></div><section id="preliminarySection" hidden><h3>Ön değerlendirmeyi geçen diğer paketler</h3><p>İlk kadro karşılaştırmasında olumlu görünen diğer seçenekler. Boşta oyuncu ekleme ve günlük hamle planı henüz ayrıntılı hesaplanmadı.</p><div id="preliminaryCards" class="metrics"></div></section><details id="evaluatedDetails" class="card" hidden><summary id="evaluatedSummary">Değerlendirilen bütün paketler</summary><div id="evaluatedTable" style="overflow:auto"></div></details><div id="categories"></div><div id="conditions" class="notice" style="margin-top:20px"></div><details class="card"><summary>Ayrıntılı analiz raporu</summary><pre id="report"></pre></details></section><p class="foot">Bu panel yerel Yahoo kayıtlarını kullanır. Teklif göndermez veya kabul etmez. Eksik veri ve varsayımlar analizde belirtilir.</p>
+</main><script>
+const token='__TOKEN__', $=id=>document.getElementById(id);let state,mode='manual',count=2,owners=[],moves={},drops={},report='',busy=false;
+let searchOutgoing=new Set(),searchTarget='all';
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const signed=v=>(v>=0?'+':'')+Number(v).toFixed(3);const cls=v=>v>=0?'positive':'negative';
+function impactClass(value){return !Number.isFinite(value)||Math.abs(value)<1e-9?'':cls(value)}
+function playerMeta(p){
+ const rawPositions=p.display_positions??p.positions;
+ const positions=Array.isArray(rawPositions)?rawPositions.join(', '):rawPositions;
+ const rawStatus=p.display_injury??p.injury;
+ const labels={HEALTHY:'Sağlıklı',QUESTIONABLE:'Durumu belirsiz',Q:'Durumu belirsiz',GTD:'Maç öncesi belirsiz',DTD:'Günlük takipte',O:'Oynamıyor',OUT:'Oynamıyor',INJ:'Sakat',IL:'Sakat listesinde',SUSP:'Cezalı'};
+ const status=labels[rawStatus]||rawStatus||'Durum bilgisi yok';
+ const injurySource=p.injury_source||p.status_source||p.display_source||p.metadata_source;
+ const positionSource=p.positions_source||p.display_source||p.metadata_source;
+ const parts=[positions||'Pozisyon doğrulanamadı',p.stashed?'IL':null,status];
+ if(injurySource&&positionSource&&String(injurySource).startsWith('yahoo')&&String(positionSource).startsWith('yahoo'))parts.push('Yahoo kaydı');
+ else{
+  if(positionSource)parts.push(String(positionSource).startsWith('yahoo')?'Pozisyon: Yahoo':'Pozisyon: NBA tahmini');
+  if(injurySource)parts.push(String(injurySource).startsWith('yahoo')?'Durum: Yahoo':'Durum: model kaydı');
+ }
+ const warnings=p.metadata_warnings||p.metadata_warning;
+ if(warnings)parts.push(Array.isArray(warnings)?warnings.join(' '):warnings);
+ return parts.filter(Boolean).map(esc).join(' · ');
+}
+function playerEvidenceDetails(p){
+ const parts=[];
+ if(p.positions_source)parts.push('Pozisyon kaynağı: '+p.positions_source);
+ if(p.injury_source||p.status_source)parts.push('Durum kaynağı: '+(p.injury_source||p.status_source));
+ if(p.positions_captured_at)parts.push('Pozisyon kaydı: '+p.positions_captured_at);
+ if(p.injury_captured_at||p.status_captured_at)parts.push('Durum kaydı: '+(p.injury_captured_at||p.status_captured_at));
+ return parts.join(' · ');
+}
+function manualConditionSummary(conditions){
+ const translations=[
+  ['Trade rules have not','Lig kuralları doğrulanmadığı için sonuç koşullu.'],
+  ['eligibility is incomplete','Bazı pozisyon bilgileri yaklaşık; oyuncuların oynatılabildiği günler değişebilir.'],
+  ['Open-slot completion data','Boşalan kadro yerini doldurmak için gerekli oyuncu veya hamle bilgisi eksik.'],
+  ['injury designation','Sakat oyuncunun dönüş tarihi varsayımı sonucu değiştirebilir.'],
+  ['Benefit disappears without','Ek dakika varsayımı kaldırıldığında kazanım kayboluyor.'],
+  ['Near-term and full-window','Yakın dönem ile daha uzun dönem sonuçları farklı yönde.'],
+  ['Refresh stale rosters','Kadro kaydı eski; Yahoo senkronunu yenile.']
+ ];
+ return [...new Set(conditions.map(text=>text.includes(' bırakıyor: ')?text:translations.find(([key])=>text.includes(key))?.[1]).filter(Boolean))];
+}
+function updateDepthHelp(){
+ const wide=$('searchDepth').value==='wide',screen=wide?80:40,finals=wide?8:3;
+ $('searchDepthHelp').textContent=screen+': hızlı sıralamadan sonra gerçek fikstür, günlük kadro ve kategori hesabıyla '+screen+' paket karşılaştırılır. '+finals+': bu paketlerden seçilen en fazla '+finals+' paket, boş kadro yeri ve varsa FA/streaming planlarıyla ayrıntılı incelenir. '+finals+' öneri çıkacağı anlamına gelmez.'+(wide?' Daha uzun sürebilir.':'')+' Sabit paket ve tek hedefte uygun karşı paket sayısı en fazla 200 ise tamamı ön değerlendirmeye girebilir.';
+}
+function setGainPreference(){
+ const choice=$('searchGainPreference').value;
+ const values={small:0,balanced:0.05,strong:0.15};
+ if(choice==='custom')$('searchAdvanced').open=true;
+ else if(choice in values)$('searchMinGain').value=String(values[choice]);
+}
+function setBalancePreference(){
+ const choice=$('searchBalancePreference').value;
+ const values={strict:0,balanced:0.05,flexible:0.1};
+ if(choice==='custom')$('searchAdvanced').open=true;
+ else if(choice in values)$('searchPartnerLoss').value=String(values[choice]);
+}
+async function api(path,body){const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-Panel-Token':token},body:body?JSON.stringify(body):undefined});let d=await r.json();if(!r.ok)throw Error(d.error||'İstek tamamlanamadı');return d}
+function renderTeams(){let keys=Object.keys(state.teams);if(owners[0]!==state.our_team)owners=[state.our_team,...owners.filter(t=>t!==state.our_team)];while(owners.length<count)owners.push(keys.find(k=>!owners.includes(k)));owners=owners.slice(0,count);$('teams').className='teams'+(count===3?' triple':'');$('teams').innerHTML=owners.map((team,i)=>`<article class="card"><div class="teamhead"><small>${i===0?'BENİM TAKIMIM':'TAKAS ORTAĞI '+i}</small><select aria-label="${i+1}. takım" data-owner="${i}">${keys.filter(k=>i===0?k===state.our_team:k!==state.our_team).map(k=>`<option value="${esc(k)}" ${k===team?'selected':''}>${esc(state.teams[k].name)}</option>`).join('')}</select></div><div class="searchbox"><input placeholder="Oyuncu ara…" aria-label="Oyuncu ara" data-search="${i}"></div><div class="roster" id="roster${i}"></div><details style="margin:0"><summary>Bırakılacak oyuncular <small>(gerekiyorsa)</small></summary><div style="max-height:160px;overflow:auto">${state.teams[team].players.filter(p=>!p.stashed).map(p=>`<label style="display:block;padding:5px"><input type="checkbox" data-drop="${team}" value="${esc(p.id)}" ${(drops[team]||[]).includes(p.id)?'checked':''}> ${esc(p.name)}</label>`).join('')}</div></details></article>`).join('');owners.forEach((_,i)=>renderRoster(i));$('teams').querySelectorAll('[data-owner]').forEach(el=>el.onchange=()=>{owners[Number(el.dataset.owner)]=el.value;moves={};drops={};renderTeams()});$('teams').querySelectorAll('[data-search]').forEach(el=>el.oninput=()=>renderRoster(Number(el.dataset.search),el.value));$('teams').querySelectorAll('[data-drop]').forEach(el=>el.onchange=()=>{drops[el.dataset.drop]=[...$('teams').querySelectorAll('[data-drop]')].filter(e=>e.dataset.drop===el.dataset.drop&&e.checked).map(e=>e.value);summary()});summary()}
+
+function ilAssignments() {
+ const result=Object.fromEntries(owners.map(t=>[t,[]]));
+ for(const t of owners) for(const p of state.teams[t].players){
+  const m=moves[p.id];
+  if(!m && p.stashed) result[t].push(p.id);
+  else if(m && (m.slot==='IL' || (m.slot!=='active' && p.stashed))) result[m.to_team].push(p.id);
+ }
+ return result;
+}
+function renderRoster(i,query='') {
+ const team=owners[i];
+ $('roster'+i).innerHTML=state.teams[team].players.filter(p=>p.name.toLocaleLowerCase('tr').includes(query.toLocaleLowerCase('tr'))).map(p=>{
+  const m=moves[p.id];
+  const isInj=p.stashed || p.il_eligible===true;
+  return `<div class="player ${m?'selected':''}"><input type="checkbox" aria-label="${esc(p.name)} takasa ekle" data-player="${esc(p.id)}" ${m?'checked':''}><div class="avatar">${esc(p.name.split(' ').map(n=>n[0]).slice(0,2).join(''))}</div><div class="name"><strong>${esc(p.name)}</strong><small title="${esc(playerEvidenceDetails(p))}">${playerMeta(p)}</small>${m&&isInj?`<select aria-label="${esc(p.name)} takas sonrası yeri" data-slot="${esc(p.id)}"><option value="IL" ${m.slot==='IL'||(m.slot!=='active'&&p.stashed)?'selected':''}>IL'ye yerleşsin</option><option value="active" ${m.slot==='active'?'selected':''}>Aktif kadroya geçsin</option></select>`:''}</div>${count===3&&m?`<select aria-label="${esc(p.name)} hedef takımı" data-target="${esc(p.id)}">${owners.filter(t=>t!==team).map(t=>`<option value="${esc(t)}" ${m.to_team===t?'selected':''}>${esc(state.teams[t].name)}</option>`).join('')}</select>`:''}</div>`;
+ }).join('');
+ $('roster'+i).querySelectorAll('[data-player]').forEach(el=>{
+  el.onchange=()=>{
+   const p = state.teams[team].players.find(x=>x.id===el.dataset.player);
+   if(el.checked)moves[el.dataset.player]={from_team:team,to_team:owners.find(t=>t!==team),yahoo_player_id:el.dataset.player,slot:p?.stashed?'IL':'active'};
+   else delete moves[el.dataset.player];
+   renderRoster(i,query);summary();
+  };
+ });
+ $('roster'+i).querySelectorAll('[data-target]').forEach(el=>el.onchange=()=>{moves[el.dataset.target].to_team=el.value;summary()});
+ $('roster'+i).querySelectorAll('[data-slot]').forEach(el=>el.onchange=()=>{moves[el.dataset.slot].slot=el.value;summary()});
+}
+function summary(){
+ const all=Object.values(moves),unique=new Set(owners).size===count;
+ let valid=unique&&owners.every(t=>{const sent=all.filter(m=>m.from_team===t).length,received=all.filter(m=>m.to_team===t).length;return sent>=1&&sent<=4&&received>=1&&received<=4});
+ const il=ilAssignments();let warning='';
+ for(const t of owners){
+  const sent=all.filter(m=>m.from_team===t).length,received=all.filter(m=>m.to_team===t).length;
+  if(all.length && sent>4){valid=false;warning=state.teams[t].name+' en fazla 4 oyuncu verebilir (şu an '+sent+' seçili).';break;}
+  if(all.length && received>4){valid=false;warning=state.teams[t].name+' en fazla 4 oyuncu alabilir (şu an '+received+' seçili).';break;}
+  if(all.length && sent<1){valid=false;warning=state.teams[t].name+' en az 1 oyuncu vermeli.';break;}
+  if(all.length && received<1){valid=false;warning=state.teams[t].name+' en az 1 oyuncu almalı.';break;}
+  const needed=Math.max(0,state.teams[t].players.length-sent+received-il[t].length-13);
+  if(il[t].length>2){valid=false;warning=state.teams[t].name+': IL kapasitesi 2. Gelen oyuncunun yerini aktif kadro olarak seç.';break;}
+  else if((count===3||needed>1)&&(drops[t]||[]).length!==needed){
+    valid=false;
+    if(needed>0){
+      warning=state.teams[t].name+': '+needed+' oyuncu bırakılmalı (şu an '+(drops[t]||[]).length+' seçili).';
+    } else {
+      warning=state.teams[t].name+': Kadro sayısı uygun, oyuncu bırakma seçimini kaldırın.';
+    }
+    break;
+  }
+ }
+ $('summary').className=all.length?'':'empty';
+ $('summary').innerHTML=all.length?all.map(m=>{const p=state.teams[m.from_team].players.find(p=>p.id===m.yahoo_player_id);return `<div class="route"><strong>${esc(p.name)}</strong><small>${esc(state.teams[m.from_team].name)} → ${esc(state.teams[m.to_team].name)}${p.stashed?' · '+(m.slot==='active'?'Aktif kadro':'IL'):''}</small></div>`}).join(''):'Oyuncu kartlarından takasa ekle.';
+ $('validation').textContent=!unique?'Her alan için farklı bir takım seç.':warning||(all.length&&!valid?'Her takım 1–4 oyuncu vermeli ve almalı.':all.length?'Paket hazır.':'Her takımdan en az bir oyuncu seç.');
+ $('analyze').disabled=busy||!valid;
+}
+
+function renderSearchControls() {
+ if(!state || !state.teams || !state.our_team) return;
+ const partners=Object.keys(state.teams).filter(k=>k!==state.our_team);
+ if(searchTarget!=='all'&&!partners.includes(searchTarget))searchTarget='all';
+ $('searchTargetTeam').innerHTML=`<option value="all" ${searchTarget==='all'?'selected':''}>Tüm Lig (${partners.length} Rakip Takım Arasında Ara)</option>`+
+  partners.map(k=>`<option value="${esc(k)}" ${k===searchTarget?'selected':''}>${esc(state.teams[k].name)}</option>`).join('');
+ $('searchTargetTeam').value=searchTarget;
+ $('searchTargetTeam').onchange=()=>{searchTarget=$('searchTargetTeam').value};
+ const myPlayers=state.teams[state.our_team]?.players||[];
+ $('searchPlayerList').innerHTML=myPlayers.map(p=>`
+  <label style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:white;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer">
+   <input type="checkbox" value="${esc(p.id)}" data-search-player ${searchOutgoing.has(p.id)?'checked':''} ${p.stashed?'disabled':''}>
+   <div><strong style="font-size:12px;display:block">${esc(p.name)}</strong>
+   <small title="${esc(playerEvidenceDetails(p))}" style="font-size:10px;color:var(--muted)">${playerMeta(p)}${p.stashed?' · IL — manuel takas kullan':''}</small></div>
+  </label>`).join('');
+ $('searchPlayerList').querySelectorAll('input[data-search-player]').forEach(input=>input.onchange=()=>{
+  if(input.checked&&searchOutgoing.size>=4){input.checked=false;$('error').textContent='Fırsat aramasında en fazla dört oyunculuk tam paket seç. Daha geniş paketleri manuel takasta değerlendirebilirsin.';return}
+  if(input.checked)searchOutgoing.add(input.value);else searchOutgoing.delete(input.value);
+  $('error').textContent='';
+ });
+}
+
+function setMode(next){
+ mode=next;
+ $('manual').hidden=mode!=='manual';
+ $('alternate').hidden=mode==='manual';
+ document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===mode));
+ if(mode==='pending'){
+   $('altTitle').textContent='Masandaki gerçek teklifler';
+   $('searchTeam').textContent='';
+   $('altDescription').textContent='Son doğrulanmış Yahoo kaydındaki teklifleri analiz et. Yeni teklifler için önce Yahoo senkronunu yenile.';
+   $('altRun').textContent='Bekleyen teklifleri değerlendir';
+   $('searchControls').hidden=true;
+ }
+ if(mode==='search'){
+   const myTeamName = state?.teams?.[state.our_team]?.name || 'Benim Takımım';
+   $('altTitle').textContent='Kadroya uygun takas fırsatları';
+   $('searchTeam').textContent='Fırsat aranacak takım: ' + myTeamName;
+   $('altDescription').textContent='Kendi kadronuzdan takasa sunmak istediğiniz oyuncuları seçebilir ve belirli bir rakiple veya tüm ligle en dengeli fırsatları arayabilirsiniz.';
+   $('altRun').textContent='Fırsat taramasını başlat';
+   $('searchControls').hidden=false;
+   renderSearchControls();updateDepthHelp();
+ }
+}
+
+async function refreshState(force=false){
+ if(busy)return false;
+ if(!force&&state){const version=await api('/version');if(version.roster_version===state.roster_version)return false}
+ const next=await api('/state');
+ const changed=!!state&&next.roster_version!==state.roster_version;
+ const initial=!state;state=next;
+ if(!state.teams[state.our_team])throw Error('Kendi takımının kimliği kayıtta bulunamadı.');
+ if(initial)owners=[state.our_team,Object.keys(state.teams).find(k=>k!==state.our_team)];
+ owners=owners.filter(t=>state.teams[t]);
+ if(changed){moves={};drops={};searchOutgoing.clear();$('result').hidden=true;report='';$('updateNotice').hidden=false;$('updateNotice').textContent='Kadro veya oyuncu bilgileri değişti. Eski seçimler ve sonuçlar temizlendi; güncel bilgilerle oyuncuları yeniden seç.'}
+ $('error').textContent='';$('fresh').textContent='Kadro: '+new Date(state.captured).toLocaleString('tr-TR',{dateStyle:'short',timeStyle:'short'});
+ renderTeams();if(mode==='search')setMode(mode);return changed;
+}
+
+async function run(){
+ try{if(await refreshState())return}catch(e){$('error').textContent=e.message;return}
+ if(!state)return;
+ let searchOptions;
+ if(mode==='search'){try{searchOptions=readSearchOptions()}catch(e){$('error').textContent=e.message;return}}
+ busy=true;document.querySelectorAll('button,input,select').forEach(b=>b.disabled=true);
+ $('error').textContent='';$('result').hidden=true;
+ $('progress').textContent=mode==='search'?'Senin takımın için lig taranıyor… Birkaç dakika sürebilir.':'Gerçek fikstür ve kategori etkileri karşılaştırılıyor…';
+ const current=Object.values(moves);
+ let giveIds = [];
+ let targetOther = owners[1];
+ if(mode==='search'){
+   giveIds = [...searchOutgoing];
+   targetOther = searchTarget;
+ } else {
+   giveIds = current.filter(m=>m.from_team===owners[0]).map(m=>m.yahoo_player_id);
+ }
+ const payload={
+   mode,
+   mine:mode==='search'?state.our_team:owners[0],
+   other:targetOther,
+   give:giveIds,
+   receive:mode==='search'?[]:current.filter(m=>m.to_team===owners[0]).map(m=>m.yahoo_player_id),
+   date:$('date').value,
+   drops,
+   snapshot_id:state.snapshot_id,
+   roster_version:state.roster_version
+ };
+ if(searchOptions)payload.search_options=searchOptions;
+ if(mode==='search'&&giveIds.length>4){busy=false;document.querySelectorAll('button,input,select').forEach(b=>b.disabled=false);$('error').textContent='En fazla dört oyunculuk tam paket seç.';renderSearchControls();return}
+ if(mode==='manual')payload.post_trade_il_yahoo_ids=ilAssignments();
+ if(count===3&&mode==='manual')payload.transfers=current.map(({slot,...m})=>m);
+ try{
+  const job=await api('/run',payload);
+  for(;;){await new Promise(r=>setTimeout(r,1200));const response=await api('/job?id='+job.id);if(response.done){const latest=await api('/version');if(latest.roster_version!==payload.roster_version)throw Error('Kadro kaydi analiz sirasinda degisti. Kadrolari yenileyip tekrar dene.');show(response);break}}
+  if(mode!=='manual')$('progress').textContent='Analiz tamamlandı.';
+  $('result').scrollIntoView({behavior:'smooth',block:'start'});
+ }catch(e){$('error').textContent=e.message;$('progress').textContent='Analiz tamamlanamadı. Seçimleri veya veri kaydını kontrol et.'}
+ finally{busy=false;document.querySelectorAll('button,input,select').forEach(b=>b.disabled=false);renderTeams();if(mode==='search')renderSearchControls();await refreshState().catch(syncError)}
+}
+
+function readSearchOptions(){
+ const value=(id)=>$(id).value===''?0.05:Number($(id).value);
+ const min=value('searchMinGain'),loss=value('searchPartnerLoss');
+ if(!Number.isFinite(min)||!Number.isFinite(loss)||min<0||loss<0||min>1||loss>1)throw Error('Haftalık tercih değerleri 0 ile 1 arasında olmalı.');
+ const depth=$('searchDepth').value||'standard';
+ if(!['standard','wide'].includes(depth))throw Error('Geçerli bir arama derinliği seç.');
+ updateDepthHelp();
+ return {min_gain_per_week:min,max_partner_loss_per_week:loss,depth};
+}
+
+function renderSearchScope(result){
+ const scope=result.search_scope,thresholds=result.thresholds,names=result.team_names||{},diagnostics=result.search_diagnostics||{};
+ const technical=[],human=[];
+ if(scope){
+  const targets=scope.target_teams||[];
+  const targetText=targets.length>1?targets.length+' rakip takım':targets.map(t=>names[t]||t).join(', ');
+  const outgoing=scope.outgoing_mode==='exact'?(scope.outgoing_names||[]).join(' + '):'Tüm kadrodan seçenekler';
+  human.push((names[scope.our_team]||'Takımın')+' için '+targetText+' ile takas seçenekleri araştırıldı.');
+  human.push('Verilecek oyuncular: '+outgoing+'.');
+  if(scope.package_types?.length)technical.push('Paket türleri: '+scope.package_types.join(', ')+'.');
+  if(scope.focused_exhaustive)technical.push('Bu sabit paket ve hedef için uygun karşı paketlerin tamamı kadro hesabına girdi.');
+ }
+ const checked=diagnostics.screen_evaluated??result.counts?.screen_evaluated??0,finals=diagnostics.final_evaluated??result.counts?.refined??0;
+ const ready=(result.opportunities||[]).length+(result.review_opportunities||[]).length,early=(result.preliminary_candidates||[]).length;
+ const coverage=diagnostics.outgoing_player_coverage||result.counts?.outgoing_player_coverage||[];
+ if(coverage.length){const used=coverage.filter(p=>p.evaluated_packages>0);human.push('Kadro hesabına giren paketlerde '+used.length+' farklı oyuncun yer aldı.');technical.push('Verilen paketlerde oyuncu kapsamı: '+coverage.map(p=>p.name+': '+p.evaluated_packages).join(', ')+'.')}
+ human.push(checked+' paket kadro hesabıyla karşılaştırıldı; '+finals+' paket için ayrıntılı plan değerlendirildi.');
+ human.push(ready?ready+' aday mevcut tercihlerini karşılıyor.':'Ayrıntılı hesaplanan paketlerde mevcut tercihlerine uyan aday bulunamadı.');
+ if(early)human.push(early+' ek seçenek ilk karşılaştırmada olumlu; ayrıntılı planı henüz hesaplanmadı.');
+ human.push('Bu sonuç, ligdeki bütün olası takasların listesi değildir.');
+ if(thresholds&&Number.isFinite(thresholds.our_min_gain)&&Number.isFinite(thresholds.partner_max_loss))technical.push((thresholds.weeks!=null?thresholds.weeks+' hafta toplamı: ':'')+'bizim en az '+signed(thresholds.our_min_gain)+' kategori puanı; karşı taraf en az '+signed(-Math.abs(thresholds.partner_max_loss))+'. Bunlar tercih eşikleridir; güven sınırı değildir.');
+ technical.push('Ön değerlendirme: '+checked+' · Nihai hesap: '+finals+' · Ayrıntılı planı hesaplanmayan: '+(diagnostics.not_refined??Math.max(0,checked-finals))+'.');
+ $('resultScope').innerHTML='<strong>Aramanın özeti</strong><p style="margin:8px 0;color:inherit">'+esc(human.join(' '))+'</p><details style="padding:0;margin-top:8px"><summary>Teknik kapsam ve puan filtreleri</summary><p style="color:inherit">'+esc(technical.join(' '))+'</p></details>';
+ $('resultScope').hidden=false;
+}
+
+function renderEvaluatedPackages(result){
+ const rows=result.evaluated_packages||[];
+ $('evaluatedDetails').hidden=!rows.length;
+ $('evaluatedSummary').textContent='Değerlendirilen bütün paketler ('+rows.length+') — sonuç ve eleme gerekçeleri';
+ $('evaluatedTable').innerHTML=rows.length?`<table><thead><tr><th>Karşı takım</th><th>Verilen</th><th>Alınan</th><th>Bizim Δ</th><th>Karşı taraf Δ</th><th>Aşama</th><th>Durum / gerekçe</th></tr></thead><tbody>${rows.map(c=>{
+  const display=c.display||{},g=c.gains||{},stage=c.evaluation_level==='screened'?'Ön değerlendirme':'Nihai';
+  const own=g.ours_conservative??g.ours,partner=g.partner_conservative??g.partner;
+  return `<tr><td>${esc(display.other_team||'')}</td><td>${esc((display.give||[]).join(', '))}</td><td>${esc((display.receive||[]).join(', '))}</td><td>${own!=null?signed(own):'—'}</td><td>${partner!=null?signed(partner):'—'}</td><td>${stage}</td><td style="white-space:normal;min-width:230px">${esc(c.status||'')}<br>${esc([...new Set(c.reasons||[])].join(' '))}</td></tr>`;
+ }).join('')}</tbody></table>`:'';
+}
+
+// preview_metrics = {basis,our_team,teams:{teamid:{before,after,normal_delta,
+// without_spillover_delta,conservative_delta,weeks,weekly_delta,grade:{score}}}}.
+// before/after are normal-scenario totals; never derive them from conservative_delta.
+function validWeeks(value){return Number.isInteger(value)&&value>0?value:null}
+function basisName(basis){return ({trade_only:'Saf takas',trade_plus_fa:'Takas + FA tamamlama',trade_plus_streaming:'Takas + streaming planı',trade_plus_joint_fa:'Takas + iki tarafın FA tamamlaması'})[basis]||'Karşılaştırma referansı belirtilmedi'}
+function metricBlock(metric,label){
+ const m=metric||{},delta=m.conservative_delta,weeks=validWeeks(m.weeks);
+ if(!Number.isFinite(delta))return `<section><small>${esc(label)}</small><p>Etki hesaplanmadı.</p></section>`;
+ const weekly=weeks?delta/weeks:null;
+ const grade=Number.isFinite(m.grade?.score)?m.grade.score:weekly!=null?Math.max(0,Math.min(10,5+5*weekly)):null;
+ const totals=Number.isFinite(m.before)&&Number.isFinite(m.after)?`<strong>Normal senaryo · ${weeks?weeks+' haftalık toplam':'toplam'}:</strong> ${m.before.toFixed(3)} → ${m.after.toFixed(3)}<br>`:'';
+ const normal=Number.isFinite(m.normal_delta)?`Normal senaryo farkı: ${signed(m.normal_delta)}<br>`:'';
+ const sensitivity=Number.isFinite(m.without_spillover_delta)?`Sakatlık kaynaklı ek dakika dağıtımı kapalı: ${signed(m.without_spillover_delta)}`:'';
+ return `<section><small>${esc(label)}</small><div class="score-value ${impactClass(delta)}">${signed(delta)}</div><span class="score-unit">muhafazakâr kategori puanı farkı${weeks?' · '+weeks+' hafta toplamı':''}</span>${weekly!=null?`<div class="weekly-score ${impactClass(weekly)}">${signed(weekly)} kategori puanı / hafta</div>`:''}${grade!=null?`<div class="effect-rating">Etki notu: ${grade.toFixed(1)}/10</div>`:''}<div class="scenario-breakdown">${totals}${normal}${sensitivity}</div></section>`;
+}
+function fallbackMetric(gains,own,weeks){
+ const normal=own?gains.ours:gains.partner;
+ return {normal_delta:normal,conservative_delta:own?(gains.ours_conservative??normal):(gains.partner_conservative??normal),weeks:validWeeks(weeks)};
+}
+function candidateMetrics(candidate,preliminary,weeks){
+ const gains=preliminary?(candidate.screening||{}):(candidate.final||candidate.bilateral||{});
+ const preview=!preliminary?candidate.preview_metrics:null,ours=String(preview?.our_team??'');
+ const other=String(candidate.analysis?.proposal?.other_team??Object.keys(preview?.teams||{}).find(t=>t!==ours)??'');
+ return {basis:preview?.basis||gains.basis,ours:preview?.teams?.[ours]||fallbackMetric(gains,true,weeks),partner:preview?.teams?.[other]||fallbackMetric(gains,false,weeks)};
+}
+function packageDisplay(display){
+ const d=display||{};
+ return `<div class="exchange"><small>Sen veriyorsun</small><strong>${esc((d.give||[]).join(', '))}</strong><small>Sen alıyorsun · ${esc(d.other_team||'Karşı takım')}</small><strong>${esc((d.receive||[]).join(', '))}</strong></div>`;
+}
+function searchCard(c,preliminary=false,weeks=null){
+ const d=c.display||{},m=candidateMetrics(c,preliminary,weeks);
+ const label=preliminary?'Ön değerlendirme · ayrıntılı plan hesaplanmadı':c.qualified?'Ayrıntılı hesap · piyasa kontrolü geçti':'Model adayı · piyasa incelemesi gerekli';
+ return `<article class="card metric"><span class="pill" style="${preliminary?'background:#eef0f3;color:#566273':!c.qualified?'background:#fff4df;color:#85612a':''}">${esc(label)}</span>${packageDisplay(d)}<div class="score-pair">${metricBlock(m.ours,'Senin takımın')}${metricBlock(m.partner,d.other_team||'Karşı takım')}</div><div class="technical-note"><strong>Hesap referansı:</strong> ${esc(basisName(m.basis))}.<br>Etki notunda 5 nötrdür; not = 5 + 5 × haftalık muhafazakâr fark (0–10 ile sınırlı). Kabul olasılığı değildir.</div></article>`;
+}
+function pendingCard(c){
+ const labels={evaluated:'Teklif değerlendirildi',deferred:'Analiz sırasını bekliyor',needs_data:'Ek bilgi gerekiyor'};
+ const label=labels[c.analysis_status]||'Teklif inceleniyor';
+ if(c.analysis_status!=='evaluated')return `<article class="card metric"><span class="pill">${esc(label)}</span>${packageDisplay(c.display)}<p>${esc((c.errors||[]).join(' ')||'Sayısal etki henüz hesaplanmadı.')}</p></article>`;
+ const team=String(c.analysis?.proposal?.our_team??'');
+ const weeks=validWeeks(c.analysis?.teams?.[team]?.all_supplied_weeks?.weeks);
+ const d=c.display||{},m=candidateMetrics(c,false,weeks);
+ return `<article class="card metric"><span class="pill">${esc(label)}</span>${packageDisplay(d)}<div class="score-pair">${metricBlock(m.ours,'Senin takımın')}${metricBlock(m.partner,d.other_team||'Karşı takım')}</div><div class="technical-note"><strong>Hesap referansı:</strong> ${esc(basisName(m.basis))}.<br>Etki notunda 5 nötrdür; not = 5 + 5 × haftalık muhafazakâr fark (0–10 ile sınırlı). Kabul olasılığı değildir.</div>${c.errors?.length?`<p>${esc(c.errors.join(' '))}</p>`:''}</article>`;
+}
+
+function show(r){
+ report=r.report;$('result').hidden=false;$('report').textContent=report;$('cards').innerHTML='';$('categories').innerHTML='';$('conditions').hidden=true;$('resultScope').hidden=true;$('preliminarySection').hidden=true;$('preliminaryCards').innerHTML='';$('evaluatedDetails').hidden=true;$('evaluatedTable').innerHTML='';
+ let result=r.result;
+ if(!result||r.kind!=='manual'){
+   const search=r.kind==='search';
+   const rows=search?[...(result?.opportunities||[]),...(result?.review_opportunities||[])]:result?.offers||[];
+   const preliminary=search?(result?.preliminary_candidates||[]):[];
+   const searchWeeks=validWeeks(result?.thresholds?.weeks)??validWeeks(result?.search_scope?.weeks);
+   if(search&&result){
+    renderSearchScope(result);renderEvaluatedPackages(result);
+    if(preliminary.length){$('preliminarySection').hidden=false;$('preliminaryCards').innerHTML=preliminary.map(c=>searchCard(c,true,searchWeeks)).join('')}
+    const explanations=[];
+    if((result.review_opportunities||[]).length)explanations.push('Listelenen takaslar model hesabında tercihlerine uyuyor. Piyasa değerleri ayrıca incelenmeli; karşı menajerin kabul edeceği anlamına gelmez.');
+    if(preliminary.length)explanations.push('Ek seçenekler ilk karşılaştırmadan geçti; boşta oyuncu ekleme ve günlük hamle planları henüz ayrıntılı hesaplanmadı.');
+    $('conditions').textContent=explanations.join(' ');$('conditions').hidden=!explanations.length;
+   }
+   if(search&&!rows.length&&!preliminary.length){
+     const evaluated=result?.counts?.screen_evaluated||0;
+     const errors=result?.errors||[];
+     const detail=typeof result?.empty_reason==='string'?result.empty_reason:errors.length?'Bazı paketler veri veya kural kontrolü nedeniyle değerlendirilemedi. Ayrıntılı raporda nedenlerini görebilirsin.':evaluated?'Bu arama kapsamında iki taraflı model eşiklerini geçen, gösterilebilir bir aday bulunamadı. Elenen veya veri bekleyen paketlerin nedenleri ayrıntılı raporda.':'Seçili kapsamda değerlendirilebilecek uygun paket bulunamadı. Oyuncu seçimini ve hedef takımı kontrol et.';
+     $('cards').innerHTML=`<article class="card metric"><h3>Bu aramada uygun aday bulunamadı</h3><p>${esc(detail)}</p></article>`;
+     $('report').parentElement.open=!!errors.length;
+     return;
+   }
+   $('cards').innerHTML=rows.map(c=>search?searchCard(c,false,searchWeeks):pendingCard(c)).join('');
+   $('report').parentElement.open=!rows.length&&!preliminary.length;
+   return;
+ }
+ $('report').parentElement.open=false;
+ const labels={conditional_accept:'Koşullu olumlu',reject_suggested:'Olumsuz',borderline:'Sınırda',counter_or_review:'Karşı teklif / inceleme',needs_data:'Veri eksik'};
+ const basis=result.decision?.basis||'trade_only';
+ const names=result.team_names||Object.fromEntries(Object.entries(state.teams).map(([k,t])=>[k,t.name]));
+ const perspective=result.proposal?.our_team;
+ $('progress').textContent=(names[perspective]||state?.teams?.[state.our_team]?.name||'Seçili takım')+' açısından: '+(labels[result.verdict]||'İnceleme')+' · Karar referansı: '+({trade_only:'Saf takas',trade_plus_fa:'Takas + FA',trade_plus_streaming:'Takas + streaming',trade_plus_joint_fa:'Takas + iki tarafın FA tamamlaması'})[basis];
+ $('cards').innerHTML=Object.entries(result.teams).map(([t,v])=>{
+   const pure=v.all_supplied_weeks,preview=result.preview_metrics;
+   const metric=preview?.teams?.[t]||(basis==='trade_only'?{before:pure.before,after:pure.after,normal_delta:pure.delta,without_spillover_delta:v.without_spillover_delta,conservative_delta:v.conservative_delta??Math.min(pure.delta,v.without_spillover_delta),weeks:pure.weeks,grade:result.impact_grades?.[t]}:null);
+   const pureExtra=basis!=='trade_only'?`<details style="padding:0;margin-top:12px"><summary>Saf takas hesabı · FA/streaming olmadan</summary><div class="scenario-breakdown"><strong>Normal senaryo · ${esc(pure.weeks)} haftalık toplam:</strong> ${pure.before.toFixed(3)} → ${pure.after.toFixed(3)}<br>Normal senaryo farkı: ${signed(pure.delta)}<br>Sakatlık kaynaklı ek dakika dağıtımı kapalı: ${signed(v.without_spillover_delta)}</div></details>`:'';
+   return `<article class="card metric"><h3 style="margin:0 0 12px">${esc(names[t])}</h3><span class="pill">${esc(basisName(preview?.basis||basis))}</span><div style="margin-top:16px">${metricBlock(metric,'Karar hesabı')}</div><div class="technical-note" style="margin-top:12px">Etki notunda 5 nötrdür; not = 5 + 5 × haftalık muhafazakâr fark (0–10 ile sınırlı). Kabul olasılığı değildir.${pureExtra}</div></article>`;
+ }).join('');
+ for(let [t,v] of Object.entries(result.teams)){
+   $('categories').innerHTML+=`<div class="card category"><h3>${esc(names[t])} · Saf takas kategori etkisi</h3><table><thead><tr><th>Kategori</th><th>Kazanma · önce</th><th>Kazanma · sonra</th><th>Δ kategori puanı</th><th>Sonraki olasılık</th></tr></thead><tbody>${Object.entries(v.all_supplied_weeks.categories).map(([cat,c])=>`<tr><td><strong>${esc(({FG_PCT:'Şut %',FT_PCT:'Serbest atış %',FG3M:'Üçlük',PTS:'Sayı',REB:'Ribaund',AST:'Asist',STL:'Top çalma',BLK:'Blok',TOV:'Top kaybı'})[cat]||cat)}</strong></td><td>${(c.before_win*100).toFixed(1)}%</td><td>${(c.after_win*100).toFixed(1)}%</td><td class="${cls(c.delta_points)}">${signed(c.delta_points)}</td><td><div class="bar"><i style="width:${Math.max(0,Math.min(100,c.after_win*100))}%"></i></div></td></tr>`).join('')}</tbody></table></div>`;
+ }
+ let conditions=[...(result.conditions||[])];
+ if(result.drops)for(let [t,ps] of Object.entries(result.drops))if(ps.length)conditions.push(names[t]+' bırakıyor: '+ps.join(', '));
+ const previewConditions=manualConditionSummary(conditions);
+ $('conditions').textContent=previewConditions.join(' ');
+ $('conditions').hidden=!previewConditions.length;
+}
+
+$('two').onclick=()=>{count=2;moves={};drops={};$('two').classList.add('active');$('three').classList.remove('active');renderTeams()};
+$('three').onclick=()=>{count=3;moves={};drops={};$('three').classList.add('active');$('two').classList.remove('active');renderTeams()};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setMode(b.dataset.tab));
+$('analyze').onclick=run;
+$('altRun').onclick=run;
+$('download').onclick=()=>{
+ const u=URL.createObjectURL(new Blob([report],{type:'text/markdown;charset=utf-8'}));
+ let a=document.createElement('a');a.href=u;a.download='takas-analizi.md';a.click();
+ setTimeout(()=>URL.revokeObjectURL(u),1000);
+};
+
+function syncError(e){$('error').textContent='Kadrolar yenilenemedi: '+e.message;$('fresh').textContent='Veri kontrolü gerekli'}
+$('searchGainPreference').onchange=setGainPreference;
+$('searchBalancePreference').onchange=setBalancePreference;
+$('searchMinGain').oninput=()=>{$('searchGainPreference').value='custom'};
+$('searchPartnerLoss').oninput=()=>{$('searchBalancePreference').value='custom'};
+$('searchDepth').onchange=updateDepthHelp;
+$('refresh').onclick=()=>refreshState(true).catch(syncError);
+window.addEventListener('focus',()=>refreshState().catch(syncError));
+setInterval(()=>{if(!document.hidden&&!busy)refreshState().catch(syncError)},30000);
+refreshState(true).catch(syncError);
+</script></body></html>

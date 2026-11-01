@@ -7,6 +7,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 sys.stdout.reconfigure(encoding="utf-8")
@@ -553,6 +554,27 @@ class YahooFantasyOAuthClient:
                             name_obj.get("full", "") if isinstance(name_obj, dict) else name_obj
                         ).strip()
                         p_status = str(p_meta.get("status", "HEALTHY") or "HEALTHY").upper().strip()
+                        eligible_raw = p_meta.get("eligible_positions") or _find_subresource(
+                            p_node, "eligible_positions"
+                        )
+                        if isinstance(eligible_raw, dict):
+                            eligible_raw = list(eligible_raw.values())
+                        if not isinstance(eligible_raw, list):
+                            eligible_raw = []
+                        eligible_positions = []
+                        for entry in eligible_raw:
+                            value = entry.get("position") if isinstance(entry, dict) else entry
+                            if isinstance(value, str) and value.upper() in (
+                                "PG",
+                                "SG",
+                                "SF",
+                                "PF",
+                                "C",
+                                "G",
+                                "F",
+                                "UTIL",
+                            ):
+                                eligible_positions.append(value.upper())
 
                         sel_pos = "BN"
                         sp_raw = _find_subresource(p_node, "selected_position")
@@ -569,6 +591,12 @@ class YahooFantasyOAuthClient:
                                 "yahoo_player_id": p_meta.get("player_id"),
                                 "selected_position": sel_pos,
                                 "status": p_status,
+                                "status_evidence": "yahoo_api_status"
+                                if p_meta.get("status")
+                                else "yahoo_api_no_status",
+                                "eligible_positions": sorted(set(eligible_positions)),
+                                "position_evidence": "yahoo_api_eligible_positions",
+                                "captured_at": datetime.now(timezone.utc).isoformat(),
                             }
                         )
                         if sel_pos in ("IL", "IL+"):
@@ -682,6 +710,12 @@ class YahooFantasyOAuthClient:
         except Exception as e:
             self.last_error = f"Transaction ayrıştırma hatası: {e}"
         return tx_list
+
+    def fetch_trade_and_standings(self, current_board=None):
+        """Read pending user trades and category standings; never submit an action."""
+        from .yahoo_trade_sync import capture_api_stage5
+
+        return capture_api_stage5(self, current_board)
 
     def fetch_live_scoreboard(self, week=None):
         """
@@ -827,6 +861,7 @@ class YahooFantasyOAuthClient:
                     )
             return {
                 "week": curr_week,
+                "week_verified": str(sb_meta.get("week", "")).isdigit(),
                 "matchups": parsed_matchups,
                 "matchup_states": matchup_states,
             }
