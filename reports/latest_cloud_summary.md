@@ -1,26 +1,26 @@
 # NBA Fantasy — cached-data forecast
 
-Generated: 2026-10-31T21:46:14.336288+00:00
+Generated: 2026-11-01T02:15:14.053849+00:00
 Matchup: **Berk's Best Team vs Mordor Tulums**
 Window: 2026-10-31 – 2026-11-01
 
 Decision objective: `category_points` (regular_season).
-Objective value: **5.623**.
-Expected category points: **5.62 / 9**.
-Expected category wins: 5.47; ties: 0.31.
-Secondary weekly W/L/D: 77.8% / 16.9% / 5.2%.
+Objective value: **5.929**.
+Expected category points: **5.93 / 9**.
+Expected category wins: 5.79; ties: 0.29.
+Secondary weekly W/L/D: 85.7% / 10.4% / 3.9%.
 
 | Category | Win | Tie | Loss |
 |---|---:|---:|---:|
-| PTS | 81.2% | 0.7% | 18.1% |
-| REB | 83.1% | 1.5% | 15.4% |
-| AST | 81.1% | 2.7% | 16.2% |
-| STL | 75.1% | 6.3% | 18.6% |
-| BLK | 52.4% | 8.8% | 38.8% |
-| TOV | 25.4% | 5.5% | 69.1% |
-| FG3M | 52.8% | 5.9% | 41.4% |
-| FG_PCT | 54.4% | 0.0% | 45.6% |
-| FT_PCT | 41.2% | 0.0% | 58.8% |
+| PTS | 89.8% | 0.5% | 9.7% |
+| REB | 86.7% | 1.3% | 12.0% |
+| AST | 89.6% | 1.8% | 8.5% |
+| STL | 79.9% | 5.6% | 14.5% |
+| BLK | 54.1% | 8.8% | 37.1% |
+| TOV | 19.4% | 5.0% | 75.7% |
+| FG3M | 61.0% | 5.8% | 33.2% |
+| FG_PCT | 55.2% | 0.0% | 44.8% |
+| FT_PCT | 42.9% | 0.0% | 57.1% |
 
 ## Realized scores and remaining projections
 
@@ -28,13 +28,13 @@ Scores are fixed observations; uncertainty belongs to future games. Remaining va
 
 | Category | Actual: you / opponent | Remaining mean: you / opponent | Final difference SD |
 |---|---:|---:|---:|
-| PTS | 0 / 0 | 142.78 / 108.36 | 38.27 |
-| REB | 0 / 0 | 57.08 / 41.32 | 15.94 |
-| AST | 0 / 0 | 28.58 / 19.56 | 9.66 |
-| STL | 0 / 0 | 10.30 / 6.63 | 4.66 |
-| BLK | 0 / 0 | 7.55 / 6.78 | 4.44 |
-| TOV | 0 / 0 | 14.48 / 10.95 | 6.09 |
-| FG3M | 0 / 0 | 14.44 / 13.48 | 6.72 |
+| PTS | 0 / 0 | 143.76 / 97.27 | 36.22 |
+| REB | 0 / 0 | 57.45 / 39.41 | 15.78 |
+| AST | 0 / 0 | 28.84 / 16.85 | 9.11 |
+| STL | 0 / 0 | 10.36 / 6.03 | 4.56 |
+| BLK | 0 / 0 | 7.58 / 6.63 | 4.42 |
+| TOV | 0 / 0 | 14.63 / 9.99 | 5.94 |
+| FG3M | 0 / 0 | 14.49 / 12.18 | 6.47 |
 
 ## Alternative add/drop recommendations
 
