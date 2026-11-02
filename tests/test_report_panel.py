@@ -84,7 +84,7 @@ class ExportTests(unittest.TestCase):
                 "0.0%", [f.attrib["formatCode"] for f in styles.findall("s:numFmts/s:numFmt", ns)]
             )
             self.assertEqual(
-                float(sheet.find('.//s:c[@r="B7"]/s:v', ns).text),
+                float(sheet.find('.//s:c[@r="C7"]/s:v', ns).text),
                 report["win"],
             )
             summary = ET.fromstring(z.read("xl/worksheets/sheet1.xml"))

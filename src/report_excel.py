@@ -20,15 +20,20 @@ class ReportRows(list):
         self.merges = []
         self.hidden_rows = set()
         self.category_range = None
+        self.wide_rows = set()
 
     def row(self, values, style=0, height=24, merge=False):
         self.append(values)
         index = len(self)
         self.heights[index] = height
-        for col in range(1, 5):
+        if len(values) == 6:
+            self.wide_rows.add(index)
+        for col in range(1, 7 if len(values) == 6 else 5):
             self.styles[index, col] = style
         if merge:
-            self.merges.append(f"A{index}:D{index}")
+            self.merges.append(f"A{index}:F{index}")
+        elif values and len(values) <= 4:
+            self.merges.extend([f"A{index}:B{index}", f"C{index}:D{index}"])
         return index
 
 
@@ -88,6 +93,11 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
             merge=True,
         )
         actual = category_results(history["score"]["board"]) if history.get("score") else None
+        rows.row(
+            ["Maç sayıları günün son yakalamasını, tahminler son geçerli hesabı gösterir."],
+            8,
+            merge=True,
+        )
         actual_points = sum(actual.values()) if actual else None
         opening = history.get("opening")
         index = rows.row(
@@ -100,18 +110,31 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
         )
         rows.styles[index, 2] = rows.styles[index, 4] = 5
         rows.row(
-            ["Gün (Eastern)", "Beklenen kategori puanı", "Hafta kazanma", "Sonuçtan fark (puan)"], 3
+            [
+                "Gün (Eastern)",
+                "Beklenen kategori puanı",
+                "Hafta kazanma",
+                "Sen oynanan / toplam",
+                "Rakip oynanan / toplam",
+                "Sonuçtan fark (puan)",
+            ],
+            3,
+            42,
         )
         start, end = date.fromisoformat(history["start"]), date.fromisoformat(history["end"])
         for offset in range((end - start).days + 1):
             day = start + timedelta(days=offset)
             saved = history["days"].get(day.isoformat(), {})
+            observed = history.get("observed_days", {}).get(day.isoformat(), {})
+            board = observed.get("board") or saved.get("live_score") or {}
             points = saved.get("expected_category_points")
             index = rows.row(
                 [
                     float((day - date(1899, 12, 30)).days),
                     points,
                     saved.get("win"),
+                    _played(board.get("team_a")),
+                    _played(board.get("team_b")),
                     points - actual_points
                     if points is not None and actual_points is not None
                     else None,
@@ -120,7 +143,8 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
             rows.styles[index, 1] = 13
             rows.styles[index, 2] = 5
             rows.styles[index, 3] = 4
-            rows.styles[index, 4] = 12
+            rows.styles[index, 4] = rows.styles[index, 5] = 15
+            rows.styles[index, 6] = 12
         if actual:
             rows.row(
                 ["Son skor yakalaması (Berlin)", _excel_time(history["score"]["captured_at"])], 8
@@ -185,13 +209,30 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
             )
             rows.styles[index, 1] = 0
     if len(rows) >= first:
-        rows.category_range = f"B{first}:B{len(rows)}"
+        rows.category_range = f"C{first}:D{len(rows)}"
     else:
         rows.row(["Geçerli haftalık tahmin yok"], 9, merge=True)
     rows.row([], height=10)
-    rows.row(["Hamle seçenekleri"], 2, merge=True)
+    review = mode == "weekly_review"
+    rows.row(
+        ["Son kayıttaki hamle seçenekleri (geçmiş)" if review else "Hamle seçenekleri"],
+        2,
+        merge=True,
+    )
+    rows.row(
+        [
+            "Maç başı ortalamalar eklenecek oyuncuya aittir."
+            + (" Geçmiş kayıttır; güncel öneri değildir." if review else "")
+        ],
+        8,
+        merge=True,
+    )
     rows.row(["Ekle", "Bırak", "Kategori puanı kazancı", "İşlem"], 3)
-    moves = report.get("recommendations", []) if available and mode == "valid" else []
+    moves = (
+        report.get("recommendations", [])
+        if available and mode in ("valid", "weekly_review")
+        else []
+    )
     for move in moves:
         index = rows.row(
             [
@@ -203,6 +244,13 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
             height=28,
         )
         rows.styles[index, 3] = 12
+        if move.get("exp_stats_pg"):
+            rows.row(["PTS", "REB", "AST", "STL", "BLK", "3PT"], 3, 22)
+            rows.row(
+                [move["exp_stats_pg"].get(k) for k in ("PTS", "REB", "AST", "STL", "BLK", "3PT")],
+                14,
+                24,
+            )
     if not moves:
         message = (
             "Uygun hamle önerisi yok."
@@ -244,6 +292,15 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
     return {"Haftalık rapor": rows}
 
 
+def _played(team):
+    if not team:
+        return None
+    played, total = team.get("games_played"), team.get("total_scheduled")
+    if type(played) is int and type(total) is int and 0 <= played <= total:
+        return f"{played}/{total}"
+    return None
+
+
 def workbook_bytes(sheets):
     """Small dependency-free OOXML export; all text is literal, never a formula."""
     ns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
@@ -278,14 +335,22 @@ def workbook_bytes(sheets):
             for row_index, values in enumerate(rows, 1):
                 cells = []
                 if isinstance(rows, ReportRows):
-                    values = list(values) + [None] * (4 - len(values))
+                    wide = row_index in rows.wide_rows
+                    values = list(values) + [None] * ((6 if wide else 4) - len(values))
+                    if not wide:
+                        values = [values[0], None, values[1], None, values[2], values[3]]
                 for col, value in enumerate(values, 1):
                     letters, number = "", col
                     while number:
                         number, rest = divmod(number - 1, 26)
                         letters = chr(65 + rest) + letters
                     ref = f"{letters}{row_index}"
-                    style = getattr(rows, "styles", {}).get((row_index, col), 0)
+                    logical = (
+                        col
+                        if not isinstance(rows, ReportRows) or row_index in rows.wide_rows
+                        else {1: 1, 2: 1, 3: 2, 4: 2, 5: 3, 6: 4}[col]
+                    )
+                    style = getattr(rows, "styles", {}).get((row_index, logical), 0)
                     if (
                         isinstance(value, (float, int))
                         and not isinstance(value, bool)
@@ -325,7 +390,7 @@ def workbook_bytes(sheets):
             )
             archive.writestr(
                 f"xl/worksheets/sheet{i}.xml",
-                f'<worksheet xmlns="{ns}"><sheetPr><outlinePr summaryBelow="0"/><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" showGridLines="0" zoomScale="90"/></sheetViews><cols><col min="1" max="1" width="34" customWidth="1"/><col min="2" max="2" width="30" customWidth="1"/><col min="3" max="4" width="27" customWidth="1"/></cols><sheetData>{"".join(xml_rows)}</sheetData>{merge_xml}{bars}<pageMargins left="0.25" right="0.25" top="0.35" bottom="0.35" header="0.1" footer="0.1"/><pageSetup paperSize="9" orientation="portrait" fitToWidth="1" fitToHeight="0"/></worksheet>',
+                f'<worksheet xmlns="{ns}"><sheetPr><outlinePr summaryBelow="0"/><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" showGridLines="0" zoomScale="90"/></sheetViews><cols><col min="1" max="2" width="17" customWidth="1"/><col min="3" max="4" width="15" customWidth="1"/><col min="5" max="6" width="27" customWidth="1"/></cols><sheetData>{"".join(xml_rows)}</sheetData>{merge_xml}{bars}<pageMargins left="0.25" right="0.25" top="0.35" bottom="0.35" header="0.1" footer="0.1"/><pageSetup paperSize="9" orientation="portrait" fitToWidth="1" fitToHeight="0"/></worksheet>',
             )
         archive.writestr(
             "xl/workbook.xml",
@@ -380,9 +445,11 @@ def _styles(ns):
         (5, 0, 0, "left", 1),
         (0, 0, 167, "right", 0),
         (0, 0, 168, "left", 0),
+        (0, 0, 169, "right", 0),
+        (0, 0, 0, "center", 0),
     ]
     xfs = "".join(
         f'<xf fontId="{font}" fillId="{fill}" numFmtId="{fmt}" borderId="0" xfId="0" applyFont="1" applyFill="1" applyNumberFormat="1" applyAlignment="1"><alignment horizontal="{align}" vertical="center" wrapText="{wrap}"/></xf>'
         for font, fill, fmt, align, wrap in definitions
     )
-    return f'<styleSheet xmlns="{ns}"><numFmts count="5"><numFmt numFmtId="164" formatCode="0.0%"/><numFmt numFmtId="165" formatCode="dd.mm.yyyy hh:mm"/><numFmt numFmtId="166" formatCode="0.00&quot; / 9&quot;"/><numFmt numFmtId="167" formatCode="+0.00;-0.00;0.00"/><numFmt numFmtId="168" formatCode="dd.mm.yyyy"/></numFmts><fonts count="7">{fonts}</fonts><fills count="6">{fills}</fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="14">{xfs}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'
+    return f'<styleSheet xmlns="{ns}"><numFmts count="6"><numFmt numFmtId="164" formatCode="0.0%"/><numFmt numFmtId="165" formatCode="dd.mm.yyyy hh:mm"/><numFmt numFmtId="166" formatCode="0.00&quot; / 9&quot;"/><numFmt numFmtId="167" formatCode="+0.00;-0.00;0.00"/><numFmt numFmtId="168" formatCode="dd.mm.yyyy"/><numFmt numFmtId="169" formatCode="0.0"/></numFmts><fonts count="7">{fonts}</fonts><fills count="6">{fills}</fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="16">{xfs}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'

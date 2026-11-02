@@ -59,9 +59,10 @@ def _identity(board, start, end, league):
 
 def record_forecast(root, report, league="local"):
     """One latest-valid prediction per Eastern scoring day; opening stays frozen."""
-    if not report.get("live_score_valid") or not report.get("live_score"):
+    valid = bool(report.get("live_score_valid") and report.get("live_score"))
+    board = report.get("live_score") if valid else report.get("verified_scoreboard")
+    if not board:
         return None
-    board = report["live_score"]
     start = board.get("period_start") or report.get("id", "").split(":")[0]
     end = board.get("period_end") or report.get("week_end")
     try:
@@ -96,16 +97,26 @@ def record_forecast(root, report, league="local"):
                 "score": None,
             }
         )
+        observations = data.setdefault("observed_days", {})
+        observed = observations.get(day)
+        changed = False
+        if observed is None or report["forecast_at"] > observed["forecast_at"]:
+            observations[day] = {"forecast_at": report["forecast_at"], "board": deepcopy(board)}
+            changed = True
         previous = data["days"].get(day)
-        if previous is None or datetime.fromisoformat(
-            report["forecast_at"].replace("Z", "+00:00")
-        ) > datetime.fromisoformat(previous["forecast_at"].replace("Z", "+00:00")):
+        if valid and (
+            previous is None
+            or datetime.fromisoformat(report["forecast_at"].replace("Z", "+00:00"))
+            > datetime.fromisoformat(previous["forecast_at"].replace("Z", "+00:00"))
+        ):
             saved = {k: deepcopy(report[k]) for k in KEYS if k in report}
             data["days"][day] = saved
             if data["opening"] is None and all(
                 board[s].get("games_played") == 0 for s in ("team_a", "team_b")
             ):
                 data["opening"] = deepcopy(saved)
+            changed = True
+        if changed:
             _save(root, key, data)
     return key
 

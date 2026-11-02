@@ -18,7 +18,7 @@ from . import yahoo_browser_sync as bridge
 from .forecast import build_local_forecast
 from .report_excel import forecast_sheets, workbook_bytes
 from .report_history import import_saved, load_week, record_forecast, weeks
-from .report_presentation import present_forecast
+from .report_presentation import game_rows, present_forecast
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -66,8 +66,11 @@ class ReportService:
         return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
     def _remember_valid(self, report):
+        key = record_forecast(
+            ROOT, report, self._read("data/processed/league_state.json").get("league_id", "local")
+        )
         if not report.get("live_score_valid") or not report.get("live_score"):
-            return
+            return key
         stamp = str(report.get("forecast_at", ""))
         name = "".join(c for c in stamp if c.isalnum())
         if not name:
@@ -78,9 +81,7 @@ class ReportService:
             temporary = path.with_suffix(".tmp")
             temporary.write_bytes(gzip.compress(json.dumps({"primary": report}).encode()))
             temporary.replace(path)
-        return record_forecast(
-            ROOT, report, self._read("data/processed/league_state.json").get("league_id", "local")
-        )
+        return key
 
     def state(self):
         # Do not read partially written snapshots, or block UI polling while
@@ -172,8 +173,35 @@ class ReportService:
     def export(self, week_key=None):
         if week_key:
             history = load_week(ROOT, week_key)
-            report = max(history["days"].values(), key=lambda r: r["forecast_at"])
+            observations = history.get("observed_days", {})
+            last_score = (
+                max(observations.values(), key=lambda r: r["forecast_at"]) if observations else None
+            )
+            report = (
+                max(history["days"].values(), key=lambda r: r["forecast_at"])
+                if history["days"]
+                else {
+                    "id": history["start"] + ":no-forecast",
+                    "forecast_at": last_score["forecast_at"],
+                    "week_start": history["start"],
+                    "week_end": history["end"],
+                    "my_team": history["my_team"],
+                    "opponent": history["opponent"],
+                    "live_score_valid": False,
+                    "verified_scoreboard": last_score["board"],
+                }
+            )
             displayed = present_forecast(report, ROOT / "data/archive")
+            if history.get("score"):
+                last_score = {
+                    "board": history["score"]["board"],
+                    "forecast_at": history["score"]["captured_at"],
+                }
+            if last_score:
+                displayed.update(
+                    game_counts=game_rows(last_score["board"]),
+                    game_counts_at=last_score["forecast_at"],
+                )
             displayed.update(
                 display_mode="weekly_review",
                 display_message="Seçili haftanın kayıtlı tahminleri inceleniyor. Bu dosyadaki tahmin zamanı, son kayıt zamanıdır.",

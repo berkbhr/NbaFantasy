@@ -87,6 +87,11 @@ başlangıç tahminini, günlük son tahminlerini ve son skorunu görmek için h
 dosya indirmeniz gerekmez. Hafta bitince hafta seçicisinden ilgili dönemi seçip
 bir kez indirin. Güncel rapor, maç sayıları, kategoriler, hamleler ve kadro
 uyarıları aynı sayfadadır; uzun veri notları varsayılan olarak daraltılmıştır.
+Günlük takipte senin ve rakibinin oynanan/toplam maç sayıları da görünür.
+Bu sayılar son doğrulanmış skor yakalamasından ayrı güncellenir; maç sırasında
+yeni geçerli tahmin yoksa önceki geçerli tahmin korunur, maç sayıları yenilenir.
+Hamlelerin altında yalnız eklenecek oyuncunun mevcut `exp_stats_pg` maç başı
+PTS, REB, AST, STL, BLK ve 3PT ortalamaları bir kez gösterilir; tekrar hesaplanmaz.
 
 ## Doğrulama
 

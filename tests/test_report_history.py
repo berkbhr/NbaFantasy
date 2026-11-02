@@ -84,7 +84,52 @@ class WeeklyReviewTests(unittest.TestCase):
             daily = rows[header + 1 : header + 8]
             self.assertEqual(len(daily), 7)
             self.assertIsNone(daily[1][1])
-            self.assertAlmostEqual(daily[0][3], 6.17 - 5.5)
+            self.assertAlmostEqual(daily[0][5], 6.17 - 5.5)
+
+    def test_evening_game_counts_update_without_replacing_valid_prediction(self):
+        with tempfile.TemporaryDirectory() as folder:
+            report = prediction()
+            key = record_forecast(folder, report)
+            evening = prediction("2026-11-02T23:30:00Z", 8.9)
+            evening["live_score_valid"] = False
+            evening["verified_scoreboard"] = evening.pop("live_score")
+            board = evening["verified_scoreboard"]
+            board["team_a"].update(games_played=10, games_remaining=34)
+            board["team_b"].update(games_played=3, games_remaining=35, total_scheduled=38)
+            record_forecast(folder, evening)
+            saved = load_week(folder, key)
+            self.assertEqual(len(saved["days"]), 1)
+            self.assertEqual(saved["days"]["2026-11-02"]["expected_category_points"], 6.17)
+            rows = forecast_sheets(report, history=saved)["Haftalık rapor"]
+            header = next(i for i, r in enumerate(rows) if r and r[0] == "Gün (Eastern)")
+            self.assertEqual(rows[header + 1][3:5], ["10/44", "3/38"])
+            self.assertIsNone(rows[header + 2][3])
+
+    def test_move_averages_are_exported_without_recalculation_in_review(self):
+        report = prediction()
+        means = {"PTS": 10.6, "REB": 3.4, "AST": 1.9, "STL": 2.4, "BLK": 0.9, "3PT": 2.2}
+        report.update(
+            display_mode="weekly_review",
+            recommendations=[{"add_name": "A", "drop_name": "B", "exp_stats_pg": means}],
+        )
+        original = copy.deepcopy(report)
+        rows = forecast_sheets(report)["Haftalık rapor"]
+        header = next(i for i, r in enumerate(rows) if r == list(means))
+        self.assertEqual(rows[header + 1], list(means.values()))
+        self.assertEqual(report, original)
+
+    def test_week_with_only_verified_score_observations_is_downloadable(self):
+        with tempfile.TemporaryDirectory() as folder, patch("src.report_panel.ROOT", Path(folder)):
+            report = prediction()
+            report["live_score_valid"] = False
+            report["verified_scoreboard"] = report.pop("live_score")
+            key = record_forecast(folder, report)
+            self.assertEqual(load_week(folder, key)["days"], {})
+            service = ReportService()
+            try:
+                self.assertEqual(service.export(key)[:2], b"PK")
+            finally:
+                service.pool.shutdown()
 
     def test_historical_week_can_be_downloaded_without_current_report(self):
         with tempfile.TemporaryDirectory() as folder, patch("src.report_panel.ROOT", Path(folder)):
