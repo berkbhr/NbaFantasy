@@ -95,8 +95,12 @@ Bu değişiklikte matematik/model kaynakları, mevcut `trade_panel.py` ve
 z skorları ve örnek 13 oyunculuk haftalık dağılım önceki sonuçlarla eşittir.
 136 korunan kaynak/veri/config/rapor dosyasının hash'i değişmemiştir.
 
-Python 3.11 kök suite 209 test, yerel research 157 test, Node suite
-19 test ile geçti. Panel testleri yanlış haftalık puanın gizlenmesini,
+Haftalık takip/Excel teslimi izole Python 3.11 kaynak ağacında 216 kök test,
+23 Node testi ve Ruff check/format ile doğrulandı. Tek sayfalık dosya ayrıca
+Excel'de salt okunur açılarak sayısal yüzde/puan biçimleri ve görünüm kontrol
+edildi. Önceki panel doğrulamasında yerel research 157 testle geçmişti;
+bu son görünüm/kayıt değişikliğinde research suite yeniden çalıştırılmadı.
+Panel testleri yanlış haftalık puanın gizlenmesini,
 doğrulanmış maç sayılarını ve hamle seçeneklerinin durumlarını kapsar.
 Ruff check ve format check temiz. İlk sandbox panel koşusu,
 geçici dizin ve yerel socket izinleri nedeniyle başarısız olmuş; aynı testler

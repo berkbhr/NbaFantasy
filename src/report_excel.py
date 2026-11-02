@@ -141,7 +141,7 @@ def forecast_sheets(report, matches_snapshot=True, history=None):
                 [
                     "Sonuç, yakalanan Yahoo skorundan hesaplanır. FG/FT için isabet/deneme oranları kullanılır; Yahoo yuvarlaması ve sonraki istatistik düzeltmeleri farklılık yaratabilir."
                 ],
-                8,
+                11,
                 42,
                 merge=True,
             )
