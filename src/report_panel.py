@@ -1,6 +1,7 @@
 """Local home for Yahoo synchronization, forecast exports and the unchanged trade UI."""
 
 import argparse
+import gzip
 import hashlib
 import json
 import os
@@ -16,6 +17,7 @@ from . import trade_panel
 from . import yahoo_browser_sync as bridge
 from .forecast import build_local_forecast
 from .report_excel import forecast_sheets, workbook_bytes
+from .report_history import import_saved, load_week, record_forecast, weeks
 from .report_presentation import present_forecast
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +32,8 @@ class ReportService:
         self.report = None
         self.report_sync = None
         self.hash_cache = {}
+        with bridge.STATE_WRITE_LOCK:
+            import_saved(ROOT)
 
     def _source_matches(self, report):
         sources = report.get("source_sha256") or {}
@@ -61,6 +65,23 @@ class ReportService:
         path = ROOT / relative
         return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
+    def _remember_valid(self, report):
+        if not report.get("live_score_valid") or not report.get("live_score"):
+            return
+        stamp = str(report.get("forecast_at", ""))
+        name = "".join(c for c in stamp if c.isalnum())
+        if not name:
+            return
+        path = ROOT / "reports/panel_forecasts/predictions" / (name + ".json.gz")
+        if not path.exists():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            temporary = path.with_suffix(".tmp")
+            temporary.write_bytes(gzip.compress(json.dumps({"primary": report}).encode()))
+            temporary.replace(path)
+        return record_forecast(
+            ROOT, report, self._read("data/processed/league_state.json").get("league_id", "local")
+        )
+
     def state(self):
         # Do not read partially written snapshots, or block UI polling while
         # the local refresh/notification pipeline owns the write lock.
@@ -90,7 +111,16 @@ class ReportService:
                     else report_sync and report_sync == state.get("sync_id")
                 )
             )
-            displayed = present_forecast(report, ROOT / "data/archive") if report else None
+            # A previous week's report is never a substitute for a failed refresh.
+            if report and not matches:
+                report = None
+            if report:
+                self._remember_valid(report)
+            displayed = (
+                present_forecast(report, ROOT / "data/archive", ROOT / "reports/panel_forecasts")
+                if report
+                else None
+            )
             if displayed and displayed["display_mode"] == "last_valid_forecast":
                 matches = False
             receipt = self._read("reports/delivery_receipt.json")
@@ -118,6 +148,7 @@ class ReportService:
                 "report_matches_snapshot": matches,
                 "delivery": receipt.get("status", "not_configured"),
                 "telegram_configured": bool(telegram_configured),
+                "weeks": weeks(ROOT),
             }
         finally:
             bridge.STATE_WRITE_LOCK.release()
@@ -133,22 +164,36 @@ class ReportService:
         with bridge.STATE_WRITE_LOCK:
             sync_id = self._read("data/processed/league_state.json").get("sync_id")
             result = build_local_forecast()
+            self._remember_valid(result)
             with self.guard:
                 self.report = json.loads(json.dumps(result, default=str))
                 self.report_sync = sync_id
 
-    def export(self):
+    def export(self, week_key=None):
+        if week_key:
+            history = load_week(ROOT, week_key)
+            report = max(history["days"].values(), key=lambda r: r["forecast_at"])
+            displayed = present_forecast(report, ROOT / "data/archive")
+            displayed.update(
+                display_mode="weekly_review",
+                display_message="Seçili haftanın kayıtlı tahminleri inceleniyor. Bu dosyadaki tahmin zamanı, son kayıt zamanıdır.",
+            )
+            return workbook_bytes(forecast_sheets(displayed, history=history))
         state = self.state()
         if state.get("busy") or state.get("computing"):
             raise ValueError("İşlem sürüyor; tamamlandıktan sonra tekrar indirin.")
         if not state.get("report"):
             raise ValueError("Önce bir rapor oluşturun.")
-        sheets = forecast_sheets(state["report"])
-        sheets["Kayıt durumu"] = [
-            ["Alan", "Değer"],
-            ["Güncel kadroyla eşleşme", state["report_matches_snapshot"]],
-            ["Uyarı", "Rapor zamanı ve veri notları dikkate alınmalıdır."],
-        ]
+        history = None
+        report = state["report"]
+        for week in weeks(ROOT):
+            candidate = load_week(ROOT, week["key"])
+            if candidate["start"] == report.get("id", "").split(":")[0] and candidate[
+                "opponent"
+            ] == report.get("opponent"):
+                history = candidate
+                break
+        sheets = forecast_sheets(report, state["report_matches_snapshot"], history)
         return workbook_bytes(sheets)
 
 
@@ -192,9 +237,12 @@ def handler_for(service):
             try:
                 if self.path == "/state":
                     return self.reply(service.state())
-                if self.path == "/export.xlsx":
+                if self.path.split("?", 1)[0] == "/export.xlsx":
+                    from urllib.parse import parse_qs, urlsplit
+
+                    key = parse_qs(urlsplit(self.path).query).get("week", [None])[0]
                     return self.reply(
-                        service.export(),
+                        service.export(key),
                         kind="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     )
                 return self.reply({"error": "Sayfa bulunamadı"}, 404)

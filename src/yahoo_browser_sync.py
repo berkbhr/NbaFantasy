@@ -63,6 +63,12 @@ BOOKMARKLET_JS_RAW = r"""
       });
     }
 
+    function matchupCoversDate(value, today) {
+      return matchupReady(value) && typeof value.period_start === 'string'
+        && typeof value.period_end === 'string'
+        && value.period_start <= today && today <= value.period_end;
+    }
+
     async function renderedMatchup(url) {
       // Some Yahoo responses contain only a client-rendered shell. A fresh
       // same-origin document can hydrate it without relabeling the old tab.
@@ -199,8 +205,19 @@ BOOKMARKLET_JS_RAW = r"""
                 return null;
               }
               // Anchor on first fraction cell (`FGM/FGA`, e.g. `145/316`) so colspan never shifts columns!
-              const idxFgm = cells.findIndex(c => /^\d+\s*\/\s*\d+$/.test(c));
+              // Yahoo renders an untouched scoring period as -/- and -.
+              // Only a provider-confirmed zero-games row can mean all zeros.
+              const idxFgm = cells.findIndex(c => /^(?:\d+\s*\/\s*\d+|-\s*\/\s*-)$/.test(c));
               if (idxFgm >= 0 && cells.length >= idxFgm + 11) {
+                if (obj.games_played === 0) {
+                  const empty = /^\s*(?:-|0(?:\.0+)?)\s*$/;
+                  const fraction = /^\s*(?:-\s*\/\s*-|0\s*\/\s*0)\s*$/;
+                  if (fraction.test(cells[idxFgm]) && fraction.test(cells[idxFgm + 2])
+                      && [1,3,4,5,6,7,8,9,10].every(i => empty.test(cells[idxFgm+i]))) {
+                    for (const key of ['FGM','FGA','FTM','FTA','FG3M','PTS','REB','AST','STL','BLK','TOV']) obj[key]=0;
+                    return obj;
+                  }
+                }
                 const pFg = cells[idxFgm].split('/');
                 obj.FGM = Number(pFg[0]);
                 obj.FGA = Number(pFg[1]);
@@ -226,7 +243,8 @@ BOOKMARKLET_JS_RAW = r"""
               const tmp = tA; tA = tB; tB = tmp;
             }
             const evidence = readYahooMatchupEvidence(doc, leagueId, location.origin);
-            return { team_a: tA, team_b: tB, week: evidence ? evidence.week : null };
+            return { team_a: tA, team_b: tB, week: evidence ? evidence.week : null,
+              period_start: evidence ? evidence.start : null, period_end: evidence ? evidence.end : null };
           }
         }
       }
@@ -314,7 +332,7 @@ BOOKMARKLET_JS_RAW = r"""
     // 1. Check current page for matchup first
     // The visible tab can be old even though the bridge stamps this run now.
     // Fetch the current scoreboard instead of relabeling cached DOM as fresh.
-    let matchup = null;
+    let matchup = null, currentMatchupDoc = null;
 
     // 2. Fetch all 14 teams' live rosters in parallel
     banner.textContent = '🏀 (1/3) 14 Takımın Canlı Kadroları & IL+ Yuvaları Çekiliyor...';
@@ -359,8 +377,12 @@ BOOKMARKLET_JS_RAW = r"""
         if (new URL(mUrl, location.origin).origin !== location.origin) continue;
         const mHtml = await fetch(mUrl, { credentials: 'same-origin', cache: 'no-store' }).then(r => r.ok ? r.text() : '').catch(() => '');
         if (mHtml) {
-          const parsed = parseMatchupDoc(parser.parseFromString(mHtml, 'text/html'));
-          if (matchupReady(parsed)) { matchup = parsed; break; }
+          const fetchedDoc = parser.parseFromString(mHtml, 'text/html');
+          const parsed = parseMatchupDoc(fetchedDoc);
+          const dateParts = new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+          const part = kind => dateParts.find(p => p.type === kind).value;
+          const todayET = `${part('year')}-${part('month')}-${part('day')}`;
+          if (matchupCoversDate(parsed, todayET)) { matchup = parsed; currentMatchupDoc = fetchedDoc; break; }
         }
       }
       // No iframe fallback: its network traffic would bypass the guarded queue.
@@ -371,11 +393,29 @@ BOOKMARKLET_JS_RAW = r"""
     banner.textContent = '🏀 Yahoo gelecek hafta–rakip fikstürü okunuyor...';
     let fantasyCalendar = null;
     const calendarStarted = performance.now();
-    try { fantasyCalendar = await collectFantasyCalendar(teamHtmls, leagueId, parser, parseMatchupDoc); }
+    try { fantasyCalendar = await collectFantasyCalendar(teamHtmls, leagueId, parser, parseMatchupDoc, currentMatchupDoc); }
     catch (err) { fantasyCalendar = {errors: [String(err)]}; }
     if (!Number.isInteger(matchup.week)) throw new Error('Yahoo hafta numarası doğrulanamadı; mevcut kayıt korundu.');
     if (fantasyCalendar && fantasyCalendar.current_week && matchup.week !== fantasyCalendar.current_week) throw new Error('Yakalanan skor gelecek/geçmiş haftaya ait; güncel Matchup sayfasından tekrar deneyin.');
     captureMetrics.fantasy_calendar_ms = Math.round(performance.now() - calendarStarted);
+
+    // Capture the previous closed scoring period for the weekly review.
+    // A failed read must not prevent today's roster/score synchronization.
+    const closedMatchups = [];
+    if (matchup.week > 1) {
+      try {
+        const previous = new URL(`/nba/${leagueId}/matchup`, location.origin);
+        previous.searchParams.set('week', String(matchup.week - 1));
+        previous.searchParams.set('mid1', String(matchup.team_a.yahoo_team_id));
+        const response = await fetch(previous.href, {credentials:'same-origin',cache:'no-store'});
+        if (response.ok) {
+          const prior = parseMatchupDoc(parser.parseFromString(await response.text(), 'text/html'));
+          if (matchupReady(prior) && prior.week === matchup.week - 1
+              && prior.period_end < matchup.period_start
+              && ['team_a','team_b'].every(s => prior[s].games_remaining === 0)) closedMatchups.push(prior);
+        }
+      } catch (_) { /* The weekly review explicitly marks missing results. */ }
+    }
 
     let transactions = [];
     const txHtml = await fetch(`/nba/${leagueId}/transactions`, { credentials: 'same-origin' }).then(r => r.ok ? r.text() : '').catch(() => '');
@@ -428,6 +468,7 @@ BOOKMARKLET_JS_RAW = r"""
       empty_active_slots_by_slot: emptyBySlot,
       transactions: transactions,
       matchup: matchup,
+      closed_matchups: closedMatchups,
       waivers: waivers,
       availability_snapshot: {
         source: 'yahoo_available_players',
@@ -452,7 +493,7 @@ BOOKMARKLET_JS_RAW = r"""
     setTimeout(() => banner.remove(), 7000);
   } catch (err) {
     banner.style.background = '#b91c1c';
-    banner.textContent = '❌ Hata: ' + err.message + ' (Terminalin açık olduğundan emin olun: python src/yahoo_browser_sync.py)';
+    banner.textContent = '❌ Hata: ' + err.message;
     setTimeout(() => banner.remove(), 9000);
   }
 })();
@@ -620,6 +661,28 @@ def _apply_browser_sync_payload(payload, run_async_cloud=True, dispatch=True):
         )
     if has_valid_matchup:
         matchup_obj = validate_browser_matchup(matchup_obj, slot_map, now_iso)
+        # Check the provider period before writing either snapshot. Generic
+        # Yahoo URLs can still serve yesterday's week on Monday morning.
+        from zoneinfo import ZoneInfo
+
+        today_et = (
+            datetime.fromisoformat(now_iso)
+            .astimezone(ZoneInfo("America/New_York"))
+            .date()
+            .isoformat()
+        )
+        period = next(
+            (
+                w
+                for w in (fantasy_calendar or {}).get("weeks", [])
+                if w["start"] <= today_et <= w["end"]
+            ),
+            None,
+        )
+        if period and matchup_obj.get("week") != period["week"]:
+            raise ValueError(
+                "Yahoo skoru farklı haftaya ait; güncel Matchup sayfasını yenileyip tekrar deneyin."
+            )
         live_matchup_path = os.path.join(PROCESSED_DIR, "live_matchup.json")
         with open(live_matchup_path, "w", encoding="utf-8") as f:
             json.dump(
@@ -773,6 +836,22 @@ def _apply_browser_sync_payload(payload, run_async_cloud=True, dispatch=True):
     with open(state_json_path, "w", encoding="utf-8") as f:
         json.dump(state_data, f, indent=2)
 
+    from src.report_history import record_closed_score
+
+    closed = payload.get("closed_matchups", [])
+    if isinstance(closed, list):
+        for board in closed[:1]:
+            try:
+                checked = validate_browser_matchup(board, slot_map, now_iso)
+                record_closed_score(
+                    os.path.dirname(os.path.dirname(PROCESSED_DIR)),
+                    checked,
+                    now_iso,
+                    state_data.get("league_id", "local"),
+                )
+            except (ValueError, KeyError, TypeError):
+                pass
+
     def _local_report():
         # Use the unchanged pipeline locally. Never stage, commit or push data.
         # Serialize with snapshot writes and panel forecasts, and coalesce
@@ -785,6 +864,11 @@ def _apply_browser_sync_payload(payload, run_async_cloud=True, dispatch=True):
             LOCAL_REPORT_STATE.update(status="running", sync_id=latest_id)
             try:
                 run_cloud_sync()
+                # Persist the latest valid daily report even if the home tab
+                # is closed. A stale canonical report is never recorded.
+                from src.report_history import record_latest
+
+                record_latest(os.path.dirname(os.path.dirname(PROCESSED_DIR)))
                 LOCAL_REPORT_STATE.update(status="complete", sync_id=latest_id)
             except Exception:
                 LOCAL_REPORT_STATE.update(status="error", sync_id=latest_id)

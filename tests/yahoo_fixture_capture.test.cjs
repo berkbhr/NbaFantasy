@@ -44,7 +44,7 @@ function doc({links=[],week=null,settings=false,rows=[],leaguePairs=null}) {
     },
   };
 }
-async function captureFixture(wrongWeek=false,scheduleTables=true,leagueCards=false,omitLeagueNavigation=false) {
+async function captureFixture(wrongWeek=false,scheduleTables=true,leagueCards=false,omitLeagueNavigation=false,anchored=false) {
   const saved={fetch:global.fetch,location:global.location};
   const rows=[];
   for(let week=2;week<=6;week++) {
@@ -80,7 +80,8 @@ async function captureFixture(wrongWeek=false,scheduleTables=true,leagueCards=fa
     const key=`response-${token++}`; docs.set(key,result);
     return {ok:true,text:async()=>key};
   };
-  try { return await collectFantasyCalendar(Array(14).fill('team'),'64691',{parseFromString:text=>docs.get(text)}); }
+  const currentDoc=anchored ? doc({week:3,links:dates('2026-11-02').map(d=>href(3,d,14,6))}) : null;
+  try { return await collectFantasyCalendar(Array(14).fill('team'),'64691',{parseFromString:text=>docs.get(text)},null,currentDoc); }
   finally { global.fetch=saved.fetch; global.location=saved.location; }
 }
 test('season tables avoid per-team per-week matchup requests',async()=>{
@@ -124,4 +125,43 @@ test('actual League card structure yields seven pairs without mid1/mid2 URLs',()
   assert.equal(value.week,2);assert.equal(value.fixtures.length,7);assert.equal(new Set(value.fixtures.flat()).size,14);
   assert.equal(readYahooLeagueWeek(page,'12345',origin),null);
   pairs[6]=pairs[0];assert.equal(readYahooLeagueWeek(page,'64691',origin),null);
+});
+const fs = require('node:fs');
+const vm = require('node:vm');
+const bridge = fs.readFileSync(require('node:path').join(__dirname, '../src/yahoo_browser_sync.py'), 'utf8');
+const parserCode = bridge.slice(bridge.indexOf('    function parseMatchupDoc(doc)'), bridge.indexOf('    function parseTransactionsDoc(doc)'));
+function parseScore(played, cells) {
+  const link={textContent:'Example',getAttribute:()=>'/nba/64691/14'};
+  const second={textContent:'Opponent',getAttribute:()=>'/nba/64691/6'};
+  const row=(a)=>({querySelectorAll:q=>q==='th, td'?cells.map(textContent=>({textContent})):q==='td, th'?Array(12).fill({}):[a],querySelector:()=>a});
+  const table={querySelectorAll:q=>q.startsWith('thead')?['PTS','REB','AST'].map(textContent=>({textContent})): [row(link),row(second)]};
+  const doc={body:{textContent:`44 Remaining ${played}/44 Games Played ${played}/38 Remaining 38`},querySelectorAll:()=>[table]};
+  const context=vm.createContext({leagueId:'64691', location:{origin}, URL, readYahooMatchupEvidence:()=>({week:3,start:'2026-11-02',end:'2026-11-08'})});
+  vm.runInContext(parserCode,context); context.doc=doc;
+  return vm.runInContext('parseMatchupDoc(doc)',context);
+}
+test('observed Week 3 dash scoreboard is zero only before any games played',()=>{
+  const values=['Example','-/-','-','-/-','-','-','-','-','-','-','-','0'];
+  const score=parseScore(0,values);
+  assert.equal(score.week,3); assert.equal(score.period_start,'2026-11-02');
+  assert.equal(score.team_a.games_remaining,44);
+  for(const side of ['team_a','team_b'])for(const key of ['FGM','FGA','FTM','FTA','FG3M','PTS','REB','AST','STL','BLK','TOV']) assert.equal(score[side][key],0);
+  const started=parseScore(1,values);
+  assert.ok(!Number.isFinite(started.team_a.PTS));
+});
+test('malformed and missing fractions never become a fabricated zero score',()=>{
+  assert.equal(parseScore(0,['Example','','-','','-','-','-','-','-','-','-','0']),null);
+});
+test('Monday capture rejects prior and future scoring periods even with valid numbers',()=>{
+ const source=bridge.slice(bridge.indexOf('    function matchupReady(value)'),bridge.indexOf('    async function renderedMatchup'));
+ const context=vm.createContext({});vm.runInContext(source,context);
+ context.score=parseScore(0,['Example','-/-','-','-/-','-','-','-','-','-','-','-','0']);
+ assert.equal(vm.runInContext("matchupCoversDate(score,'2026-11-02')",context),true);
+ assert.equal(vm.runInContext("matchupCoversDate(score,'2026-11-01')",context),false);
+ assert.equal(vm.runInContext("matchupCoversDate(score,'2026-11-09')",context),false);
+});
+test('fresh Week 3 scoreboard anchors calendar when generic endpoint still serves Week 2',async()=>{
+ const capture=await captureFixture(false,true,false,false,true);
+ assert.equal(capture.current_week,3);
+ assert.ok(capture.weeks.some(w=>w.week===3 && w.fixtures.some(pair=>pair.includes('14') && pair.includes('6'))));
 });

@@ -110,7 +110,7 @@ function readYahooLeagueWeek(doc,leagueId,origin) {
   return {week:[...numbers][0],fixtures};
 }
 
-async function collectFantasyCalendar(teamHtmls, leagueId, parser, scoreParser=null) {
+async function collectFantasyCalendar(teamHtmls, leagueId, parser, scoreParser=null, currentMatchupDoc=null) {
   const capture = {source:'yahoo_browser_schedule',league_id:leagueId,weeks:[],errors:[],diagnostics:{pages_fetched:0,pages_failed:0,matchup_pages_with_dated_evidence:0,rejected_wrong_week_or_team:0,date_conflicts:0,weeks_attempted:0,complete_weeks:0}};
   const diagnostics=capture.diagnostics, basePath=`/nba/${leagueId}`, origin=location.origin, started=performance.now();
   const docs=teamHtmls.map((html,i)=>({doc:parser.parseFromString(html || '', 'text/html'),owner:String(i+1)}));
@@ -146,7 +146,9 @@ async function collectFantasyCalendar(teamHtmls, leagueId, parser, scoreParser=n
   if (typeof document !== 'undefined' && location.pathname.startsWith(basePath)) docs.push({doc:document,owner:null});
   const seedURL=docs.flatMap(({doc})=>links(doc)).find(url=>url.pathname===`${basePath}/matchup` && !url.searchParams.has('week')) || new URL(`${basePath}/matchup`,origin);
   if (!seedURL) { issue('Current Yahoo matchup link was not found.'); return capture; }
-  const seedDoc=await read(seedURL.href), seed=seedDoc && readYahooMatchupEvidence(seedDoc,leagueId,origin);
+  // Reuse the freshly fetched, date-verified score document. The generic
+  // endpoint can still return last week during Yahoo's Monday rollover.
+  const seedDoc=currentMatchupDoc || await read(seedURL.href), seed=seedDoc && readYahooMatchupEvidence(seedDoc,leagueId,origin);
   if (!seed) { issue('Current Yahoo matchup lacks a verified week label and contiguous dated daily links.'); return capture; }
   capture.season=seed.season; capture.current_week=seed.week;
   capture.stage5=home ? parseYahooStage5Page(home,leagueId,origin,seed.week) : {source:'yahoo_browser_league',league_id:leagueId,pending_offers:{scan_complete:false,reason:'League page unavailable'}};

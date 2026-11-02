@@ -69,13 +69,26 @@ class ExportTests(unittest.TestCase):
             for name in z.namelist():
                 ET.fromstring(z.read(name))
             ns = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
-            sheet = ET.fromstring(z.read("xl/worksheets/sheet2.xml"))
+            sheet = ET.fromstring(z.read("xl/worksheets/sheet1.xml"))
+            cells = sheet.findall(".//s:c", ns)
+            numbers = [
+                float(c.find("s:v", ns).text) for c in cells if c.find("s:v", ns) is not None
+            ]
+            self.assertIn(report["categories"]["PTS"]["win"], numbers)
+            self.assertIn(report["expected_category_points"], numbers)
             self.assertEqual(
-                float(sheet.find('.//s:c[@r="B2"]/s:v', ns).text),
-                report["categories"]["PTS"]["win"],
+                len(ET.fromstring(z.read("xl/workbook.xml")).findall("s:sheets/s:sheet", ns)), 1
+            )
+            styles = ET.fromstring(z.read("xl/styles.xml"))
+            self.assertIn(
+                "0.0%", [f.attrib["formatCode"] for f in styles.findall("s:numFmts/s:numFmt", ns)]
+            )
+            self.assertEqual(
+                float(sheet.find('.//s:c[@r="B7"]/s:v', ns).text),
+                report["win"],
             )
             summary = ET.fromstring(z.read("xl/worksheets/sheet1.xml"))
-            self.assertIn("=1+1", [t.text for t in summary.findall(".//s:t", ns)])
+            self.assertTrue(any("=1+1" in (t.text or "") for t in summary.findall(".//s:t", ns)))
             self.assertFalse(summary.findall(".//s:f", ns))
         self.assertEqual(report, before)
 
@@ -104,12 +117,56 @@ class ServiceTests(unittest.TestCase):
                 state_path.write_text(json.dumps({"sync_id": "changed"}))
                 self.assertFalse(service.state()["report_matches_snapshot"])
                 self.assertIsNone(service.state()["report"])
-                self.assertFalse((Path(temp) / "reports").exists())
+                self.assertFalse((Path(temp) / "reports/latest_forecast.json").exists())
+                self.assertEqual(
+                    len(list((Path(temp) / "reports/panel_forecasts/predictions").glob("*.gz"))),
+                    1,
+                )
             finally:
                 service.pool.shutdown()
 
 
 class PresentationRegressionTests(unittest.TestCase):
+    def test_panel_cache_survives_restart_and_supplies_dated_intraday_forecast(self):
+        with (
+            tempfile.TemporaryDirectory() as folder,
+            patch.object(report_panel, "ROOT", Path(folder)),
+        ):
+            root = Path(folder)
+            service = report_panel.ReportService()
+            try:
+                service._remember_valid(result())
+            finally:
+                service.pool.shutdown()
+            displayed = present_forecast(
+                self.blocked(), root / "data/archive", root / "reports/panel_forecasts"
+            )
+            self.assertEqual(displayed["display_mode"], "last_valid_forecast")
+            self.assertEqual(
+                displayed["expected_category_points"], result()["expected_category_points"]
+            )
+            self.assertEqual(displayed["recommendations"], [])
+
+    def test_old_report_is_hidden_when_new_sync_sources_do_not_match(self):
+        with (
+            tempfile.TemporaryDirectory() as folder,
+            patch.object(report_panel, "ROOT", Path(folder)),
+        ):
+            root = Path(folder)
+            (root / "data/processed").mkdir(parents=True)
+            (root / "data/processed/league_state.json").write_text(json.dumps({"sync_id": "new"}))
+            (root / "reports").mkdir()
+            old = result()
+            old["source_sha256"] = {"data/processed/league_state.json": "old-hash"}
+            (root / "reports/latest_forecast.json").write_text(json.dumps(old))
+            service = report_panel.ReportService()
+            try:
+                self.assertIsNone(service.state()["report"])
+                with self.assertRaises(ValueError):
+                    service.export()
+            finally:
+                service.pool.shutdown()
+
     def blocked(self):
         r = result()
         r.update(
@@ -155,7 +212,8 @@ class PresentationRegressionTests(unittest.TestCase):
         self.assertIn("42 / 43 oynandı · 1 kalan", msg)
         sheets = forecast_sheets(displayed)
         self.assertFalse(any(6.3936164799224455 in row for rows in sheets.values() for row in rows))
-        self.assertEqual(len(sheets["Kategoriler"]), 1)
+        self.assertEqual(list(sheets), ["Haftalık rapor"])
+        self.assertFalse(any(row and row[0] == "PTS" for row in sheets["Haftalık rapor"]))
         self.assertEqual(r, before)
 
     def test_valid_telegram_values_are_preserved_without_rounding_or_recalculation(self):

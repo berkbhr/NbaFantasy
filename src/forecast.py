@@ -153,6 +153,10 @@ def build_local_forecast(
                     "Yahoo roster and score belong to different synchronization versions"
                 )
             live = validate_live_snapshot(snapshot, now)
+            if current_period and live.get("week") != current_period["week"]:
+                raise ValueError(
+                    "Yahoo skor kaydı önceki/farklı haftaya ait; güncel Matchup sayfasından yeniden senkronize edin."
+                )
             verified_scoreboard = live
             validate_pregame_window(assistant.schedule_df, now)
             live_block_reason = None

@@ -46,13 +46,19 @@ def game_rows(board):
     return rows
 
 
-def present_forecast(current, archive):
+def present_forecast(current, archive, panel_archive=None):
     """Match Telegram's validated/current/archive/blocked decision exactly.
 
     Invalid raw predictions remain untouched on disk and in the model result.
     They must never appear as weekly forecasts in this UI or its Excel export.
     """
     selected, context = notification_snapshot(current, archive)
+    if panel_archive is not None and not current.get("live_score_valid"):
+        candidate, candidate_context = notification_snapshot(current, panel_archive)
+        if candidate_context and (
+            context is None or candidate["forecast_at"] > selected["forecast_at"]
+        ):
+            selected, context = candidate, candidate_context
     report = deepcopy(selected)
     available = bool(report.get("live_score_valid") and report.get("live_score"))
     mode = "last_valid_forecast" if available and context else "valid" if available else "blocked"

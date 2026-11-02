@@ -38,6 +38,8 @@ data/processed/trade_scan_state.json
 reports/validation/player_forecasts.parquet
 reports/latest_forecast.json
 reports/forecasts/
+reports/panel_forecasts/
+reports/weekly_history/
 research/runs/
 
 # Private local development: runners, tests, historical experiments and evidence.
