@@ -326,32 +326,63 @@ class DecayReferenceTests(unittest.TestCase):
 
     def test_historical_numeric_outputs_and_posteriors_match_frozen_old_source(self):
         data = json.loads((Path(__file__).parent / "fixtures/legacy_decay.json").read_text())
+        source = (Path(__file__).parent / "fixtures" / data["source_fixture"]).read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(hashlib.sha256(source.encode("utf-8")).hexdigest(), data["source_sha256"])
+        frozen = {"__name__": "legacy_reference"}
+        exec(compile(source, data["source_fixture"], "exec"), frozen)
+
+        def assert_frozen(actual, expected):
+            if isinstance(expected, dict):
+                self.assertEqual(set(actual), set(expected))
+                for key, value in expected.items():
+                    assert_frozen(actual[key], value)
+            elif isinstance(expected, float):
+                # Windows and Linux libm/NumPy can differ by a few ULPs.
+                # Same-platform old/new equality below remains exact.
+                self.assertTrue(math.isfinite(actual))
+                self.assertLessEqual(abs(actual - expected), 16 * math.ulp(expected))
+            else:
+                self.assertEqual(actual, expected)
+
         for case in data["cases"]:
             with self.subTest(gap=case["gap"], event=case["event"]):
-                p = BayesianPlayer(1, "Player 1")
-                p.initialize_priors(data["prior"])
-                p.expected_minutes = p.base_expected_minutes = 30.0
-                p.update_stats(
-                    pd.Timestamp("2026-01-01"),
-                    32.0,
-                    {"PTS": 20, "FGM": 7, "FGA": 15, "FTM": 4, "FTA": 5},
-                    game_id="g1",
+                p, reference = (
+                    BayesianPlayer(1, "Player 1"),
+                    frozen["BayesianPlayer"](1, "Player 1"),
                 )
-                p.update_stats(
-                    pd.Timestamp("2026-01-01") + pd.Timedelta(days=case["gap"]),
-                    28.0,
-                    {"PTS": 15, "FGM": 5, "FGA": 12, "FTM": 5, "FTA": 6},
-                    is_event_reset=case["event"],
-                    game_id="g2",
-                )
+                for player in (p, reference):
+                    player.initialize_priors(data["prior"])
+                    player.expected_minutes = player.base_expected_minutes = 30.0
+                    player.update_stats(
+                        pd.Timestamp("2026-01-01"),
+                        32.0,
+                        {"PTS": 20, "FGM": 7, "FGA": 15, "FTM": 4, "FTA": 5},
+                        game_id="g1",
+                    )
+                    player.update_stats(
+                        pd.Timestamp("2026-01-01") + pd.Timedelta(days=case["gap"]),
+                        28.0,
+                        {"PTS": 15, "FGM": 5, "FGA": 12, "FTM": 5, "FTA": 6},
+                        is_event_reset=case["event"],
+                        game_id="g2",
+                    )
                 for name, expected in case["state"].items():
-                    self.assertEqual(getattr(p, name), expected)
+                    self.assertEqual(getattr(p, name), getattr(reference, name))
+                    assert_frozen(getattr(p, name), expected)
                 for idle, expected in case["predictions"].items():
                     actual = p.predict_next_game(
                         current_date=p.last_game_date + pd.Timedelta(days=int(idle))
                     )
+                    old = reference.predict_next_game(
+                        current_date=reference.last_game_date + pd.Timedelta(days=int(idle))
+                    )
                     for stat, values in expected.items():
-                        self.assertEqual({k: actual[stat][k] for k in values}, values)
+                        self.assertEqual(
+                            {k: actual[stat][k] for k in values}, {k: old[stat][k] for k in values}
+                        )
+                        assert_frozen({k: actual[stat][k] for k in values}, values)
 
     def test_positive_gap_volume_keys_event_floors_and_accuracy_are_independent(self):
         for event in [False, True]:
